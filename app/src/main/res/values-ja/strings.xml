@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">漢検ニュース</string>
+    <string name="welcome">ようこそ!</string>
+    <string name="button_start_quiz">スタート</string>
+    <string name="button_show_directions">遊び方</string>
+    <string name="button_show_terms_of_usage">利用規約</string>
+    <string name="label_quiz_level">難しさ</string>
+    <string name="label_quiz_topics">ジャンル</string>
+    <string name="label_quiz_type">問題の種類</string>
+    <string name="label_quiz_type_reading">読み問題</string>
+    <string name="label_quiz_type_writing">書き問題</string>
+    <string name="label_topic_chooser_title">ジャンルを選択して下さい。</string>
+    <string name="label_topic_business">ビジネス</string>
+    <string name="label_topic_politics">政治</string>
+    <string name="label_topic_medecine">医学</string>
+    <string name="label_topic_sports">スポーツ</string>
+    <string name="label_topic_health">健康</string>
+    <string name="label_topic_culture">文化</string>
+    <string name="label_topic_transportation">交通</string>
+    <string name="label_topic_cooking">料理</string>
+    <string name="button_select">選択</string>
+    <string name="button_cancel">キャンセル</string>
+</resources>

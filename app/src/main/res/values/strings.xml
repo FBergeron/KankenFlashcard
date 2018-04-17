@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kanken Flashcard</string>
+    <string name="welcome">Welcome to Kanken Quiz!</string>
+    <string name="button_start_quiz">Start</string>
+    <string name="button_show_directions">Help</string>
+    <string name="button_show_terms_of_usage">Terms of Usage</string>
+    <string name="label_quiz_level">Difficulty Level</string>
+    <string name="label_quiz_topics">Topics</string>
+    <string name="label_quiz_type">Type of Problems</string>
+    <string name="label_quiz_type_reading">Reading</string>
+    <string name="label_quiz_type_writing">Writing</string>
+    <string name="invoke_chooser" translatable="false">...</string>
+    <string name="label_topic_chooser_title">Available topics</string>
+    <string name="label_topic_business">Business</string>
+    <string name="label_topic_politics">Politics</string>
+    <string name="label_topic_sports">Sports</string>
+    <string name="label_topic_medecine">Medecine</string>
+    <string name="label_topic_health">Health</string>
+    <string name="label_topic_culture">Culture</string>
+    <string name="label_topic_transportation">Transportation</string>
+    <string name="label_topic_cooking">Cooking</string>
+    <string name="button_select">Select</string>
+    <string name="button_cancel">Cancel</string>
+</resources>
