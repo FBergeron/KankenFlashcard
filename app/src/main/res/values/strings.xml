@@ -22,4 +22,11 @@
     <string name="label_topic_cooking">Cooking</string>
     <string name="button_select">Select</string>
     <string name="button_cancel">Cancel</string>
+    <string name="error_no_topics_selected_title">No topics selected.</string>
+    <string name="error_no_topics_selected_msg">The quiz cannot start because no topics are selected.</string>
+    <string name="label_problem_info_level">Level: %1$d</string>
+    <string name="label_problem_info_topic">Topic: %1$s</string>
+    <string name="label_problem_info_type">Type: %1$s</string>
+    <string name="label_answer">Your answer</string>
+    <string name="button_validate_answer">Validate</string>
 </resources>

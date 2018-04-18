@@ -1,4 +1,6 @@
-public class ProblemStore {
+package jp.kyoto.nlp.kanken;
+
+class ProblemStore {
 
     public static ProblemStore getInstance() {
         return SingletonHelper.instance;
@@ -14,7 +16,7 @@ public class ProblemStore {
     private ProblemStore() {
         // Create 5 small problems as dummy data.
         problems = new Problem[5];
-        problems[0] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "<em>京都<em>駅</em>はいつもにぎやかですね。", "えき");
+        problems[0] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "京都<em>駅</em>はいつもにぎやかですね。", "えき");
         problems[1] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "今年の夏に<em>飛行機</em>で北海道に行きます。", "ひこうき");
         problems[2] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "現代の日本語では<em>自動車</em>（特に、乗用車）を指すことが多い。", "じどうしゃ");
         problems[3] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "<em>新幹線</em>は早くてとても便利です。", "しんかんせん");

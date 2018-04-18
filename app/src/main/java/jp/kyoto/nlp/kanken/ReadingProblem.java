@@ -1,4 +1,6 @@
-public class ReadingProblem extends Problem {
+package jp.kyoto.nlp.kanken;
+
+class ReadingProblem extends Problem {
 
     public ReadingProblem(int level, Problem.Topic topic, String statement, String rightAnswer) {
         this.level = level;
