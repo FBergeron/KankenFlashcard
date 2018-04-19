@@ -1,20 +1,42 @@
 package jp.kyoto.nlp.kanken;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ReadingProblemActivity extends AppCompatActivity {
 
+    public void validateAnswer(android.view.View view) {
+        EditText editTextAnswer = (EditText)findViewById(R.id.editTextAnswer);
+        String answer = editTextAnswer.getText().toString();
+
+        if (answer.trim().equals("")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ReadingProblemActivity.this);
+            builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
+            .setMessage(getResources().getString(R.string.error_empty_answer_msg))
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { 
+                }
+             })
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setCancelable(true)
+            .show();
+            return;
+        }
+
+        appl.getQuiz().validateAnswer(answer);
+    }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reading_problem);
 
-        KankenApplication appl = KankenApplication.getInstance();
         Problem currProb = appl.getQuiz().getCurrentProblem();
-System.out.println( "currProb2="+currProb );
 
         TextView textViewProblemInfoLevel = (TextView)findViewById(R.id.textViewProblemInfoLevel);
         String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), currProb.getLevel());
@@ -45,4 +67,7 @@ System.out.println( "currProb2="+currProb );
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
     }
+
+    KankenApplication appl = KankenApplication.getInstance();
+
 }

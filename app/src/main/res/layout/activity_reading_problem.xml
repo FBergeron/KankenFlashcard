@@ -71,6 +71,7 @@
             android:id="@+id/buttonValidateAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="validateAnswer"
             android:text="@string/button_validate_answer" />
 
     </LinearLayout>

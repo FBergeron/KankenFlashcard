@@ -49,9 +49,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
             }
         });
         AlertDialog dialogTopicChooser = builderTopicChooser.create();
-        System.out.println("BEFORE checkedTopicsByPosition="+selectedTopics);
         dialogTopicChooser.show();
-        System.out.println("AFTER checkedTopicsByPosition="+selectedTopics);
     }
 
     public void showTermsOfUsage(android.view.View view) {
