@@ -94,7 +94,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
         KankenApplication appl = KankenApplication.getInstance();
         appl.startQuiz(level, quizTopics, type);
         Problem currProb = appl.getQuiz().getCurrentProblem();
-System.out.println( "currProb="+currProb );
 
         Intent problemActivity = (Problem.Type.READING.equals(currProb.getType()) ?
                 new Intent(QuizSettingsActivity.this, ReadingProblemActivity.class) :

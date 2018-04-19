@@ -30,4 +30,11 @@
     <string name="label_problem_info_type">%1$s</string>
     <string name="label_answer">解答</string>
     <string name="button_validate_answer">正解確認</string>
+    <string name="label_problem_eval_title">解答結果</string>
+    <string name="label_right_answer">正解</string>
+    <string name="label_wrong_answer">不正解</string>
+    <string name="button_report_error">間違えを申告する</string>
+    <string name="label_enter_problem_familiarity">あなたにとって、自動車という単語の親密度</string>
+    <string name="label_easy">簡単</string>
+    <string name="label_difficult">難しい</string>
 </resources>

@@ -1,6 +1,7 @@
 package jp.kyoto.nlp.kanken;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,9 @@ public class ReadingProblemActivity extends AppCompatActivity {
         }
 
         appl.getQuiz().validateAnswer(answer);
+        
+        Intent problemEvaluationActivity = new Intent(ReadingProblemActivity.this, ProblemEvaluationActivity.class);
+        startActivity(problemEvaluationActivity);
     }
     
     @Override
@@ -58,6 +62,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
         stmt.append("<html>");
         stmt.append("<head>");
         stmt.append("<style type\"text/css\">");
+        stmt.append("body { font-size: x-large;}");
         stmt.append("em { color: red; font-weight: bold;}");
         stmt.append("</style>");
         stmt.append("</head>");
