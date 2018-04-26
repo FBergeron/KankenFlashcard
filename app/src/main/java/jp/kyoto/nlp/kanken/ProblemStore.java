@@ -1,34 +1,141 @@
 package jp.kyoto.nlp.kanken;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
+import org.json.JSONException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 class ProblemStore {
 
     public static ProblemStore getInstance() {
         return SingletonHelper.instance;
     }
 
-    public Problem getNextProblem(int level, Problem.Topic[] topics, Problem.Type type) {
-        // For now, the input parameters are ignored.  Normally, the problem should be chosen in function of these parameters.
-        Problem problem = problems[problemCount % 5];
-        problemCount++;
+    public Problem getNextProblem(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
+        Problem.Topic[] topicArray = (Problem.Topic[])topics.toArray(new Problem.Topic[topics.size()]);
+        Random rand = new Random();
+        int topicIndex = rand.nextInt(topicArray.length);
+
+        HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>> problemsByLevel = problemsByTopic.get(topicArray[topicIndex]);
+        HashMap<Problem.Type, HashMap<String, Problem>> problemsByType = problemsByLevel.get(level + "");
+        HashMap<String, Problem> problemsById = problemsByType.get(type);
+
+        String[] problemIds = (String[])problemsById.keySet().toArray(new String[problemsById.size()]);
+        int problemIndex = rand.nextInt(problemIds.length);
+        Problem problem = problemsById.get(problemIds[problemIndex]);
         return problem;
     }
 
     private ProblemStore() {
-        // Create 5 small problems as dummy data.
-        problems = new Problem[5];
-        problems[0] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "京都<em>駅</em>はいつもにぎやかですね。", "えき");
-        problems[1] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "今年の夏に<em>飛行機</em>で北海道に行きます。", "ひこうき");
-        problems[2] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "現代の日本語では<em>自動車</em>（特に、乗用車）を指すことが多い。", "じどうしゃ");
-        problems[3] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "<em>新幹線</em>は早くてとても便利です。", "しんかんせん");
-        problems[4] = new ReadingProblem(1, Problem.Topic.TRANSPORTATION, "昨日、<em>電車</em>の切符を買いました。", "でんしゃ");
+        new Thread() {
+            public void run() {
+                int problemCount = 0;
+                URL problemsUrl = null;
+                try {
+                    System.out.println("Retrieving JSON data...");
+                    problemsUrl = new URL("http://lotus.kuee.kyoto-u.ac.jp/~frederic/Kanken/problems.json");
+                    JSONObject jsonProblemsByTopic = Util.readJson(problemsUrl);
+                    for (Iterator itTopic = jsonProblemsByTopic.keys(); itTopic.hasNext(); ) {
+                        String strTopic = (String)itTopic.next();
+                        Problem.Topic topic = Problem.getTopicFromJapaneseString(strTopic);
+                        // System.out.println("topic=" + strTopic);
+                        
+                        HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>> problemsByLevel = null;
+                        if (problemsByTopic.containsKey(topic))
+                            problemsByLevel = problemsByTopic.get(topic);
+                        else {
+                            problemsByLevel = new HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>>();
+                            problemsByTopic.put(topic, problemsByLevel);
+                        }
+
+                        JSONObject jsonProblemsByLevel = jsonProblemsByTopic.getJSONObject(strTopic);
+                        for (Iterator itLevel = jsonProblemsByLevel.keys(); itLevel.hasNext(); ) {
+                            String level = (String)itLevel.next();
+                            // System.out.println("level=" + level);
+                            try {
+                                Integer intLevel = Integer.parseInt(level);
+
+                                HashMap<Problem.Type, HashMap<String, Problem>> problemsByType = null;
+                                if (problemsByLevel.containsKey(level))
+                                    problemsByType = problemsByLevel.get(level);
+                                else {
+                                    problemsByType = new HashMap<Problem.Type, HashMap<String, Problem>>();
+                                    problemsByLevel.put(level, problemsByType);
+                                }
+
+                                JSONObject jsonProblemsByType = jsonProblemsByLevel.getJSONObject(level);
+                                for (Iterator itType = jsonProblemsByType.keys(); itType.hasNext(); ) {
+                                    String strType = (String)itType.next();
+                                    Problem.Type type = Problem.getTypeFromString(strType);
+                                    // System.out.println("type=" + strType);
+
+                                    HashMap<String, Problem> problemsById = null;
+                                    if (problemsByType.containsKey(strType))
+                                        problemsById = problemsByType.get(strType);
+                                    else {
+                                        problemsById = new HashMap<String, Problem>();
+                                        problemsByType.put(type, problemsById);
+                                    }
+
+                                    JSONArray jsonProblems = jsonProblemsByType.getJSONArray(strType);
+                                    for (int i = 0; i < jsonProblems.length(); i++) {
+                                        JSONArray jsonProblem = jsonProblems.getJSONArray(i);
+                                        String statement = jsonProblem.getString(0);
+                                        String rightAnswer = jsonProblem.getString(1);
+                                        String articleUrl = jsonProblem.getString(2);
+
+                                        // System.out.println("statement="+statement);
+                                        // System.out.println("rightAnswer="+rightAnswer);
+                                        // System.out.println("articleUrl="+articleUrl);
+
+                                        Problem problem = null;
+                                        if ("yomi".equals(strType))
+                                            problem = new ReadingProblem(intLevel.intValue(), topic, statement, rightAnswer); 
+                                        else if ("kaki".equals(strType))
+                                            problem = new WritingProblem(intLevel.intValue(), topic, statement, rightAnswer);
+                                        if (problem != null) {
+                                            problemsById.put(articleUrl, problem);
+                                            problemCount++;
+                                        }
+                                    }
+                                }
+                            }
+                            catch(NumberFormatException nfe) {
+                                nfe.printStackTrace();
+                            }
+                        }
+                    }
+                    System.out.println(problemCount + " problems have been inserted in the database.");
+
+                }
+                catch(MalformedURLException e1) {
+                    e1.printStackTrace();
+                }
+                catch(IOException e2) {
+                    e2.printStackTrace();
+                }
+                catch(JSONException e3) {
+                    e3.printStackTrace();
+                }
+
+            }
+        }.start();
     }
 
     private static class SingletonHelper {
         private static final ProblemStore instance = new ProblemStore();
     }
 
-    private int problemCount = 0;
-
-    private Problem[] problems;
+    HashMap<Problem.Topic, HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>>> problemsByTopic = new HashMap<Problem.Topic, HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>>>();
     
 }

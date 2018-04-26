@@ -128,8 +128,10 @@ public class QuizSettingsActivity extends AppCompatActivity {
         textViewSelectedTopics.setText(str.toString());
     }
 
-    String[] labelTopics;
-    boolean[] checkedTopics;
-    HashSet<Integer> selectedTopics = new HashSet<Integer>();
+    private String[] labelTopics;
+    private boolean[] checkedTopics;
+    private HashSet<Integer> selectedTopics = new HashSet<Integer>();
+
+    private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
 
 }

@@ -45,7 +45,7 @@ class Quiz {
 
     public Problem getCurrentProblem() {
         if (currentProblem == -1) {
-            Problem problem = ProblemStore.getInstance().getNextProblem(-1 /* level */, null /* topics */, null /* type */);
+            Problem problem = ProblemStore.getInstance().getNextProblem(level, topics, type);
             problems.add(problem);
             currentProblem++;
         }
@@ -56,7 +56,7 @@ class Quiz {
         if (currentProblem >= this.length - 1)
             return null;
 
-        Problem problem = ProblemStore.getInstance().getNextProblem(-1 /* level */, null /* topics */, null /* type */);
+        Problem problem = ProblemStore.getInstance().getNextProblem(level, topics, type);
         problems.add(problem);
         currentProblem++;
         return problem;
