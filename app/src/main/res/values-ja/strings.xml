@@ -23,6 +23,7 @@
     <string name="label_topic_education_learning">教育・学習</string>
     <string name="label_topic_home_living">家庭・暮らし</string>
     <string name="label_topic_entertainment">レクリエーション</string>
+    <string name="label_topic_other">その他</string>
     <string name="button_select">選択</string>
     <string name="button_cancel">キャンセル</string>
     <string name="error_no_topics_selected_title">ジャンルがではありません。</string>

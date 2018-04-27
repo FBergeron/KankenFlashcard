@@ -16,7 +16,8 @@ abstract class Problem {
         POLITICS("politics"),
         SCIENCE_TECHNOLOGY("science_technology"),
         SPORTS("sports"),
-        TRANSPORTATION("transportation");
+        TRANSPORTATION("transportation"),
+        OTHER("other");
 
         Topic(String labelId) {
             this.labelId = labelId;
@@ -44,6 +45,7 @@ abstract class Problem {
             topicsByJapStr.put("科学・技術", Problem.Topic.SCIENCE_TECHNOLOGY);
             topicsByJapStr.put("スポーツ", Problem.Topic.SPORTS);
             topicsByJapStr.put("交通", Problem.Topic.TRANSPORTATION);
+            topicsByJapStr.put("null", Problem.Topic.OTHER);
         }
         return topicsByJapStr.get(str);
     }
