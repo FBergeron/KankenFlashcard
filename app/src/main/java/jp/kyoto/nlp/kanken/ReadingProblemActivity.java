@@ -66,7 +66,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
         stmt.append("em { color: red; font-weight: bold;}");
         stmt.append("</style>");
         stmt.append("</head>");
-        stmt.append("<body>" + currProb.getStatement() + "</body>");
+        stmt.append("<body>" + currProb.getStatement().replace("[", "<em>").replace("]", "</em>")  + "</body>");
         stmt.append("</html>");
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
