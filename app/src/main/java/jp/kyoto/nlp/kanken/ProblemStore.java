@@ -43,7 +43,7 @@ class ProblemStore {
                 URL problemsUrl = null;
                 try {
                     System.out.println("Retrieving JSON data...");
-                    problemsUrl = new URL("http://lotus.kuee.kyoto-u.ac.jp/~frederic/Kanken/problems.json");
+                    problemsUrl = new URL("http://lotus.kuee.kyoto-u.ac.jp/~frederic/Kanken/problems-0.2-alpha.json");
                     JSONObject jsonProblemsByTopic = Util.readJson(problemsUrl);
                     for (Iterator itTopic = jsonProblemsByTopic.keys(); itTopic.hasNext(); ) {
                         String strTopic = (String)itTopic.next();
