@@ -90,19 +90,21 @@ class ProblemStore {
                                     JSONArray jsonProblems = jsonProblemsByType.getJSONArray(strType);
                                     for (int i = 0; i < jsonProblems.length(); i++) {
                                         JSONArray jsonProblem = jsonProblems.getJSONArray(i);
-                                        String statement = jsonProblem.getString(0);
-                                        String rightAnswer = jsonProblem.getString(1);
-                                        String articleUrl = jsonProblem.getString(2);
+                                        String id = jsonProblem.getString(0);
+                                        String statement = jsonProblem.getString(1);
+                                        String rightAnswer = jsonProblem.getString(2);
+                                        String articleUrl = jsonProblem.getString(3);
 
+                                        // System.out.println("id="+id);
                                         // System.out.println("statement="+statement);
                                         // System.out.println("rightAnswer="+rightAnswer);
                                         // System.out.println("articleUrl="+articleUrl);
 
                                         Problem problem = null;
                                         if ("yomi".equals(strType))
-                                            problem = new ReadingProblem(intLevel.intValue(), topic, statement, rightAnswer); 
+                                            problem = new ReadingProblem(id, intLevel.intValue(), topic, statement, rightAnswer); 
                                         else if ("kaki".equals(strType))
-                                            problem = new WritingProblem(intLevel.intValue(), topic, statement, rightAnswer);
+                                            problem = new WritingProblem(id, intLevel.intValue(), topic, statement, rightAnswer);
                                         if (problem != null) {
                                             problemsById.put(articleUrl, problem);
                                             problemCount++;

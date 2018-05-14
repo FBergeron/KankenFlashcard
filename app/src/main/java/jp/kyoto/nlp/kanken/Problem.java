@@ -78,6 +78,10 @@ abstract class Problem {
 
     private static HashMap<String, Problem.Type> typesByStr;
 
+    public String getId() {
+        return id;
+    }
+
     public int getLevel() {
         return level;
     }
@@ -102,7 +106,8 @@ abstract class Problem {
 
     public String toString() {
         StringBuffer str = new StringBuffer();
-        str.append("level: ").append(level);
+        str.append("id: ").append(id);
+        str.append("; level: ").append(level);
         str.append("; topic: ").append(topic.getLabelId());
         str.append("; type: ").append(getType().getLabelId());
         str.append("; stmt: ").append(statement);
@@ -111,6 +116,11 @@ abstract class Problem {
         return str.toString();
     }
 
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    protected String id;
     protected int level;
     protected Problem.Topic topic;
     protected String statement;
