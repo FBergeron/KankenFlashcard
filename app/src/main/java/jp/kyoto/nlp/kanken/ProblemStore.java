@@ -22,13 +22,16 @@ class ProblemStore {
     }
 
     public Problem getNextProblem(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
+        System.out.println("getNextProblem level="+level+ " topics="+topics + " type="+type);
         Problem.Topic[] topicArray = (Problem.Topic[])topics.toArray(new Problem.Topic[topics.size()]);
         Random rand = new Random();
         int topicIndex = rand.nextInt(topicArray.length);
 
         HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>> problemsByLevel = problemsByTopic.get(topicArray[topicIndex]);
         HashMap<Problem.Type, HashMap<String, Problem>> problemsByType = problemsByLevel.get(level + "");
+        System.out.println("problemsByType="+problemsByType);
         HashMap<String, Problem> problemsById = problemsByType.get(type);
+        System.out.println("problemsById="+problemsById);
 
         String[] problemIds = (String[])problemsById.keySet().toArray(new String[problemsById.size()]);
         int problemIndex = rand.nextInt(problemIds.length);

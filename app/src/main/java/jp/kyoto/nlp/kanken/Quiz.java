@@ -2,6 +2,7 @@ package jp.kyoto.nlp.kanken;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 
 class Quiz {
 
@@ -13,7 +14,7 @@ class Quiz {
     }
 
     public Quiz(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
-        this(level, topics, type, 5);
+        this(level, topics, type, 3);
     }
 
     public int getLevel() {
@@ -60,6 +61,14 @@ class Quiz {
         problems.add(problem);
         currentProblem++;
         return problem;
+    }
+
+    public Iterator<Problem> getProblems() {
+        return problems.iterator();
+    }
+
+    public Iterator<String> getAnswers() {
+        return answers.iterator();
     }
 
     public boolean validateAnswer(String answer) {

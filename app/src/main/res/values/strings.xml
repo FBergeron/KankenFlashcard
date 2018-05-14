@@ -44,4 +44,6 @@
     <string name="label_enter_problem_familiarity">Please, enter the familiarity level in regard to this word.</string>
     <string name="label_easy">Easy</string>
     <string name="label_difficult">Difficult</string>
+    <string name="label_summary_title">Quiz Summary</string>
+    <string name="button_leave_summary">Start another quiz</string>
 </resources>

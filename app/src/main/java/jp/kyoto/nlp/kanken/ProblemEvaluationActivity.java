@@ -11,8 +11,8 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
     public void goNextPage() {
         Problem nextProblem = appl.getQuiz().nextProblem();
         if (nextProblem == null) {
-            Intent quizSettingsActivity = new Intent(ProblemEvaluationActivity.this, QuizSettingsActivity.class);
-            startActivity(quizSettingsActivity);
+            Intent quizSummaryActivity = new Intent(ProblemEvaluationActivity.this, QuizSummaryActivity.class);
+            startActivity(quizSummaryActivity);
         }
         else {
             Intent problemActivity = (Problem.Type.READING.equals(nextProblem.getType()) ?
