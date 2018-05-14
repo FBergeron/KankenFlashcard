@@ -102,11 +102,11 @@ class ProblemStore {
 
                                         Problem problem = null;
                                         if ("yomi".equals(strType))
-                                            problem = new ReadingProblem(id, intLevel.intValue(), topic, statement, rightAnswer); 
+                                            problem = new ReadingProblem(id, intLevel.intValue(), topic, statement, rightAnswer, articleUrl); 
                                         else if ("kaki".equals(strType))
-                                            problem = new WritingProblem(id, intLevel.intValue(), topic, statement, rightAnswer);
+                                            problem = new WritingProblem(id, intLevel.intValue(), topic, statement, rightAnswer, articleUrl);
                                         if (problem != null) {
-                                            problemsById.put(articleUrl, problem);
+                                            problemsById.put(id, problem);
                                             problemCount++;
                                         }
                                     }

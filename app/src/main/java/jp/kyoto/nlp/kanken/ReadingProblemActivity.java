@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -11,6 +12,15 @@ import android.widget.TextView;
 
 public class ReadingProblemActivity extends AppCompatActivity {
 
+    public void showArticle(android.view.View view) {
+        String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
+        if (articleUrl != null) {
+            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+            httpIntent.setData(Uri.parse(articleUrl));
+            startActivity(httpIntent);
+        }
+    }
+    
     public void validateAnswer(android.view.View view) {
         EditText editTextAnswer = (EditText)findViewById(R.id.editTextAnswer);
         String answer = editTextAnswer.getText().toString();

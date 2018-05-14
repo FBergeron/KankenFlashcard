@@ -54,6 +54,26 @@
 
         </WebView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:onClick="showArticle"
+                android:text="@string/button_view_article" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/textViewAnswer"
             android:layout_width="match_parent"
