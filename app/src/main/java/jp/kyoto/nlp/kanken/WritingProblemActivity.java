@@ -9,13 +9,20 @@ import android.widget.TextView;
 
 public class WritingProblemActivity extends AppCompatActivity {
 
+    public void clearAnswer(android.view.View view) {
+        System.out.println("clear answer");
+    }
+
     public void enterCharacter(android.view.View view) {
         System.out.println("enter");
     }
 
     public void clearCanvas(android.view.View view) {
-        CanvasView canvas = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas);
-        canvas.clearCanvas();
+        CanvasView canvas1 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas1);
+        canvas1.clearCanvas();
+
+        CanvasView canvas2 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas2);
+        canvas2.clearCanvas();
     }
 
     public void showArticle(android.view.View view) {

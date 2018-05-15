@@ -88,24 +88,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="6dp"
             android:layout_weight="100"
             android:orientation="horizontal">
 
             <jp.kyoto.nlp.kanken.CanvasView
-                android:id="@+id/canvasViewWritingProblemCanvas"
+                android:id="@+id/canvasViewWritingProblemCanvas1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
                 android:layout_weight="1"
                 android:background="#ffffff"
                 android:textColor="#FFFFFF" />
+
+            <jp.kyoto.nlp.kanken.CanvasView
+                android:id="@+id/canvasViewWritingProblemCanvas2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="6dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="6dp"
                 android:layout_weight="0"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="6dp">
 
                 <Space
                     android:layout_width="match_parent"
@@ -128,6 +139,32 @@
                     android:text="@string/button_enter_character" />
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewWritingProblemUserAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/buttonClearAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="0"
+                android:onClick="clearAnswer"
+                android:text="@string/button_clear_answer"
+                android:layout_marginStart="6dp" />
 
         </LinearLayout>
 

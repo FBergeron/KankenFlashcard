@@ -37,6 +37,7 @@
     <string name="button_view_article">記事を見る</string>
     <string name="button_validate_answer">正解確認</string>
     <string name="button_clear_canvas">消す</string>
+    <string name="button_clear_answer">消す</string>
     <string name="button_enter_character">確認</string>
     <string name="label_problem_eval_title">解答結果</string>
     <string name="label_right_answer">正解</string>
