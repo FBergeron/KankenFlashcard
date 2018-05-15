@@ -9,6 +9,15 @@ import android.widget.TextView;
 
 public class WritingProblemActivity extends AppCompatActivity {
 
+    public void enterCharacter(android.view.View view) {
+        System.out.println("enter");
+    }
+
+    public void clearCanvas(android.view.View view) {
+        CanvasView canvas = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas);
+        canvas.clearCanvas();
+    }
+
     public void showArticle(android.view.View view) {
         String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
         if (articleUrl != null) {

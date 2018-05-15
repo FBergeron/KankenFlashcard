@@ -7,75 +7,138 @@
     tools:context=".WritingProblemActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayoutWritingProblemInfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutWritingProblemInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewWritingProblemInfoLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textViewWritingProblemInfoTopic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/textViewWritingProblemInfoType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewWritingProblemInfoLevel"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewWritingProblemNumber"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_marginBottom="6dp"
+            android:layout_weight="0" />
+
+        <WebView
+            android:id="@+id/webViewWritingProblemStatement"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="6dp"
+            android:layout_weight="100">
+
+        </WebView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/buttonViewWritingProblemArticle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:onClick="showArticle"
+                android:text="@string/button_view_article" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewWritingProblemInfoTopic"
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewWritingProblemAnswer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal" />
+            android:layout_marginBottom="6dp"
+            android:layout_weight="0"
+            android:text="@string/label_answer" />
 
-        <TextView
-            android:id="@+id/textViewWritingProblemInfoType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textViewWritingProblemNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <jp.kyoto.nlp.kanken.CanvasView
+                android:id="@+id/canvasViewWritingProblemCanvas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:textColor="#FFFFFF" />
 
-    <WebView
-        android:id="@+id/webViewWritingProblemStatement"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="0"
+                android:orientation="vertical">
 
-    </WebView>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+                <Button
+                    android:id="@+id/buttonClearWritingProblemCanvas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:onClick="clearCanvas"
+                    android:text="@string/button_clear_canvas" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+                <Button
+                    android:id="@+id/buttonEnterWritingProblemCharacter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterCharacter"
+                    android:text="@string/button_enter_character" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/buttonViewWritingProblemArticle"
-            android:layout_width="wrap_content"
+            android:id="@+id/buttonValidateWritingProblemAnswer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:onClick="showArticle"
-            android:text="@string/button_view_article" />
+            android:onClick="validateAnswer"
+            android:text="@string/button_validate_answer" />
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textViewWritingProblemAnswer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/label_answer" />
-
-    <Button
-        android:id="@+id/buttonValidateWritingProblemAnswer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="validateAnswer"
-        android:text="@string/button_validate_answer" />
 
 </android.support.constraint.ConstraintLayout>
