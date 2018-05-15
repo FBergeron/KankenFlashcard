@@ -39,7 +39,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
             String answer = (String)itAnswer.next();
             summary.append("<u>Problem " + i + "</u><br/>");
             summary.append("Statement: " + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "<br/>");
-            summary.append("Answer: " + answer + "<br/>");
+            summary.append("Your answer: " + answer + "<br/>");
             summary.append("Link: <a target=\"_blank\" href=\"" + problem.getArticleUrl() + "\">" + problem.getArticleUrl() + "</a><br/><br/>");
         }
 

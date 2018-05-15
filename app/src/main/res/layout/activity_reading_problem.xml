@@ -12,27 +12,27 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/linearLayoutProblemInfo"
+            android:id="@+id/linearLayoutReadingProblemInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textViewProblemInfoLevel"
+                android:id="@+id/textViewReadingProblemInfoLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/textViewProblemInfoTopic"
+                android:id="@+id/textViewReadingProblemInfoTopic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal" />
 
             <TextView
-                android:id="@+id/textViewProblemInfoType"
+                android:id="@+id/textViewReadingProblemInfoType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,13 +40,13 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewProblemNumber"
+            android:id="@+id/textViewReadingProblemNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp" />
 
         <WebView
-            android:id="@+id/webViewProblemStatement"
+            android:id="@+id/webViewReadingProblemStatement"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="6dp"
@@ -66,7 +66,7 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/buttonViewReadingProblemArticle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -75,14 +75,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewAnswer"
+            android:id="@+id/textViewReadingProblemAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:text="@string/label_answer" />
 
         <EditText
-            android:id="@+id/editTextAnswer"
+            android:id="@+id/editTextReadingProblemAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
@@ -90,7 +90,7 @@
             android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/buttonValidateAnswer"
+            android:id="@+id/buttonValidateReadingProblemAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="validateAnswer"

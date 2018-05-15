@@ -22,7 +22,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
     }
     
     public void validateAnswer(android.view.View view) {
-        EditText editTextAnswer = (EditText)findViewById(R.id.editTextAnswer);
+        EditText editTextAnswer = (EditText)findViewById(R.id.editTextReadingProblemAnswer);
         String answer = editTextAnswer.getText().toString();
 
         if (answer.trim().equals("")) {
@@ -52,17 +52,17 @@ public class ReadingProblemActivity extends AppCompatActivity {
 
         Problem currProb = appl.getQuiz().getCurrentProblem();
 
-        TextView textViewProblemInfoLevel = (TextView)findViewById(R.id.textViewProblemInfoLevel);
+        TextView textViewProblemInfoLevel = (TextView)findViewById(R.id.textViewReadingProblemInfoLevel);
         String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), currProb.getLevel());
         textViewProblemInfoLevel.setText(strLevel);
 
-        TextView textViewProblemInfoTopic = (TextView)findViewById(R.id.textViewProblemInfoTopic);
+        TextView textViewProblemInfoTopic = (TextView)findViewById(R.id.textViewReadingProblemInfoTopic);
         String strResName = "label_topic_" + currProb.getTopic().getLabelId();
         int labelId = getResources().getIdentifier(strResName, "string", ReadingProblemActivity.this.getPackageName());
         String strTopic = String.format(getResources().getString(R.string.label_problem_info_topic), getResources().getString(labelId));
         textViewProblemInfoTopic.setText(strTopic);
 
-        TextView textViewProblemInfoType = (TextView)findViewById(R.id.textViewProblemInfoType);
+        TextView textViewProblemInfoType = (TextView)findViewById(R.id.textViewReadingProblemInfoType);
         strResName = "label_quiz_type_" + currProb.getType().getLabelId();
         labelId = getResources().getIdentifier(strResName, "string", ReadingProblemActivity.this.getPackageName());
         String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
@@ -79,7 +79,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
         stmt.append("<body>" + currProb.getStatement().replace("[", "<em>").replace("]", "</em>")  + "</body>");
         stmt.append("</html>");
 
-        WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
+        WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewReadingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
     }
 
