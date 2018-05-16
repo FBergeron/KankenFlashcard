@@ -28,7 +28,7 @@ class ProblemStore {
         int topicIndex = rand.nextInt(topicArray.length);
 
         HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>> problemsByLevel = problemsByTopic.get(topicArray[topicIndex]);
-        HashMap<Problem.Type, HashMap<String, Problem>> problemsByType = problemsByLevel.get(level + "");
+        HashMap<Problem.Type, HashMap<String, Problem>> problemsByType = problemsByLevel.get(level + 1 + "");
         System.out.println("problemsByType="+problemsByType);
         HashMap<String, Problem> problemsById = problemsByType.get(type);
         System.out.println("problemsById="+problemsById);
