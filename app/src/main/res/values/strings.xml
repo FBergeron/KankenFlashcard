@@ -42,7 +42,7 @@
     <string name="label_right_answer">Right!</string>
     <string name="label_wrong_answer">Wrong!</string>
     <string name="button_report_error">Mark the problem as incorrect</string>
-    <string name="label_enter_problem_familiarity">Please, enter the familiarity level in regard to this word.</string>
+    <string name="label_enter_problem_familiarity">Please, enter the familiarity level in regard to this word: %1$s.</string>
     <string name="label_easy">Easy</string>
     <string name="label_difficult">Difficult</string>
     <string name="label_summary_title">Quiz Summary</string>

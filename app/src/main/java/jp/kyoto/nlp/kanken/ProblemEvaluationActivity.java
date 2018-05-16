@@ -71,6 +71,9 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
             textViewEvaluationResult.setTextColor(Color.RED);
         }
 
+        String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), appl.getQuiz().getCurrentProblem().getRightAnswer());
+        TextView textViewProblemFamiliarity = (TextView)findViewById(R.id.textViewProblemFamiliarity);
+        textViewProblemFamiliarity.setText(text);
     }
 
     KankenApplication appl = KankenApplication.getInstance();

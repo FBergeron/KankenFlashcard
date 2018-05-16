@@ -41,7 +41,7 @@
     <string name="label_right_answer">正解</string>
     <string name="label_wrong_answer">不正解</string>
     <string name="button_report_error">間違えを申告する</string>
-    <string name="label_enter_problem_familiarity">あなたにとって、自動車という単語の親密度</string>
+    <string name="label_enter_problem_familiarity">あなたにとって、%1$sという単語の親密度</string>
     <string name="label_easy">簡単</string>
     <string name="label_difficult">難しい</string>
     <string name="label_summary_title">サマリー</string>

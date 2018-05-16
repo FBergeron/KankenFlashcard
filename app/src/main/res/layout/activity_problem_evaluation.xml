@@ -47,11 +47,10 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewProblemFamiliariy"
+            android:id="@+id/textViewProblemFamiliarity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="@string/label_enter_problem_familiarity" />
+            android:layout_marginBottom="6dp" />
 
         <LinearLayout
             android:id="@+id/layoutProblemFamiliarity"
