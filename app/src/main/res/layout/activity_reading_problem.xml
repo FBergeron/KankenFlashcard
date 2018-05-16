@@ -48,7 +48,7 @@
         <WebView
             android:id="@+id/webViewReadingProblemStatement"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1">
 
@@ -81,13 +81,120 @@
             android:layout_marginBottom="6dp"
             android:text="@string/label_answer" />
 
-        <EditText
-            android:id="@+id/editTextReadingProblemAnswer"
+        <TableLayout
+            android:id="@+id/tableLayoutReadingProblemAnswerButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/buttonKana01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/buttonKana05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana07"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana08"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/buttonKana09"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonKana11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonDeleteKana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="deleteKana"
+                    android:text="@string/button_delete_kana" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/textViewReadingProblemUserAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:ems="10"
-            android:inputType="textPersonName" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/buttonValidateReadingProblemAnswer"

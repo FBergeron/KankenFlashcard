@@ -40,6 +40,7 @@
     <string name="button_clear_canvas">Clear</string>
     <string name="button_clear_answer">Clear</string>
     <string name="button_enter_character">Enter</string>
+    <string name="button_delete_kana">Delete</string>
     <string name="label_problem_eval_title">Evaluation</string>
     <string name="label_right_answer">Right!</string>
     <string name="label_wrong_answer">Wrong!</string>

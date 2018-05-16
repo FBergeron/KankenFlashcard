@@ -39,6 +39,7 @@
     <string name="button_clear_canvas">消す</string>
     <string name="button_clear_answer">消す</string>
     <string name="button_enter_character">確認</string>
+    <string name="button_delete_kana">消す</string>
     <string name="label_problem_eval_title">解答結果</string>
     <string name="label_right_answer">正解</string>
     <string name="label_wrong_answer">不正解</string>
