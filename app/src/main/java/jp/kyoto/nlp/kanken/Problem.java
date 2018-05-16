@@ -6,13 +6,10 @@ abstract class Problem {
 
     public enum Topic {
         BUSINESS("business"),
-        COOKING_MEALS("cooking_meals"),
         CULTURE_ARTS("culture_arts"),
         EDUCATION_LEARNING("education_learning"),
-        ENTERTAINMENT("entertainment"),
         HEALTH_MEDICINE("health_medicine"),
         HOME_LIVING("home_living"),
-        MEDIAS("medias"),
         POLITICS("politics"),
         SCIENCE_TECHNOLOGY("science_technology"),
         SPORTS("sports"),
@@ -34,13 +31,10 @@ abstract class Problem {
         if (topicsByJapStr == null) {
             topicsByJapStr = new HashMap<String, Problem.Topic>();
             topicsByJapStr.put("ビジネス", Problem.Topic.BUSINESS);
-            topicsByJapStr.put("料理・食事", Problem.Topic.COOKING_MEALS);
             topicsByJapStr.put("文化・芸術", Problem.Topic.CULTURE_ARTS);
             topicsByJapStr.put("教育・学習", Problem.Topic.EDUCATION_LEARNING);
-            topicsByJapStr.put("レクリエーション", Problem.Topic.ENTERTAINMENT);
             topicsByJapStr.put("健康・医学", Problem.Topic.HEALTH_MEDICINE);
             topicsByJapStr.put("家庭・暮らし", Problem.Topic.HOME_LIVING);
-            topicsByJapStr.put("メディア", Problem.Topic.MEDIAS);
             topicsByJapStr.put("政治", Problem.Topic.POLITICS);
             topicsByJapStr.put("科学・技術", Problem.Topic.SCIENCE_TECHNOLOGY);
             topicsByJapStr.put("スポーツ", Problem.Topic.SPORTS);

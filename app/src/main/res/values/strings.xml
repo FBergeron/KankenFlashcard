@@ -18,12 +18,9 @@
     <string name="label_topic_health_medicine">Health - Medicine</string>
     <string name="label_topic_culture_arts">Culture - Arts</string>
     <string name="label_topic_transportation">Transportation</string>
-    <string name="label_topic_cooking_meals">Cooking - Meals</string>
-    <string name="label_topic_medias">Media</string>
     <string name="label_topic_science_technology">Science - Technology</string>
     <string name="label_topic_education_learning">Education - Learning</string>
     <string name="label_topic_home_living">Home - Living</string>
-    <string name="label_topic_entertainment">Entertainment</string>
     <string name="label_topic_other">Other</string>
     <string name="button_select">Select</string>
     <string name="button_cancel">Cancel</string>
