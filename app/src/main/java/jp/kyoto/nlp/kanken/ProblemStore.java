@@ -7,10 +7,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.json.JSONException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,14 +34,19 @@ class ProblemStore {
 
         HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>> problemsByLevel = problemsByTopic.get(topicArray[topicIndex]);
         HashMap<Problem.Type, HashMap<String, Problem>> problemsByType = problemsByLevel.get(level + 1 + "");
-        System.out.println("problemsByType="+problemsByType);
         HashMap<String, Problem> problemsById = problemsByType.get(type);
-        System.out.println("problemsById="+problemsById);
 
-        String[] problemIds = (String[])problemsById.keySet().toArray(new String[problemsById.size()]);
-        int problemIndex = rand.nextInt(problemIds.length);
-        Problem problem = problemsById.get(problemIds[problemIndex]);
-        return problem;
+        SortedSet<String> keys = new TreeSet<String>(Collections.reverseOrder());
+        keys.addAll(problemsById.keySet());
+        for (String k : keys) {
+            if (!askedProblems.contains(k)) {
+                Problem problem = problemsById.get(k);
+                askedProblems.add(k);
+                return problem;
+            }
+        }
+
+        return null;
     }
 
     private ProblemStore() {
@@ -142,5 +152,7 @@ class ProblemStore {
     }
 
     HashMap<Problem.Topic, HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>>> problemsByTopic = new HashMap<Problem.Topic, HashMap<String, HashMap<Problem.Type, HashMap<String, Problem>>>>();
-    
+   
+    private ArrayList<String> askedProblems = new ArrayList<String>();
+
 }

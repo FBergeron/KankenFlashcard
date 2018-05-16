@@ -84,7 +84,10 @@
         <TableLayout
             android:id="@+id/tableLayoutReadingProblemAnswerButtons"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="fill_horizontal"
+            android:orientation="horizontal"
+            android:stretchColumns="*">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -194,7 +197,7 @@
             android:id="@+id/textViewReadingProblemUserAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:textSize="48sp" />
 
         <Button
             android:id="@+id/buttonValidateReadingProblemAnswer"
