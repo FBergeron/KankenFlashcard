@@ -1,7 +1,9 @@
 package jp.kyoto.nlp.kanken;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class QuizSettingsActivity extends AppCompatActivity {
@@ -83,13 +86,29 @@ public class QuizSettingsActivity extends AppCompatActivity {
             return;    
         }
 
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
         SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
         int level = seekbarQuizLevel.getProgress();
+        editor.putInt("QuizLevel", level); 
 
-        RadioGroup radioGroupQuizLevel = (RadioGroup) findViewById(R.id.radioGroupQuizType);
-        int selectedRadioButtonId = radioGroupQuizLevel.getCheckedRadioButtonId();
+        StringBuffer strPrefTopics = new StringBuffer();
+        String delimiter = "";
+        for (Problem.Topic topic : quizTopics) {
+            strPrefTopics.append(delimiter);
+            strPrefTopics.append(topic.getLabelId());
+            delimiter = ",";
+        }
+        editor.putString("QuizTopics", strPrefTopics.toString());
+
+        RadioGroup radioGroupQuizType = (RadioGroup) findViewById(R.id.radioGroupQuizType);
+        int selectedRadioButtonId = radioGroupQuizType.getCheckedRadioButtonId();
         Problem.Type type = (selectedRadioButtonId == R.id.radioButtonQuizTypeReading ? 
             Problem.Type.READING : Problem.Type.WRITING);
+        editor.putString("QuizType", type.getLabelId());
+
+        editor.commit();
 
         KankenApplication appl = KankenApplication.getInstance();
         appl.startQuiz(level, quizTopics, type);
@@ -113,7 +132,29 @@ public class QuizSettingsActivity extends AppCompatActivity {
             int labelId = getResources().getIdentifier(strResName, "string", QuizSettingsActivity.this.getPackageName());
             labelTopics[i] = getResources().getString(labelId);
         }
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+
+        int prefLevel = sharedPref.getInt("QuizLevel", 1);
+        SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
+        seekbarQuizLevel.setProgress(prefLevel);
+
         checkedTopics = new boolean[labelTopics.length];
+
+        String prefTopics = sharedPref.getString("QuizTopics", "");
+        HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
+        for (int i = 0; i < Problem.Topic.values().length; i++) {
+            if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
+                selectedTopics.add(new Integer(i));
+        }
+        showSelectedTopics();
+
+        String prefType = sharedPref.getString("QuizType", "reading");
+        RadioGroup radioGroupQuizType = (RadioGroup) findViewById(R.id.radioGroupQuizType);
+        if (Problem.Type.READING.getLabelId() == prefType) 
+            radioGroupQuizType.check(R.id.radioButtonQuizTypeReading);
+        else
+            radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
     }
 
     private void showSelectedTopics() {
