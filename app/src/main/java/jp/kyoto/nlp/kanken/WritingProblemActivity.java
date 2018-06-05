@@ -20,12 +20,12 @@ public class WritingProblemActivity extends AppCompatActivity {
         System.out.println("enter");
     }
 
-    public void clearCanvas(android.view.View view) {
-        // CanvasView canvas1 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas1);
-        // canvas1.clearCanvas();
+    public void undoCanvas(android.view.View view) {
+        kanjiCanvas.undo();
+    }
 
-        // CanvasView canvas2 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas2);
-        // canvas2.clearCanvas();
+    public void clearCanvas(android.view.View view) {
+        kanjiCanvas.clear();
     }
 
     public void showArticle(android.view.View view) {

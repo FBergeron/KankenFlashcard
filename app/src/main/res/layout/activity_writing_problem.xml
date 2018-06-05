@@ -107,6 +107,14 @@
                     android:layout_weight="1" />
 
                 <Button
+                    android:id="@+id/buttonUndoWritingProblemCanvas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:onClick="undoCanvas"
+                    android:text="@string/button_undo_canvas" />
+
+                <Button
                     android:id="@+id/buttonClearWritingProblemCanvas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
