@@ -5,7 +5,10 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.leafdigital.kanji.android.KanjiDrawing;
+import com.leafdigital.kanji.android.KanjiDrawing.DrawnStroke;
 
 public class WritingProblemActivity extends AppCompatActivity {
 
@@ -18,11 +21,11 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
 
     public void clearCanvas(android.view.View view) {
-        CanvasView canvas1 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas1);
-        canvas1.clearCanvas();
+        // CanvasView canvas1 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas1);
+        // canvas1.clearCanvas();
 
-        CanvasView canvas2 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas2);
-        canvas2.clearCanvas();
+        // CanvasView canvas2 = (CanvasView)findViewById(R.id.canvasViewWritingProblemCanvas2);
+        // canvas2.clearCanvas();
     }
 
     public void showArticle(android.view.View view) {
@@ -94,8 +97,38 @@ public class WritingProblemActivity extends AppCompatActivity {
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewWritingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
+
+        kanjiCanvas = new KanjiDrawing(this);
+        LinearLayout layoutKanjiInput = (LinearLayout)findViewById(R.id.layoutKanjiInput);
+        layoutKanjiInput.addView(kanjiCanvas);
+        
+        kanjiCanvas.setListener(
+            new KanjiDrawing.Listener() {
+                @Override
+                public void strokes(DrawnStroke[] strokes) {
+                    System.out.println("strokes="+strokes);
+                    //findViewById(R.id.undo).setEnabled(strokes.length > 0);
+                    //findViewById(R.id.clear).setEnabled(strokes.length > 0);
+
+                    //boolean gotList;
+                    //synchronized(listSynch) {
+                    //    gotList = list != null;
+                    //}
+                    //findViewById(R.id.done).setEnabled(strokes.length > 0 && gotList);
+
+                    //TextView strokesText = (TextView)findViewById(R.id.strokes);
+                    //strokesText.setText(strokes.length + "");
+                    //if(strokes.length == KanjiDrawing.MAX_STROKES)
+                    //    strokesText.setTextColor(Color.RED);
+                    //else
+                    //    strokesText.setTextColor(normalRgb);
+                }
+            }
+        );
     }
     
     KankenApplication appl = KankenApplication.getInstance();
+
+    private KanjiDrawing kanjiCanvas;
 
 }
