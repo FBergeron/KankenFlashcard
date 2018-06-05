@@ -90,27 +90,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="6dp"
-            android:layout_weight="100"
-            android:orientation="horizontal">
+            android:layout_weight="80"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:id="@+id/layoutKanjiCanvasContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:orientation="horizontal"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginStart="6dp"
                 android:layout_weight="0"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1" />
 
                 <Button
                     android:id="@+id/buttonUndoWritingProblemCanvas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginRight="6dp"
                     android:onClick="undoCanvas"
                     android:text="@string/button_undo_canvas" />
 
@@ -118,7 +125,7 @@
                     android:id="@+id/buttonClearWritingProblemCanvas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginRight="6dp"
                     android:onClick="clearCanvas"
                     android:text="@string/button_clear_canvas" />
 
@@ -137,6 +144,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -152,10 +160,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
                 android:layout_weight="0"
                 android:onClick="clearAnswer"
-                android:text="@string/button_clear_answer"
-                android:layout_marginStart="6dp" />
+                android:text="@string/button_clear_answer" />
 
         </LinearLayout>
 

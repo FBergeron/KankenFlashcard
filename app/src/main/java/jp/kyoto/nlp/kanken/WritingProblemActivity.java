@@ -116,8 +116,8 @@ public class WritingProblemActivity extends AppCompatActivity {
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
 
         kanjiCanvas = new KanjiDrawing(this);
-        LinearLayout layoutKanjiInput = (LinearLayout)findViewById(R.id.layoutKanjiInput);
-        layoutKanjiInput.addView(kanjiCanvas);
+        LinearLayout layoutKanjiCanvasContainuer = (LinearLayout)findViewById(R.id.layoutKanjiCanvasContainer);
+        layoutKanjiCanvasContainuer.addView(kanjiCanvas, 0);
         
         kanjiCanvas.setListener(
             new KanjiDrawing.Listener() {
