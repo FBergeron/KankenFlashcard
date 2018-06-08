@@ -89,52 +89,172 @@
             android:id="@+id/layoutKanjiInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="6dp"
             android:layout_weight="80"
-            android:orientation="vertical">
+            android:baselineAligned="false"
+            android:gravity="top"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/layoutKanjiCanvasContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="40"
-                android:orientation="horizontal"></LinearLayout>
+                android:id="@+id/layoutKanjiInputLeft"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
-                android:layout_weight="0"
-                android:orientation="horizontal">
-
-                <Space
+                <com.leafdigital.kanji.android.KanjiDrawing
+                    android:id="@+id/kanjiDrawing"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <Button
-                    android:id="@+id/buttonUndoWritingProblemCanvas"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="6dp"
-                    android:onClick="undoCanvas"
-                    android:text="@string/button_undo_canvas" />
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="0"
+                    android:orientation="horizontal">
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/buttonUndoWritingProblemCanvas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginRight="6dp"
+                        android:onClick="undoCanvas"
+                        android:text="@string/button_undo_canvas" />
+
+                    <Button
+                        android:id="@+id/buttonClearWritingProblemCanvas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginRight="6dp"
+                        android:onClick="clearCanvas"
+                        android:text="@string/button_clear_canvas" />
+
+                    <Button
+                        android:id="@+id/buttonEnterWritingProblemCharacter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="enterCharacter"
+                        android:text="@string/button_enter_character" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutKanjiInputRight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="8"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/no1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="150sp" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/no2"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1"
+                                android:text="語"
+                                android:textSize="60sp" />
+
+                            <Button
+                                android:id="@+id/no3"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1"
+                                android:text="語"
+                                android:textSize="60sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/no4"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no5"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no6"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no7"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
 
                 <Button
-                    android:id="@+id/buttonClearWritingProblemCanvas"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/other"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="6dp"
-                    android:onClick="clearCanvas"
-                    android:text="@string/button_clear_canvas" />
+                    android:layout_weight="1"
+                    android:text="fuzzy" />
 
-                <Button
-                    android:id="@+id/buttonEnterWritingProblemCharacter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="enterCharacter"
-                    android:text="@string/button_enter_character" />
 
             </LinearLayout>
 

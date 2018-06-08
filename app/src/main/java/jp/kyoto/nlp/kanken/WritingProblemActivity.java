@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,16 +30,19 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
 
     public void enterCharacter(android.view.View view) {
+        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         new MatchThread(this, kanjiCanvas.getStrokes(), KanjiInfo.MatchAlgorithm.STRICT, R.string.label_finding_exact_matches, 
             kanjiCanvas.getStrokes().length == 1 ? R.string.label_exact_matches_1_stroke : R.string.label_exact_matches_n_strokes, 
                 R.string.label_inexact_matches, STAGE_EXACT, false, new String[0]);
     }
 
     public void undoCanvas(android.view.View view) {
+        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.undo();
     }
 
     public void clearCanvas(android.view.View view) {
+        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.clear();
     }
 
@@ -115,10 +119,7 @@ public class WritingProblemActivity extends AppCompatActivity {
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewWritingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
 
-        kanjiCanvas = new KanjiDrawing(this);
-        LinearLayout layoutKanjiCanvasContainuer = (LinearLayout)findViewById(R.id.layoutKanjiCanvasContainer);
-        layoutKanjiCanvasContainuer.addView(kanjiCanvas, 0);
-        
+        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.setListener(
             new KanjiDrawing.Listener() {
                 @Override
@@ -149,6 +150,7 @@ public class WritingProblemActivity extends AppCompatActivity {
      * if needed.
      */
     private void loaded() {
+        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         DrawnStroke[] strokes = kanjiCanvas.getStrokes();
         //findViewById(R.id.done).setEnabled(strokes.length > 0);
     }
@@ -329,10 +331,11 @@ public class WritingProblemActivity extends AppCompatActivity {
     private static LinkedList<WritingProblemActivity> waitingActivities = new LinkedList<WritingProblemActivity>();
     private static Object listSynch = new Object();
 
-    private KanjiDrawing kanjiCanvas;
-
-    private final static int STAGE_EXACT = 1, STAGE_FUZZY = 2,
-        STAGE_MOREFUZZY = 3, STAGE_PLUSMINUS1 = 4,
-        STAGE_MOREPLUSMINUS1 = 5, STAGE_EVENMOREPLUSMINUS1 = 6;
+    private final static int STAGE_EXACT = 1; 
+    private final static int STAGE_FUZZY = 2;
+    private final static int STAGE_MOREFUZZY = 3;
+    private final static int STAGE_PLUSMINUS1 = 4;
+    private final static int STAGE_MOREPLUSMINUS1 = 5;
+    private final static int STAGE_EVENMOREPLUSMINUS1 = 6;
 
 }
