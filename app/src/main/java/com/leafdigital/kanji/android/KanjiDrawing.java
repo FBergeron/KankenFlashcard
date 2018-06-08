@@ -21,8 +21,10 @@ package com.leafdigital.kanji.android;
 import java.util.LinkedList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.*;
 
@@ -174,6 +176,15 @@ public class KanjiDrawing extends View
             }
             return result;
         }
+    }
+
+    public KanjiDrawing(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        density = metrics.density;
+        densityInt = metrics.densityDpi;
     }
 
     public KanjiDrawing(Activity context)
