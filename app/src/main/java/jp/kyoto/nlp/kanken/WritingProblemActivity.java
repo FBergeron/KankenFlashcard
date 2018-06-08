@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,9 +22,26 @@ import com.leafdigital.kanji.android.MultiAssetInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 public class WritingProblemActivity extends AppCompatActivity {
+
+    /**
+     * Number of kanji shown in top count page.
+     */
+    public final static int TOP_COUNT = 7;
+
+    // /**
+    //  * Number of kanji shown in more count page.
+    //  */
+    // public final static int MORE_COUNT = 12;
+
+    private final static int[] ALL_IDS = {
+        R.id.no1, R.id.no2, R.id.no3, R.id.no4, R.id.no5, R.id.no6,
+        R.id.no7//, R.id.no8, R.id.no9, R.id.no10, R.id.no11, R.id.no12
+    };
 
     public void clearAnswer(android.view.View view) {
         System.out.println("clear answer");
@@ -145,6 +163,103 @@ public class WritingProblemActivity extends AppCompatActivity {
         );
     }
 
+    private void initializeKanjiButtons(String[] matches, String[] alreadyShown) {
+        System.out.println("initializeKanjiButtons matches="+matches+ " alreadyShown="+alreadyShown);
+
+        // final DrawnStroke[] strokes = DrawnStroke.loadFromIntent(getIntent());
+
+        // String[] matches = getIntent().getStringArrayExtra(EXTRA_MATCHES);
+        HashSet<String> shown = new HashSet<String>(Arrays.asList(alreadyShown));
+        //int startFrom = getIntent().getIntExtra(EXTRA_STARTFROM, 0);
+        int startFrom = 0;
+        // int label = getIntent().getIntExtra(EXTRA_LABEL, 0);
+        // int otherLabel = getIntent().getIntExtra(EXTRA_OTHERLABEL, 0);
+        // boolean showMore = getIntent().getBooleanExtra(EXTRA_SHOWMORE, false);
+        boolean showMore = false; // For now, this is always false. - FB
+        // final KanjiInfo.MatchAlgorithm algo =
+        //  KanjiInfo.MatchAlgorithm.valueOf(getIntent().getStringExtra(EXTRA_ALGO));
+
+        // setTitle(getString(label).replace("#", strokes.length + ""));
+        // setContentView(showMore ? R.layout.moreresults : R.layout.topresults);
+        // ((Button)findViewById(R.id.other)).setText(getString(otherLabel));
+
+        int[] ids = new int[TOP_COUNT];
+        //int[] ids = new int[showMore ? MORE_COUNT : TOP_COUNT];
+        System.arraycopy(ALL_IDS, 0, ids, 0, ids.length);
+
+        int index = -startFrom;
+        int buttonIndex = 0;
+        for (int match = 0; match < matches.length; match++)  {
+            // Skip matches we already showed
+            if (shown.contains(matches[match]))
+                continue;
+
+            // See if this is one to draw
+            if(index >= 0) {
+                Button button = (Button)findViewById(ids[buttonIndex++]);
+                button.setText(matches[match]);
+        //      final Intent data = new Intent();
+        //      final int ranking = match + 1;
+        //      data.putExtra(PickKanjiActivity.EXTRA_KANJI, matches[match]);
+        //      button.setOnClickListener(new OnClickListener()
+        //      {
+        //          @Override
+        //          public void onClick(View v)
+        //          {
+        //              setResult(RESULT_OK, data);
+
+        //              // If selected, report stats
+        //              SharedPreferences prefs =
+        //                  PreferenceManager.getDefaultSharedPreferences(
+        //                      TopResultsActivity.this);
+        //              if(prefs.getBoolean(MainActivity.PREF_REPORTSTATS, false))
+        //              {
+        //                  // If the user has a network connection, send stats
+        //                  ConnectivityManager cm = (ConnectivityManager) getSystemService(
+        //                      Context.CONNECTIVITY_SERVICE);
+        //                  if(cm != null && cm.getActiveNetworkInfo() != null
+        //                      && cm.getActiveNetworkInfo().isConnected())
+        //                  {
+        //                      StatsReporter.phoneHome(PickKanjiActivity.getKanjiInfo(strokes),
+        //                          data.getStringExtra(PickKanjiActivity.EXTRA_KANJI),
+        //                          algo, ranking, "leafdigital Kanji Draw 0.8", null);
+        //                  }
+        //              }
+
+        //              finish();
+        //          }
+        //      });
+
+                // Stop if we filled all the buttons
+                if(buttonIndex >= ids.length)
+                    break;
+            }
+
+            index++;
+        }
+
+        // Clear all the unused buttons
+        for (; buttonIndex<ids.length; buttonIndex++) {
+            Button button = (Button)findViewById(ids[buttonIndex]);
+            button.setText(" ");
+            button.setEnabled(false);
+        }
+
+        // Button button = (Button)findViewById(R.id.other);
+        // button.setOnClickListener(new OnClickListener()
+        // {
+        //  @Override
+        //  public void onClick(View v)
+        //  {
+        //      if(!PickKanjiActivity.tryMore(TopResultsActivity.this, getIntent()))
+        //      {
+        //          setResult(RESULT_OK);
+        //          finish();
+        //      }
+        //  }
+        // });
+    }
+
     /**
      * Called once the kanji list has been loaded so that it enables the button
      * if needed.
@@ -248,6 +363,7 @@ public class WritingProblemActivity extends AppCompatActivity {
                     int waitString, int labelString, int otherString, int stageCode,
                     boolean showMore, String[] alreadyShown) {
             this.activity = owner;
+            this.alreadyShown = alreadyShown;
             //dialog = new ProgressDialog(activity);
             //dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             //dialog.setMessage(activity.getString(waitString));
@@ -299,6 +415,7 @@ public class WritingProblemActivity extends AppCompatActivity {
                         }
                         //intent.putExtra(EXTRA_MATCHES, chars);
                         //activity.startActivityForResult(intent, 0);
+                        ((WritingProblemActivity)activity).initializeKanjiButtons(chars, alreadyShown);
                     }
                 });
             }
@@ -321,6 +438,7 @@ public class WritingProblemActivity extends AppCompatActivity {
         private Intent intent;
         private KanjiList.Progress progress;
         private Activity activity;
+        private String[] alreadyShown;
 
     }
 
