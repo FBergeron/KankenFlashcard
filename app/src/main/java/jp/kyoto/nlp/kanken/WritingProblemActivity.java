@@ -1,11 +1,14 @@
 package jp.kyoto.nlp.kanken;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -43,8 +46,13 @@ public class WritingProblemActivity extends AppCompatActivity {
         R.id.no7//, R.id.no8, R.id.no9, R.id.no10, R.id.no11, R.id.no12
     };
 
-    public void clearAnswer(android.view.View view) {
-        System.out.println("clear answer");
+    public void deleteKanji(android.view.View view) {
+        TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+        String origText = textViewWritingProblemUserAnswer.getText().toString();
+        if (origText.length() > 0) {
+            textViewWritingProblemUserAnswer.setText(origText.substring(0, origText.length() - 1));
+            findViewById(R.id.buttonDeleteKanji).setEnabled(textViewWritingProblemUserAnswer.getText().toString().length() > 0);
+        }
     }
 
     public void enterCharacter(android.view.View view) {
@@ -62,6 +70,21 @@ public class WritingProblemActivity extends AppCompatActivity {
     public void clearCanvas(android.view.View view) {
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.clear();
+
+        findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(false);
+        findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(false);
+        findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
+        findViewById(R.id.buttonShowOtherKanjis).setEnabled(false);
+
+        int[] ids = new int[TOP_COUNT];
+        //int[] ids = new int[showMore ? MORE_COUNT : TOP_COUNT];
+        System.arraycopy(ALL_IDS, 0, ids, 0, ids.length);
+       
+        for (int i = 0; i < ids.length; i++) {
+            Button button = (Button)findViewById(ids[i]);
+            button.setText("");
+            button.setEnabled(false);
+        }
     }
 
     public void showArticle(android.view.View view) {
@@ -74,23 +97,22 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
     
     public void validateAnswer(android.view.View view) {
-        // EditText editTextAnswer = (EditText)findViewById(R.id.editTextWritingProblemAnswer);
-        // String answer = editTextAnswer.getText().toString();
-        String answer = "";
+        TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+        String answer = textViewWritingProblemUserAnswer.getText().toString();
 
-        // if (answer.trim().equals("")) {
-        //     AlertDialog.Builder builder = new AlertDialog.Builder(WritingProblemActivity.this);
-        //     builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
-        //     .setMessage(getResources().getString(R.string.error_empty_answer_msg))
-        //     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-        //         public void onClick(DialogInterface dialog, int which) { 
-        //         }
-        //      })
-        //     .setIcon(android.R.drawable.ic_dialog_alert)
-        //     .setCancelable(true)
-        //     .show();
-        //     return;
-        // }
+        if (answer.trim().equals("")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(WritingProblemActivity.this);
+            builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
+            .setMessage(getResources().getString(R.string.error_empty_answer_msg))
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+             })
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setCancelable(true)
+            .show();
+            return;
+        }
 
         appl.getQuiz().validateAnswer(answer);
         
@@ -143,8 +165,9 @@ public class WritingProblemActivity extends AppCompatActivity {
                 @Override
                 public void strokes(DrawnStroke[] strokes) {
                     System.out.println("strokes="+strokes);
-                    //findViewById(R.id.undo).setEnabled(strokes.length > 0);
-                    //findViewById(R.id.clear).setEnabled(strokes.length > 0);
+                    findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(strokes.length > 0);
+                    findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(strokes.length > 0);
+                    findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(strokes.length > 0);
 
                     //boolean gotList;
                     //synchronized(listSynch) {
@@ -161,6 +184,9 @@ public class WritingProblemActivity extends AppCompatActivity {
                 }
             }
         );
+
+        clearCanvas(null);
+        findViewById(R.id.buttonDeleteKanji).setEnabled(false);
     }
 
     private void initializeKanjiButtons(String[] matches, String[] alreadyShown) {
@@ -196,39 +222,20 @@ public class WritingProblemActivity extends AppCompatActivity {
 
             // See if this is one to draw
             if(index >= 0) {
-                Button button = (Button)findViewById(ids[buttonIndex++]);
+                final Button button = (Button)findViewById(ids[buttonIndex++]);
                 button.setText(matches[match]);
-        //      final Intent data = new Intent();
-        //      final int ranking = match + 1;
-        //      data.putExtra(PickKanjiActivity.EXTRA_KANJI, matches[match]);
-        //      button.setOnClickListener(new OnClickListener()
-        //      {
-        //          @Override
-        //          public void onClick(View v)
-        //          {
-        //              setResult(RESULT_OK, data);
-
-        //              // If selected, report stats
-        //              SharedPreferences prefs =
-        //                  PreferenceManager.getDefaultSharedPreferences(
-        //                      TopResultsActivity.this);
-        //              if(prefs.getBoolean(MainActivity.PREF_REPORTSTATS, false))
-        //              {
-        //                  // If the user has a network connection, send stats
-        //                  ConnectivityManager cm = (ConnectivityManager) getSystemService(
-        //                      Context.CONNECTIVITY_SERVICE);
-        //                  if(cm != null && cm.getActiveNetworkInfo() != null
-        //                      && cm.getActiveNetworkInfo().isConnected())
-        //                  {
-        //                      StatsReporter.phoneHome(PickKanjiActivity.getKanjiInfo(strokes),
-        //                          data.getStringExtra(PickKanjiActivity.EXTRA_KANJI),
-        //                          algo, ranking, "leafdigital Kanji Draw 0.8", null);
-        //                  }
-        //              }
-
-        //              finish();
-        //          }
-        //      });
+                button.setEnabled(true);
+                button.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+                            textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                            findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                            clearCanvas(v);
+                        }
+                    }
+                );
 
                 // Stop if we filled all the buttons
                 if(buttonIndex >= ids.length)
@@ -245,19 +252,19 @@ public class WritingProblemActivity extends AppCompatActivity {
             button.setEnabled(false);
         }
 
-        // Button button = (Button)findViewById(R.id.other);
-        // button.setOnClickListener(new OnClickListener()
-        // {
-        //  @Override
-        //  public void onClick(View v)
-        //  {
-        //      if(!PickKanjiActivity.tryMore(TopResultsActivity.this, getIntent()))
-        //      {
-        //          setResult(RESULT_OK);
-        //          finish();
-        //      }
-        //  }
-        // });
+        Button button = (Button)findViewById(R.id.buttonShowOtherKanjis);
+        button.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("Show other kanjis.  Not implemented yet...");
+                    // if(!PickKanjiActivity.tryMore(TopResultsActivity.this, getIntent())) {
+                    //      setResult(RESULT_OK);
+                    //      finish();
+                    // }
+                 }
+            }
+        );
     }
 
     /**

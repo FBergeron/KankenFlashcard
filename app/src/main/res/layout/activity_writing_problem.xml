@@ -177,7 +177,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="150sp" />
+                            android:textSize="75sp" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -191,7 +191,7 @@
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1"
                                 android:text="語"
-                                android:textSize="60sp" />
+                                android:textSize="30sp" />
 
                             <Button
                                 android:id="@+id/no3"
@@ -199,7 +199,7 @@
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1"
                                 android:text="語"
-                                android:textSize="60sp" />
+                                android:textSize="30sp" />
 
                         </LinearLayout>
 
@@ -217,7 +217,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="20sp" />
 
                         <Button
                             android:id="@+id/no5"
@@ -225,7 +225,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="20sp" />
 
                         <Button
                             android:id="@+id/no6"
@@ -233,7 +233,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="20sp" />
 
                         <Button
                             android:id="@+id/no7"
@@ -241,7 +241,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -249,11 +249,11 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/other"
+                    android:id="@+id/buttonShowOtherKanjis"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="fuzzy" />
+                    android:text="@string/button_other_kanjis" />
 
 
             </LinearLayout>
@@ -273,17 +273,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/white"
-                android:textSize="24sp" />
+                android:textSize="48sp" />
 
             <Button
-                android:id="@+id/buttonClearAnswer"
+                android:id="@+id/buttonDeleteKanji"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginStart="6dp"
                 android:layout_weight="0"
-                android:onClick="clearAnswer"
-                android:text="@string/button_clear_answer" />
+                android:onClick="deleteKanji"
+                android:text="@string/button_delete_kanji" />
 
         </LinearLayout>
 
