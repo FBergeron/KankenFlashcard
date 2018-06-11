@@ -182,9 +182,11 @@ public class KanjiDrawing extends View
     {
         super(context, attrs);
         DisplayMetrics metrics = new DisplayMetrics();
-        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        density = metrics.density;
-        densityInt = metrics.densityDpi;
+        if (context instanceof Activity) {
+            ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            density = metrics.density;
+            densityInt = metrics.densityDpi;
+        }
     }
 
     public KanjiDrawing(Activity context)
