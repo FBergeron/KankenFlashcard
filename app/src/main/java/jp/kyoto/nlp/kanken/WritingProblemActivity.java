@@ -2,6 +2,7 @@ package jp.kyoto.nlp.kanken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -371,27 +372,26 @@ public class WritingProblemActivity extends AppCompatActivity {
                     boolean showMore, String[] alreadyShown) {
             this.activity = owner;
             this.alreadyShown = alreadyShown;
-            //dialog = new ProgressDialog(activity);
-            //dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            //dialog.setMessage(activity.getString(waitString));
-            //dialog.setCancelable(false);
-            //dialog.show();
-            //progress = new KanjiList.Progress() {
-            //    @Override
-            //    public void progress(final int done, final int max) {
-            //        activity.runOnUiThread(new Runnable() {
-            //            @Override
-            //            public void run() {
-            //                if(done == 0)
-            //                    dialog.setMax(max);
-            //                dialog.setProgress(done);
-            //            }
-            //        });
-            //    }
-            //};
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMessage(activity.getString(waitString));
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            progress = new KanjiList.Progress() {
+                @Override
+                public void progress(final int done, final int max) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(done == 0)
+                                progressDialog.setMax(max);
+                            progressDialog.setProgress(done);
+                        }
+                    });
+                }
+            };
             this.algo = algo;
 
-            // Build info
             info = getKanjiInfo(strokes);
 
             // Build intent
@@ -414,7 +414,7 @@ public class WritingProblemActivity extends AppCompatActivity {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //dialog.dismiss();
+                        progressDialog.dismiss();
                         String[] chars = new String[matches.length];
                         for(int i=0; i<matches.length; i++) {
                             chars[i] = matches[i].getKanji().getKanji();
@@ -431,7 +431,7 @@ public class WritingProblemActivity extends AppCompatActivity {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            // dialog.dismiss();
+                            progressDialog.dismiss();
                         }
                     });
                 }
@@ -440,7 +440,7 @@ public class WritingProblemActivity extends AppCompatActivity {
 
 
         private KanjiInfo info;
-        //private ProgressDialog dialog;
+        private ProgressDialog progressDialog;
         private KanjiInfo.MatchAlgorithm algo;
         private Intent intent;
         private KanjiList.Progress progress;
