@@ -190,11 +190,7 @@ public class WritingProblemActivity extends AppCompatActivity {
         findViewById(R.id.buttonDeleteKanji).setEnabled(false);
     }
 
-    private void initializeKanjiButtons(String[] matches, String[] alreadyShown) {
-        System.out.println("initializeKanjiButtons matches="+matches+ " alreadyShown="+alreadyShown);
-
-        // final DrawnStroke[] strokes = DrawnStroke.loadFromIntent(getIntent());
-
+    private void initializeKanjiButtons(String[] matches, String[] alreadyShown, DrawnStroke[] strokes) {
         // String[] matches = getIntent().getStringArrayExtra(EXTRA_MATCHES);
         HashSet<String> shown = new HashSet<String>(Arrays.asList(alreadyShown));
         //int startFrom = getIntent().getIntExtra(EXTRA_STARTFROM, 0);
@@ -206,7 +202,14 @@ public class WritingProblemActivity extends AppCompatActivity {
         // final KanjiInfo.MatchAlgorithm algo =
         //  KanjiInfo.MatchAlgorithm.valueOf(getIntent().getStringExtra(EXTRA_ALGO));
 
-        // setTitle(getString(label).replace("#", strokes.length + ""));
+        TextView textViewKanjiExactMatchTitle = (TextView)findViewById(R.id.textViewKanjiExactMatchTitle);
+        String strKanjiExactMatchTitle = null;
+        if (strokes.length == 1)
+            strKanjiExactMatchTitle = getResources().getString(R.string.label_exact_matches_1_stroke);
+        else
+            strKanjiExactMatchTitle = getResources().getString(R.string.label_exact_matches_n_strokes).replace("#", strokes.length + "");
+        System.out.println("title="+strKanjiExactMatchTitle);
+        textViewKanjiExactMatchTitle.setText(strKanjiExactMatchTitle);
         // setContentView(showMore ? R.layout.moreresults : R.layout.topresults);
         // ((Button)findViewById(R.id.other)).setText(getString(otherLabel));
 
@@ -372,6 +375,7 @@ public class WritingProblemActivity extends AppCompatActivity {
                     boolean showMore, String[] alreadyShown) {
             this.activity = owner;
             this.alreadyShown = alreadyShown;
+            this.strokes = strokes;
             progressDialog = new ProgressDialog(activity);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setMessage(activity.getString(waitString));
@@ -422,7 +426,7 @@ public class WritingProblemActivity extends AppCompatActivity {
                         }
                         //intent.putExtra(EXTRA_MATCHES, chars);
                         //activity.startActivityForResult(intent, 0);
-                        ((WritingProblemActivity)activity).initializeKanjiButtons(chars, alreadyShown);
+                        ((WritingProblemActivity)activity).initializeKanjiButtons(chars, alreadyShown, strokes);
                     }
                 });
             }
@@ -446,6 +450,7 @@ public class WritingProblemActivity extends AppCompatActivity {
         private KanjiList.Progress progress;
         private Activity activity;
         private String[] alreadyShown;
+        private DrawnStroke[] strokes;
 
     }
 
