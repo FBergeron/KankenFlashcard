@@ -6,27 +6,12 @@ import java.util.Iterator;
 
 class Quiz {
 
-    public Quiz(int level, HashSet<Problem.Topic> topics, Problem.Type type, int length) {
-        this.level = level;
-        this.topics = topics;
-        this.type = type;
+    public Quiz(int length) {
         this.length = length;
     }
 
-    public Quiz(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
-        this(level, topics, type, 3);
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public HashSet<Problem.Topic> getTopics() {
-        return topics;
-    }
-
-    public Problem.Type getType() {
-        return type;
+    public Quiz() {
+        this(3);
     }
 
     public int getLength() {
@@ -45,11 +30,8 @@ class Quiz {
     }
 
     public Problem getCurrentProblem() {
-        if (currentProblem == -1) {
-            Problem problem = ProblemStore.getInstance().getNextProblem(level, topics, type);
-            problems.add(problem);
+        if (currentProblem == -1)
             currentProblem++;
-        }
         return problems.get(currentProblem);
     }
     
@@ -57,14 +39,16 @@ class Quiz {
         if (currentProblem >= this.length - 1)
             return null;
 
-        Problem problem = ProblemStore.getInstance().getNextProblem(level, topics, type);
-        problems.add(problem);
         currentProblem++;
-        return problem;
+        return problems.get(currentProblem);
     }
 
     public Iterator<Problem> getProblems() {
         return problems.iterator();
+    }
+
+    public void setProblems(ArrayList<Problem> problems) {
+        this.problems = problems;
     }
 
     public Iterator<String> getAnswers() {
@@ -89,9 +73,6 @@ class Quiz {
         return rightAnswers.get(currentProblem);
     }
 
-    private int level;
-    private HashSet<Problem.Topic> topics;
-    private Problem.Type type;
     private int length;
 
     private int currentProblem = -1;

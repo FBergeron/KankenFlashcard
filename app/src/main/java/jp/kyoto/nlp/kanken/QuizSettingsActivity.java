@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +14,18 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 public class QuizSettingsActivity extends AppCompatActivity {
 
@@ -111,13 +122,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
         editor.commit();
 
         KankenApplication appl = KankenApplication.getInstance();
-        appl.startQuiz(level, quizTopics, type);
-        Problem currProb = appl.getQuiz().getCurrentProblem();
-
-        Intent problemActivity = (Problem.Type.READING.equals(currProb.getType()) ?
-                new Intent(QuizSettingsActivity.this, ReadingProblemActivity.class) :
-                new Intent(QuizSettingsActivity.this, WritingProblemActivity.class));
-        startActivity(problemActivity);
+        fetchProblems(level, quizTopics, type);
     }
 
     @Override
@@ -169,10 +174,162 @@ public class QuizSettingsActivity extends AppCompatActivity {
         textViewSelectedTopics.setText(str.toString());
     }
 
+    private void fetchProblems(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
+        System.out.println("fetchProblems level="+level+" topics="+topics+" type="+type);
+        URL getNextProblemsUrl = null;
+        try {
+            System.out.println("Retrieving problem batch...");
+
+            String delim = "";
+            StringBuffer topicsParam = new StringBuffer();
+            List<Problem.Topic> sortedTopics = new ArrayList<Problem.Topic>(topics);
+            Collections.sort(sortedTopics);
+            for (Problem.Topic topic : sortedTopics) {
+                topicsParam.append(delim);
+                topicsParam.append(topic.toString().toLowerCase());
+                delim = ",";
+            }
+
+            delim = "";
+            StringBuffer indices = new StringBuffer();
+            for (int i = 0; i < topics.size(); i++) {
+                indices.append(delim);
+                indices.append("0");
+                delim = ",";
+            }
+            
+            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?type=" + type.toString().toLowerCase() + "&level=" + (level + 1) + "&topics=" + topicsParam + "&indices=" + indices);
+            System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
+            new FetchProblemsTask().execute(getNextProblemsUrl);
+        }
+        catch(MalformedURLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void getNextProblem(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
+        System.out.println("getNextProblem level="+level+" topics="+topics+" type="+type);
+        URL getNextProblemsUrl = null;
+        try {
+            System.out.println("Retrieving problem batch...");
+
+            String delim = "";
+            StringBuffer topicsParam = new StringBuffer();
+            List<Problem.Topic> sortedTopics = new ArrayList<Problem.Topic>(topics);
+            Collections.sort(sortedTopics);
+            for (Problem.Topic topic : sortedTopics) {
+                topicsParam.append(delim);
+                topicsParam.append(topic.toString().toLowerCase());
+                delim = ",";
+            }
+
+            delim = "";
+            StringBuffer indices = new StringBuffer();
+            for (int i = 0; i < topics.size(); i++) {
+                indices.append(delim);
+                indices.append("0");
+                delim = ",";
+            }
+            
+            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?type=" + type.toString().toLowerCase() + "&level=" + (level + 1) + "&topics=" + topicsParam + "&indices=" + indices);
+            System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
+            new FetchProblemsTask().execute(getNextProblemsUrl);
+        }
+        catch(MalformedURLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    private class FetchProblemsTask extends AsyncTask {
+
+        protected Object doInBackground(Object... objs) {
+            System.out.println("doInBackground url="+objs);
+
+            JSONArray jsonProblems = null;
+            try {
+                JSONObject jsonResponse = Util.readJson((URL)objs[0]);
+                jsonProblems = jsonResponse.getJSONArray("problems");
+            }
+            catch(IOException e1) {
+                this.exception = e1;
+            }
+            catch(JSONException e2) {
+                this.exception = e2;
+            }
+
+            return jsonProblems;
+        }
+
+        protected void onPostExecute(Object obj) {
+            System.out.println("onPostExecute obj="+obj);
+
+            if (exception != null) {
+                System.out.println("An exception has occured: " + exception);
+                return;
+            }
+
+            ArrayList<Problem> problems = new ArrayList<Problem>(); 
+
+            JSONArray jsonProblems = (JSONArray)obj;
+            for (int i = 0; i < jsonProblems.length(); i++) {
+                try {
+                    JSONArray jsonProblem = jsonProblems.getJSONArray(i);
+                    String id = jsonProblem.getString(0);
+                    String statement = jsonProblem.getString(1);
+                    String rightAnswer = jsonProblem.getString(2);
+                    String articleUrl = jsonProblem.getString(3);
+                    String topic = jsonProblem.getString(4);
+                    String type = jsonProblem.getString(5);
+                    String level = jsonProblem.getString(6);
+
+                    System.out.println("id="+id);
+                    System.out.println("statement="+statement);
+                    System.out.println("rightAnswer="+rightAnswer);
+                    System.out.println("articleUrl="+articleUrl);
+                    System.out.println("topic="+topic);
+                    System.out.println("type="+type);
+                    System.out.println("level="+level);
+
+                    Problem problem = null;
+                    try {
+                        if (Problem.Type.READING.getLabelId().equals(type))
+                            problem = new ReadingProblem(id, Integer.parseInt(level), Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
+                        else
+                            problem = new WritingProblem(id, Integer.parseInt(level), Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
+                    }
+                    catch(NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                    if (problem != null)
+                        problems.add(problem);
+                }
+                catch(JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            KankenApplication appl = KankenApplication.getInstance();
+            appl.startQuiz();
+            Quiz quiz = appl.getQuiz();
+            quiz.setProblems(problems);
+            Problem currProb = quiz.getCurrentProblem();
+
+            Intent problemActivity = (Problem.Type.READING.equals(currProb.getType()) ?
+                    new Intent(QuizSettingsActivity.this, ReadingProblemActivity.class) :
+                    new Intent(QuizSettingsActivity.this, WritingProblemActivity.class));
+            startActivity(problemActivity);
+        }
+
+        private Exception exception;
+
+    }
+
     private String[] labelTopics;
     private boolean[] checkedTopics;
     private HashSet<Integer> selectedTopics = new HashSet<Integer>();
 
     private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
+
+    private static final String getNextProblemsBaseUrl = "http://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems.cgi";
 
 }

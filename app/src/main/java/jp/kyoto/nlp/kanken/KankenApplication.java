@@ -14,11 +14,10 @@ public class KankenApplication extends Application {
     public void onCreate() {
         super.onCreate();
         KankenApplication.instance = this;
-        ProblemStore.getInstance(); // Just to force database initialization.  Remove this later.
     }
 
-    public void startQuiz(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
-        quiz = new Quiz(level, topics, type);
+    public void startQuiz() {
+        quiz = new Quiz();
     }
 
     public Quiz getQuiz() {
