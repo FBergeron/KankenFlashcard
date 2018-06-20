@@ -24,8 +24,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class QuizSettingsActivity extends AppCompatActivity {
 
@@ -97,11 +99,30 @@ public class QuizSettingsActivity extends AppCompatActivity {
             return;    
         }
 
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
+        // Clear problemIndex values after 24-hours period.
+        // After that period, it's expected that the problem data has been updated with
+        // newer problems.
+        if (sharedPref.contains("ProblemIndexLastModif")) {
+            long problemIndexLastModifTime = sharedPref.getLong("ProblemIndexLastModif", 0);
+            if (problemIndexLastModifTime != 0) {
+                Date now = new Date();
+                if (TimeUnit.HOURS.convert(now.getTime() - problemIndexLastModifTime, TimeUnit.MILLISECONDS) >= 24) {
+                    for (String key : sharedPref.getAll().keySet()) {
+                        if (key.startsWith("ProblemIndex")) {
+                            editor.remove(key);
+                            System.out.println("Remove key=" + key);
+                        }
+                    }
+
+                }
+            }
+        }
+
         SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
-        int level = seekbarQuizLevel.getProgress();
+        int level = seekbarQuizLevel.getProgress() + 1;
         editor.putInt("QuizLevel", level); 
 
         StringBuffer strPrefTopics = new StringBuffer();
@@ -138,11 +159,11 @@ public class QuizSettingsActivity extends AppCompatActivity {
             labelTopics[i] = getResources().getString(labelId);
         }
 
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
 
         int prefLevel = sharedPref.getInt("QuizLevel", 1);
         SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
-        seekbarQuizLevel.setProgress(prefLevel);
+        seekbarQuizLevel.setProgress(prefLevel - 1);
 
         checkedTopics = new boolean[labelTopics.length];
 
@@ -190,15 +211,19 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 delim = ",";
             }
 
+            SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+            System.out.println("sharedPref0="+sharedPref.getAll());
             delim = "";
             StringBuffer indices = new StringBuffer();
-            for (int i = 0; i < topics.size(); i++) {
+            for (Problem.Topic topic : topics) {
                 indices.append(delim);
-                indices.append("0");
+                int problemIndex = sharedPref.getInt("ProblemIndex_" + type + "_" + topic + "_" + level, 0);   
+                System.out.println("prefkey=ProblemIndex_" + type + "_" + topic + "_" + level+ " problemIndex="+problemIndex);
+                indices.append("" + problemIndex);
                 delim = ",";
             }
             
-            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?type=" + type.toString().toLowerCase() + "&level=" + (level + 1) + "&topics=" + topicsParam + "&indices=" + indices);
+            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?type=" + type.toString().toLowerCase() + "&level=" + level + "&topics=" + topicsParam + "&indices=" + indices);
             System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
             new FetchProblemsTask().execute(getNextProblemsUrl);
         }

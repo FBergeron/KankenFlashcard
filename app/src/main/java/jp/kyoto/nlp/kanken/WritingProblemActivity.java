@@ -3,8 +3,10 @@ package jp.kyoto.nlp.kanken;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.leafdigital.kanji.android.MultiAssetInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -117,6 +120,18 @@ public class WritingProblemActivity extends AppCompatActivity {
 
         appl.getQuiz().validateAnswer(answer);
         
+        SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        System.out.println("sharedPref1="+sharedPref.getAll());
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Problem problem = appl.getQuiz().getCurrentProblem();
+        String prefKey = "ProblemIndex_" + problem.getType() + "_" + problem.getTopic() + "_" + problem.getLevel();
+        int problemIndex = sharedPref.getInt(prefKey, 0);   
+        editor.putInt(prefKey, problemIndex + 1);
+        Date now = new Date();
+        editor.putLong("ProblemIndexLastModif", now.getTime());
+        editor.commit();
+        System.out.println("Saving value=" + prefKey+ " value="+(problemIndex+1));
+
         Intent problemEvaluationActivity = new Intent(WritingProblemActivity.this, ProblemEvaluationActivity.class);
         startActivity(problemEvaluationActivity);
     }

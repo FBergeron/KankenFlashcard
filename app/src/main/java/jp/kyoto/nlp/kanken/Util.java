@@ -232,5 +232,7 @@ class Util {
         return chars;
     }
 
+    public static final String PREFS_GENERAL = "KankenAppPrefsGeneral";
+
 }
 
