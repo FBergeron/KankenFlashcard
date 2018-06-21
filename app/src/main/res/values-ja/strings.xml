@@ -50,4 +50,6 @@
     <string name="label_exact_matches_1_stroke">Exact matches (1 stroke)</string>
     <string name="label_exact_matches_n_strokes">Exact matches (# strokes)</string>
     <string name="label_inexact_matches">Inexact matches</string>
+    <string name="button_signout">サインアウト</string>
+    <string name="button_play">スタート</string>
 </resources>

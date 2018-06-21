@@ -161,6 +161,9 @@ public class WritingProblemActivity extends AppCompatActivity {
         String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
         textViewProblemInfoType.setText(strType);
 
+
+System.out.println("problem="+currProb.getStatement());
+
         StringBuffer stmt = new StringBuffer();
         stmt.append("<html>");
         stmt.append("<head>");
