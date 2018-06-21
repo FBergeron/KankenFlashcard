@@ -6,12 +6,14 @@ import java.util.Iterator;
 
 class Quiz {
 
+    public static final int DEFAULT_LENGTH = 5;
+
     public Quiz(int length) {
         this.length = length;
     }
 
     public Quiz() {
-        this(3);
+        this(DEFAULT_LENGTH);
     }
 
     public int getLength() {

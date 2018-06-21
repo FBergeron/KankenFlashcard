@@ -299,18 +299,23 @@ public class QuizSettingsActivity extends AppCompatActivity {
             for (int i = 0; i < jsonProblems.length(); i++) {
                 try {
                     JSONArray jsonProblem = jsonProblems.getJSONArray(i);
+System.out.println( "l="+jsonProblems.length() );
                     String id = jsonProblem.getString(0);
-                    String statement = jsonProblem.getString(1);
-                    String rightAnswer = jsonProblem.getString(2);
-                    String articleUrl = jsonProblem.getString(3);
-                    String topic = jsonProblem.getString(4);
-                    String type = jsonProblem.getString(5);
-                    String level = jsonProblem.getString(6);
+                    String juman = jsonProblem.getString(1);
+                    String statement = jsonProblem.getString(2);
+                    String rightAnswer = jsonProblem.getString(3);
+                    String articleUrl = jsonProblem.getString(4);
+                    int isLinkAlive = jsonProblem.getInt(5);
+                    String topic = jsonProblem.getString(6);
+                    String type = jsonProblem.getString(7);
+                    int level = jsonProblem.getInt(8);
 
                     System.out.println("id="+id);
+                    System.out.println("juman="+juman);
                     System.out.println("statement="+statement);
                     System.out.println("rightAnswer="+rightAnswer);
                     System.out.println("articleUrl="+articleUrl);
+                    System.out.println("isLinkAlive="+isLinkAlive);
                     System.out.println("topic="+topic);
                     System.out.println("type="+type);
                     System.out.println("level="+level);
@@ -318,9 +323,9 @@ public class QuizSettingsActivity extends AppCompatActivity {
                     Problem problem = null;
                     try {
                         if (Problem.Type.READING.getLabelId().equals(type))
-                            problem = new ReadingProblem(id, Integer.parseInt(level), Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
+                            problem = new ReadingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
                         else
-                            problem = new WritingProblem(id, Integer.parseInt(level), Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
+                            problem = new WritingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
                     }
                     catch(NumberFormatException e) {
                         e.printStackTrace();

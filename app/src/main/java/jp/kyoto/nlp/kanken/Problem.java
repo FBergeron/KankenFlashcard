@@ -7,13 +7,11 @@ abstract class Problem {
     public enum Topic {
         BUSINESS("business"),
         CULTURE_ARTS("culture_arts"),
-        EDUCATION_LEARNING("education_learning"),
         HEALTH_MEDICINE("health_medicine"),
         HOME_LIVING("home_living"),
         POLITICS("politics"),
-        SCIENCE_TECHNOLOGY("science_technology"),
+        SCIENCE_EDUCATION("science_education"),
         SPORTS("sports"),
-        TRANSPORTATION("transportation"),
         OTHER("other");
 
         Topic(String labelId) {
@@ -32,14 +30,12 @@ abstract class Problem {
             topicsByJapStr = new HashMap<String, Problem.Topic>();
             topicsByJapStr.put("ビジネス", Problem.Topic.BUSINESS);
             topicsByJapStr.put("文化・芸術", Problem.Topic.CULTURE_ARTS);
-            topicsByJapStr.put("教育・学習", Problem.Topic.EDUCATION_LEARNING);
             topicsByJapStr.put("健康・医学", Problem.Topic.HEALTH_MEDICINE);
             topicsByJapStr.put("家庭・暮らし", Problem.Topic.HOME_LIVING);
             topicsByJapStr.put("政治", Problem.Topic.POLITICS);
-            topicsByJapStr.put("科学・技術", Problem.Topic.SCIENCE_TECHNOLOGY);
+            topicsByJapStr.put("科学・教育", Problem.Topic.SCIENCE_EDUCATION);
             topicsByJapStr.put("スポーツ", Problem.Topic.SPORTS);
-            topicsByJapStr.put("交通", Problem.Topic.TRANSPORTATION);
-            topicsByJapStr.put("null", Problem.Topic.OTHER);
+            topicsByJapStr.put("無し", Problem.Topic.OTHER);
         }
         return topicsByJapStr.get(str);
     }
