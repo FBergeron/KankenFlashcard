@@ -1,6 +1,7 @@
 package jp.kyoto.nlp.kanken;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -27,7 +30,12 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     }
 
     public void signOut(android.view.View view) {
-        System.out.println("signOut");
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                updateUI(false);
+            }
+        });
     }
 
     @Override
@@ -63,7 +71,10 @@ System.out.println( "isSuccess="+result.isSuccess() );
              GoogleSignInAccount account = result.getSignInAccount();
              String name = account.getDisplayName();
              String email = account.getEmail();
-             String pictureUrl = account.getPhotoUrl().toString();
+             Uri pictureUrl = account.getPhotoUrl();
+             System.out.println("name="+name);
+             System.out.println("email="+email);
+             System.out.println("pictureUrl="+pictureUrl);
              textViewUserName.setText(name);
              textViewUserEmail.setText(email);
              Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
