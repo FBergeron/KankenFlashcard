@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -46,7 +47,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
-
         buttonSignIn.setOnClickListener(
             new View.OnClickListener() {
                 public void onClick(View v) {
@@ -59,16 +59,16 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     private void handleResult(GoogleSignInResult result) {
 System.out.println( "isSuccess="+result.isSuccess() );        
-        // if (result.isSuccess()) {
-        //     GoogleSignInAccount account = result.getSignInAccount();
-        //     String name = account.getDisplayName();
-        //     String email = account.getEmail();
-        //     // String pictureUrl = account.getPhotoUrl();
-        //     textViewUserName.setText(name);
-        //     textViewUserEmail.setText(email);
-        //     // Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
-        //     updateUI(true);
-        // }
+        if (result.isSuccess()) {
+             GoogleSignInAccount account = result.getSignInAccount();
+             String name = account.getDisplayName();
+             String email = account.getEmail();
+             String pictureUrl = account.getPhotoUrl().toString();
+             textViewUserName.setText(name);
+             textViewUserEmail.setText(email);
+             Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
+             updateUI(true);
+        }
         // else
         //     updateUI(false);
     }
