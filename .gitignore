@@ -46,3 +46,4 @@ obj/
 /captures
 .externalNativeBuild
 tags
+app/client_secret*.json
