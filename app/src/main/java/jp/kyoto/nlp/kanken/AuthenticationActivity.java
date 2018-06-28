@@ -49,8 +49,10 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         textViewUserName = (TextView)findViewById(R.id.textViewUserName);
         textViewUserEmail = (TextView)findViewById(R.id.textViewUserEmail);
         imageViewUserPicture = (ImageView)findViewById(R.id.imageViewUserPicture);
+        textViewAuthenticationInfoTitle = (TextView)findViewById(R.id.textViewAuthenticationInfoTitle);
+        textViewAuthenticationInfo = (TextView)findViewById(R.id.textViewAuthenticationInfo);
 
-        // layoutUserInfo.setVisibility(View.GONE);
+        layoutUserInfo.setVisibility(View.GONE);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
@@ -66,7 +68,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     }
 
     private void handleResult(GoogleSignInResult result) {
-System.out.println( "isSuccess="+result.isSuccess() );        
         if (result.isSuccess()) {
              GoogleSignInAccount account = result.getSignInAccount();
              String name = account.getDisplayName();
@@ -80,29 +81,30 @@ System.out.println( "isSuccess="+result.isSuccess() );
              Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
              updateUI(true);
         }
-        // else
-        //     updateUI(false);
+        else
+            updateUI(false);
     }
 
     private void updateUI(boolean isAuthenticated) {
         if (isAuthenticated) {
             layoutUserInfo.setVisibility(View.VISIBLE);
             buttonSignIn.setVisibility(View.GONE);
+            textViewAuthenticationInfoTitle.setVisibility(View.GONE);
+            textViewAuthenticationInfo.setVisibility(View.GONE);
         }
         else {
             layoutUserInfo.setVisibility(View.GONE);
             buttonSignIn.setVisibility(View.VISIBLE);
+            textViewAuthenticationInfoTitle.setVisibility(View.VISIBLE);
+            textViewAuthenticationInfo.setVisibility(View.VISIBLE);
         }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-System.out.println( "onActivityResult requestCode="+requestCode+ " resultCode="+resultCode + " data="+data );
 
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-System.out.println( "result="+result );
-
             handleResult(result);
         }
     }
@@ -113,6 +115,8 @@ System.out.println( "result="+result );
     private TextView textViewUserName;
     private TextView textViewUserEmail;
     private ImageView imageViewUserPicture;
+    private TextView textViewAuthenticationInfoTitle;
+    private TextView textViewAuthenticationInfo;
 
     private GoogleApiClient googleApiClient;
 

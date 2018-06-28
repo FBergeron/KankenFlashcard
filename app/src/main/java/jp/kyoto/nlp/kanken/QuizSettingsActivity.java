@@ -299,7 +299,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
             for (int i = 0; i < jsonProblems.length(); i++) {
                 try {
                     JSONArray jsonProblem = jsonProblems.getJSONArray(i);
-System.out.println( "l="+jsonProblems.length() );
                     String id = jsonProblem.getString(0);
                     String juman = jsonProblem.getString(1);
                     String statement = jsonProblem.getString(2);
@@ -310,15 +309,15 @@ System.out.println( "l="+jsonProblems.length() );
                     String type = jsonProblem.getString(7);
                     int level = jsonProblem.getInt(8);
 
-                    System.out.println("id="+id);
-                    System.out.println("juman="+juman);
-                    System.out.println("statement="+statement);
-                    System.out.println("rightAnswer="+rightAnswer);
-                    System.out.println("articleUrl="+articleUrl);
-                    System.out.println("isLinkAlive="+isLinkAlive);
-                    System.out.println("topic="+topic);
-                    System.out.println("type="+type);
-                    System.out.println("level="+level);
+                    // System.out.println("id="+id);
+                    // System.out.println("juman="+juman);
+                    // System.out.println("statement="+statement);
+                    // System.out.println("rightAnswer="+rightAnswer);
+                    // System.out.println("articleUrl="+articleUrl);
+                    // System.out.println("isLinkAlive="+isLinkAlive);
+                    // System.out.println("topic="+topic);
+                    // System.out.println("type="+type);
+                    // System.out.println("level="+level);
 
                     Problem problem = null;
                     try {

@@ -52,4 +52,6 @@
     <string name="label_inexact_matches">Inexact matches</string>
     <string name="button_signout">サインアウト</string>
     <string name="button_play">スタート</string>
+    <string name="label_authentication_title">Important!</string>
+    <string name="label_authentication">You must authenticate yourself with your Google account before using the aplication. This is needed so that your personal progress data can be associated to your user when they are stored on the server.</string>
 </resources>
