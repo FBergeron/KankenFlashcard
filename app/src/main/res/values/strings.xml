@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Kanken Flashcard</string>
     <string name="welcome">Welcome to Kanken Quiz!</string>
-    <string name="button_start_quiz">Start</string>
+    <string name="button_start_quiz">Play</string>
     <string name="button_show_directions">Help</string>
     <string name="button_show_terms_of_usage">Terms of Usage</string>
     <string name="label_quiz_level">Difficulty Level</string>
