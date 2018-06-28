@@ -359,6 +359,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
     private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
 
-    private static final String getNextProblemsBaseUrl = "http://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems.cgi";
+    private static final String getNextProblemsBaseUrl = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems.cgi";
 
 }
