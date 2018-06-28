@@ -1,5 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -225,6 +226,12 @@ public class QuizSettingsActivity extends AppCompatActivity {
             
             getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?type=" + type.toString().toLowerCase() + "&level=" + level + "&topics=" + topicsParam + "&indices=" + indices);
             System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
+
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getResources().getString(R.string.label_fetching_quiz_data));
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
             new FetchProblemsTask().execute(getNextProblemsUrl);
         }
         catch(MalformedURLException e1) {
@@ -285,11 +292,15 @@ public class QuizSettingsActivity extends AppCompatActivity {
             return jsonProblems;
         }
 
-        protected void onPostExecute(Object obj) {
+        protected void onPostExecute(final Object obj) {
             System.out.println("onPostExecute obj="+obj);
 
             if (exception != null) {
                 System.out.println("An exception has occured: " + exception);
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
                 return;
             }
 
@@ -337,6 +348,11 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 }
             }
 
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+
             KankenApplication appl = KankenApplication.getInstance();
             appl.startQuiz();
             Quiz quiz = appl.getQuiz();
@@ -356,6 +372,8 @@ public class QuizSettingsActivity extends AppCompatActivity {
     private String[] labelTopics;
     private boolean[] checkedTopics;
     private HashSet<Integer> selectedTopics = new HashSet<Integer>();
+
+    private ProgressDialog progressDialog;
 
     private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
 
