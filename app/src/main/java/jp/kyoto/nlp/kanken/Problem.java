@@ -94,6 +94,10 @@ abstract class Problem {
         return articleUrl;
     }
 
+    public boolean isArticleLinkAlive() {
+        return isArticleLinkAlive;
+    }
+
     public String toString() {
         StringBuffer str = new StringBuffer();
         str.append("id: ").append(id);
@@ -103,6 +107,7 @@ abstract class Problem {
         str.append("; stmt: ").append(statement);
         str.append("; answer: ").append(rightAnswer);
         str.append("; articleUrl: ").append(articleUrl);
+        str.append("; isArticleLinkAlive: ").append(isArticleLinkAlive);
         return str.toString();
     }
 
@@ -116,5 +121,6 @@ abstract class Problem {
     protected String statement;
     protected String rightAnswer;
     protected String articleUrl;
+    protected boolean isArticleLinkAlive;
 
 }

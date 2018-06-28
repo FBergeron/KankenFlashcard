@@ -322,9 +322,9 @@ public class QuizSettingsActivity extends AppCompatActivity {
                     Problem problem = null;
                     try {
                         if (Problem.Type.READING.getLabelId().equals(type))
-                            problem = new ReadingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
+                            problem = new ReadingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl, isLinkAlive == 1);
                         else
-                            problem = new WritingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl);
+                            problem = new WritingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl, isLinkAlive == 1);
                     }
                     catch(NumberFormatException e) {
                         e.printStackTrace();

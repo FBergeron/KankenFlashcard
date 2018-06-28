@@ -2,13 +2,14 @@ package jp.kyoto.nlp.kanken;
 
 class ReadingProblem extends Problem {
 
-    public ReadingProblem(String id, int level, Problem.Topic topic, String statement, String rightAnswer, String articleUrl) {
+    public ReadingProblem(String id, int level, Problem.Topic topic, String statement, String rightAnswer, String articleUrl, boolean isArticleLinkAlive) {
         this.id = id;
         this.level = level;
         this.topic = topic;
         this.statement = statement;
         this.rightAnswer = rightAnswer;
         this.articleUrl = articleUrl;
+        this.isArticleLinkAlive = isArticleLinkAlive;
     }
 
     public Problem.Type getType() {

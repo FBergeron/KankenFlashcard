@@ -33,6 +33,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import static android.view.View.*;
+
 public class WritingProblemActivity extends AppCompatActivity {
 
     /**
@@ -161,9 +163,6 @@ public class WritingProblemActivity extends AppCompatActivity {
         String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
         textViewProblemInfoType.setText(strType);
 
-
-System.out.println("problem="+currProb.getStatement());
-
         StringBuffer stmt = new StringBuffer();
         stmt.append("<html>");
         stmt.append("<head>");
@@ -177,6 +176,9 @@ System.out.println("problem="+currProb.getStatement());
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewWritingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
+
+        Button buttonViewArticle = (Button)findViewById(R.id.buttonViewWritingProblemArticle);
+        buttonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? VISIBLE : GONE);
 
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.setListener(
@@ -248,7 +250,7 @@ System.out.println("problem="+currProb.getStatement());
                 button.setText(matches[match]);
                 button.setEnabled(true);
                 button.setOnClickListener(
-                    new View.OnClickListener() {
+                    new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
@@ -276,7 +278,7 @@ System.out.println("problem="+currProb.getStatement());
 
         Button button = (Button)findViewById(R.id.buttonShowOtherKanjis);
         button.setOnClickListener(
-            new View.OnClickListener() {
+            new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     System.out.println("Show other kanjis.  Not implemented yet...");
