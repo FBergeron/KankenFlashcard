@@ -311,7 +311,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 try {
                     JSONArray jsonProblem = jsonProblems.getJSONArray(i);
                     String id = jsonProblem.getString(0);
-                    String juman = jsonProblem.getString(1);
+                    String jumanInfo = jsonProblem.getString(1);
                     String statement = jsonProblem.getString(2);
                     String rightAnswer = jsonProblem.getString(3);
                     String articleUrl = jsonProblem.getString(4);
@@ -321,7 +321,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
                     int level = jsonProblem.getInt(8);
 
                     // System.out.println("id="+id);
-                    // System.out.println("juman="+juman);
+                    // System.out.println("jumanInfo="+jumanInfo);
                     // System.out.println("statement="+statement);
                     // System.out.println("rightAnswer="+rightAnswer);
                     // System.out.println("articleUrl="+articleUrl);
@@ -333,9 +333,9 @@ public class QuizSettingsActivity extends AppCompatActivity {
                     Problem problem = null;
                     try {
                         if (Problem.Type.READING.getLabelId().equals(type))
-                            problem = new ReadingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl, isLinkAlive == 1);
+                            problem = new ReadingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
                         else
-                            problem = new WritingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, rightAnswer, articleUrl, isLinkAlive == 1);
+                            problem = new WritingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
                     }
                     catch(NumberFormatException e) {
                         e.printStackTrace();

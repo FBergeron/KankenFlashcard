@@ -33,6 +33,9 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
+                appl.setUserName(null);
+                appl.setUserEmail(null);
+
                 updateUI(false);
             }
         });
@@ -69,20 +72,25 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     private void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-             GoogleSignInAccount account = result.getSignInAccount();
-             String name = account.getDisplayName();
-             String email = account.getEmail();
-             Uri pictureUrl = account.getPhotoUrl();
-             System.out.println("name="+name);
-             System.out.println("email="+email);
-             System.out.println("pictureUrl="+pictureUrl);
-             textViewUserName.setText(name);
-             textViewUserEmail.setText(email);
-             Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
-             updateUI(true);
+            GoogleSignInAccount account = result.getSignInAccount();
+            String name = account.getDisplayName();
+            String email = account.getEmail();
+            Uri pictureUrl = account.getPhotoUrl();
+            textViewUserName.setText(name);
+            textViewUserEmail.setText(email);
+           
+            appl.setUserName(name);
+            appl.setUserEmail(email);
+
+            Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
+            updateUI(true);
         }
-        else
+        else {
+            appl.setUserName(null);
+            appl.setUserEmail(null);
+
             updateUI(false);
+        }
     }
 
     private void updateUI(boolean isAuthenticated) {
@@ -119,6 +127,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private TextView textViewAuthenticationInfo;
 
     private GoogleApiClient googleApiClient;
+
+    private KankenApplication appl = KankenApplication.getInstance();
 
     private static final int REQ_CODE = 9001;
 

@@ -86,6 +86,10 @@ abstract class Problem {
         return statement;
     }
 
+    public String getJumanInfo() {
+        return jumanInfo;
+    }
+
     public String getRightAnswer() {
         return rightAnswer;
     }
@@ -119,6 +123,7 @@ abstract class Problem {
     protected int level;
     protected Problem.Topic topic;
     protected String statement;
+    protected String jumanInfo;
     protected String rightAnswer;
     protected String articleUrl;
     protected boolean isArticleLinkAlive;

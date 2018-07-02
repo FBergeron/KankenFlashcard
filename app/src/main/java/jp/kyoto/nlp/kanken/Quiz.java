@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 class Quiz {
 
-    public static final int DEFAULT_LENGTH = 5;
+    public static final int DEFAULT_LENGTH = 1;
 
     public Quiz(int length) {
         this.length = length;
@@ -57,6 +57,14 @@ class Quiz {
         return answers.iterator();
     }
 
+    public Iterator<Boolean> getRightAnswers() {
+        return rightAnswers.iterator();
+    }
+
+    public Iterator<Integer> getFamiliarities() {
+        return familiarities.iterator();
+    }
+
     public boolean validateAnswer(String answer) {
         answers.add(answer);
         if (answer != null && answer.equals(getCurrentProblem().getRightAnswer())) {
@@ -67,6 +75,10 @@ class Quiz {
             rightAnswers.add(Boolean.FALSE);
             return false;
         }
+    }
+
+    public void addFamiliarity(int familiarity) {
+        familiarities.add(new Integer(familiarity));
     }
 
     public Boolean isCurrentAnswerRight() {
@@ -82,5 +94,6 @@ class Quiz {
     private ArrayList<Problem> problems = new ArrayList<Problem>();
     private ArrayList<String> answers = new ArrayList<String>();
     private ArrayList<Boolean> rightAnswers = new ArrayList<Boolean>();
+    private ArrayList<Integer> familiarities = new ArrayList<Integer>();
 
 }
