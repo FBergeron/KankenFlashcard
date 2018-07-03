@@ -20,8 +20,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -144,7 +146,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
         editor.commit();
 
         KankenApplication appl = KankenApplication.getInstance();
-        fetchProblems(level, quizTopics, type);
+        fetchProblems(appl.getUserEmail(), level, quizTopics, type);
     }
 
     @Override
@@ -196,8 +198,8 @@ public class QuizSettingsActivity extends AppCompatActivity {
         textViewSelectedTopics.setText(str.toString());
     }
 
-    private void fetchProblems(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
-        System.out.println("fetchProblems level="+level+" topics="+topics+" type="+type);
+    private void fetchProblems(String userEmail, int level, HashSet<Problem.Topic> topics, Problem.Type type) {
+        System.out.println("fetchProblems userEmail="+userEmail+" level="+level+" topics="+topics+" type="+type);
         URL getNextProblemsUrl = null;
         try {
             System.out.println("Retrieving problem batch...");
@@ -212,19 +214,10 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 delim = ",";
             }
 
-            SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
-            System.out.println("sharedPref0="+sharedPref.getAll());
-            delim = "";
-            StringBuffer indices = new StringBuffer();
-            for (Problem.Topic topic : topics) {
-                indices.append(delim);
-                int problemIndex = sharedPref.getInt("ProblemIndex_" + type + "_" + topic + "_" + level, 0);   
-                System.out.println("prefkey=ProblemIndex_" + type + "_" + topic + "_" + level+ " problemIndex="+problemIndex);
-                indices.append("" + problemIndex);
-                delim = ",";
-            }
-            
-            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?type=" + type.toString().toLowerCase() + "&level=" + level + "&topics=" + topicsParam + "&indices=" + indices);
+            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?userEmail=" + URLEncoder.encode(userEmail, "UTF-8") +
+                "&type=" + URLEncoder.encode(type.toString().toLowerCase()) + 
+                "&level=" + URLEncoder.encode(level + "", "UTF-8") + 
+                "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
             System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
 
             progressDialog = new ProgressDialog(this);
@@ -236,6 +229,9 @@ public class QuizSettingsActivity extends AppCompatActivity {
         }
         catch(MalformedURLException e1) {
             e1.printStackTrace();
+        }
+        catch(UnsupportedEncodingException e2) {
+            e2.printStackTrace();
         }
     }
 
