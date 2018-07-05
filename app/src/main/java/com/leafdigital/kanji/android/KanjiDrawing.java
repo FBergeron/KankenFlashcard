@@ -35,7 +35,7 @@ public class KanjiDrawing extends View
      * use from getting out of hand; in memory, there are up to MAX_STROKES
      * copies of an alpha channel bitmap the size of the control.)
      */
-    public final static int MAX_STROKES = 30;
+    public final static int MAX_STROKES = 33;
 
     private final static float BLOB_RADIUS_DP = 2.5f;
 
@@ -222,8 +222,8 @@ public class KanjiDrawing extends View
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        // Ignore touch events if there are already 30 strokes
-        if(strokes.size() >= 30)
+        // Ignore touch events if the stoke limit is exceeded.
+        if(strokes.size() >= MAX_STROKES)
         {
             return true;
         }

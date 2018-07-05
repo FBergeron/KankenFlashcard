@@ -36,7 +36,8 @@
     <string name="button_delete_kanji">消す</string>
     <string name="button_enter_character">確認</string>
     <string name="button_delete_kana">消す</string>
-    <string name="button_other_kanjis">...</string>
+    <string name="button_prev_kanjis">▲</string>
+    <string name="button_next_kanjis">▼</string>
     <string name="label_problem_eval_title">解答結果</string>
     <string name="label_right_answer">正解</string>
     <string name="label_wrong_answer">不正解</string>
@@ -46,10 +47,7 @@
     <string name="label_difficult">難しい</string>
     <string name="label_summary_title">サマリー</string>
     <string name="button_leave_summary">戻る</string>
-    <string name="label_finding_exact_matches">Finding exact matches...</string>
-    <string name="label_exact_matches_1_stroke">Exact matches (1 stroke)</string>
-    <string name="label_exact_matches_n_strokes">Exact matches (# strokes)</string>
-    <string name="label_inexact_matches">Inexact matches</string>
+    <string name="label_finding_characters">Finding matching characters...</string>
     <string name="button_signout">サインアウト</string>
     <string name="button_play">スタート</string>
     <string name="label_authentication_title">Important!</string>

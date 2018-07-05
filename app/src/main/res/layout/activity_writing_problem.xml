@@ -152,17 +152,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutKanjiInputRight"
+                android:id="@+id/layoutKanjiInputRight_a"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textViewKanjiExactMatchTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -178,12 +172,12 @@
                         android:orientation="vertical">
 
                         <Button
-                            android:id="@+id/no1"
+                            android:id="@+id/no1_a"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="75sp" />
+                            android:textSize="100sp" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -192,20 +186,20 @@
                             android:orientation="horizontal">
 
                             <Button
-                                android:id="@+id/no2"
+                                android:id="@+id/no2_a"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1"
                                 android:text="語"
-                                android:textSize="30sp" />
+                                android:textSize="60sp" />
 
                             <Button
-                                android:id="@+id/no3"
+                                android:id="@+id/no3_a"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1"
                                 android:text="語"
-                                android:textSize="30sp" />
+                                android:textSize="60sp" />
 
                         </LinearLayout>
 
@@ -218,36 +212,36 @@
                         android:orientation="vertical">
 
                         <Button
-                            android:id="@+id/no4"
+                            android:id="@+id/no4_a"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="20sp" />
+                            android:textSize="40sp" />
 
                         <Button
-                            android:id="@+id/no5"
+                            android:id="@+id/no5_a"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="20sp" />
+                            android:textSize="40sp" />
 
                         <Button
-                            android:id="@+id/no6"
+                            android:id="@+id/no6_a"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="20sp" />
+                            android:textSize="40sp" />
 
                         <Button
-                            android:id="@+id/no7"
+                            android:id="@+id/no7_a"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="20sp" />
+                            android:textSize="40sp" />
 
                     </LinearLayout>
 
@@ -255,11 +249,165 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/buttonShowOtherKanjis"
+                    android:id="@+id/buttonShowNextPage_a"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/button_other_kanjis" />
+                    android:text="@string/button_next_kanjis" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutKanjiInputRight_b"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonShowPrevPage_b"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/button_prev_kanjis" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="8"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/no1_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no4_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no7_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no10_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/no2_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no5_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no8_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no11_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/no3_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no6_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no9_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                        <Button
+                            android:id="@+id/no12_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="40sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/buttonShowNextPage_b"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/button_next_kanjis" />
 
 
             </LinearLayout>

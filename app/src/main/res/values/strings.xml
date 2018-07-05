@@ -36,7 +36,8 @@
     <string name="button_clear_canvas">Clear</string>
     <string name="button_delete_kanji">Delete</string>
     <string name="button_enter_character">Done</string>
-    <string name="button_other_kanjis">...</string>
+    <string name="button_prev_kanjis">▲</string>
+    <string name="button_next_kanjis">▼</string>
     <string name="button_delete_kana">Delete</string>
     <string name="label_problem_eval_title">Evaluation</string>
     <string name="label_right_answer">Right!</string>
@@ -47,10 +48,7 @@
     <string name="label_difficult">Difficult</string>
     <string name="label_summary_title">Quiz Summary</string>
     <string name="button_leave_summary">Start another quiz</string>
-    <string name="label_finding_exact_matches">Finding exact matches...</string>
-    <string name="label_exact_matches_1_stroke">Exact matches (1 stroke)</string>
-    <string name="label_exact_matches_n_strokes">Exact matches (# strokes)</string>
-    <string name="label_inexact_matches">Inexact matches</string>
+    <string name="label_finding_characters">Finding matching characters...</string>
     <string name="button_signout">Sign out</string>
     <string name="button_play">Play</string>
     <string name="label_authentication_title">Important!</string>

@@ -27,27 +27,22 @@ import com.leafdigital.kanji.android.MultiAssetInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 import static android.view.View.*;
 
 public class WritingProblemActivity extends AppCompatActivity {
 
-    /**
-     * Number of kanji shown in top count page.
-     */
-    public final static int TOP_COUNT = 7;
+    private final static int[] ALL_IDS_a = {
+        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a, R.id.no7_a
+    };
 
-    // /**
-    //  * Number of kanji shown in more count page.
-    //  */
-    // public final static int MORE_COUNT = 12;
-
-    private final static int[] ALL_IDS = {
-        R.id.no1, R.id.no2, R.id.no3, R.id.no4, R.id.no5, R.id.no6,
-        R.id.no7//, R.id.no8, R.id.no9, R.id.no10, R.id.no11, R.id.no12
+    private final static int[] ALL_IDS_b = {
+        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b, R.id.no10_b, R.id.no11_b, R.id.no12_b
     };
 
     public void deleteKanji(android.view.View view) {
@@ -60,10 +55,9 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
 
     public void enterCharacter(android.view.View view) {
+        findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
-        new MatchThread(this, kanjiCanvas.getStrokes(), KanjiInfo.MatchAlgorithm.STRICT, R.string.label_finding_exact_matches, 
-            kanjiCanvas.getStrokes().length == 1 ? R.string.label_exact_matches_1_stroke : R.string.label_exact_matches_n_strokes, 
-                R.string.label_inexact_matches, STAGE_EXACT, false, new String[0]);
+        new MatchThread(this, kanjiCanvas.getStrokes(), R.string.label_finding_characters, true);
     }
 
     public void undoCanvas(android.view.View view) {
@@ -78,17 +72,19 @@ public class WritingProblemActivity extends AppCompatActivity {
         findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(false);
         findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(false);
         findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
-        findViewById(R.id.buttonShowOtherKanjis).setEnabled(false);
+        findViewById(R.id.buttonShowNextPage_a).setVisibility(GONE);
 
-        int[] ids = new int[TOP_COUNT];
-        //int[] ids = new int[showMore ? MORE_COUNT : TOP_COUNT];
-        System.arraycopy(ALL_IDS, 0, ids, 0, ids.length);
-       
-        for (int i = 0; i < ids.length; i++) {
-            Button button = (Button)findViewById(ids[i]);
+        layoutKanjiInputRight_a.setVisibility(VISIBLE);
+        layoutKanjiInputRight_b.setVisibility(GONE);
+
+        for (int i = 0; i < ALL_IDS_a.length; i++) {
+            Button button = (Button)findViewById(ALL_IDS_a[i]);
             button.setText("");
             button.setEnabled(false);
         }
+
+        kanjiPage = 0;
+        kanjis = null;
     }
 
     public void showArticle(android.view.View view) {
@@ -166,28 +162,20 @@ public class WritingProblemActivity extends AppCompatActivity {
         Button buttonViewArticle = (Button)findViewById(R.id.buttonViewWritingProblemArticle);
         buttonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? VISIBLE : GONE);
 
+        layoutKanjiInputRight_a = (LinearLayout)findViewById(R.id.layoutKanjiInputRight_a); 
+        layoutKanjiInputRight_a.setVisibility(VISIBLE);
+        layoutKanjiInputRight_b = (LinearLayout)findViewById(R.id.layoutKanjiInputRight_b); 
+        layoutKanjiInputRight_b.setVisibility(GONE);
+
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.setListener(
             new KanjiDrawing.Listener() {
                 @Override
                 public void strokes(DrawnStroke[] strokes) {
-                    System.out.println("strokes="+strokes);
+                    System.out.println("strokes="+strokes+" max="+KanjiDrawing.MAX_STROKES);
                     findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(strokes.length > 0);
                     findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(strokes.length > 0);
                     findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(strokes.length > 0);
-
-                    //boolean gotList;
-                    //synchronized(listSynch) {
-                    //    gotList = list != null;
-                    //}
-                    //findViewById(R.id.done).setEnabled(strokes.length > 0 && gotList);
-
-                    //TextView strokesText = (TextView)findViewById(R.id.strokes);
-                    //strokesText.setText(strokes.length + "");
-                    //if(strokes.length == KanjiDrawing.MAX_STROKES)
-                    //    strokesText.setTextColor(Color.RED);
-                    //else
-                    //    strokesText.setTextColor(normalRgb);
                 }
             }
         );
@@ -196,44 +184,15 @@ public class WritingProblemActivity extends AppCompatActivity {
         findViewById(R.id.buttonDeleteKanji).setEnabled(false);
     }
 
-    private void initializeKanjiButtons(String[] matches, String[] alreadyShown, DrawnStroke[] strokes) {
-        // String[] matches = getIntent().getStringArrayExtra(EXTRA_MATCHES);
-        HashSet<String> shown = new HashSet<String>(Arrays.asList(alreadyShown));
-        //int startFrom = getIntent().getIntExtra(EXTRA_STARTFROM, 0);
-        int startFrom = 0;
-        // int label = getIntent().getIntExtra(EXTRA_LABEL, 0);
-        // int otherLabel = getIntent().getIntExtra(EXTRA_OTHERLABEL, 0);
-        // boolean showMore = getIntent().getBooleanExtra(EXTRA_SHOWMORE, false);
-        boolean showMore = false; // For now, this is always false. - FB
-        // final KanjiInfo.MatchAlgorithm algo =
-        //  KanjiInfo.MatchAlgorithm.valueOf(getIntent().getStringExtra(EXTRA_ALGO));
+    private void initializeKanjiButtons() {
+        if (kanjiPage == 0) {
+            layoutKanjiInputRight_a.setVisibility(VISIBLE);
+            layoutKanjiInputRight_b.setVisibility(GONE);
 
-        TextView textViewKanjiExactMatchTitle = (TextView)findViewById(R.id.textViewKanjiExactMatchTitle);
-        String strKanjiExactMatchTitle = null;
-        if (strokes.length == 1)
-            strKanjiExactMatchTitle = getResources().getString(R.string.label_exact_matches_1_stroke);
-        else
-            strKanjiExactMatchTitle = getResources().getString(R.string.label_exact_matches_n_strokes).replace("#", strokes.length + "");
-        System.out.println("title="+strKanjiExactMatchTitle);
-        textViewKanjiExactMatchTitle.setText(strKanjiExactMatchTitle);
-        // setContentView(showMore ? R.layout.moreresults : R.layout.topresults);
-        // ((Button)findViewById(R.id.other)).setText(getString(otherLabel));
-
-        int[] ids = new int[TOP_COUNT];
-        //int[] ids = new int[showMore ? MORE_COUNT : TOP_COUNT];
-        System.arraycopy(ALL_IDS, 0, ids, 0, ids.length);
-
-        int index = -startFrom;
-        int buttonIndex = 0;
-        for (int match = 0; match < matches.length; match++)  {
-            // Skip matches we already showed
-            if (shown.contains(matches[match]))
-                continue;
-
-            // See if this is one to draw
-            if(index >= 0) {
-                final Button button = (Button)findViewById(ids[buttonIndex++]);
-                button.setText(matches[match]);
+            int k = 0;
+            while (k < ALL_IDS_a.length && k < kanjis.length) {
+                final Button button = (Button)findViewById(ALL_IDS_a[k]);
+                button.setText(kanjis[k]);
                 button.setEnabled(true);
                 button.setOnClickListener(
                     new OnClickListener() {
@@ -247,34 +206,90 @@ public class WritingProblemActivity extends AppCompatActivity {
                     }
                 );
 
-                // Stop if we filled all the buttons
-                if(buttonIndex >= ids.length)
-                    break;
+                k++;
+            }
+            while (k < ALL_IDS_a.length) {
+                Button button = (Button)findViewById(ALL_IDS_a[k]);
+                button.setText(" ");
+                button.setEnabled(false);
+                k++;
             }
 
-            index++;
-        }
-
-        // Clear all the unused buttons
-        for (; buttonIndex<ids.length; buttonIndex++) {
-            Button button = (Button)findViewById(ids[buttonIndex]);
-            button.setText(" ");
-            button.setEnabled(false);
-        }
-
-        Button button = (Button)findViewById(R.id.buttonShowOtherKanjis);
-        button.setOnClickListener(
-            new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("Show other kanjis.  Not implemented yet...");
-                    // if(!PickKanjiActivity.tryMore(TopResultsActivity.this, getIntent())) {
-                    //      setResult(RESULT_OK);
-                    //      finish();
-                    // }
-                 }
+            Button buttonNextPage = (Button)findViewById(R.id.buttonShowNextPage_a);
+            if (kanjis.length > 7) {
+                buttonNextPage.setVisibility(VISIBLE);
+                buttonNextPage.setOnClickListener(
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            kanjiPage++;
+                            initializeKanjiButtons();
+                         }
+                    }
+                );
             }
-        );
+            else
+                buttonNextPage.setVisibility(GONE);
+        }
+        else {
+            layoutKanjiInputRight_a.setVisibility(GONE);
+            layoutKanjiInputRight_b.setVisibility(VISIBLE);
+
+            int k = 12 * (kanjiPage - 1) + 7; 
+            int b = 0;
+            while (b < ALL_IDS_b.length && k < kanjis.length) {
+                final Button button = (Button)findViewById(ALL_IDS_b[b]);
+                button.setText(kanjis[k]);
+                button.setEnabled(true);
+                button.setOnClickListener(
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+                            textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                            findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                            clearCanvas(v);
+                        }
+                    }
+                );
+
+                b++;
+                k++;
+            }
+            while (b < ALL_IDS_b.length) {
+                Button button = (Button)findViewById(ALL_IDS_b[b]);
+                button.setText(" ");
+                button.setEnabled(false);
+                b++;
+            }
+            
+            Button buttonPrevPage = (Button)findViewById(R.id.buttonShowPrevPage_b);
+            buttonPrevPage.setVisibility(VISIBLE);
+            buttonPrevPage.setOnClickListener(
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        kanjiPage--;
+                        initializeKanjiButtons();
+                     }
+                }
+            );
+            Button buttonNextPage = (Button)findViewById(R.id.buttonShowNextPage_b);
+            if (kanjis.length > 12 * kanjiPage + 7) {
+                buttonNextPage.setVisibility(VISIBLE);
+                buttonNextPage.setOnClickListener(
+                    new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            kanjiPage++;
+                            initializeKanjiButtons();
+                         }
+                    }
+                );
+            }
+            else
+                buttonNextPage.setVisibility(GONE);
+        }
     }
 
     /**
@@ -284,7 +299,6 @@ public class WritingProblemActivity extends AppCompatActivity {
     private void loaded() {
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         DrawnStroke[] strokes = kanjiCanvas.getStrokes();
-        //findViewById(R.id.done).setEnabled(strokes.length > 0);
     }
 
     /**
@@ -295,11 +309,8 @@ public class WritingProblemActivity extends AppCompatActivity {
      */
     static KanjiInfo getKanjiInfo(DrawnStroke[] strokes) {
         KanjiInfo info = new KanjiInfo("?");
-        for(DrawnStroke stroke : strokes)
-        {
-            InputStroke inputStroke = new InputStroke(
-                stroke.getStartX(), stroke.getStartY(),
-                stroke.getEndX(), stroke.getEndY());
+        for(DrawnStroke stroke : strokes) {
+            InputStroke inputStroke = new InputStroke( stroke.getStartX(), stroke.getStartY(), stroke.getEndX(), stroke.getEndY());
             info.addStroke(inputStroke);
         }
         info.finish();
@@ -363,56 +374,23 @@ public class WritingProblemActivity extends AppCompatActivity {
    /**
      * Do the match on another thread.
      */
-    static class MatchThread extends Thread {
+    class MatchThread extends Thread {
 
         /**
          * @param owner Owning activity
-         * @param algo Algorithm to use to do match
          * @param waitString String (R.string) to display in wait dialog
-         * @param labelString String to use for activity label
-         * @param otherString String to use for 'nope not that' button
-         * @param stageCode Code to use for activity result
          * @param showMore Show more kanji (smaller grid)
-         * @param alreadyShown Array of kanji that were already shown so don't
          *   show them again
          */
-        MatchThread(Activity owner, DrawnStroke[] strokes, KanjiInfo.MatchAlgorithm algo,
-                    int waitString, int labelString, int otherString, int stageCode,
-                    boolean showMore, String[] alreadyShown) {
+        MatchThread(Activity owner, DrawnStroke[] strokes, int waitString, boolean showMore) {
             this.activity = owner;
-            this.alreadyShown = alreadyShown;
             this.strokes = strokes;
             progressDialog = new ProgressDialog(activity);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setMessage(activity.getString(waitString));
             progressDialog.setCancelable(false);
             progressDialog.show();
-            progress = new KanjiList.Progress() {
-                @Override
-                public void progress(final int done, final int max) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(done == 0)
-                                progressDialog.setMax(max);
-                            progressDialog.setProgress(done);
-                        }
-                    });
-                }
-            };
-            this.algo = algo;
 
             info = getKanjiInfo(strokes);
-
-            // Build intent
-            // intent = new Intent(activity, TopResultsActivity.class);
-            // intent.putExtra(EXTRA_LABEL, labelString);
-            // intent.putExtra(EXTRA_OTHERLABEL, otherString);
-            // intent.putExtra(EXTRA_SHOWMORE, showMore);
-            // intent.putExtra(EXTRA_ALREADYSHOWN, alreadyShown);
-            // intent.putExtra(EXTRA_STAGE, stageCode);
-            // intent.putExtra(EXTRA_ALGO, algo.toString());
-            // DrawnStroke.saveToIntent(intent, strokes);
 
             start();
         }
@@ -420,19 +398,86 @@ public class WritingProblemActivity extends AppCompatActivity {
         public void run() {
             boolean closedDialog = false;
             try {
-                final KanjiMatch[] matches = list.getTopMatches(info, algo, progress);
+                final KanjiMatch[] exactMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
+                final KanjiMatch[] fuzzyMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null);
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        String[] chars = new String[matches.length];
-                        for(int i=0; i<matches.length; i++) {
-                            chars[i] = matches[i].getKanji().getKanji();
-                            System.out.println("chars["+i+"]="+chars[i]);
+
+                        List<String> exactChars = new ArrayList<String>();
+                        List<Float> exactScores = new ArrayList<Float>();
+                        List<String> fuzzyChars = new ArrayList<String>();
+                        List<Float> fuzzyScores = new ArrayList<Float>();
+
+                        for (int i = 0; i < exactMatches.length; i++) {
+                            String kanji = exactMatches[i].getKanji().getKanji();
+                            float score = exactMatches[i].getScore();
+                            exactChars.add(kanji);
+                            exactScores.add(new Float(score));
                         }
-                        //intent.putExtra(EXTRA_MATCHES, chars);
-                        //activity.startActivityForResult(intent, 0);
-                        ((WritingProblemActivity)activity).initializeKanjiButtons(chars, alreadyShown, strokes);
+
+                        for (int i = 0; i < fuzzyMatches.length; i++) {
+                            String kanji = fuzzyMatches[i].getKanji().getKanji();
+                            float score = fuzzyMatches[i].getScore();
+                            fuzzyChars.add(kanji);
+                            fuzzyScores.add(score);
+                        }
+
+                        // Trace 1.
+                        int c = 0;
+                        while (c < exactChars.size() && c < fuzzyChars.size()) {
+                            System.out.println("c="+c+" EXACT="+exactChars.get(c)+" ("+exactScores.get(c)+")   FUZZY="+fuzzyChars.get(c)+" ("+fuzzyScores.get(c)+")");
+                            c++;
+                        }
+                        while (c < exactChars.size()) {
+                            System.out.println("c="+c+" EXACT="+exactChars.get(c)+" ("+exactScores.get(c));
+                            c++;
+                        }
+                        while (c < fuzzyChars.size()) {
+                            System.out.println("c="+c+"                  FUZZY="+fuzzyChars.get(c)+" ("+fuzzyScores.get(c)+")");
+                            c++;
+                        }
+
+                        List<String> mixedChars = new ArrayList<String>();
+                        List<Float> mixedScores = new ArrayList<Float>();
+
+                        int i = 0;
+                        while (i < exactChars.size() && i < fuzzyChars.size()) {
+                            String exactKanji = exactChars.get(i);
+                            if (!mixedChars.contains(exactKanji))
+                                mixedChars.add(exactKanji);
+                            
+                            String fuzzyKanji = fuzzyChars.get(i);
+                            if (!mixedChars.contains(fuzzyKanji))
+                                mixedChars.add(fuzzyKanji);
+
+                            i++;
+                        }
+                        if (i >= exactChars.size()) {
+                            while (i < fuzzyChars.size()) {
+                                String fuzzyKanji = fuzzyChars.get(i);
+                                if (!mixedChars.contains(fuzzyKanji))
+                                    mixedChars.add(fuzzyKanji);
+                                i++;
+                            }
+                        }
+                        else {
+                            while (i < exactChars.size()) {
+                                String exactKanji = exactChars.get(i);
+                                if (!mixedChars.contains(exactKanji))
+                                    mixedChars.add(exactKanji);
+                                i++;
+                            }
+                        }
+               
+                        kanjis = mixedChars.toArray(new String[mixedChars.size()]);
+
+                        // Trace 2.
+                        for (int m = 0; m < kanjis.length; m++)
+                            System.out.println("m="+m+" MIXED="+kanjis[m]);
+
+                        ((WritingProblemActivity)activity).initializeKanjiButtons();
                     }
                 });
             }
@@ -448,30 +493,24 @@ public class WritingProblemActivity extends AppCompatActivity {
             }
         }
 
-
         private KanjiInfo info;
         private ProgressDialog progressDialog;
-        private KanjiInfo.MatchAlgorithm algo;
-        private Intent intent;
-        private KanjiList.Progress progress;
         private Activity activity;
-        private String[] alreadyShown;
         private DrawnStroke[] strokes;
 
     }
 
-    KankenApplication appl = KankenApplication.getInstance();
+    private KankenApplication appl = KankenApplication.getInstance();
+
+    private LinearLayout layoutKanjiInputRight_a; 
+    private LinearLayout layoutKanjiInputRight_b; 
+
+    private int kanjiPage = 0;
+    private String[] kanjis;
 
     private static KanjiList list;
     private static boolean listLoading;
     private static LinkedList<WritingProblemActivity> waitingActivities = new LinkedList<WritingProblemActivity>();
     private static Object listSynch = new Object();
-
-    private final static int STAGE_EXACT = 1; 
-    private final static int STAGE_FUZZY = 2;
-    private final static int STAGE_MOREFUZZY = 3;
-    private final static int STAGE_PLUSMINUS1 = 4;
-    private final static int STAGE_MOREPLUSMINUS1 = 5;
-    private final static int STAGE_EVENMOREPLUSMINUS1 = 6;
 
 }
