@@ -72,6 +72,10 @@ class Quiz {
         return answers.iterator();
     }
 
+    public String getAnswer(int index) {
+        return answers.get(index);
+    }
+
     public Iterator<Boolean> getRightAnswers() {
         return rightAnswers.iterator();
     }

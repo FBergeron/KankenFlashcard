@@ -39,6 +39,9 @@
     <string name="button_prev_kanjis">▲</string>
     <string name="button_next_kanjis">▼</string>
     <string name="label_problem_eval_title">解答結果</string>
+    <string name="label_evaluation_problem">問題</string>
+    <string name="label_evaluation_answer">あなたの答え</string>
+    <string name="label_evaluation_right_answer">正しい答え</string>
     <string name="label_right_answer">正解</string>
     <string name="label_wrong_answer">不正解</string>
     <string name="button_report_error">間違えを申告する</string>

@@ -19,17 +19,104 @@
             android:text="@string/label_problem_eval_title" />
 
         <TextView
-            android:id="@+id/textViewEvaluationResult"
+            android:id="@+id/textViewProblemLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
+            android:text="@string/label_evaluation_problem" />
+
+        <WebView
+            android:id="@+id/webViewProblemStatement"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1">
+
+        </WebView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="6dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewAnswerLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/label_evaluation_answer"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textViewAnswerValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewAnswerRightLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/label_evaluation_right_answer"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textViewAnswerRightValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewEvaluationResultArrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:gravity="center"
+            android:text="⇓"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/textViewEvaluationResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="30dp"
             android:orientation="horizontal">
 
             <Space

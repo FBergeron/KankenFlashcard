@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -94,6 +95,30 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_evaluation);
+
+        Problem currProb = appl.getQuiz().getCurrentProblem();
+
+        StringBuffer stmt = new StringBuffer();
+        stmt.append("<html>");
+        stmt.append("<head>");
+        stmt.append("<style type\"text/css\">");
+        stmt.append("body { font-size: x-large;}");
+        stmt.append("em { color: red; font-weight: bold;}");
+        stmt.append("</style>");
+        stmt.append("</head>");
+        stmt.append("<body>" + currProb.getStatement().replace("[", "<em>").replace("]", "</em>")  + "</body>");
+        stmt.append("</html>");
+
+        WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
+        webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
+
+        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
+
+        TextView textViewAnswerValue = (TextView)findViewById(R.id.textViewAnswerValue);
+        textViewAnswerValue.setText(appl.getQuiz().getAnswer(currProbIndex));
+
+        TextView textViewAnswerRightValue = (TextView)findViewById(R.id.textViewAnswerRightValue);
+        textViewAnswerRightValue.setText(currProb.getRightAnswer());
 
         TextView textViewEvaluationResult = (TextView)findViewById(R.id.textViewEvaluationResult);
         if (appl.getQuiz().isCurrentAnswerRight()) {

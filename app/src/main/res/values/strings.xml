@@ -40,6 +40,9 @@
     <string name="button_next_kanjis">▼</string>
     <string name="button_delete_kana">Delete</string>
     <string name="label_problem_eval_title">Evaluation</string>
+    <string name="label_evaluation_problem">Problem</string>
+    <string name="label_evaluation_answer">Your answer</string>
+    <string name="label_evaluation_right_answer">The right answer</string>
     <string name="label_right_answer">Right!</string>
     <string name="label_wrong_answer">Wrong!</string>
     <string name="button_report_error">Mark the problem as incorrect</string>
