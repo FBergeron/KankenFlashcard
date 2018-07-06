@@ -1,19 +1,22 @@
 package jp.kyoto.nlp.kanken;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 class Quiz {
 
-    public static final int DEFAULT_LENGTH = 1;
+    public static final int DEFAULT_LENGTH = 5;
 
-    public Quiz(int length) {
+    public Quiz(Problem.Type type, Set<Problem.Topic> topics, int level, int length) {
+        this.type = type;
+        this.topics = topics;
+        this.level = level;
         this.length = length;
     }
 
-    public Quiz() {
-        this(DEFAULT_LENGTH);
+    public Quiz(Problem.Type type, Set<Problem.Topic> topics, int level) {
+        this(type, topics, level, DEFAULT_LENGTH);
     }
 
     public int getLength() {
@@ -25,6 +28,18 @@ class Quiz {
         answers.clear();
         rightAnswers.clear();
         currentProblem = -1;
+    }
+
+    public Problem.Type getType() {
+        return type;
+    }
+
+    public Set<Problem.Topic> getTopics() {
+        return topics;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public int getCurrentProblemIndex() {
@@ -90,6 +105,10 @@ class Quiz {
     private int length;
 
     private int currentProblem = -1;
+
+    private Problem.Type type;
+    private Set<Problem.Topic> topics;
+    private int level;
 
     private ArrayList<Problem> problems = new ArrayList<Problem>();
     private ArrayList<String> answers = new ArrayList<String>();

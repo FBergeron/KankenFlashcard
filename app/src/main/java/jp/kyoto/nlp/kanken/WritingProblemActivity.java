@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static android.view.View.*;
 
@@ -134,14 +137,21 @@ public class WritingProblemActivity extends AppCompatActivity {
         textViewProblemInfoLevel.setText(strLevel);
 
         TextView textViewProblemInfoTopic = (TextView)findViewById(R.id.textViewWritingProblemInfoTopic);
-        String strResName = "label_topic_" + currProb.getTopic().getLabelId();
-        int labelId = getResources().getIdentifier(strResName, "string", WritingProblemActivity.this.getPackageName());
-        String strTopic = String.format(getResources().getString(R.string.label_problem_info_topic), getResources().getString(labelId));
-        textViewProblemInfoTopic.setText(strTopic);
+        List<String> strTopics = new ArrayList<String>();
+        Set<Problem.Topic> topics = currProb.getTopics();
+        for (Problem.Topic topic : topics) {
+            String strResName = "label_topic_" + topic.getLabelId();
+            int labelId = getResources().getIdentifier(strResName, "string", WritingProblemActivity.this.getPackageName());
+
+            String strTopic = String.format(getResources().getString(R.string.label_problem_info_topic), getResources().getString(labelId));
+            strTopics.add(strTopic);
+        }
+        Collections.sort(strTopics);
+        textViewProblemInfoTopic.setText(TextUtils.join(",", strTopics));
 
         TextView textViewProblemInfoType = (TextView)findViewById(R.id.textViewWritingProblemInfoType);
-        strResName = "label_quiz_type_" + currProb.getType().getLabelId();
-        labelId = getResources().getIdentifier(strResName, "string", WritingProblemActivity.this.getPackageName());
+        String strResName = "label_quiz_type_" + currProb.getType().getLabelId();
+        int labelId = getResources().getIdentifier(strResName, "string", WritingProblemActivity.this.getPackageName());
         String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
         textViewProblemInfoType.setText(strType);
 

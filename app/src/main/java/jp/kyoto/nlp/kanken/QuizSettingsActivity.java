@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -84,7 +85,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
     }
 
     public void startQuiz(android.view.View view) {
-        HashSet<Problem.Topic> quizTopics = new HashSet<Problem.Topic>();
+        Set<Problem.Topic> quizTopics = new HashSet<Problem.Topic>();
         for (Integer selectedTopic : selectedTopics)
             quizTopics.add(Problem.Topic.values()[selectedTopic.intValue()]);
         
@@ -104,25 +105,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-
-        // Clear problemIndex values after 24-hours period.
-        // After that period, it's expected that the problem data has been updated with
-        // newer problems.
-        if (sharedPref.contains("ProblemIndexLastModif")) {
-            long problemIndexLastModifTime = sharedPref.getLong("ProblemIndexLastModif", 0);
-            if (problemIndexLastModifTime != 0) {
-                Date now = new Date();
-                if (TimeUnit.HOURS.convert(now.getTime() - problemIndexLastModifTime, TimeUnit.MILLISECONDS) >= 24) {
-                    for (String key : sharedPref.getAll().keySet()) {
-                        if (key.startsWith("ProblemIndex")) {
-                            editor.remove(key);
-                            System.out.println("Remove key=" + key);
-                        }
-                    }
-
-                }
-            }
-        }
 
         SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
         int level = seekbarQuizLevel.getProgress() + 1;
@@ -144,8 +126,9 @@ public class QuizSettingsActivity extends AppCompatActivity {
         editor.putString("QuizType", type.getLabelId());
 
         editor.commit();
+        
+        appl.startQuiz(type, quizTopics, level);
 
-        KankenApplication appl = KankenApplication.getInstance();
         fetchProblems(appl.getUserEmail(), level, quizTopics, type);
     }
 
@@ -184,6 +167,8 @@ public class QuizSettingsActivity extends AppCompatActivity {
             radioGroupQuizType.check(R.id.radioButtonQuizTypeReading);
         else
             radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
+
+        appl = KankenApplication.getInstance();
     }
 
     private void showSelectedTopics() {
@@ -198,7 +183,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
         textViewSelectedTopics.setText(str.toString());
     }
 
-    private void fetchProblems(String userEmail, int level, HashSet<Problem.Topic> topics, Problem.Type type) {
+    private void fetchProblems(String userEmail, int level, Set<Problem.Topic> topics, Problem.Type type) {
         System.out.println("fetchProblems userEmail="+userEmail+" level="+level+" topics="+topics+" type="+type);
         URL getNextProblemsUrl = null;
         try {
@@ -301,20 +286,22 @@ public class QuizSettingsActivity extends AppCompatActivity {
             }
 
             ArrayList<Problem> problems = new ArrayList<Problem>(); 
+            Quiz quiz = appl.getQuiz();
 
             JSONArray jsonProblems = (JSONArray)obj;
             for (int i = 0; i < jsonProblems.length(); i++) {
                 try {
-                    JSONArray jsonProblem = jsonProblems.getJSONArray(i);
+                    JSONArray jsonProblemData = jsonProblems.getJSONArray(i);
+
+                    JSONArray jsonProblem = jsonProblemData.getJSONArray(0);
+                    JSONArray jsonProblemTopics = jsonProblemData.getJSONArray(1);
+
                     String id = jsonProblem.getString(0);
                     String jumanInfo = jsonProblem.getString(1);
                     String statement = jsonProblem.getString(2);
                     String rightAnswer = jsonProblem.getString(3);
                     String articleUrl = jsonProblem.getString(4);
                     int isLinkAlive = jsonProblem.getInt(5);
-                    String topic = jsonProblem.getString(6);
-                    String type = jsonProblem.getString(7);
-                    int level = jsonProblem.getInt(8);
 
                     // System.out.println("id="+id);
                     // System.out.println("jumanInfo="+jumanInfo);
@@ -322,16 +309,20 @@ public class QuizSettingsActivity extends AppCompatActivity {
                     // System.out.println("rightAnswer="+rightAnswer);
                     // System.out.println("articleUrl="+articleUrl);
                     // System.out.println("isLinkAlive="+isLinkAlive);
-                    // System.out.println("topic="+topic);
-                    // System.out.println("type="+type);
-                    // System.out.println("level="+level);
+
+                    Set<Problem.Topic> topics = new HashSet<Problem.Topic>();
+                    for (int j = 0; j < jsonProblemTopics.length(); j++) {
+                        String topic = jsonProblemTopics.getString(j);
+                        topics.add(Problem.Topic.valueOf(topic.toUpperCase()));
+                    }
 
                     Problem problem = null;
                     try {
-                        if (Problem.Type.READING.getLabelId().equals(type))
-                            problem = new ReadingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
+                        //if (Problem.Type.READING.getLabelId().equals(type))
+                        if (Problem.Type.READING == quiz.getType())
+                            problem = new ReadingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
                         else
-                            problem = new WritingProblem(id, level, Problem.Topic.valueOf(topic.toUpperCase()), statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
+                            problem = new WritingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
                     }
                     catch(NumberFormatException e) {
                         e.printStackTrace();
@@ -349,9 +340,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 progressDialog = null;
             }
 
-            KankenApplication appl = KankenApplication.getInstance();
-            appl.startQuiz();
-            Quiz quiz = appl.getQuiz();
             quiz.setProblems(problems);
             Problem currProb = quiz.getCurrentProblem();
 
@@ -364,6 +352,8 @@ public class QuizSettingsActivity extends AppCompatActivity {
         private Exception exception;
 
     }
+
+    private KankenApplication appl;
 
     private String[] labelTopics;
     private boolean[] checkedTopics;

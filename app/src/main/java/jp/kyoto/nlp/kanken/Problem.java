@@ -1,6 +1,7 @@
 package jp.kyoto.nlp.kanken;
 
 import java.util.HashMap;
+import java.util.Set;
 
 abstract class Problem {
 
@@ -76,8 +77,8 @@ abstract class Problem {
         return level;
     }
 
-    public Problem.Topic getTopic() {
-        return topic;
+    public Set<Problem.Topic> getTopics() {
+        return topics;
     }
 
     public abstract Problem.Type getType();
@@ -106,7 +107,7 @@ abstract class Problem {
         StringBuffer str = new StringBuffer();
         str.append("id: ").append(id);
         str.append("; level: ").append(level);
-        str.append("; topic: ").append(topic.getLabelId());
+        str.append("; topics: ").append(topics);
         str.append("; type: ").append(getType().getLabelId());
         str.append("; stmt: ").append(statement);
         str.append("; answer: ").append(rightAnswer);
@@ -121,7 +122,7 @@ abstract class Problem {
 
     protected String id;
     protected int level;
-    protected Problem.Topic topic;
+    protected Set<Problem.Topic> topics;
     protected String statement;
     protected String jumanInfo;
     protected String rightAnswer;

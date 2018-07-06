@@ -1,6 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import android.app.Application;
 import android.content.Context;
@@ -16,8 +16,8 @@ public class KankenApplication extends Application {
         KankenApplication.instance = this;
     }
 
-    public void startQuiz() {
-        quiz = new Quiz();
+    public void startQuiz(Problem.Type type, Set<Problem.Topic> topics, int level) {
+        quiz = new Quiz(type, topics, level);
     }
 
     public Quiz getQuiz() {
