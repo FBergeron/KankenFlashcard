@@ -214,7 +214,7 @@ class Util {
         while (c < word.length()) {
             String foundKana = null;
             String subword;
-            if (c + 2 < word.length()) {
+            if (c + 2 <= word.length()) {
                 subword = word.substring(c, c + 2);
                 foundKana = Util.findKana(subword);
                 if (foundKana != null)
