@@ -57,7 +57,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
         layoutUserInfo.setVisibility(View.GONE);
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(clientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
         buttonSignIn.setOnClickListener(
@@ -75,6 +75,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             GoogleSignInAccount account = result.getSignInAccount();
             String name = account.getDisplayName();
             String email = account.getEmail();
+            String idToken = account.getIdToken();
+
             Uri pictureUrl = account.getPhotoUrl();
             textViewUserName.setText(name);
             textViewUserEmail.setText(email);
@@ -131,6 +133,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private KankenApplication appl = KankenApplication.getInstance();
 
     private static final int REQ_CODE = 9001;
+
+    private static final String clientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
