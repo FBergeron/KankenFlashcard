@@ -40,11 +40,20 @@ public class KankenApplication extends Application {
         this.userName = userName;
     }
 
+    public String getUserIdToken() {
+        return userIdToken;
+    }
+
+    public void setUserIdToken(String userIdToken) {
+        this.userIdToken = userIdToken;
+    }
+
     private static KankenApplication instance;
 
     private Quiz quiz;
 
     private String userName;
     private String userEmail;
+    private String userIdToken;
 
 }

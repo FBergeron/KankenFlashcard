@@ -43,9 +43,7 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
-                System.out.println("Just before execute!");
                 new SendResultsTask().execute(storeResultsUrl);
-                System.out.println("Just after execute!");
             }
             catch(MalformedURLException e1) {
                 e1.printStackTrace();

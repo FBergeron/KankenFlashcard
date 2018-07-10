@@ -1,7 +1,9 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +23,18 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringJoiner;
 
 public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -83,9 +97,25 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
            
             appl.setUserName(name);
             appl.setUserEmail(email);
+System.out.println( "idToken="+idToken );            
+            appl.setUserIdToken(idToken);
 
             Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
-            updateUI(true);
+
+            URL signInUrl = null;
+            try {
+                signInUrl = new URL(signInUrlStr);
+                
+                progressDialog = new ProgressDialog(this);
+                progressDialog.setMessage(getResources().getString(R.string.label_signing_in));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
+                new SignInTask().execute(signInUrl);
+            }
+            catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
         else {
             appl.setUserName(null);
@@ -119,6 +149,84 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         }
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    private class SignInTask extends AsyncTask {
+
+        protected Object doInBackground(Object... objs) {
+            URL signInUrl = (URL)objs[0];
+            try {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("idToken", appl.getUserIdToken());
+System.out.println( "idToken param="+appl.getUserIdToken() );                
+                
+                StringJoiner joiner = new StringJoiner("&");
+                for (Map.Entry<String, String> entry : params.entrySet())
+                    joiner.add(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
+                byte[] data = joiner.toString().getBytes("UTF-8");
+
+                HttpURLConnection con = (HttpURLConnection) signInUrl.openConnection();
+                con.setDoOutput(true);
+                con.setDoInput(true);
+                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                con.setRequestProperty("Accept", "application/json");
+                con.setRequestMethod("POST");
+                con.setFixedLengthStreamingMode(data.length);
+                con.connect();
+
+                OutputStream writer = con.getOutputStream();
+                writer.write(data);
+                writer.flush();
+                writer.close();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+System.out.println( "response="+response.toString() );
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(final Object obj) {
+            System.out.println("SignIn.onPostExecute obj="+obj);
+
+            if (exception != null) {
+                System.out.println("An exception has occured: " + exception);
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
+                return;
+            }
+
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+
+            updateUI(true);
+        }
+
+        private Exception exception;
+
+    }
+
     private LinearLayout layoutUserInfo;
     private Button buttonSignOut;
     private SignInButton buttonSignIn;
@@ -132,17 +240,12 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     private KankenApplication appl = KankenApplication.getInstance();
 
+    private ProgressDialog progressDialog;
+
     private static final int REQ_CODE = 9001;
 
     private static final String clientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
+   
+    private static final String signInUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/sign_in.cgi";
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
 }
