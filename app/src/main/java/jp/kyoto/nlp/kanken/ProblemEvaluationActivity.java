@@ -141,7 +141,7 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
             URL storeResultsUrl = (URL)objs[0];
             try {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("user", appl.getUserEmail());
+                //params.put("user", appl.getUserEmail());
 
                 int length = appl.getQuiz().getLength();
                 Iterator<Problem> itProblem = appl.getQuiz().getProblems();
@@ -171,6 +171,7 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
                 con.setDoInput(true);
                 con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                 con.setRequestProperty("Accept", "application/json");
+                con.setRequestProperty("Cookie", appl.getSessionCookie().toString());
                 con.setRequestMethod("POST");
                 con.setFixedLengthStreamingMode(data.length);
                 con.connect();
@@ -224,6 +225,6 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    private static final String storeResultsUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/store_results.cgi";
+    private static final String storeResultsUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/store_results_2.cgi";
 
 }
