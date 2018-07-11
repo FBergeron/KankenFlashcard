@@ -220,39 +220,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
         }
     }
 
-    public void getNextProblem(int level, HashSet<Problem.Topic> topics, Problem.Type type) {
-        System.out.println("getNextProblem level="+level+" topics="+topics+" type="+type);
-        URL getNextProblemsUrl = null;
-        try {
-            System.out.println("Retrieving problem batch...");
-
-            String delim = "";
-            StringBuffer topicsParam = new StringBuffer();
-            List<Problem.Topic> sortedTopics = new ArrayList<Problem.Topic>(topics);
-            Collections.sort(sortedTopics);
-            for (Problem.Topic topic : sortedTopics) {
-                topicsParam.append(delim);
-                topicsParam.append(topic.toString().toLowerCase());
-                delim = ",";
-            }
-
-            delim = "";
-            StringBuffer indices = new StringBuffer();
-            for (int i = 0; i < topics.size(); i++) {
-                indices.append(delim);
-                indices.append("0");
-                delim = ",";
-            }
-            
-            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?type=" + type.toString().toLowerCase() + "&level=" + (level + 1) + "&topics=" + topicsParam + "&indices=" + indices);
-            System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
-            new FetchProblemsTask().execute(getNextProblemsUrl);
-        }
-        catch(MalformedURLException e1) {
-            e1.printStackTrace();
-        }
-    }
-
     private class FetchProblemsTask extends AsyncTask {
 
         protected Object doInBackground(Object... objs) {

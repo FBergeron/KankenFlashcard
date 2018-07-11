@@ -49,6 +49,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             public void onResult(@NonNull Status status) {
                 appl.setUserName(null);
                 appl.setUserEmail(null);
+                appl.setUserIdToken(null);
+                appl.setSessionCookie(null);
 
                 updateUI(false);
             }
@@ -195,6 +197,8 @@ System.out.println( "idToken param="+appl.getUserIdToken() );
                 }
                 in.close();
 System.out.println( "response="+response.toString() );
+System.out.println( "cookie="+con.getHeaderFields().get("Set-Cookie"));
+                appl.setSessionCookie(con.getHeaderFields().get("Set-Cookie"));
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -246,6 +250,6 @@ System.out.println( "response="+response.toString() );
 
     private static final String clientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
    
-    private static final String signInUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/sign_in.cgi";
+    private static final String signInUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/sign_in_2.cgi";
 
 }
