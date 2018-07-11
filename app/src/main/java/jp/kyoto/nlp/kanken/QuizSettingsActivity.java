@@ -19,8 +19,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -199,8 +203,8 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 delim = ",";
             }
 
-            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + "?userEmail=" + URLEncoder.encode(userEmail, "UTF-8") +
-                "&type=" + URLEncoder.encode(type.toString().toLowerCase()) + 
+            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + 
+                "?type=" + URLEncoder.encode(type.toString().toLowerCase()) + 
                 "&level=" + URLEncoder.encode(level + "", "UTF-8") + 
                 "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
             System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
@@ -226,12 +230,30 @@ public class QuizSettingsActivity extends AppCompatActivity {
             System.out.println("doInBackground url="+objs);
 
             JSONArray jsonProblems = null;
+            URL getNextProblemsUrl = (URL)objs[0];
             try {
-                JSONObject jsonResponse = Util.readJson((URL)objs[0]);
+                HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
+                con.setRequestProperty("Accept", "application/json");
+System.out.println( "cookie as string="+appl.getSessionCookie());
+                con.setRequestProperty("Cookie", appl.getSessionCookie().toString());
+                con.setRequestMethod("GET");
+                con.connect();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+System.out.println( "response="+response.toString() );
+System.out.println( "cookie="+con.getHeaderFields().get("Set-Cookie"));
+            
+                JSONObject jsonResponse = new JSONObject(response.toString());
                 jsonProblems = jsonResponse.getJSONArray("problems");
             }
-            catch(IOException e1) {
-                this.exception = e1;
+            catch (IOException e) {
+                e.printStackTrace();
             }
             catch(JSONException e2) {
                 this.exception = e2;
@@ -330,6 +352,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
     private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
 
-    private static final String getNextProblemsBaseUrl = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems.cgi";
+    private static final String getNextProblemsBaseUrl = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems_2.cgi";
 
 }

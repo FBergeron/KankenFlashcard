@@ -33,6 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -197,8 +198,10 @@ System.out.println( "idToken param="+appl.getUserIdToken() );
                 }
                 in.close();
 System.out.println( "response="+response.toString() );
-System.out.println( "cookie="+con.getHeaderFields().get("Set-Cookie"));
-                appl.setSessionCookie(con.getHeaderFields().get("Set-Cookie"));
+System.out.println( "cookieHeaders="+con.getHeaderFields().get("Set-Cookie"));
+                List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
+System.out.println( "cookie first header="+cookieHeaders.get(0));
+                appl.setSessionCookie(cookieHeaders.get(0));
             }
             catch (IOException e) {
                 e.printStackTrace();

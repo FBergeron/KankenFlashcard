@@ -1,6 +1,5 @@
 package jp.kyoto.nlp.kanken;
 
-import java.util.List;
 import java.util.Set;
 
 import android.app.Application;
@@ -49,11 +48,11 @@ public class KankenApplication extends Application {
         this.userIdToken = userIdToken;
     }
 
-    public List<String> getSessionCookie() {
+    public String getSessionCookie() {
         return sessionCookie;
     }
 
-    public void setSessionCookie(List<String> sessionCookie) {
+    public void setSessionCookie(String sessionCookie) {
         this.sessionCookie = sessionCookie;
     }
 
@@ -64,6 +63,6 @@ public class KankenApplication extends Application {
     private String userName;
     private String userEmail;
     private String userIdToken;
-    private List<String> sessionCookie;
+    private String sessionCookie;
 
 }
