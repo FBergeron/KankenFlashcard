@@ -409,9 +409,41 @@ public class WritingProblemActivity extends AppCompatActivity {
         public void run() {
             boolean closedDialog = false;
             try {
+                final Quiz quiz = appl.getQuiz();
+                final Problem currProb = quiz.getCurrentProblem();
+                final String rightAnswer = currProb.getRightAnswer();
+
+                TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+                String answer = textViewWritingProblemUserAnswer.getText().toString();
+                final String rightChar = (answer.length() < rightAnswer.length() ? rightAnswer.charAt(answer.length()) + "" : null);
+
                 final KanjiMatch[] exactMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
-                final KanjiMatch[] fuzzyMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null);
-                final KanjiMatch[] fuzzierMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null);
+                boolean isRightKanjiFound = false;
+                if (rightChar != null) {
+                    // System.out.println("Looking in exactMatches exact.l=" + exactMatches.length);                    
+                    for (int i = 0; i < exactMatches.length; i++ ) {
+                        if (exactMatches[i].getKanji().getKanji().equals(rightChar)) {
+                            isRightKanjiFound = true;
+                            // System.out.println("Found! No need to compute fuzzy.");
+                            break;
+                        }
+                    }
+                }
+
+                final KanjiMatch[] fuzzyMatches = (isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null));
+                if (rightChar != null) {
+                    // System.out.println("Looking in fuzzyMatches fuzzy.l="+fuzzyMatches.length);
+                    for (int i = 0; i < fuzzyMatches.length; i++ ) {
+                        if (fuzzyMatches[i].getKanji().getKanji().equals(rightChar)) {
+                            isRightKanjiFound = true;
+                            // System.out.println("Found! No need to compute fuzzier.");
+                            break;
+                        }
+                    }
+                }
+
+                final KanjiMatch[] fuzzierMatches = (isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null));
+
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -445,7 +477,7 @@ public class WritingProblemActivity extends AppCompatActivity {
                             // fuzzierScores.add(score);
                         }
 
-                        // Trace 1.
+                        // Show the 3 kanji lists .
                         // int c = 0;
                         // while (c < exactChars.size() || c < fuzzyChars.size() || c < fuzzierChars.size()) {
                         //     StringBuilder line = new StringBuilder();
@@ -467,52 +499,33 @@ public class WritingProblemActivity extends AppCompatActivity {
 
                         List<String> mixedChars = new ArrayList<String>();
                         int i = 0;
-                        while (i < exactChars.size() && i < fuzzyChars.size() && i < fuzzierChars.size()) {
-                            String exactKanji = exactChars.get(i);
-                            if (!mixedChars.contains(exactKanji))
-                                mixedChars.add(exactKanji);
+                        while (i < exactChars.size() || i < fuzzyChars.size() || i < fuzzierChars.size()) {
+                            if (i < exactChars.size()) {
+                                String exactKanji = exactChars.get(i);
+                                if (!mixedChars.contains(exactKanji))
+                                    mixedChars.add(exactKanji);
+                            }
                             
-                            String fuzzyKanji = fuzzyChars.get(i);
-                            if (!mixedChars.contains(fuzzyKanji))
-                                mixedChars.add(fuzzyKanji);
+                            if (i < fuzzyChars.size()) {
+                                String fuzzyKanji = fuzzyChars.get(i);
+                                if (!mixedChars.contains(fuzzyKanji))
+                                    mixedChars.add(fuzzyKanji);
+                            }
 
-                            String fuzzierKanji = fuzzierChars.get(i);
-                            if (!mixedChars.contains(fuzzierKanji))
-                                mixedChars.add(fuzzierKanji);
+                            if (i < fuzzierChars.size()) {
+                                String fuzzierKanji = fuzzierChars.get(i);
+                                if (!mixedChars.contains(fuzzierKanji))
+                                    mixedChars.add(fuzzierKanji);
+                            }
 
-                            i++;
-                        }
-                        while (i < exactChars.size()) {
-                            String exactKanji = exactChars.get(i);
-                            if (!mixedChars.contains(exactKanji))
-                                mixedChars.add(exactKanji);
-                            i++;
-                        }
-                        while (i < fuzzyChars.size()) {
-                            String fuzzyKanji = fuzzyChars.get(i);
-                            if (!mixedChars.contains(fuzzyKanji))
-                                mixedChars.add(fuzzyKanji);
-                            i++;
-                        }
-                        while (i < fuzzierChars.size()) {
-                            String fuzzierKanji = fuzzierChars.get(i);
-                            if (!mixedChars.contains(fuzzierKanji))
-                                mixedChars.add(fuzzierKanji);
                             i++;
                         }
                
                         // For user's convenience, if the right kanji is in the list, bring it to the first page.
-                        Quiz quiz = appl.getQuiz();
-                        Problem currProb = quiz.getCurrentProblem();
-                        String rightAnswer = currProb.getRightAnswer();
-
-                        TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
-                        String answer = textViewWritingProblemUserAnswer.getText().toString();
-                        if (answer.length() < rightAnswer.length()) {
-                            String rightChar = rightAnswer.charAt(answer.length()) + "";
+                        if (rightChar != null) {
                             int indexOfRightChar = mixedChars.indexOf(rightChar);
                             // System.out.println("The right character " + rightChar + "'s index in the mixed chars is " + indexOfRightChar);
-                            if (indexOfRightChar != -1 && indexOfRightChar > 7) {
+                            if (indexOfRightChar != -1 && indexOfRightChar >= 7) {
                                 int newPos = rand.nextInt(6) + 1;
                                 mixedChars.remove(rightChar);
                                 mixedChars.add(newPos, rightChar);
@@ -522,10 +535,10 @@ public class WritingProblemActivity extends AppCompatActivity {
 
                         kanjis = mixedChars.toArray(new String[mixedChars.size()]);
 
-                        // Trace 2.
+                        // Show mixed kanji list.
                         // for (int m = 0; m < kanjis.length; m++)
                         // System.out.println("m="+m+" MIXED="+kanjis[m]);
-                        // System.out.println("index exact="+exactChars.indexOf(rightChar) + " fuzzy="+fuzzyChars.indexOf(rightChar)+" fuzzier="+fuzzierChars.indexOf(rightChar));
+                        // out.println("index exact="+exactChars.indexOf(rightChar) + " fuzzy="+fuzzyChars.indexOf(rightChar)+" fuzzier="+fuzzierChars.indexOf(rightChar));
 
                         ((WritingProblemActivity)activity).initializeKanjiButtons();
                     }
