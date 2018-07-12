@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Random;
 
 import static android.view.View.*;
 
@@ -450,7 +451,6 @@ public class WritingProblemActivity extends AppCompatActivity {
                         }
 
                         List<String> mixedChars = new ArrayList<String>();
-                        List<Float> mixedScores = new ArrayList<Float>();
 
                         int i = 0;
                         while (i < exactChars.size() && i < fuzzyChars.size()) {
@@ -481,11 +481,31 @@ public class WritingProblemActivity extends AppCompatActivity {
                             }
                         }
                
+                        // For user's convenience, if the right kanji is in the list, bring it to the first page.
+                        Quiz quiz = appl.getQuiz();
+                        Problem currProb = quiz.getCurrentProblem();
+                        String rightAnswer = currProb.getRightAnswer();
+
+                        TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+                        String answer = textViewWritingProblemUserAnswer.getText().toString();
+                        if (answer.length() < rightAnswer.length()) {
+                            String rightChar = rightAnswer.charAt(answer.length()) + "";
+                            int indexOfRightChar = mixedChars.indexOf(rightChar);
+                            System.out.println("The right character " + rightChar + "'s index in the mixed chars is " + indexOfRightChar);
+                            if (indexOfRightChar != -1 && indexOfRightChar > 7) {
+                                int newPos = rand.nextInt(6) + 1;
+                                mixedChars.remove(rightChar);
+                                mixedChars.add(newPos, rightChar);
+                                System.out.println("Let's move it to index=" + newPos);
+                            }
+                        }
+
                         kanjis = mixedChars.toArray(new String[mixedChars.size()]);
 
                         // Trace 2.
                         for (int m = 0; m < kanjis.length; m++)
                             System.out.println("m="+m+" MIXED="+kanjis[m]);
+
 
                         ((WritingProblemActivity)activity).initializeKanjiButtons();
                     }
@@ -522,5 +542,7 @@ public class WritingProblemActivity extends AppCompatActivity {
     private static boolean listLoading;
     private static LinkedList<WritingProblemActivity> waitingActivities = new LinkedList<WritingProblemActivity>();
     private static Object listSynch = new Object();
+
+    private Random rand = new Random();
 
 }
