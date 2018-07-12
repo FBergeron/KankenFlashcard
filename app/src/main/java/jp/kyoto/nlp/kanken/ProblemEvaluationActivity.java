@@ -225,6 +225,6 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    private static final String storeResultsUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/store_results_2.cgi";
+    private static final String storeResultsUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/store_results.cgi";
 
 }

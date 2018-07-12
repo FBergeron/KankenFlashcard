@@ -352,6 +352,6 @@ System.out.println( "cookie="+con.getHeaderFields().get("Set-Cookie"));
 
     private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
 
-    private static final String getNextProblemsBaseUrl = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems_2.cgi";
+    private static final String getNextProblemsBaseUrl = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems.cgi";
 
 }

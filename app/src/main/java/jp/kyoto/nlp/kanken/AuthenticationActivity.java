@@ -253,6 +253,6 @@ System.out.println( "cookie first header="+cookieHeaders.get(0));
 
     private static final String clientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
    
-    private static final String signInUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/sign_in_2.cgi";
+    private static final String signInUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/sign_in.cgi";
 
 }
