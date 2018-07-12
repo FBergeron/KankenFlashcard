@@ -36,7 +36,6 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
             URL storeResultsUrl = null;
             try {
                 storeResultsUrl = new URL(storeResultsUrlStr);
-                System.out.println("getStoreResultsUrl="+storeResultsUrl);
 
                 progressDialog = new ProgressDialog(this);
                 progressDialog.setMessage(getResources().getString(R.string.label_sending_results_data));
@@ -197,8 +196,6 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(final Object obj) {
-            System.out.println("SendResultsTask.onPostExecute obj="+obj);
-
             if (exception != null) {
                 System.out.println("An exception has occured: " + exception);
                 if (progressDialog != null) {

@@ -100,7 +100,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
            
             appl.setUserName(name);
             appl.setUserEmail(email);
-System.out.println( "idToken="+idToken );            
             appl.setUserIdToken(idToken);
 
             Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
@@ -169,7 +168,6 @@ System.out.println( "idToken="+idToken );
             try {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("idToken", appl.getUserIdToken());
-System.out.println( "idToken param="+appl.getUserIdToken() );                
                 
                 StringJoiner joiner = new StringJoiner("&");
                 for (Map.Entry<String, String> entry : params.entrySet())
@@ -197,10 +195,8 @@ System.out.println( "idToken param="+appl.getUserIdToken() );
                     response.append(inputLine);
                 }
                 in.close();
-System.out.println( "response="+response.toString() );
-System.out.println( "cookieHeaders="+con.getHeaderFields().get("Set-Cookie"));
                 List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
-System.out.println( "cookie first header="+cookieHeaders.get(0));
+                System.out.println( "cookie first header="+cookieHeaders.get(0));
                 appl.setSessionCookie(cookieHeaders.get(0));
             }
             catch (IOException e) {
@@ -211,8 +207,6 @@ System.out.println( "cookie first header="+cookieHeaders.get(0));
         }
 
         protected void onPostExecute(final Object obj) {
-            System.out.println("SignIn.onPostExecute obj="+obj);
-
             if (exception != null) {
                 System.out.println("An exception has occured: " + exception);
                 if (progressDialog != null) {

@@ -191,8 +191,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
         System.out.println("fetchProblems userEmail="+userEmail+" level="+level+" topics="+topics+" type="+type);
         URL getNextProblemsUrl = null;
         try {
-            System.out.println("Retrieving problem batch...");
-
             String delim = "";
             StringBuffer topicsParam = new StringBuffer();
             List<Problem.Topic> sortedTopics = new ArrayList<Problem.Topic>(topics);
@@ -207,7 +205,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 "?type=" + URLEncoder.encode(type.toString().toLowerCase()) + 
                 "&level=" + URLEncoder.encode(level + "", "UTF-8") + 
                 "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
-            System.out.println("getNextProblemsUrl="+getNextProblemsUrl);
 
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(getResources().getString(R.string.label_fetching_quiz_data));
@@ -227,14 +224,11 @@ public class QuizSettingsActivity extends AppCompatActivity {
     private class FetchProblemsTask extends AsyncTask {
 
         protected Object doInBackground(Object... objs) {
-            System.out.println("doInBackground url="+objs);
-
             JSONArray jsonProblems = null;
             URL getNextProblemsUrl = (URL)objs[0];
             try {
                 HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
                 con.setRequestProperty("Accept", "application/json");
-System.out.println( "cookie as string="+appl.getSessionCookie());
                 con.setRequestProperty("Cookie", appl.getSessionCookie().toString());
                 con.setRequestMethod("GET");
                 con.connect();
@@ -246,8 +240,6 @@ System.out.println( "cookie as string="+appl.getSessionCookie());
                     response.append(inputLine);
                 }
                 in.close();
-System.out.println( "response="+response.toString() );
-System.out.println( "cookie="+con.getHeaderFields().get("Set-Cookie"));
             
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 jsonProblems = jsonResponse.getJSONArray("problems");
@@ -263,8 +255,6 @@ System.out.println( "cookie="+con.getHeaderFields().get("Set-Cookie"));
         }
 
         protected void onPostExecute(final Object obj) {
-            System.out.println("onPostExecute obj="+obj);
-
             if (exception != null) {
                 System.out.println("An exception has occured: " + exception);
                 if (progressDialog != null) {
