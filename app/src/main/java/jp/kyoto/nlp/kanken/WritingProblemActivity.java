@@ -67,6 +67,9 @@ public class WritingProblemActivity extends AppCompatActivity {
     public void undoCanvas(android.view.View view) {
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.undo();
+        
+        kanjiPage = 0;
+        kanjis = null;
     }
 
     public void clearCanvas(android.view.View view) {
