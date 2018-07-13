@@ -56,14 +56,14 @@ public class QuizSummaryActivity extends AppCompatActivity {
                 strArticleLinkTd = "<td align=\"center\"><a target=\"_blank\" href=\"" + problem.getArticleUrl() + "\"><img width=\"32\" height=\"32\" src=\"view-article.svg\"/></a></td>";
             }
             String statementLabel = getResources().getString(R.string.label_summary_statement);
-            summary.append("<tr><th class=\"rotate\" rowspan=\"2\"><div>" + problemLabel + "</div></th><td class=\"label\">" + statementLabel + "</td><td colspan=\"" + strColspan + "\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>" + strArticleLinkTd + "</tr>");
+            summary.append("<tr><th width=\"4%\" class=\"rotate\" rowspan=\"2\"><div>" + problemLabel + "</div></th><td class=\"label\">" + statementLabel + "</td><td colspan=\"" + strColspan + "\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>" + strArticleLinkTd + "</tr>");
             summary.append("<tr>");
             String userAnswerLabel = getResources().getString(R.string.label_summary_user_answer);
-            summary.append("<td class=\"label\" width=\"13%\">" + userAnswerLabel + "</td>");
-            summary.append("<td width=\"13%\">" + answer + "</td>");
+            summary.append("<td class=\"label\" width=\"12%\">" + userAnswerLabel + "</td>");
+            summary.append("<td width=\"12%\">" + answer + "</td>");
             String rightAnswerLabel = getResources().getString(R.string.label_summary_right_answer);
-            summary.append("<td class=\"label\" width=\"13%\">" + rightAnswerLabel + "</td>");
-            summary.append("<td width=\"13%\">" + problem.getRightAnswer() + "</td>");
+            summary.append("<td class=\"label\" width=\"12%\">" + rightAnswerLabel + "</td>");
+            summary.append("<td width=\"12%\">" + problem.getRightAnswer() + "</td>");
             String outcomeLabel = getResources().getString(R.string.label_summary_outcome);
             summary.append("<td class=\"label\" width=\"12%\">" + outcomeLabel + "</td>");
             summary.append("<td width=\"12%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "happy" : "sad") + ".svg\"/></td>");
