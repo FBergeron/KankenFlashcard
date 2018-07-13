@@ -50,6 +50,12 @@
     <string name="label_easy">Easy</string>
     <string name="label_difficult">Difficult</string>
     <string name="label_summary_title">Quiz Summary</string>
+    <string name="label_summary_problem">Problem %1$d</string>
+    <string name="label_summary_statement">Statement</string>
+    <string name="label_summary_user_answer">Your answer</string>
+    <string name="label_summary_right_answer">Correct answer</string>
+    <string name="label_summary_outcome">Outcome</string>
+    <string name="label_summary_familiarity">Familiarity</string>
     <string name="button_leave_summary">Start another quiz</string>
     <string name="label_finding_characters">Finding matching characters...</string>
     <string name="button_signout">Sign out</string>

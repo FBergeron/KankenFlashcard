@@ -49,6 +49,12 @@
     <string name="label_easy">簡単</string>
     <string name="label_difficult">難しい</string>
     <string name="label_summary_title">サマリー</string>
+    <string name="label_summary_problem">問題%1$d</string>
+    <string name="label_summary_statement">文</string>
+    <string name="label_summary_user_answer">あなたの答え</string>
+    <string name="label_summary_right_answer">正しい答え</string>
+    <string name="label_summary_outcome">結果</string>
+    <string name="label_summary_familiarity">親密度</string>
     <string name="button_leave_summary">戻る</string>
     <string name="label_finding_characters">Finding matching characters...</string>
     <string name="button_signout">サインアウト</string>

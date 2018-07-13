@@ -19,35 +19,65 @@ public class QuizSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_summary);
 
-
         StringBuffer summary = new StringBuffer();
         summary.append("<html>");
         summary.append("<head>");
         summary.append("<head>");
         summary.append("<style type\"text/css\">");
-        summary.append("body { font-size: x-large;}");
-        summary.append("em { color: red; font-weight: bold;}");
+        summary.append("body { font-size: 24px; }");
+        summary.append("em { color: red; font-weight: bold; }");
+        summary.append("table { width: 95%; border: 1px solid; margin: 10px 10px 20px 10px; border-collapse: collapse; }");
+        summary.append("table th { border: 1px solid #333333; background-color: #6666ff; color: #ffffff; padding: 10px; }");
+        summary.append("table td { border: 1px solid #333333; background-color: #ffffff; color: #000000; padding: 10px; }");
+        summary.append("table td.label { border: 1px solid #333333; background-color: #ccccff; color: #000000; padding: 10px; }");
         summary.append("</style>");
         summary.append("</head>");
         summary.append("<body>");
 
-        int length = appl.getQuiz().getLength();
-        Iterator itProblem = appl.getQuiz().getProblems();
-        Iterator itAnswer = appl.getQuiz().getAnswers();
+        Quiz quiz = appl.getQuiz();
+        int length = quiz.getLength();
+        Iterator<Problem> itProblem = quiz.getProblems();
+        Iterator<String> itAnswer = quiz.getAnswers();
+        Iterator<Boolean> itRightAnswer = quiz.getRightAnswers();
+        Iterator<Integer> itFamiliarity = quiz.getFamiliarities();
         for (int i = 0; i < length; i++) {
-            Problem problem = (Problem)itProblem.next();
-            String answer = (String)itAnswer.next();
-            summary.append("<u>Problem " + i + "</u><br/>");
-            summary.append("Statement: " + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "<br/>");
-            summary.append("Your answer: " + answer + "<br/>");
-            summary.append("Link: <a target=\"_blank\" href=\"" + problem.getArticleUrl() + "\">" + problem.getArticleUrl() + "</a><br/><br/>");
+            Problem problem = itProblem.next();
+            String answer = itAnswer.next();
+            Boolean isRightAnswer = itRightAnswer.next();
+            Integer familiarity = itFamiliarity.next();
+            summary.append("<table class=\"problem\">");
+            String problemLabel = String.format(getResources().getString(R.string.label_summary_problem), (i+1));
+            summary.append("<tr><th colspan=\"8\">" + problemLabel + "</th></tr>");
+            String strColspan = "7";
+            String strArticleLinkTd = "";
+            if (problem.isArticleLinkAlive()) {
+                strColspan = "6";
+                strArticleLinkTd = "<td align=\"center\"><a target=\"_blank\" href=\"" + problem.getArticleUrl() + "\"><img width=\"32\" height=\"32\" src=\"view-article.svg\"/></a></td>";
+            }
+            String statementLabel = getResources().getString(R.string.label_summary_statement);
+            summary.append("<tr><td class=\"label\">" + statementLabel + "</td><td colspan=\"" + strColspan + "\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>" + strArticleLinkTd + "</tr>");
+            summary.append("<tr>");
+            String userAnswerLabel = getResources().getString(R.string.label_summary_user_answer);
+            summary.append("<td class=\"label\" width=\"13%\">" + userAnswerLabel + "</td>");
+            summary.append("<td width=\"13%\">" + answer + "</td>");
+            String rightAnswerLabel = getResources().getString(R.string.label_summary_right_answer);
+            summary.append("<td class=\"label\" width=\"13%\">" + rightAnswerLabel + "</td>");
+            summary.append("<td width=\"13%\">" + problem.getRightAnswer() + "</td>");
+            String outcomeLabel = getResources().getString(R.string.label_summary_outcome);
+            summary.append("<td class=\"label\" width=\"12%\">" + outcomeLabel + "</td>");
+            summary.append("<td width=\"12%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "happy" : "sad") + ".svg\"/></td>");
+            String familiarityLabel = getResources().getString(R.string.label_summary_familiarity);
+            summary.append("<td class=\"label\" width=\"12%\">" + familiarityLabel + "</td>");
+            summary.append("<td width=\"12%\">" + familiarity + "</td>");
+            summary.append("</tr>");
+            summary.append("</table>");
         }
 
         summary.append("</body>");
         summary.append("</html>");
 
         WebView webViewSummary = (WebView)findViewById(R.id.webViewSummary);
-        webViewSummary.loadData(summary.toString(), "text/html; charset=utf-8", "utf-8");
+        webViewSummary.loadDataWithBaseURL("file:///android_asset/", summary.toString(), "text/html; charset=utf-8", "utf-8", null);
 
     }
 
