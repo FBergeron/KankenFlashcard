@@ -24,6 +24,8 @@ public class QuizSummaryActivity extends AppCompatActivity {
         summary.append("<head>");
         summary.append("<head>");
         summary.append("<style type\"text/css\">");
+        summary.append(".rotate { text-align: center; white-space: nowrap; vertical-align: middle; width: 1.5em; }");
+        summary.append(".rotate div { -webkit-transform: rotate(-90.0deg); margin-left: -10em; margin-right: -10em; }");
         summary.append("body { font-size: 24px; }");
         summary.append("em { color: red; font-weight: bold; }");
         summary.append("table { width: 95%; border: 1px solid; margin: 10px 10px 20px 10px; border-collapse: collapse; }");
@@ -47,7 +49,6 @@ public class QuizSummaryActivity extends AppCompatActivity {
             Integer familiarity = itFamiliarity.next();
             summary.append("<table class=\"problem\">");
             String problemLabel = String.format(getResources().getString(R.string.label_summary_problem), (i+1));
-            summary.append("<tr><th colspan=\"8\">" + problemLabel + "</th></tr>");
             String strColspan = "7";
             String strArticleLinkTd = "";
             if (problem.isArticleLinkAlive()) {
@@ -55,7 +56,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
                 strArticleLinkTd = "<td align=\"center\"><a target=\"_blank\" href=\"" + problem.getArticleUrl() + "\"><img width=\"32\" height=\"32\" src=\"view-article.svg\"/></a></td>";
             }
             String statementLabel = getResources().getString(R.string.label_summary_statement);
-            summary.append("<tr><td class=\"label\">" + statementLabel + "</td><td colspan=\"" + strColspan + "\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>" + strArticleLinkTd + "</tr>");
+            summary.append("<tr><th class=\"rotate\" rowspan=\"2\"><div>" + problemLabel + "</div></th><td class=\"label\">" + statementLabel + "</td><td colspan=\"" + strColspan + "\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>" + strArticleLinkTd + "</tr>");
             summary.append("<tr>");
             String userAnswerLabel = getResources().getString(R.string.label_summary_user_answer);
             summary.append("<td class=\"label\" width=\"13%\">" + userAnswerLabel + "</td>");
@@ -78,7 +79,6 @@ public class QuizSummaryActivity extends AppCompatActivity {
 
         WebView webViewSummary = (WebView)findViewById(R.id.webViewSummary);
         webViewSummary.loadDataWithBaseURL("file:///android_asset/", summary.toString(), "text/html; charset=utf-8", "utf-8", null);
-
     }
 
     KankenApplication appl = KankenApplication.getInstance();
