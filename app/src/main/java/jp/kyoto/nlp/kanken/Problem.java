@@ -6,12 +6,12 @@ import java.util.Set;
 abstract class Problem {
 
     public enum Topic {
+        POLITICS("politics"),
         BUSINESS("business"),
         CULTURE_ARTS("culture_arts"),
         HEALTH_MEDICINE("health_medicine"),
-        HOME_LIVING("home_living"),
-        POLITICS("politics"),
         SCIENCE_EDUCATION("science_education"),
+        HOME_LIVING("home_living"),
         SPORTS("sports"),
         OTHER("other");
 
