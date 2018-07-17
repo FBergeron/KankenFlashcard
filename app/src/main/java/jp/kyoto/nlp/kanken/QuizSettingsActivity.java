@@ -178,10 +178,13 @@ public class QuizSettingsActivity extends AppCompatActivity {
     private void showSelectedTopics() {
         StringBuilder str = new StringBuilder();
         String delimiter = "";
-        for (Integer selectedTopic : selectedTopics) {
-            str.append(delimiter);
-            str.append(labelTopics[selectedTopic.intValue()]);
-            delimiter = ", ";
+        int topicCount = Problem.Topic.values().length;
+        for (int i = 0; i < topicCount; i++) {
+            if (selectedTopics.contains(i)) {
+                str.append(delimiter);
+                str.append(labelTopics[i]);
+                delimiter = ", ";
+            }
         }
         TextView textViewSelectedTopics = (TextView)findViewById(R.id.textViewSelectedTopics);
         textViewSelectedTopics.setText(str.toString());
