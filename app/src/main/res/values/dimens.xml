@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_kana_text_size">20sp</dimen>
+    <dimen name="button_kanji_text_size">20sp</dimen>
+    <dimen name="button_kanji_medium_text_size">30sp</dimen>
+    <dimen name="button_kanji_large_text_size">50sp</dimen>
+    <dimen name="button_delete_char_text_size">20sp</dimen>
+    <dimen name="button_validate_answer_text_size">20sp</dimen>
+    <dimen name="button_view_article">32dp</dimen>
+    <dimen name="textfield_answer_text_size">32sp</dimen>
+    <dimen name="button_undo_canvas_width">20dp</dimen>
+    <dimen name="button_undo_canvas_height">10dp</dimen>
+    <dimen name="button_clear_canvas_width">20dp</dimen>
+    <dimen name="button_clear_canvas_height">10dp</dimen>
+    <dimen name="button_enter_character_width">20dp</dimen>
+    <dimen name="button_enter_character_height">10dp</dimen>
+    <dimen name="webview_reading_problem_statement_height">120dp</dimen>
+    <dimen name="webview_writing_problem_statement_height">80dp</dimen>
+    <dimen name="intersection_gap_height">6dp</dimen>
+</resources>
+

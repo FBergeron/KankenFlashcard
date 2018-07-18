@@ -47,34 +47,42 @@
             android:layout_marginBottom="6dp"
             android:layout_weight="0" />
 
-        <WebView
-            android:id="@+id/webViewWritingProblemStatement"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="6dp"
-            android:layout_weight="100">
-
-        </WebView>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="@dimen/intersection_gap_height"
             android:layout_weight="0"
             android:orientation="horizontal">
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <WebView
+                android:id="@+id/webViewWritingProblemStatement"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/webview_writing_problem_statement_height"
+                android:layout_marginRight="10dp"
+                android:layout_weight="9">
 
-            <ImageButton
-                android:id="@+id/imageButtonViewWritingProblemArticle"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="0"
-                android:background="@drawable/ic_view_article"
-                android:onClick="showArticle" />
+            </WebView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonViewWritingProblemArticle"
+                    android:layout_width="@dimen/button_view_article"
+                    android:layout_height="@dimen/button_view_article"
+                    android:layout_weight="0"
+                    android:background="@drawable/ic_view_article"
+                    android:onClick="showArticle" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -90,7 +98,7 @@
             android:id="@+id/layoutKanjiInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/intersection_gap_height"
             android:layout_weight="80"
             android:baselineAligned="false"
             android:gravity="top"
@@ -126,8 +134,8 @@
 
                     <Button
                         android:id="@+id/buttonUndoWritingProblemCanvas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/button_undo_canvas_width"
+                        android:layout_height="@dimen/button_undo_canvas_height"
                         android:layout_marginEnd="6dp"
                         android:layout_marginRight="6dp"
                         android:onClick="undoCanvas"
@@ -135,8 +143,8 @@
 
                     <Button
                         android:id="@+id/buttonClearWritingProblemCanvas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/button_clear_canvas_width"
+                        android:layout_height="@dimen/button_clear_canvas_height"
                         android:layout_marginEnd="6dp"
                         android:layout_marginRight="6dp"
                         android:onClick="clearCanvas"
@@ -144,8 +152,8 @@
 
                     <Button
                         android:id="@+id/buttonEnterWritingProblemCharacter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/button_enter_character_width"
+                        android:layout_height="@dimen/button_enter_character_height"
                         android:onClick="enterCharacter"
                         android:text="@string/button_enter_character" />
 
@@ -162,8 +170,8 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="8"
+                    android:layout_height="0dp"
+                    android:layout_weight="9"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
@@ -179,7 +187,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="100sp" />
+                            android:textSize="@dimen/button_kanji_large_text_size" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -193,7 +201,7 @@
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1"
                                 android:text="語"
-                                android:textSize="60sp" />
+                                android:textSize="@dimen/button_kanji_medium_text_size" />
 
                             <Button
                                 android:id="@+id/no3_a"
@@ -201,7 +209,7 @@
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1"
                                 android:text="語"
-                                android:textSize="60sp" />
+                                android:textSize="@dimen/button_kanji_medium_text_size" />
 
                         </LinearLayout>
 
@@ -219,7 +227,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no5_a"
@@ -227,7 +235,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no6_a"
@@ -235,7 +243,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no7_a"
@@ -243,7 +251,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                     </LinearLayout>
 
@@ -253,7 +261,7 @@
                 <Button
                     android:id="@+id/buttonShowNextPage_a"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="@string/button_next_kanjis" />
 
@@ -270,13 +278,13 @@
                 <Button
                     android:id="@+id/buttonShowPrevPage_b"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="@string/button_prev_kanjis" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="8"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
@@ -293,7 +301,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no4_b"
@@ -301,7 +309,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no7_b"
@@ -309,7 +317,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no10_b"
@@ -317,7 +325,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                     </LinearLayout>
 
@@ -333,7 +341,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no5_b"
@@ -341,7 +349,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no8_b"
@@ -349,7 +357,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no11_b"
@@ -357,7 +365,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                     </LinearLayout>
 
@@ -373,7 +381,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no6_b"
@@ -381,7 +389,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no9_b"
@@ -389,7 +397,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                         <Button
                             android:id="@+id/no12_b"
@@ -397,7 +405,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:text="語"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/button_kanji_text_size" />
 
                     </LinearLayout>
 
@@ -407,7 +415,7 @@
                 <Button
                     android:id="@+id/buttonShowNextPage_b"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="@string/button_next_kanjis" />
 
@@ -430,7 +438,7 @@
                 android:layout_margin="6sp"
                 android:layout_weight="1"
                 android:background="#e3ecf9"
-                android:textSize="48sp" />
+                android:textSize="@dimen/textfield_answer_text_size" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -443,7 +451,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="deleteKanji"
                     android:text="@string/button_delete_kanji"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_delete_char_text_size" />
 
                 <Button
                     android:id="@+id/buttonValidateWritingProblemAnswer"
@@ -451,7 +459,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="validateAnswer"
                     android:text="@string/button_validate_answer"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_validate_answer_text_size" />
 
             </LinearLayout>
 

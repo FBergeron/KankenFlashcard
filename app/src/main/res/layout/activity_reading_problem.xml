@@ -45,33 +45,41 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp" />
 
-        <WebView
-            android:id="@+id/webViewReadingProblemStatement"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="6dp"
-            android:layout_weight="1">
-
-        </WebView>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="@dimen/intersection_gap_height"
             android:orientation="horizontal">
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+            <WebView
+                android:id="@+id/webViewReadingProblemStatement"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/webview_reading_problem_statement_height"
+                android:layout_marginRight="10dp"
+                android:layout_weight="9">
 
-            <ImageButton
-                android:id="@+id/imageButtonViewReadingProblemArticle"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_weight="0"
-                android:background="@drawable/ic_view_article"
-                android:onClick="showArticle" />
+            </WebView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonViewReadingProblemArticle"
+                    android:layout_width="@dimen/button_view_article"
+                    android:layout_height="@dimen/button_view_article"
+                    android:layout_weight="0"
+                    android:background="@drawable/ic_view_article"
+                    android:onClick="showArticle" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -86,7 +94,7 @@
             android:id="@+id/tableLayoutReadingProblemAnswerButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/intersection_gap_height"
             android:gravity="fill_horizontal"
             android:orientation="horizontal"
             android:stretchColumns="*">
@@ -101,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana02"
@@ -109,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana03"
@@ -117,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana04"
@@ -125,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
             </TableRow>
 
@@ -139,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana06"
@@ -147,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana07"
@@ -155,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana08"
@@ -163,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
             </TableRow>
 
@@ -177,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana10"
@@ -185,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana11"
@@ -193,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
                 <Button
                     android:id="@+id/buttonKana12"
@@ -201,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
                     android:text="*"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_kana_text_size" />
 
             </TableRow>
 
@@ -219,7 +227,7 @@
                 android:layout_margin="6sp"
                 android:layout_weight="1"
                 android:background="#e3ecf9"
-                android:textSize="48sp" />
+                android:textSize="@dimen/textfield_answer_text_size" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -232,7 +240,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="deleteKana"
                     android:text="@string/button_delete_kana"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_delete_char_text_size" />
 
                 <Button
                     android:id="@+id/buttonValidateReadingProblemAnswer"
@@ -240,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="validateAnswer"
                     android:text="@string/button_validate_answer"
-                    android:textSize="40sp" />
+                    android:textSize="@dimen/button_validate_answer_text_size" />
 
             </LinearLayout>
         </LinearLayout>

@@ -30,10 +30,10 @@
     <string name="label_problem_info_type">%1$s</string>
     <string name="label_answer">解答</string>
     <string name="button_validate_answer">⏎</string>
-    <string name="button_undo_canvas">アンドゥ</string>
-    <string name="button_clear_canvas">消す</string>
+    <string name="button_undo_canvas">⎌</string>
+    <string name="button_clear_canvas">⎚</string>
     <string name="button_delete_kanji">⌫</string>
-    <string name="button_enter_character">確認</string>
+    <string name="button_enter_character">⏎</string>
     <string name="button_delete_kana">⌫</string>
     <string name="button_prev_kanjis">▲</string>
     <string name="button_next_kanjis">▼</string>
