@@ -167,7 +167,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
         String prefType = sharedPref.getString("QuizType", "reading");
         RadioGroup radioGroupQuizType = (RadioGroup) findViewById(R.id.radioGroupQuizType);
-        if (Problem.Type.READING.getLabelId() == prefType) 
+        if (Problem.Type.READING.getLabelId().equals(prefType)) 
             radioGroupQuizType.check(R.id.radioButtonQuizTypeReading);
         else
             radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
