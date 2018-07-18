@@ -85,6 +85,7 @@
             android:id="@+id/tableLayoutReadingProblemAnswerButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:gravity="fill_horizontal"
             android:orientation="horizontal"
             android:stretchColumns="*">
@@ -214,13 +215,14 @@
                 android:id="@+id/textViewReadingProblemUserAnswer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="6sp"
                 android:layout_weight="1"
+                android:background="#e3ecf9"
                 android:textSize="48sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0"
                 android:orientation="vertical">
 
                 <Button

@@ -89,6 +89,7 @@
             android:id="@+id/layoutKanjiInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
             android:layout_weight="80"
             android:baselineAligned="false"
             android:gravity="top"
@@ -98,7 +99,6 @@
                 android:id="@+id/layoutKanjiInputLeft"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="6dp"
                 android:layout_weight="0.5"
                 android:orientation="vertical">
 
@@ -106,6 +106,7 @@
                     android:id="@+id/kanjiDrawing"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="6dp"
                     android:layout_weight="1" />
 
 
@@ -424,30 +425,36 @@
             <TextView
                 android:id="@+id/textViewWritingProblemUserAnswer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="6sp"
                 android:layout_weight="1"
-                android:background="@android:color/white"
+                android:background="#e3ecf9"
                 android:textSize="48sp" />
 
-            <Button
-                android:id="@+id/buttonDeleteKanji"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginStart="6dp"
-                android:layout_weight="0"
-                android:onClick="deleteKanji"
-                android:text="@string/button_delete_kanji" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/buttonDeleteKanji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="deleteKanji"
+                    android:text="@string/button_delete_kanji"
+                    android:textSize="40sp" />
+
+                <Button
+                    android:id="@+id/buttonValidateWritingProblemAnswer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="validateAnswer"
+                    android:text="@string/button_validate_answer"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonValidateWritingProblemAnswer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:onClick="validateAnswer"
-            android:text="@string/button_validate_answer" />
 
     </LinearLayout>
 
