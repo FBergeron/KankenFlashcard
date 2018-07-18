@@ -65,13 +65,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/buttonViewReadingProblemArticle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/imageButtonViewReadingProblemArticle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_weight="0"
-                android:onClick="showArticle"
-                android:text="@string/button_view_article" />
+                android:background="@drawable/ic_view_article"
+                android:onClick="showArticle" />
+
         </LinearLayout>
 
         <TextView

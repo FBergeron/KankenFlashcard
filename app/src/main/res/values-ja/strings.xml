@@ -29,7 +29,6 @@
     <string name="label_problem_info_topic">%1$s</string>
     <string name="label_problem_info_type">%1$s</string>
     <string name="label_answer">解答</string>
-    <string name="button_view_article">記事を見る</string>
     <string name="button_validate_answer">⏎</string>
     <string name="button_undo_canvas">アンドゥ</string>
     <string name="button_clear_canvas">消す</string>

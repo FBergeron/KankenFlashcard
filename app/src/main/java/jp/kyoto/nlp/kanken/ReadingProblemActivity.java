@@ -12,6 +12,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -133,8 +134,8 @@ public class ReadingProblemActivity extends AppCompatActivity {
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewReadingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
         
-        Button buttonViewArticle = (Button)findViewById(R.id.buttonViewReadingProblemArticle);
-        buttonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? View.VISIBLE : View.GONE);
+        ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewReadingProblemArticle);
+        imageButtonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? View.VISIBLE : View.GONE);
 
         buttonKanas = new ArrayList<String>();
 

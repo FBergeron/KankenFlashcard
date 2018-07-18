@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -173,8 +174,8 @@ public class WritingProblemActivity extends AppCompatActivity {
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewWritingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
 
-        Button buttonViewArticle = (Button)findViewById(R.id.buttonViewWritingProblemArticle);
-        buttonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? VISIBLE : GONE);
+        ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewWritingProblemArticle);
+        imageButtonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? VISIBLE : GONE);
 
         layoutKanjiInputRight_a = (LinearLayout)findViewById(R.id.layoutKanjiInputRight_a); 
         layoutKanjiInputRight_a.setVisibility(VISIBLE);
