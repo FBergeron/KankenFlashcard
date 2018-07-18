@@ -148,7 +148,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
         allKanas.removeAll(answerKanas);
 
         Random r = new Random();
-        while (buttonKanas.size() < 11) {
+        while (buttonKanas.size() < 12) {
             String fillerKana = allKanas.remove(r.nextInt(allKanas.size()));
             buttonKanas.add(fillerKana);
         }

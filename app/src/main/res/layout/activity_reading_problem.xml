@@ -98,28 +98,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana04"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
             </TableRow>
 
@@ -132,28 +136,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana06"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana07"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana08"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
             </TableRow>
 
@@ -166,45 +174,73 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
 
                 <Button
                     android:id="@+id/buttonKana11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
-                    android:text="*" />
+                    android:text="*"
+                    android:textSize="40sp" />
+
+                <Button
+                    android:id="@+id/buttonKana12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="enterKana"
+                    android:text="*"
+                    android:textSize="40sp" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewReadingProblemUserAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="48sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/buttonDeleteKana"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="deleteKana"
-                    android:text="@string/button_delete_kana" />
+                    android:text="@string/button_delete_kana"
+                    android:textSize="40sp" />
 
-            </TableRow>
+                <Button
+                    android:id="@+id/buttonValidateReadingProblemAnswer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="validateAnswer"
+                    android:text="@string/button_validate_answer"
+                    android:textSize="40sp" />
 
-        </TableLayout>
-
-        <TextView
-            android:id="@+id/textViewReadingProblemUserAnswer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="48sp" />
-
-        <Button
-            android:id="@+id/buttonValidateReadingProblemAnswer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="validateAnswer"
-            android:text="@string/button_validate_answer" />
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
