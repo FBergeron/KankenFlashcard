@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="margin_left_right">10sp</dimen>
     <dimen name="button_kana_text_size">20sp</dimen>
     <dimen name="button_kanji_text_size">20sp</dimen>
     <dimen name="button_kanji_medium_text_size">30sp</dimen>
