@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_left_right">10sp</dimen>
+    <dimen name="settings_title_weight">1</dimen>
+    <dimen name="settings_topics_weight">2</dimen>
     <dimen name="button_kana_text_size">20sp</dimen>
     <dimen name="button_kanji_text_size">20sp</dimen>
     <dimen name="button_kanji_medium_text_size">30sp</dimen>

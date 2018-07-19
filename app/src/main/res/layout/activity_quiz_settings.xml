@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="20"
+        android:layout_weight="@dimen/settings_title_weight"
         android:gravity="center"
         android:text="@string/welcome"
         android:textSize="30sp" />
@@ -24,7 +24,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="20"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -50,7 +50,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="20"
+        android:layout_weight="@dimen/settings_topics_weight"
         android:orientation="vertical">
 
         <LinearLayout
@@ -94,7 +94,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="20"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -131,9 +131,11 @@
         android:id="@+id/buttonStartQuiz"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="10"
+        android:layout_marginTop="20sp"
+        android:layout_weight="1"
         android:onClick="startQuiz"
         android:text="@string/button_start_quiz" />
 
@@ -142,7 +144,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="10"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <Button
