@@ -14,10 +14,10 @@
         <LinearLayout
             android:id="@+id/linearLayoutWritingProblemInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_weight="0"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp">
 
             <TextView
                 android:id="@+id/textViewWritingProblemInfoLevel"
@@ -43,16 +43,16 @@
         <TextView
             android:id="@+id/textViewWritingProblemNumber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_weight="0" />
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:paddingBottom="6dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/intersection_gap_height"
-            android:layout_weight="0"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/intersection_gap_height">
 
             <WebView
                 android:id="@+id/webViewWritingProblemStatement"
@@ -69,11 +69,6 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
                 <ImageButton
                     android:id="@+id/imageButtonViewWritingProblemArticle"
                     android:layout_width="@dimen/button_view_article"
@@ -82,6 +77,11 @@
                     android:background="@drawable/ic_view_article"
                     android:onClick="showArticle" />
 
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -89,20 +89,20 @@
         <TextView
             android:id="@+id/textViewWritingProblemAnswer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_weight="0"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:paddingBottom="6dp"
             android:text="@string/label_answer" />
 
         <LinearLayout
             android:id="@+id/layoutKanjiInput"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/intersection_gap_height"
-            android:layout_weight="80"
+            android:layout_height="0dp"
+            android:layout_weight="42"
             android:baselineAligned="false"
             android:gravity="top"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/intersection_gap_height">
 
             <LinearLayout
                 android:id="@+id/layoutKanjiInputLeft"
@@ -114,48 +114,41 @@
                 <com.leafdigital.kanji.android.KanjiDrawing
                     android:id="@+id/kanjiDrawing"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_margin="6dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="8" />
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
+                    android:layout_height="0dp"
                     android:layout_marginStart="6dp"
-                    android:layout_weight="0"
+                    android:layout_weight="2"
                     android:orientation="horizontal">
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <Button
+                    <ImageButton
                         android:id="@+id/buttonUndoWritingProblemCanvas"
-                        android:layout_width="@dimen/button_undo_canvas_width"
-                        android:layout_height="@dimen/button_undo_canvas_height"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginRight="6dp"
-                        android:onClick="undoCanvas"
-                        android:text="@string/button_undo_canvas" />
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/undo_selector"
+                        android:onClick="undoCanvas" />
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/buttonClearWritingProblemCanvas"
-                        android:layout_width="@dimen/button_clear_canvas_width"
-                        android:layout_height="@dimen/button_clear_canvas_height"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginRight="6dp"
-                        android:onClick="clearCanvas"
-                        android:text="@string/button_clear_canvas" />
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/broom_selector"
+                        android:onClick="clearCanvas" />
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/buttonEnterWritingProblemCharacter"
-                        android:layout_width="@dimen/button_enter_character_width"
-                        android:layout_height="@dimen/button_enter_character_height"
-                        android:onClick="enterCharacter"
-                        android:text="@string/button_enter_character" />
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/white_right_pointing_index_selector"
+                        android:onClick="enterCharacter" />
 
                 </LinearLayout>
 
@@ -426,8 +419,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_height="0dp"
+            android:layout_weight="18"
             android:gravity="center"
             android:orientation="horizontal">
 
