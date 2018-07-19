@@ -20,4 +20,6 @@
     <dimen name="webview_reading_problem_statement_height">200dp</dimen>
     <dimen name="webview_writing_problem_statement_height">200dp</dimen>
     <dimen name="intersection_gap_height">20dp</dimen>
+    <dimen name="evaluation_answer_text_size">20sp</dimen>
+    <dimen name="evaluation_outcome_text_size">32sp</dimen>
 </resources>

@@ -37,7 +37,6 @@
     <string name="button_next_kanjis">▼</string>
     <string name="button_delete_kana">⌫</string>
     <string name="label_problem_eval_title">Evaluation</string>
-    <string name="label_evaluation_problem">Problem</string>
     <string name="label_evaluation_answer">Your answer</string>
     <string name="label_evaluation_right_answer">The right answer</string>
     <string name="label_right_answer">Right!</string>

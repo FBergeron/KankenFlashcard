@@ -1,149 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ProblemEvaluationActivity">
+
+    <TextView
+        android:id="@+id/textViewProblemEvaluation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/label_problem_eval_title"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewProblemNumber"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="20sp" />
+
+    <WebView
+        android:id="@+id/webViewProblemStatement"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+    </WebView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewAnswerLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/label_evaluation_answer"
+                android:textSize="@dimen/evaluation_answer_text_size" />
+
+            <TextView
+                android:id="@+id/textViewAnswerValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/evaluation_answer_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewAnswerRightLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/label_evaluation_right_answer"
+                android:textSize="@dimen/evaluation_answer_text_size" />
+
+            <TextView
+                android:id="@+id/textViewAnswerRightValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/evaluation_answer_text_size" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewEvaluationResultArrow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="⇓"
+        android:textSize="@dimen/evaluation_answer_text_size" />
+
+    <TextView
+        android:id="@+id/textViewEvaluationResult"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="@dimen/evaluation_outcome_text_size" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/buttonReportErroneousProblem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:onClick="reportProblemAsErroneous"
+            android:text="@string/button_report_error" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textViewProblemEvaluation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="@string/label_problem_eval_title" />
-
-        <TextView
-            android:id="@+id/textViewProblemLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="@string/label_evaluation_problem" />
-
-        <WebView
-            android:id="@+id/webViewProblemStatement"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1">
-
-        </WebView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="6dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textViewAnswerLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/label_evaluation_answer"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/textViewAnswerValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textViewAnswerRightLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/label_evaluation_right_answer"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/textViewAnswerRightValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewEvaluationResultArrow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:gravity="center"
-            android:text="⇓"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/textViewEvaluationResult"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/buttonReportErroneousProblem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:onClick="reportProblemAsErroneous"
-                android:text="@string/button_report_error" />
-        </LinearLayout>
 
         <TextView
             android:id="@+id/textViewProblemFamiliarity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom" />
 
         <LinearLayout
             android:id="@+id/layoutProblemFamiliarity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="6dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
@@ -189,8 +195,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="top"
             android:orientation="horizontal">
 
             <TextView
@@ -199,6 +206,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_weight="1"
+                android:gravity="top|left"
                 android:text="@string/label_easy" />
 
             <Space
@@ -212,9 +220,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="top|right"
                 android:text="@string/label_difficult" />
         </LinearLayout>
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

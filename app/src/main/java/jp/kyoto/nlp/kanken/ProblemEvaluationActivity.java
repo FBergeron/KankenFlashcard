@@ -94,6 +94,11 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_problem_evaluation);
 
         Problem currProb = appl.getQuiz().getCurrentProblem();
+        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
+
+        TextView textViewProblemNumber = (TextView)findViewById(R.id.textViewProblemNumber);
+        String strProblemNumber = String.format(getResources().getString(R.string.label_problem_number), currProbIndex + 1, Quiz.DEFAULT_LENGTH);
+        textViewProblemNumber.setText(strProblemNumber);
 
         StringBuffer stmt = new StringBuffer();
         stmt.append("<html>");
@@ -108,8 +113,6 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
-
-        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
         TextView textViewAnswerValue = (TextView)findViewById(R.id.textViewAnswerValue);
         textViewAnswerValue.setText(appl.getQuiz().getAnswer(currProbIndex));
