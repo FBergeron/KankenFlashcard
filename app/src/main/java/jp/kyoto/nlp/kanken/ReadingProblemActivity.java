@@ -97,6 +97,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reading_problem);
 
         Problem currProb = appl.getQuiz().getCurrentProblem();
+        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
         TextView textViewProblemInfoLevel = (TextView)findViewById(R.id.textViewReadingProblemInfoLevel);
         String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), currProb.getLevel());
@@ -119,6 +120,10 @@ public class ReadingProblemActivity extends AppCompatActivity {
         int labelId = getResources().getIdentifier(strResName, "string", ReadingProblemActivity.this.getPackageName());
         String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
         textViewProblemInfoType.setText(strType);
+
+        TextView textViewReadingProblemNumber = (TextView)findViewById(R.id.textViewReadingProblemNumber);
+        String strProblemNumber = String.format(getResources().getString(R.string.label_problem_number), currProbIndex + 1, Quiz.DEFAULT_LENGTH);
+        textViewReadingProblemNumber.setText(strProblemNumber);
 
         StringBuffer stmt = new StringBuffer();
         stmt.append("<html>");

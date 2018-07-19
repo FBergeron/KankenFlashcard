@@ -136,6 +136,7 @@ public class WritingProblemActivity extends AppCompatActivity {
         new LoadThread();
 
         Problem currProb = appl.getQuiz().getCurrentProblem();
+        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
         TextView textViewProblemInfoLevel = (TextView)findViewById(R.id.textViewWritingProblemInfoLevel);
         String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), currProb.getLevel());
@@ -159,6 +160,10 @@ public class WritingProblemActivity extends AppCompatActivity {
         int labelId = getResources().getIdentifier(strResName, "string", WritingProblemActivity.this.getPackageName());
         String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
         textViewProblemInfoType.setText(strType);
+
+        TextView textViewWritingProblemNumber = (TextView)findViewById(R.id.textViewWritingProblemNumber);
+        String strProblemNumber = String.format(getResources().getString(R.string.label_problem_number), currProbIndex + 1, Quiz.DEFAULT_LENGTH);
+        textViewWritingProblemNumber.setText(strProblemNumber);
 
         StringBuffer stmt = new StringBuffer();
         stmt.append("<html>");

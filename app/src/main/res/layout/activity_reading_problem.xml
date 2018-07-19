@@ -44,20 +44,20 @@
             android:id="@+id/textViewReadingProblemNumber"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="8"
-            android:paddingBottom="6dp" />
+            android:layout_weight="6"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="27"
+            android:layout_weight="34"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/intersection_gap_height">
 
             <WebView
                 android:id="@+id/webViewReadingProblemStatement"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/webview_reading_problem_statement_height"
+                android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:layout_weight="9">
 
@@ -86,22 +86,13 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textViewReadingProblemAnswer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
-            android:paddingBottom="6dp"
-            android:text="@string/label_answer" />
-
         <TableLayout
             android:id="@+id/tableLayoutReadingProblemAnswerButtons"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="33"
+            android:layout_weight="34"
             android:gravity="fill_horizontal"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/intersection_gap_height"
             android:stretchColumns="*">
 
             <TableRow

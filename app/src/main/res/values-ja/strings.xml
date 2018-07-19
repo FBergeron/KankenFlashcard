@@ -28,6 +28,7 @@
     <string name="label_problem_info_level">%1$d級</string>
     <string name="label_problem_info_topic">%1$s</string>
     <string name="label_problem_info_type">%1$s</string>
+    <string name="label_problem_number">問題 %1$d/%2$d</string>
     <string name="label_answer">解答</string>
     <string name="button_validate_answer">⏎</string>
     <string name="button_delete_kanji">⌫</string>
