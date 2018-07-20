@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_problem_info_type">Type: %1$s</string>
+    <string name="label_problem_info_level">Level: %1$d</string>
+</resources>
+
