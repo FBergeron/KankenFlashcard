@@ -173,7 +173,9 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
                 con.setDoInput(true);
                 con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                 con.setRequestProperty("Accept", "application/json");
-                con.setRequestProperty("Cookie", appl.getSessionCookie().toString());
+                String cookie = appl.getSessionCookie();
+                if (cookie != null)
+                    con.setRequestProperty("Cookie", cookie);
                 con.setRequestMethod("POST");
                 con.setFixedLengthStreamingMode(data.length);
                 con.connect();

@@ -232,7 +232,9 @@ public class QuizSettingsActivity extends AppCompatActivity {
             try {
                 HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
                 con.setRequestProperty("Accept", "application/json");
-                con.setRequestProperty("Cookie", appl.getSessionCookie().toString());
+                String cookie = appl.getSessionCookie();
+                if (cookie != null)
+                    con.setRequestProperty("Cookie", cookie);
                 con.setRequestMethod("GET");
                 con.connect();
 
