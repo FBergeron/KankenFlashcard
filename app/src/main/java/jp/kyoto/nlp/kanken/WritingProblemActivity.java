@@ -106,14 +106,22 @@ public class WritingProblemActivity extends AppCompatActivity {
     
     public void validateAnswer(android.view.View view) {
         TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
-        String answer = textViewWritingProblemUserAnswer.getText().toString();
+        final String answer = textViewWritingProblemUserAnswer.getText().toString();
 
         if (answer.trim().equals("")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(WritingProblemActivity.this);
             builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
             .setMessage(getResources().getString(R.string.error_empty_answer_msg))
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
+                    appl.getQuiz().validateAnswer(answer);
+                    
+                    Intent problemEvaluationActivity = new Intent(WritingProblemActivity.this, ProblemEvaluationActivity.class);
+                    startActivity(problemEvaluationActivity);
+                }
+             })
+            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { 
                 }
              })
             .setIcon(android.R.drawable.ic_dialog_alert)

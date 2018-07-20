@@ -69,13 +69,21 @@ public class ReadingProblemActivity extends AppCompatActivity {
     
     public void validateAnswer(android.view.View view) {
         TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
-        String answer = textViewReadingProblemUserAnswer.getText().toString();
+        final String answer = textViewReadingProblemUserAnswer.getText().toString();
 
         if (answer.trim().equals("")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(ReadingProblemActivity.this);
             builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
             .setMessage(getResources().getString(R.string.error_empty_answer_msg))
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { 
+                    appl.getQuiz().validateAnswer(answer);
+                   
+                    Intent problemEvaluationActivity = new Intent(ReadingProblemActivity.this, ProblemEvaluationActivity.class);
+                    startActivity(problemEvaluationActivity);
+                }
+             })
+            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) { 
                 }
              })
