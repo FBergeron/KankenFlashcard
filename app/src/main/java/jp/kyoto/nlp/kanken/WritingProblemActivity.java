@@ -143,17 +143,16 @@ public class WritingProblemActivity extends AppCompatActivity {
         textViewProblemInfoLevel.setText(strLevel);
 
         TextView textViewProblemInfoTopic = (TextView)findViewById(R.id.textViewWritingProblemInfoTopic);
-        List<String> strTopics = new ArrayList<String>();
-        Set<Problem.Topic> topics = currProb.getTopics();
-        for (Problem.Topic topic : topics) {
-            String strResName = "label_topic_" + topic.getLabelId();
-            int labelId = getResources().getIdentifier(strResName, "string", WritingProblemActivity.this.getPackageName());
-
-            String strTopic = String.format(getResources().getString(R.string.label_problem_info_topic), getResources().getString(labelId));
-            strTopics.add(strTopic);
+        // Just show the first pertinent topic.
+        for (Problem.Topic topic : currProb.getTopics()) {
+            if (appl.getQuiz().getTopics().contains(topic)) {
+                String strResName = "label_topic_" + topic.getLabelId();
+                int labelId = getResources().getIdentifier(strResName, "string", WritingProblemActivity.this.getPackageName());
+                String strTopic = String.format(getResources().getString(R.string.label_problem_info_topic), getResources().getString(labelId));
+                textViewProblemInfoTopic.setText(strTopic);
+                break;
+            }
         }
-        Collections.sort(strTopics);
-        textViewProblemInfoTopic.setText(TextUtils.join(",", strTopics));
 
         TextView textViewProblemInfoType = (TextView)findViewById(R.id.textViewWritingProblemInfoType);
         String strResName = "label_quiz_type_" + currProb.getType().getLabelId();
