@@ -204,7 +204,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 delim = ",";
             }
 
-            getNextProblemsUrl = new URL(getNextProblemsBaseUrl + 
+            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + getNextProblemsReqPath + 
                 "?type=" + URLEncoder.encode(type.toString().toLowerCase()) + 
                 "&level=" + URLEncoder.encode(level + "", "UTF-8") + 
                 "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
@@ -221,6 +221,12 @@ public class QuizSettingsActivity extends AppCompatActivity {
         }
         catch(UnsupportedEncodingException e2) {
             e2.printStackTrace();
+        }
+        catch(IOException e3) {
+            e3.printStackTrace();
+        }
+        catch(JSONException e4) {
+            e4.printStackTrace();
         }
     }
 
@@ -347,6 +353,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
     private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
 
-    private static final String getNextProblemsBaseUrl = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/get_next_problems.cgi";
+    private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
 
 }

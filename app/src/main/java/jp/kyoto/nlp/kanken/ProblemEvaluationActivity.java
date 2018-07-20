@@ -40,7 +40,7 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
         if (nextProblem == null) {
             URL storeResultsUrl = null;
             try {
-                storeResultsUrl = new URL(storeResultsUrlStr);
+                storeResultsUrl = new URL(appl.getServerBaseUrl() + storeResultsReqPath);
 
                 progressDialog = new ProgressDialog(this);
                 progressDialog.setMessage(getResources().getString(R.string.label_sending_results_data));
@@ -51,6 +51,12 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
             }
             catch(MalformedURLException e1) {
                 e1.printStackTrace();
+            }
+            catch(IOException e2) {
+                e2.printStackTrace();
+            }
+            catch(JSONException e3) {
+                e3.printStackTrace();
             }
         }
         else {
@@ -232,6 +238,6 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    private static final String storeResultsUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/store_results.cgi";
+    private static final String storeResultsReqPath = "/cgi-bin/store_results.cgi";
 
 }

@@ -1,9 +1,16 @@
 package jp.kyoto.nlp.kanken;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Set;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.leafdigital.kanji.android.MultiAssetInputStream;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class KankenApplication extends Application {
 
@@ -56,6 +63,15 @@ public class KankenApplication extends Application {
         this.sessionCookie = sessionCookie;
     }
 
+    public String getServerBaseUrl() throws IOException, JSONException {
+        if (serverBaseUrl == null) {
+            InputStream is = new MultiAssetInputStream(getAssets(), new String[] { "config.json" });
+            JSONObject jsonConfig = Util.readJson(is);
+            serverBaseUrl = jsonConfig.getString("server");
+        }
+        return serverBaseUrl;
+    }
+
     private static KankenApplication instance;
 
     private Quiz quiz;
@@ -64,5 +80,7 @@ public class KankenApplication extends Application {
     private String userEmail;
     private String userIdToken;
     private String sessionCookie;
+
+    private String serverBaseUrl;
 
 }

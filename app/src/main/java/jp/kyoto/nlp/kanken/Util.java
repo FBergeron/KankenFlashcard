@@ -166,8 +166,7 @@ class Util {
         longKanas.add("\u3074\u3087"); // ぴょ
     }
 
-    public static JSONObject readJson(URL url) throws IOException, JSONException {
-        InputStream is = url.openStream();
+    public static JSONObject readJson(InputStream is) throws IOException, JSONException {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String jsonText = readAll(rd);
@@ -177,6 +176,11 @@ class Util {
         finally {
             is.close();
         }
+    }
+
+    public static JSONObject readJson(URL url) throws IOException, JSONException {
+        InputStream is = url.openStream();
+        return readJson(is);
     }
 
     private static String readAll(Reader rd) throws IOException {

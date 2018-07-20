@@ -24,6 +24,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -106,7 +108,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
             URL signInUrl = null;
             try {
-                signInUrl = new URL(signInUrlStr);
+                signInUrl = new URL(appl.getServerBaseUrl() + signInReqPath);
                 
                 progressDialog = new ProgressDialog(this);
                 progressDialog.setMessage(getResources().getString(R.string.label_signing_in));
@@ -117,6 +119,12 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             }
             catch (MalformedURLException e) {
                 e.printStackTrace();
+            }
+            catch(IOException e2) {
+                e2.printStackTrace();
+            }
+            catch(JSONException e3) {
+                e3.printStackTrace();
             }
         }
         else {
@@ -247,6 +255,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     private static final String clientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
    
-    private static final String signInUrlStr = "https://lotus.kuee.kyoto-u.ac.jp/~frederic/KankenFlashcardServer/cgi-bin/sign_in.cgi";
+    private static final String signInReqPath = "/cgi-bin/sign_in.cgi";
 
 }
