@@ -9,6 +9,11 @@ import java.util.Iterator;
 
 public class QuizSummaryActivity extends AppCompatActivity {
 
+    @Override
+    public void onBackPressed() {
+        // Prevent the user to come back once the quiz is started.
+    }
+
     public void leaveSummary(android.view.View view) {
         Intent quizSettingsActivity = new Intent(QuizSummaryActivity.this, QuizSettingsActivity.class);
         startActivity(quizSettingsActivity);

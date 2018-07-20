@@ -50,6 +50,11 @@ public class WritingProblemActivity extends AppCompatActivity {
         R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b, R.id.no10_b, R.id.no11_b, R.id.no12_b
     };
 
+    @Override
+    public void onBackPressed() {
+        // Prevent the user to come back once the quiz is started.
+    }
+
     public void deleteKanji(android.view.View view) {
         TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
         String origText = textViewWritingProblemUserAnswer.getText().toString();

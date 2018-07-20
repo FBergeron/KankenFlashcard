@@ -30,6 +30,11 @@ import java.util.StringJoiner;
 
 public class ProblemEvaluationActivity extends AppCompatActivity {
 
+    @Override
+    public void onBackPressed() {
+        // Prevent the user to come back once the quiz is started.
+    }
+
     public void goNextPage() {
         Problem nextProblem = appl.getQuiz().nextProblem();
         if (nextProblem == null) {

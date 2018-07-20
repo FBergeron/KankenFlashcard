@@ -23,6 +23,11 @@ import java.util.Set;
 
 public class ReadingProblemActivity extends AppCompatActivity {
 
+    @Override
+    public void onBackPressed() {
+        // Prevent the user to come back once the quiz is started.
+    }
+
     public void deleteKana(android.view.View view) {
         TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
         String answer = textViewReadingProblemUserAnswer.getText().toString();
