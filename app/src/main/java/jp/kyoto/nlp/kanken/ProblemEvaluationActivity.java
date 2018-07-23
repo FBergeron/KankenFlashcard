@@ -26,7 +26,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -182,10 +181,13 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
                     params.put("problemAnswer_" + i, answer);
                 }
 
-                StringJoiner joiner = new StringJoiner("&");
-                for (Map.Entry<String, String> entry : params.entrySet())
-                    joiner.add(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
-                byte[] data = joiner.toString().getBytes("UTF-8");
+                StringBuilder builder = new StringBuilder();
+                String delimiter = "";
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    builder.append(delimiter).append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+                    delimiter = "&";
+                }
+                byte[] data = builder.toString().getBytes("UTF-8");
 
                 HttpURLConnection con = (HttpURLConnection) storeResultsUrl.openConnection();
                 con.setDoOutput(true);

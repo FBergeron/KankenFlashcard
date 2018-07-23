@@ -37,7 +37,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
 public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -176,11 +175,14 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             try {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("idToken", appl.getUserIdToken());
-                
-                StringJoiner joiner = new StringJoiner("&");
-                for (Map.Entry<String, String> entry : params.entrySet())
-                    joiner.add(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
-                byte[] data = joiner.toString().getBytes("UTF-8");
+               
+                StringBuilder builder = new StringBuilder();
+                String delimiter = "";
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    builder.append(delimiter).append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+                    delimiter = "&";
+                }
+                byte[] data = builder.toString().getBytes("UTF-8");
 
                 HttpURLConnection con = (HttpURLConnection) signInUrl.openConnection();
                 con.setDoOutput(true);
