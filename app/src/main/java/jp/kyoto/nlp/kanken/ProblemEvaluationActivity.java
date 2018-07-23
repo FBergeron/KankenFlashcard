@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProblemEvaluationActivity extends AppCompatActivity {
 
@@ -143,9 +145,15 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
             textViewEvaluationResult.setTextColor(Color.RED);
         }
 
-        String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), appl.getQuiz().getCurrentProblem().getRightAnswer());
-        TextView textViewProblemFamiliarity = (TextView)findViewById(R.id.textViewProblemFamiliarity);
-        textViewProblemFamiliarity.setText(text);
+        Pattern problemPattern = Pattern.compile(".*\\[(.*)\\].*");
+        String statement = appl.getQuiz().getCurrentProblem().getStatement();
+        Matcher problemMatcher = problemPattern.matcher(statement);
+        if (problemMatcher.matches()) {
+            String problemWord = problemMatcher.group(1);
+            String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), problemWord);
+            TextView textViewProblemFamiliarity = (TextView)findViewById(R.id.textViewProblemFamiliarity);
+            textViewProblemFamiliarity.setText(text);
+        }
     }
 
     private class SendResultsTask extends AsyncTask {
