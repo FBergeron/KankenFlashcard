@@ -268,10 +268,17 @@ public class QuizSettingsActivity extends AppCompatActivity {
         protected void onPostExecute(final Object obj) {
             if (exception != null) {
                 System.out.println("An exception has occured: " + exception);
+                // TODO Handle that in a better way.
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                     progressDialog = null;
                 }
+                return;
+            }
+
+            if (obj == null) {
+                System.out.println("obj=null!!");
+                // TODO Handle that in a better way.
                 return;
             }
 
