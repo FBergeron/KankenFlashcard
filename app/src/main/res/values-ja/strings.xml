@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">漢検ニュース</string>
+    <string name="app_name">漢検DEニュース</string>
     <string name="welcome">ようこそ!</string>
     <string name="button_start_quiz">スタート</string>
     <string name="button_show_directions">遊び方</string>
@@ -42,7 +42,7 @@
     <string name="label_right_answer">正解</string>
     <string name="label_wrong_answer">不正解</string>
     <string name="button_report_error">間違えを申告する</string>
-    <string name="label_enter_problem_familiarity">あなたにとって、%1$sという単語のなじみ</string>
+    <string name="label_enter_problem_familiarity">あなたは「%1$s」という単語にどれぐらいなじみがありますか？</string>
     <string name="label_easy">ある</string>
     <string name="label_difficult">ない</string>
     <string name="label_summary_title">サマリー</string>
