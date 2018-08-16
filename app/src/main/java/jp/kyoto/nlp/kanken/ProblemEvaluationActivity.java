@@ -3,6 +3,7 @@ package jp.kyoto.nlp.kanken;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProblemEvaluationActivity extends AppCompatActivity {
+
+    public void showArticle(android.view.View view) {
+        String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
+        if (articleUrl != null) {
+            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+            httpIntent.setData(Uri.parse(articleUrl));
+            startActivity(httpIntent);
+        }
+    }
 
     @Override
     public void onBackPressed() {
