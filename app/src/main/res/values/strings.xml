@@ -59,7 +59,7 @@
     <string name="button_play">Play</string>
     <string name="label_signing_in">Signing in...</string>
     <string name="label_authentication_title">Important!</string>
-    <string name="label_authentication">You must authenticate yourself with your Google account before using the aplication. This is needed so that your personal progress data can be associated to your user when they are stored on the server.</string>
+    <string name="label_authentication">Please authenticate yourself with your Google account before using the aplication.</string>
     <string name="label_fetching_quiz_data">Fetching quiz data...</string>
     <string name="label_sending_results_data">Sending results data...</string>
 </resources>

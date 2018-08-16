@@ -65,6 +65,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_authentication);
 
         layoutUserInfo = (LinearLayout)findViewById(R.id.layoutUserInfo);
+        layoutLogin = (LinearLayout)findViewById(R.id.layoutLogin);
         buttonSignOut = (Button)findViewById(R.id.buttonSignOut);
         buttonSignIn = (SignInButton)findViewById(R.id.buttonSignIn);
         textViewUserName = (TextView)findViewById(R.id.textViewUserName);
@@ -72,6 +73,9 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         imageViewUserPicture = (ImageView)findViewById(R.id.imageViewUserPicture);
         textViewAuthenticationInfoTitle = (TextView)findViewById(R.id.textViewAuthenticationInfoTitle);
         textViewAuthenticationInfo = (TextView)findViewById(R.id.textViewAuthenticationInfo);
+
+        // No title needed for now.  Delete it eventually.
+        textViewAuthenticationInfoTitle.setVisibility(View.GONE);
 
         layoutUserInfo.setVisibility(View.GONE);
 
@@ -137,15 +141,11 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private void updateUI(boolean isAuthenticated) {
         if (isAuthenticated) {
             layoutUserInfo.setVisibility(View.VISIBLE);
-            buttonSignIn.setVisibility(View.GONE);
-            textViewAuthenticationInfoTitle.setVisibility(View.GONE);
-            textViewAuthenticationInfo.setVisibility(View.GONE);
+            layoutLogin.setVisibility(View.GONE);
         }
         else {
             layoutUserInfo.setVisibility(View.GONE);
-            buttonSignIn.setVisibility(View.VISIBLE);
-            textViewAuthenticationInfoTitle.setVisibility(View.VISIBLE);
-            textViewAuthenticationInfo.setVisibility(View.VISIBLE);
+            layoutLogin.setVisibility(View.VISIBLE);
         }
     }
 
@@ -244,6 +244,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private TextView textViewUserName;
     private TextView textViewUserEmail;
     private ImageView imageViewUserPicture;
+    private LinearLayout layoutLogin;
     private TextView textViewAuthenticationInfoTitle;
     private TextView textViewAuthenticationInfo;
 
