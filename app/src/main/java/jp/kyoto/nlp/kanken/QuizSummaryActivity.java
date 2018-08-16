@@ -73,7 +73,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
             summary.append("<td width=\"12%\">" + problem.getRightAnswer() + "</td>");
             String outcomeLabel = getResources().getString(R.string.label_summary_outcome);
             summary.append("<td class=\"label\" width=\"12%\">" + outcomeLabel + "</td>");
-            summary.append("<td width=\"12%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "happy" : "sad") + ".svg\"/></td>");
+            summary.append("<td width=\"12%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "right" : "wrong") + ".svg\"/></td>");
             String familiarityLabel = getResources().getString(R.string.label_summary_familiarity);
             summary.append("<td class=\"label\" width=\"12%\">" + familiarityLabel + "</td>");
             summary.append("<td width=\"12%\">" + familiarity + "</td>");
