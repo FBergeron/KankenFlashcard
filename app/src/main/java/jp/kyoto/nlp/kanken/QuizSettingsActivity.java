@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Space;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -154,6 +157,24 @@ public class QuizSettingsActivity extends AppCompatActivity {
         int prefLevel = sharedPref.getInt("QuizLevel", 1);
         SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
         seekbarQuizLevel.setProgress(prefLevel - 1);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        // Try to adjust the width of the space objects.
+        // Not perfect but looks good enough.
+        Space spaceQuizLevel12 = (Space)findViewById(R.id.spaceQuizLevel12);
+        Space spaceQuizLevel23 = (Space)findViewById(R.id.spaceQuizLevel23);
+        Space spaceQuizLevel34 = (Space)findViewById(R.id.spaceQuizLevel34);
+        Space spaceQuizLevel45 = (Space)findViewById(R.id.spaceQuizLevel45);
+        ViewGroup.LayoutParams spaceParams = spaceQuizLevel12.getLayoutParams();
+        spaceParams.width = (width >= 1024 ? 200 : 30);
+        spaceQuizLevel12.setLayoutParams(spaceParams);
+        spaceQuizLevel23.setLayoutParams(spaceParams);
+        spaceQuizLevel34.setLayoutParams(spaceParams);
+        spaceQuizLevel45.setLayoutParams(spaceParams);
 
         checkedTopics = new boolean[labelTopics.length];
 
