@@ -46,7 +46,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageButtonViewReadingProblemArticle"
+                android:id="@+id/imageButtonViewProblemArticle"
                 android:layout_width="@dimen/button_view_article"
                 android:layout_height="@dimen/button_view_article"
                 android:layout_weight="0"

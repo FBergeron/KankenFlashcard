@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -29,6 +30,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class ProblemEvaluationActivity extends AppCompatActivity {
 
@@ -135,6 +139,9 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
+
+        ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewProblemArticle);
+        imageButtonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? VISIBLE : GONE);
 
         TextView textViewAnswerValue = (TextView)findViewById(R.id.textViewAnswerValue);
         textViewAnswerValue.setText(appl.getQuiz().getAnswer(currProbIndex));

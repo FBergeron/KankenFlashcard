@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -60,15 +59,6 @@ public class ReadingProblemActivity extends AppCompatActivity {
                 TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
                 textViewReadingProblemUserAnswer.setText(textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i));
             }
-        }
-    }
-    
-    public void showArticle(android.view.View view) {
-        String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
-        if (articleUrl != null) {
-            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
-            httpIntent.setData(Uri.parse(articleUrl));
-            startActivity(httpIntent);
         }
     }
     
@@ -152,9 +142,6 @@ public class ReadingProblemActivity extends AppCompatActivity {
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewReadingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
         
-        ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewReadingProblemArticle);
-        imageButtonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? View.VISIBLE : View.GONE);
-
         buttonKanas = new ArrayList<String>();
 
         ArrayList<String> allKanas = new ArrayList<String>();

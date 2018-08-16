@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -100,15 +99,6 @@ public class WritingProblemActivity extends AppCompatActivity {
         kanjis = null;
     }
 
-    public void showArticle(android.view.View view) {
-        String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
-        if (articleUrl != null) {
-            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
-            httpIntent.setData(Uri.parse(articleUrl));
-            startActivity(httpIntent);
-        }
-    }
-    
     public void validateAnswer(android.view.View view) {
         TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
         final String answer = textViewWritingProblemUserAnswer.getText().toString();
@@ -190,9 +180,6 @@ public class WritingProblemActivity extends AppCompatActivity {
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewWritingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
-
-        ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewWritingProblemArticle);
-        imageButtonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? VISIBLE : GONE);
 
         layoutKanjiInputRight_a = (LinearLayout)findViewById(R.id.layoutKanjiInputRight_a); 
         layoutKanjiInputRight_a.setVisibility(VISIBLE);
