@@ -88,6 +88,10 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
         goNextPage();
     }
 
+    public void setProblemFamiliarity0(android.view.View view) {
+        setProblemFamiliarity(0); 
+    }
+    
     public void setProblemFamiliarity1(android.view.View view) {
         setProblemFamiliarity(1); 
     }
@@ -104,10 +108,6 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
         setProblemFamiliarity(4); 
     }
     
-    public void setProblemFamiliarity5(android.view.View view) {
-        setProblemFamiliarity(5); 
-    }
-   
     public void reportProblemAsErroneous(android.view.View view) {
         System.out.println( "This problem is incorrect." );        
 

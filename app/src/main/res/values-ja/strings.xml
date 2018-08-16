@@ -43,8 +43,9 @@
     <string name="label_wrong_answer">不正解</string>
     <string name="button_report_error">間違えを申告する</string>
     <string name="label_enter_problem_familiarity">あなたは「%1$s」という単語にどれぐらいなじみがありますか？</string>
-    <string name="label_easy">ある</string>
-    <string name="label_difficult">ない</string>
+    <string name="label_not_familiar">ない</string>
+    <string name="label_very_familiar">ある</string>
+    <string name="button_next">次へ</string>
     <string name="label_summary_title">サマリー</string>
     <string name="label_summary_problem">問題 %1$d</string>
     <string name="label_summary_statement">文</string>

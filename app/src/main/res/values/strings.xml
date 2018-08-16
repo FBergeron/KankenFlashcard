@@ -44,8 +44,9 @@
     <string name="label_wrong_answer">Wrong!</string>
     <string name="button_report_error">Mark the problem as incorrect</string>
     <string name="label_enter_problem_familiarity">Please, enter the familiarity level in regard to this word: %1$s.</string>
-    <string name="label_easy">Easy</string>
-    <string name="label_difficult">Difficult</string>
+    <string name="label_not_familiar">Not familiar</string>
+    <string name="label_very_familiar">Very familiar</string>
+    <string name="button_next">Next</string>
     <string name="label_summary_title">Quiz Summary</string>
     <string name="label_summary_problem">Problem %1$d</string>
     <string name="label_summary_statement">Statement</string>
