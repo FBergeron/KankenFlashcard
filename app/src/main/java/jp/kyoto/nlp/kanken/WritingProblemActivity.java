@@ -58,6 +58,8 @@ public class WritingProblemActivity extends AppCompatActivity {
         R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b
     };
 
+    private final static int KANJIS_MAX_COUNT = 60;
+
     @Override
     public void onBackPressed() {
         // Prevent the user to come back once the quiz is started.
@@ -552,7 +554,7 @@ public class WritingProblemActivity extends AppCompatActivity {
 
                         List<String> mixedChars = new ArrayList<String>();
                         int i = 0;
-                        while (i < exactChars.size() || i < fuzzyChars.size() || i < fuzzier1Chars.size() || i < fuzzier2Chars.size()) {
+                        while (mixedChars.size() < KANJIS_MAX_COUNT && (i < exactChars.size() || i < fuzzyChars.size() || i < fuzzier1Chars.size() || i < fuzzier2Chars.size())) {
                             if (i < exactChars.size()) {
                                 String exactKanji = exactChars.get(i);
                                 if (!mixedChars.contains(exactKanji))
