@@ -126,7 +126,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="8"
+                    android:layout_weight="9"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
@@ -200,6 +200,14 @@
                             android:text="語"
                             android:textSize="@dimen/button_kanji_text_size" />
 
+                        <Button
+                            android:id="@+id/no7_a"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="@dimen/button_kanji_text_size" />
+
                     </LinearLayout>
 
 
@@ -209,7 +217,7 @@
                     android:id="@+id/buttonShowNextPage_a"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:text="@string/button_next_kanjis" />
 
 
@@ -226,13 +234,13 @@
                     android:id="@+id/buttonShowPrevPage_b"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:text="@string/button_prev_kanjis" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="6"
+                    android:layout_weight="8"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
@@ -260,6 +268,14 @@
 
                         <Button
                             android:id="@+id/no7_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="@dimen/button_kanji_text_size" />
+
+                        <Button
+                            android:id="@+id/no10_b"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
@@ -298,6 +314,14 @@
                             android:text="語"
                             android:textSize="@dimen/button_kanji_text_size" />
 
+                        <Button
+                            android:id="@+id/no11_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="@dimen/button_kanji_text_size" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -330,6 +354,14 @@
                             android:text="語"
                             android:textSize="@dimen/button_kanji_text_size" />
 
+                        <Button
+                            android:id="@+id/no12_b"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:text="語"
+                            android:textSize="@dimen/button_kanji_text_size" />
+
                     </LinearLayout>
 
 
@@ -339,7 +371,7 @@
                     android:id="@+id/buttonShowNextPage_b"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:text="@string/button_next_kanjis" />
 
 

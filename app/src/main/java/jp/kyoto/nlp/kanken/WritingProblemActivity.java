@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,20 @@ import static android.view.View.*;
 
 public class WritingProblemActivity extends AppCompatActivity {
 
-    private final static int[] ALL_IDS_a = {
+    private final static int[] ALL_IDS_a_w600dp = {
         R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a, R.id.no7_a
     };
 
-    private final static int[] ALL_IDS_b = {
+    private final static int[] ALL_IDS_b_w600dp = {
         R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b, R.id.no10_b, R.id.no11_b, R.id.no12_b
+    };
+
+    private final static int[] ALL_IDS_a = {
+        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a
+    };
+
+    private final static int[] ALL_IDS_b = {
+        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b
     };
 
     @Override
@@ -78,6 +87,10 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
 
     public void clearCanvas(android.view.View view) {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         kanjiCanvas.clear();
 
@@ -89,8 +102,9 @@ public class WritingProblemActivity extends AppCompatActivity {
         layoutKanjiInputRight_a.setVisibility(VISIBLE);
         layoutKanjiInputRight_b.setVisibility(GONE);
 
-        for (int i = 0; i < ALL_IDS_a.length; i++) {
-            Button button = (Button)findViewById(ALL_IDS_a[i]);
+        int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
+        for (int i = 0; i < buttonAIds.length; i++) {
+            Button button = (Button)findViewById(buttonAIds[i]);
             button.setText("");
             button.setEnabled(false);
         }
@@ -204,13 +218,18 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
 
     private void initializeKanjiButtons() {
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
         if (kanjiPage == 0) {
             layoutKanjiInputRight_a.setVisibility(VISIBLE);
             layoutKanjiInputRight_b.setVisibility(GONE);
 
+            int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
             int k = 0;
-            while (k < ALL_IDS_a.length && k < kanjis.length) {
-                final Button button = (Button)findViewById(ALL_IDS_a[k]);
+            while (k < buttonAIds.length && k < kanjis.length) {
+                final Button button = (Button)findViewById(buttonAIds[k]);
                 button.setText(kanjis[k]);
                 button.setEnabled(true);
                 button.setOnClickListener(
@@ -227,8 +246,8 @@ public class WritingProblemActivity extends AppCompatActivity {
 
                 k++;
             }
-            while (k < ALL_IDS_a.length) {
-                Button button = (Button)findViewById(ALL_IDS_a[k]);
+            while (k < buttonAIds.length) {
+                Button button = (Button)findViewById(buttonAIds[k]);
                 button.setText(" ");
                 button.setEnabled(false);
                 k++;
@@ -254,10 +273,11 @@ public class WritingProblemActivity extends AppCompatActivity {
             layoutKanjiInputRight_a.setVisibility(GONE);
             layoutKanjiInputRight_b.setVisibility(VISIBLE);
 
+            int[] buttonBIds = (dpWidth >= 600 ? ALL_IDS_b_w600dp : ALL_IDS_b);
             int k = 12 * (kanjiPage - 1) + 7; 
             int b = 0;
-            while (b < ALL_IDS_b.length && k < kanjis.length) {
-                final Button button = (Button)findViewById(ALL_IDS_b[b]);
+            while (b < buttonBIds.length && k < kanjis.length) {
+                final Button button = (Button)findViewById(buttonBIds[b]);
                 button.setText(kanjis[k]);
                 button.setEnabled(true);
                 button.setOnClickListener(
@@ -275,8 +295,8 @@ public class WritingProblemActivity extends AppCompatActivity {
                 b++;
                 k++;
             }
-            while (b < ALL_IDS_b.length) {
-                Button button = (Button)findViewById(ALL_IDS_b[b]);
+            while (b < buttonBIds.length) {
+                Button button = (Button)findViewById(buttonBIds[b]);
                 button.setText(" ");
                 button.setEnabled(false);
                 b++;
