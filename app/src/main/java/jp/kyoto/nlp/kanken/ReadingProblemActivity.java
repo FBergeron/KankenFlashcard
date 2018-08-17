@@ -148,7 +148,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
         ArrayList<String> answerKanas = Util.findKanasFrom(currProb.getRightAnswer());
         buttonKanas.addAll(answerKanas);
 
-        while (buttonKanas.size() < 12) {
+        while (buttonKanas.size() < 9) {
             String fillerKana = null;
             try {
                 fillerKana = Util.findRandomKana();

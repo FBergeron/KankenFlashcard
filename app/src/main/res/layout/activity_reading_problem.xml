@@ -93,6 +93,12 @@
                     android:text="*"
                     android:textSize="@dimen/button_kana_text_size" />
 
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
                 <Button
                     android:id="@+id/buttonKana04"
                     android:layout_width="wrap_content"
@@ -100,12 +106,6 @@
                     android:onClick="enterKana"
                     android:text="*"
                     android:textSize="@dimen/button_kana_text_size" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
                 <Button
                     android:id="@+id/buttonKana05"
@@ -123,6 +123,12 @@
                     android:text="*"
                     android:textSize="@dimen/button_kana_text_size" />
 
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
                 <Button
                     android:id="@+id/buttonKana07"
                     android:layout_width="wrap_content"
@@ -139,38 +145,8 @@
                     android:text="*"
                     android:textSize="@dimen/button_kana_text_size" />
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <Button
                     android:id="@+id/buttonKana09"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="enterKana"
-                    android:text="*"
-                    android:textSize="@dimen/button_kana_text_size" />
-
-                <Button
-                    android:id="@+id/buttonKana10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="enterKana"
-                    android:text="*"
-                    android:textSize="@dimen/button_kana_text_size" />
-
-                <Button
-                    android:id="@+id/buttonKana11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="enterKana"
-                    android:text="*"
-                    android:textSize="@dimen/button_kana_text_size" />
-
-                <Button
-                    android:id="@+id/buttonKana12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="enterKana"
