@@ -1,5 +1,7 @@
 package jp.kyoto.nlp.kanken;
 
+import com.leafdigital.kanji.android.MultiAssetInputStream;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.IOException;
@@ -8,7 +10,11 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -166,6 +172,34 @@ class Util {
         longKanas.add("\u3074\u3087"); // ぴょ
     }
 
+    public static Map<String, Float> kanaFreq = null;
+    public static List<String> kanaFreqSorted = null;
+
+    public static void initKanaFreq(InputStream is) throws IOException {
+        kanaFreqSorted = new ArrayList<String>();
+        kanaFreq = new HashMap<String, Float>();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                // Ignore empty lines and comments.
+                if (line.length() == 0 || line.startsWith("#"))
+                    continue;
+                
+                int indexOfDelim = line.indexOf('|');
+                if (indexOfDelim != -1) {
+                    String kana = line.substring(0, indexOfDelim);
+                    String strFreq = line.substring(indexOfDelim + 1);
+                    kanaFreqSorted.add(kana);
+                    kanaFreq.put(kana, Float.valueOf(strFreq));
+                }
+            }
+        } 
+        finally {
+            is.close();
+        }
+    }
+
     public static JSONObject readJson(InputStream is) throws IOException, JSONException {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -207,6 +241,29 @@ class Util {
             String kana = (String)it.next();
             if (kana.equals(k))
                 return(kana);
+        }
+
+        return null;
+    }
+
+    /**
+     * Find a kana randomly but consider usage frequency.
+     */
+    public static String findRandomKana() throws IOException {
+        if (kanaFreq == null)
+            KankenApplication.getInstance().initKanaFreq();
+
+        Random r = new Random();
+        float f = r.nextFloat() * 100;
+        
+        for (Iterator<String> it = kanaFreqSorted.iterator(); it.hasNext(); ) {
+            String kana = it.next();
+            Float freq = (kanaFreq.containsKey(kana) ? kanaFreq.get(kana) : null);
+            if (freq != null) {
+                f = f - freq.floatValue();
+                if (f < 0)
+                    return kana;
+            }
         }
 
         return null;

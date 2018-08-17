@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -144,27 +145,27 @@ public class ReadingProblemActivity extends AppCompatActivity {
         
         buttonKanas = new ArrayList<String>();
 
-        ArrayList<String> allKanas = new ArrayList<String>();
-        allKanas.addAll(Util.longKanas);
-        allKanas.addAll(Util.kanas);
-
         ArrayList<String> answerKanas = Util.findKanasFrom(currProb.getRightAnswer());
-
         buttonKanas.addAll(answerKanas);
-        allKanas.removeAll(answerKanas);
 
-        Random r = new Random();
         while (buttonKanas.size() < 12) {
-            String fillerKana = allKanas.remove(r.nextInt(allKanas.size()));
-            buttonKanas.add(fillerKana);
+            String fillerKana = null;
+            try {
+                fillerKana = Util.findRandomKana();
+            }
+            catch (IOException ignore) {
+                ignore.printStackTrace();
+            }
+            if (fillerKana != null && !buttonKanas.contains(fillerKana))
+                buttonKanas.add(fillerKana);
         }
 
+        Random r = new Random();
         ArrayList<String> shuffledButtonKanas = new ArrayList<String>();
         while (!buttonKanas.isEmpty())
             shuffledButtonKanas.add(buttonKanas.remove(r.nextInt(buttonKanas.size())));
         buttonKanas = shuffledButtonKanas;
 
-        System.out.println("ID="+R.id.buttonKana01);
         for (int i = 0; i < buttonKanas.size(); i++) {
             int buttonNumber = i +  1;
             String buttonName = "buttonKana" + (buttonNumber < 10 ? "0" : "") + buttonNumber;

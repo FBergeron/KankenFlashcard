@@ -2,6 +2,7 @@ package jp.kyoto.nlp.kanken;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Set;
 
 import android.app.Application;
@@ -70,6 +71,11 @@ public class KankenApplication extends Application {
             serverBaseUrl = jsonConfig.getString("server");
         }
         return serverBaseUrl;
+    }
+
+    public void initKanaFreq() throws IOException {
+        InputStream is = new MultiAssetInputStream(getAssets(), new String[] { "kana-freq.dat" });
+        Util.initKanaFreq(is);
     }
 
     private static KankenApplication instance;
