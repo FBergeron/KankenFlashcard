@@ -345,47 +345,55 @@
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layoutWritingProblemUserAnswer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="18"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewWritingProblemUserAnswer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="6sp"
-                android:layout_weight="1"
-                android:background="#e3ecf9"
-                android:textSize="@dimen/textfield_answer_text_size" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/buttonDeleteKanji"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/layoutWritingProblemUserAnswer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="deleteKanji"
-                    android:text="@string/button_delete_kanji"
-                    android:textSize="@dimen/button_delete_char_text_size" />
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/buttonValidateWritingProblemAnswer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="validateAnswer"
-                    android:text="@string/button_validate_answer"
-                    android:textSize="@dimen/button_validate_answer_text_size" />
+                    <TextView
+                        android:id="@+id/textViewWritingProblemUserAnswer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="6sp"
+                        android:layout_weight="1"
+                        android:background="#e3ecf9"
+                        android:textSize="@dimen/textfield_answer_text_size" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/buttonDeleteKanji"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="deleteKanji"
+                            android:text="@string/button_delete_kanji"
+                            android:textSize="@dimen/button_delete_char_text_size" />
+
+                        <Button
+                            android:id="@+id/buttonValidateWritingProblemAnswer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="validateAnswer"
+                            android:text="@string/button_validate_answer"
+                            android:textSize="@dimen/button_validate_answer_text_size" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
             </LinearLayout>
+
 
         </LinearLayout>
 

@@ -107,8 +107,10 @@ public class WritingProblemActivity extends AppCompatActivity {
         int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
         for (int i = 0; i < buttonAIds.length; i++) {
             Button button = (Button)findViewById(buttonAIds[i]);
-            button.setText("");
-            button.setEnabled(false);
+            if (button != null) {
+                button.setText("");
+                button.setEnabled(false);
+            }
         }
 
         kanjiPage = 0;
@@ -232,44 +234,50 @@ public class WritingProblemActivity extends AppCompatActivity {
             int k = 0;
             while (k < buttonAIds.length && k < kanjis.length) {
                 final Button button = (Button)findViewById(buttonAIds[k]);
-                button.setText(kanjis[k]);
-                button.setEnabled(true);
-                button.setOnClickListener(
-                    new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
-                            textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
-                            findViewById(R.id.buttonDeleteKanji).setEnabled(true);
-                            clearCanvas(v);
+                if (button != null) {
+                    button.setText(kanjis[k]);
+                    button.setEnabled(true);
+                    button.setOnClickListener(
+                        new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+                                textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                                findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                                clearCanvas(v);
+                            }
                         }
-                    }
-                );
+                    );
+                }
 
                 k++;
             }
             while (k < buttonAIds.length) {
                 Button button = (Button)findViewById(buttonAIds[k]);
-                button.setText(" ");
-                button.setEnabled(false);
+                if (button != null) {
+                    button.setText(" ");
+                    button.setEnabled(false);
+                }
                 k++;
             }
 
             Button buttonNextPage = (Button)findViewById(R.id.buttonShowNextPage_a);
-            if (kanjis.length > 7) {
-                buttonNextPage.setVisibility(VISIBLE);
-                buttonNextPage.setOnClickListener(
-                    new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            kanjiPage++;
-                            initializeKanjiButtons();
-                         }
-                    }
-                );
+            if (buttonNextPage != null) {
+                if (kanjis.length > 7) {
+                    buttonNextPage.setVisibility(VISIBLE);
+                    buttonNextPage.setOnClickListener(
+                        new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                kanjiPage++;
+                                initializeKanjiButtons();
+                             }
+                        }
+                    );
+                }
+                else
+                    buttonNextPage.setVisibility(GONE);
             }
-            else
-                buttonNextPage.setVisibility(GONE);
         }
         else {
             layoutKanjiInputRight_a.setVisibility(GONE);
@@ -280,56 +288,64 @@ public class WritingProblemActivity extends AppCompatActivity {
             int b = 0;
             while (b < buttonBIds.length && k < kanjis.length) {
                 final Button button = (Button)findViewById(buttonBIds[b]);
-                button.setText(kanjis[k]);
-                button.setEnabled(true);
-                button.setOnClickListener(
-                    new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
-                            textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
-                            findViewById(R.id.buttonDeleteKanji).setEnabled(true);
-                            clearCanvas(v);
+                if (button != null) {
+                    button.setText(kanjis[k]);
+                    button.setEnabled(true);
+                    button.setOnClickListener(
+                        new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
+                                textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                                findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                                clearCanvas(v);
+                            }
                         }
-                    }
-                );
+                    );
+                }
 
                 b++;
                 k++;
             }
             while (b < buttonBIds.length) {
                 Button button = (Button)findViewById(buttonBIds[b]);
-                button.setText(" ");
-                button.setEnabled(false);
+                if (button != null) {
+                    button.setText(" ");
+                    button.setEnabled(false);
+                }
                 b++;
             }
             
             Button buttonPrevPage = (Button)findViewById(R.id.buttonShowPrevPage_b);
-            buttonPrevPage.setVisibility(VISIBLE);
-            buttonPrevPage.setOnClickListener(
-                new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        kanjiPage--;
-                        initializeKanjiButtons();
-                     }
-                }
-            );
-            Button buttonNextPage = (Button)findViewById(R.id.buttonShowNextPage_b);
-            if (kanjis.length > 12 * kanjiPage + 7) {
-                buttonNextPage.setVisibility(VISIBLE);
-                buttonNextPage.setOnClickListener(
+            if (buttonPrevPage != null) {
+                buttonPrevPage.setVisibility(VISIBLE);
+                buttonPrevPage.setOnClickListener(
                     new OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            kanjiPage++;
+                            kanjiPage--;
                             initializeKanjiButtons();
                          }
                     }
                 );
             }
-            else
-                buttonNextPage.setVisibility(GONE);
+            Button buttonNextPage = (Button)findViewById(R.id.buttonShowNextPage_b);
+            if (buttonNextPage != null) {
+                if (kanjis.length > 12 * kanjiPage + 7) {
+                    buttonNextPage.setVisibility(VISIBLE);
+                    buttonNextPage.setOnClickListener(
+                        new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                kanjiPage++;
+                                initializeKanjiButtons();
+                             }
+                        }
+                    );
+                }
+                else
+                    buttonNextPage.setVisibility(GONE);
+            }
         }
     }
 
