@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -44,6 +45,8 @@ public class WritingProblemActivity extends AppCompatActivity {
 
     private final static int MAX_ANSWER_LENGTH = 10;
 
+    private final static long SHOW_KANJIS_DELAY = 1200; // In ms.
+
     private final static int[] ALL_IDS_a_w600dp = {
         R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a, R.id.no7_a
     };
@@ -77,6 +80,9 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
 
     public void enterCharacter(android.view.View view) {
+        if (kanjiTimer != null)
+            kanjiTimer.cancel();
+
         findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
         KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
         new MatchThread(this, kanjiCanvas.getStrokes(), R.string.label_finding_characters, true);
@@ -91,6 +97,9 @@ public class WritingProblemActivity extends AppCompatActivity {
     }
 
     public void clearCanvas(android.view.View view) {
+        if (kanjiTimer != null)
+            kanjiTimer.cancel();
+
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
@@ -215,12 +224,29 @@ public class WritingProblemActivity extends AppCompatActivity {
                     findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(strokes.length > 0);
                     findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(strokes.length > 0);
                     findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(strokes.length > 0);
+                    if (strokes != null && strokes.length > 0)
+                        startTimer(SHOW_KANJIS_DELAY);
                 }
             }
         );
 
         clearCanvas(null);
         findViewById(R.id.buttonDeleteKanji).setEnabled(false);
+    }
+
+    private void startTimer(long time) {
+        if (kanjiTimer == null) {
+            kanjiTimer = new CountDownTimer(time, SHOW_KANJIS_DELAY / 3) {
+                public void onTick(long millisUntilDone) {
+                }
+
+                public void onFinish() {
+                    enterCharacter(null);
+                }
+            };
+        }
+        kanjiTimer.cancel();
+        kanjiTimer.start();
     }
 
     private void initializeKanjiButtons() {
@@ -660,5 +686,7 @@ public class WritingProblemActivity extends AppCompatActivity {
     private static Object listSynch = new Object();
 
     private Random rand = new Random();
+
+    private CountDownTimer kanjiTimer = null;
 
 }
