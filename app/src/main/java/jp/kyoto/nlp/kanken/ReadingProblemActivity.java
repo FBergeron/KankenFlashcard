@@ -23,6 +23,8 @@ import java.util.Set;
 
 public class ReadingProblemActivity extends AppCompatActivity {
 
+    private final static int MAX_ANSWER_LENGTH = 16;
+
     @Override
     public void onBackPressed() {
         // Prevent the user to come back once the quiz is started.
@@ -58,7 +60,8 @@ public class ReadingProblemActivity extends AppCompatActivity {
             int buttonId = getResources().getIdentifier(buttonName, "id", ReadingProblemActivity.this.getPackageName());
             if (buttonId == view.getId()) {
                 TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
-                textViewReadingProblemUserAnswer.setText(textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i));
+                if (textViewReadingProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH)
+                    textViewReadingProblemUserAnswer.setText(textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i));
             }
         }
     }

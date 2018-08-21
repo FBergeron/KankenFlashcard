@@ -42,6 +42,8 @@ import static android.view.View.*;
 
 public class WritingProblemActivity extends AppCompatActivity {
 
+    private final static int MAX_ANSWER_LENGTH = 10;
+
     private final static int[] ALL_IDS_a_w600dp = {
         R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a, R.id.no7_a
     };
@@ -242,9 +244,11 @@ public class WritingProblemActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
-                                textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
-                                findViewById(R.id.buttonDeleteKanji).setEnabled(true);
-                                clearCanvas(v);
+                                if (textViewWritingProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
+                                    textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                                    findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                                    clearCanvas(v);
+                                }
                             }
                         }
                     );
@@ -296,9 +300,11 @@ public class WritingProblemActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
-                                textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
-                                findViewById(R.id.buttonDeleteKanji).setEnabled(true);
-                                clearCanvas(v);
+                                if (textViewWritingProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
+                                    textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                                    findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                                    clearCanvas(v);
+                                }
                             }
                         }
                     );
