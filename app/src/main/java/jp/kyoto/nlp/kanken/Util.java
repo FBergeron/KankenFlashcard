@@ -269,7 +269,12 @@ class Util {
         return null;
     }
 
-    public static ArrayList<String> findKanasFrom(String word) {
+    /**
+     * Returns the list of kanas of the word.
+     * @param word Word
+     * @param distinct if <code>true</code> the list will not contain duplicate kanas. Otherwise, the kanas are listed as they are found in the word (in order) including duplicate kanas.
+     */
+    public static List<String> findKanasFrom(String word, boolean distinct) {
         ArrayList<String> chars = new ArrayList<String>();
         int c = 0;
         while (c < word.length()) {
@@ -287,8 +292,10 @@ class Util {
                 if (foundKana != null)
                     c += 1;
             }
-            if (foundKana != null && !chars.contains(foundKana))
-                chars.add(foundKana);
+            if (foundKana != null) {
+                if (!distinct || !chars.contains(foundKana))
+                    chars.add(foundKana);
+            }
         }
         return chars;
     }
