@@ -43,7 +43,7 @@ class Util {
         kanas.add("\u305d"); // そ
 
         kanas.add("\u305f"); // た
-        kanas.add("\u3062"); // ち
+        kanas.add("\u3061"); // ち
         kanas.add("\u3064"); // つ
         kanas.add("\u3066"); // て
         kanas.add("\u3068"); // と
