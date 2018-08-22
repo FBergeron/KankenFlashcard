@@ -77,7 +77,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -104,7 +104,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -130,26 +130,24 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textViewEvaluationResultArrow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:text="⇒"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textViewEvaluationResult"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="@dimen/evaluation_outcome_text_size" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewEvaluationResultArrow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="⇓"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewEvaluationResult"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="@dimen/evaluation_outcome_text_size" />
 
     <LinearLayout
         android:id="@+id/layoutErroneousProblem"
