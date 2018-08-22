@@ -54,16 +54,12 @@ public class QuizSummaryActivity extends AppCompatActivity {
             Integer familiarity = itFamiliarity.next();
             summary.append("<table class=\"problem\">");
             String problemLabel = String.format(getResources().getString(R.string.label_summary_problem), (i+1));
-            String strColspan = "7";
-            String strColWidth = "84%";
-            String strArticleLinkTd = "";
-            if (problem.isArticleLinkAlive()) {
-                strColspan = "6";
-                strColWidth = "72%";
-                strArticleLinkTd = "<td align=\"center\"><a target=\"_blank\" href=\"" + problem.getArticleUrl() + "\"><img width=\"32\" height=\"32\" src=\"view-article.svg\"/></a></td>";
-            }
+            String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : "");
+            String buttonImg = (problem.isArticleLinkAlive() ? "view-article" : "search");
             String statementLabel = getResources().getString(R.string.label_summary_statement);
-            summary.append("<tr><th width=\"4%\" class=\"rotate\" rowspan=\"2\"><div width=\"12%\">" + problemLabel + "</div></th><td width=\"12%\" class=\"label\">" + statementLabel + "</td><td width=\"" + strColWidth + "\" colspan=\"" + strColspan + "\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>" + strArticleLinkTd + "</tr>");
+            summary.append("<tr><th width=\"4%\" class=\"rotate\" rowspan=\"2\"><div width=\"12%\">" + problemLabel + "</div></th><td width=\"12%\" class=\"label\">" + statementLabel + "</td><td width=\"72%\" colspan=\"6\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>");
+            summary.append("<td align=\"center\"><a target=\"_blank\" href=\"" + link + "\"><img width=\"32\" height=\"32\" src=\"" + buttonImg + ".svg\"/></a></td>");
+            summary.append("</tr>");
             summary.append("<tr>");
             String userAnswerLabel = getResources().getString(R.string.label_summary_user_answer);
             summary.append("<td class=\"label\" width=\"12%\">" + userAnswerLabel + "</td>");

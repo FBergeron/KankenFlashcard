@@ -45,6 +45,10 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
         }
     }
 
+    public void search(android.view.View view) {
+        System.out.println("Search!");
+    }
+
     @Override
     public void onBackPressed() {
         // Prevent the user to come back once the quiz is started.
@@ -142,6 +146,9 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
 
         ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewProblemArticle);
         imageButtonViewArticle.setVisibility(currProb.isArticleLinkAlive() ? VISIBLE : GONE);
+
+        ImageButton imageButtonSearch = (ImageButton)findViewById(R.id.imageButtonSearch);
+        imageButtonSearch.setVisibility(currProb.isArticleLinkAlive() ? GONE : VISIBLE);
 
         TextView textViewAnswerValue = (TextView)findViewById(R.id.textViewAnswerValue);
         textViewAnswerValue.setText(appl.getQuiz().getAnswer(currProbIndex));
