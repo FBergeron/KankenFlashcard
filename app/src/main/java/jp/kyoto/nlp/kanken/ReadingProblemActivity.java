@@ -41,6 +41,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
             if (foundKana != null) {
                 textViewReadingProblemUserAnswer.setText(answer.substring(0, answer.length() - 2));
                 initKanaButtons();
+                findViewById(R.id.buttonDeleteKana).setEnabled(textViewReadingProblemUserAnswer.getText().toString().length() > 0);
                 return;
             }
         }
@@ -50,6 +51,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
             if (foundKana != null) {
                 textViewReadingProblemUserAnswer.setText(answer.substring(0, answer.length() - 1));
                 initKanaButtons();
+                findViewById(R.id.buttonDeleteKana).setEnabled(textViewReadingProblemUserAnswer.getText().toString().length() > 0);
                 return;
             }
         }
@@ -67,6 +69,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
                     List<String> answerKanas = Util.findKanasFrom(textViewReadingProblemUserAnswer.getText().toString(), false);
                     if (answerKanas.size() < MAX_ANSWER_LENGTH) {
                         textViewReadingProblemUserAnswer.setText(textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i));
+                        findViewById(R.id.buttonDeleteKana).setEnabled(true);
                         initKanaButtons();
                     }
                     break;
@@ -157,6 +160,8 @@ public class ReadingProblemActivity extends AppCompatActivity {
        
         allButtonKanas.clear();
         initKanaButtons();
+
+        findViewById(R.id.buttonDeleteKana).setEnabled(false);
     }
 
     private void initKanaButtons() {
