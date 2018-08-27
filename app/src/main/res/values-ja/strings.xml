@@ -25,6 +25,8 @@
     <string name="error_no_topics_selected_title">ジャンルがではありません。</string>
     <string name="error_no_topics_selected_msg">ジャンルを選択していませんから、クイズが始めることが出来ません。</string>
     <string name="error_empty_answer_title">答えがではありません。</string>
+    <string name="error_not_enough_problems_found_title">十分な問題が見つかりません。</string>
+    <string name="error_not_enough_problems_found_msg">ジャンルを追加してかレベルを変更してから、もう一度試して下さい。\n\nまた同じのエラーが出たら、明日、もう一回試して下さい。 </string>
     <string name="button_continue">続ける</string>
     <string name="error_empty_answer_msg">回答フィールドは空白です。これは、問題の答えがわからないかのように解釈されます。</string>
     <string name="label_problem_info_level">%1$d級</string>

@@ -287,13 +287,14 @@ public class QuizSettingsActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(final Object obj) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+
             if (exception != null) {
                 System.out.println("An exception has occured: " + exception);
                 // TODO Handle that in a better way.
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                    progressDialog = null;
-                }
                 return;
             }
 
@@ -307,6 +308,21 @@ public class QuizSettingsActivity extends AppCompatActivity {
             Quiz quiz = appl.getQuiz();
 
             JSONArray jsonProblems = (JSONArray)obj;
+            
+            if (jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
+                builder.setTitle(getResources().getString(R.string.error_not_enough_problems_found_title))
+                .setMessage(getResources().getString(R.string.error_not_enough_problems_found_msg))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(true)
+                .show();
+                return;
+            }
+
             for (int i = 0; i < jsonProblems.length(); i++) {
                 try {
                     JSONArray jsonProblemData = jsonProblems.getJSONArray(i);
@@ -351,11 +367,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 catch(JSONException e) {
                     e.printStackTrace();
                 }
-            }
-
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-                progressDialog = null;
             }
 
             quiz.setProblems(problems);
