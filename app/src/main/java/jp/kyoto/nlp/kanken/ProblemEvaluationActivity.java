@@ -28,8 +28,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -168,15 +166,12 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
             textViewEvaluationResult.setTextColor(Color.RED);
         }
 
-        Pattern problemPattern = Pattern.compile(".*\\[(.*)\\].*");
-        String statement = appl.getQuiz().getCurrentProblem().getStatement();
-        Matcher problemMatcher = problemPattern.matcher(statement);
-        if (problemMatcher.matches()) {
-            String problemWord = problemMatcher.group(1);
-            String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), problemWord);
-            TextView textViewProblemFamiliarity = (TextView)findViewById(R.id.textViewProblemFamiliarity);
-            textViewProblemFamiliarity.setText(text);
-        }
+        String jumanInfo = currProb.getJumanInfo();
+        int indexOfSlash = jumanInfo.indexOf("/");
+        String wordInKanjis = (indexOfSlash == -1 ? jumanInfo : jumanInfo.substring(0, indexOfSlash));
+        String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
+        TextView textViewProblemFamiliarity = (TextView)findViewById(R.id.textViewProblemFamiliarity);
+        textViewProblemFamiliarity.setText(text);
     }
 
     private class SendResultsTask extends AsyncTask {
