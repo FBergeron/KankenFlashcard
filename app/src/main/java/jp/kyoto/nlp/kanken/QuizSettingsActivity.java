@@ -136,7 +136,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
         
         appl.startQuiz(type, quizTopics, level);
 
-        fetchProblems(appl.getUserEmail(), level, quizTopics, type);
+        fetchProblems(level, quizTopics, type);
     }
 
     @Override
@@ -211,8 +211,8 @@ public class QuizSettingsActivity extends AppCompatActivity {
         textViewSelectedTopics.setText(str.toString());
     }
 
-    private void fetchProblems(String userEmail, int level, Set<Problem.Topic> topics, Problem.Type type) {
-        System.out.println("fetchProblems userEmail="+userEmail+" level="+level+" topics="+topics+" type="+type);
+    private void fetchProblems(int level, Set<Problem.Topic> topics, Problem.Type type) {
+        System.out.println("fetchProblems level="+level+" topics="+topics+" type="+type);
         URL getNextProblemsUrl = null;
         try {
             String delim = "";
