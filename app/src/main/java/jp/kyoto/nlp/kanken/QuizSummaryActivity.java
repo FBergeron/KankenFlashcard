@@ -31,7 +31,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
         summary.append(".rotate { text-align: center; white-space: nowrap; vertical-align: middle; width: 1.5em; }");
         summary.append(".rotate div { -webkit-transform: rotate(-90.0deg); margin-left: -10em; margin-right: -10em; }");
         summary.append("body { font-size: 24px; }");
-        summary.append("em { color: red; font-weight: bold; }");
+        summary.append("em { color: red; font-weight: bold; font-style: normal; }");
         summary.append("table { width: 95%; border: 1px solid; margin: 10px 10px 20px 10px; border-collapse: collapse; }");
         summary.append("table th { border: 1px solid #333333; background-color: #6666ff; color: #ffffff; padding: 10px; }");
         summary.append("table td { border: 1px solid #333333; background-color: #ffffff; color: #000000; padding: 10px; }");

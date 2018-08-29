@@ -149,7 +149,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
         stmt.append("<head>");
         stmt.append("<style type\"text/css\">");
         stmt.append("body { font-size: x-large;}");
-        stmt.append("em { color: red; font-weight: bold;}");
+        stmt.append("em { color: red; font-weight: bold; font-style: normal;}");
         stmt.append("</style>");
         stmt.append("</head>");
         stmt.append("<body>" + currProb.getStatement().replace("[", "<em>").replace("]", "</em>")  + "</body>");
