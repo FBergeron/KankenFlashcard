@@ -1,0 +1,26 @@
+CHANGES
+
+0.4-alpha
+---------
+- Replaced Right and Wrong images.
+- Moved View Article button from Reading/Writing Problem to Problem Evaluation page.
+- Changed Familiarity input widget.
+- Changed Select Topics button's string.
+- Added numbers below Quiz Level Seekbar.
+- Improved layout for smartphones.
+- Consider usage frequency when choosing kanas for Reading Problems.
+- Reduced the number of kana buttons for Reading Problems.
+- Mix kana buttons each time a new character is input for Reading Problems.
+- Removed katakanas in stroke files to prevent confusion.
+- Added FUZZY algo to prevent issue when drawing UE.
+- Limited length of kanas and kanjis in both Reading/Writing Problems.
+- Limited length of kanjis found in Writing Problems (60).
+- Added lanscape layout for Writing Problems.
+- Call enterCharacter() automatically after a stroke is drawn in Writing Problems.
+- Added Search button for article with dead links.
+- Disabled Backspace button when appropriate.
+- Go back to Settings when Back is pushed.
+- Always show the answer in kanjis on the Evaluation page.
+- Display an error message when not enough problems are available for a quiz.
+- Removed italic style in problem statements.
+- ...
