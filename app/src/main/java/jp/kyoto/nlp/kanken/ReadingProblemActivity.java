@@ -27,7 +27,7 @@ public class ReadingProblemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Prevent the user to come back once the quiz is started.
+        Util.goBackToSettings(ReadingProblemActivity.this);
     }
 
     public void deleteKana(android.view.View view) {

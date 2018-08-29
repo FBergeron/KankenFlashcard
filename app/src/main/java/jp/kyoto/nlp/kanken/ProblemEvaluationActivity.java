@@ -49,7 +49,7 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Prevent the user to come back once the quiz is started.
+        Util.goBackToSettings(ProblemEvaluationActivity.this);
     }
 
     public void goNextPage() {

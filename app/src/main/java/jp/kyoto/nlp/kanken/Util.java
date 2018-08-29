@@ -1,5 +1,10 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+
 import com.leafdigital.kanji.android.MultiAssetInputStream;
 
 import java.io.BufferedReader;
@@ -298,6 +303,25 @@ class Util {
             }
         }
         return chars;
+    }
+
+    public static void goBackToSettings(final Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getResources().getString(R.string.warning_cancel_quiz_title))
+        .setMessage(context.getResources().getString(R.string.warning_cancel_quiz_msg))
+        .setPositiveButton(R.string.button_terminate, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent quizSettingsActivity = new Intent(context, QuizSettingsActivity.class);
+                context.startActivity(quizSettingsActivity);
+            }
+         })
+        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+            }
+         })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setCancelable(true)
+        .show();
     }
 
     public static final String PREFS_GENERAL = "KankenAppPrefsGeneral";

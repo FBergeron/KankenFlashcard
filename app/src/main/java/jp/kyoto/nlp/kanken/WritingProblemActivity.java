@@ -67,7 +67,7 @@ public class WritingProblemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Prevent the user to come back once the quiz is started.
+        Util.goBackToSettings(WritingProblemActivity.this);
     }
 
     public void deleteKanji(android.view.View view) {

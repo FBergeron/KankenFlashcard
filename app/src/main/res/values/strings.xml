@@ -66,4 +66,7 @@
     <string name="label_authentication">Please authenticate yourself with your Google account before using the application.</string>
     <string name="label_fetching_quiz_data">Fetching quiz data...</string>
     <string name="label_sending_results_data">Sending results data...</string>
+    <string name="warning_cancel_quiz_title">Terminate the quiz?</string>
+    <string name="warning_cancel_quiz_msg">Do you want to terminate the current quiz and go back to the main settings page?</string>
+    <string name="button_terminate">Terminate</string>
 </resources>
