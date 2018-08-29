@@ -11,12 +11,11 @@ public class QuizSummaryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Prevent the user to come back once the quiz is started.
+        doLeaveSummary();
     }
 
     public void leaveSummary(android.view.View view) {
-        Intent quizSettingsActivity = new Intent(QuizSummaryActivity.this, QuizSettingsActivity.class);
-        startActivity(quizSettingsActivity);
+        doLeaveSummary();
     }
 
     @Override
@@ -54,7 +53,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
             Integer familiarity = itFamiliarity.next();
             summary.append("<table class=\"problem\">");
             String problemLabel = String.format(getResources().getString(R.string.label_summary_problem), (i+1));
-            String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : "");
+            String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : problem.getAltArticleUrl());
             String buttonImg = (problem.isArticleLinkAlive() ? "view-article" : "search");
             String statementLabel = getResources().getString(R.string.label_summary_statement);
             summary.append("<tr><th width=\"4%\" class=\"rotate\" rowspan=\"2\"><div width=\"12%\">" + problemLabel + "</div></th><td width=\"12%\" class=\"label\">" + statementLabel + "</td><td width=\"72%\" colspan=\"6\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>");
@@ -84,6 +83,11 @@ public class QuizSummaryActivity extends AppCompatActivity {
         webViewSummary.loadDataWithBaseURL("file:///android_asset/", summary.toString(), "text/html; charset=utf-8", "utf-8", null);
     }
 
-    KankenApplication appl = KankenApplication.getInstance();
+    private void doLeaveSummary() {
+        Intent quizSettingsActivity = new Intent(QuizSummaryActivity.this, QuizSettingsActivity.class);
+        startActivity(quizSettingsActivity);
+    }
+
+    private KankenApplication appl = KankenApplication.getInstance();
 
 }

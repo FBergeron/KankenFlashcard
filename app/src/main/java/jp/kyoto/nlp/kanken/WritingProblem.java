@@ -4,7 +4,7 @@ import java.util.Set;
 
 class WritingProblem extends Problem {
 
-    public WritingProblem(String id, int level, Set<Problem.Topic> topics, String statement, String jumanInfo, String rightAnswer, String articleUrl, boolean isArticleLinkAlive) {
+    public WritingProblem(String id, int level, Set<Problem.Topic> topics, String statement, String jumanInfo, String rightAnswer, String articleUrl, boolean isArticleLinkAlive, String altArticleUrl) {
         this.id = id;
         this.level = level;
         this.topics = topics;
@@ -13,6 +13,7 @@ class WritingProblem extends Problem {
         this.rightAnswer = rightAnswer;
         this.articleUrl = articleUrl;
         this.isArticleLinkAlive = isArticleLinkAlive;
+        this.altArticleUrl = altArticleUrl;
     }
 
     public Problem.Type getType() {

@@ -44,7 +44,12 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
     }
 
     public void search(android.view.View view) {
-        System.out.println("Search!");
+        String altArticleUrl = appl.getQuiz().getCurrentProblem().getAltArticleUrl();
+        if (altArticleUrl != null) {
+            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+            httpIntent.setData(Uri.parse(altArticleUrl));
+            startActivity(httpIntent);
+        }
     }
 
     @Override

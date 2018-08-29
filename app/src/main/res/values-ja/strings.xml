@@ -68,4 +68,5 @@
     <string name="warning_cancel_quiz_title">クイズを終了する？</string>
     <string name="warning_cancel_quiz_msg">クイズを終了してから、設定のページに戻りたいですか？</string>
     <string name="button_terminate">終了する</string>
+    <string name="search_engine_url">https://www.google.co.jp/search?q=%1$s</string>
 </resources>

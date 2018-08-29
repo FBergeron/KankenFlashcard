@@ -103,6 +103,10 @@ abstract class Problem {
         return isArticleLinkAlive;
     }
 
+    public String getAltArticleUrl() {
+        return altArticleUrl;
+    }
+
     public String toString() {
         StringBuffer str = new StringBuffer();
         str.append("id: ").append(id);
@@ -113,6 +117,7 @@ abstract class Problem {
         str.append("; answer: ").append(rightAnswer);
         str.append("; articleUrl: ").append(articleUrl);
         str.append("; isArticleLinkAlive: ").append(isArticleLinkAlive);
+        str.append("; altArticleUrl: ").append(altArticleUrl);
         return str.toString();
     }
 
@@ -128,5 +133,6 @@ abstract class Problem {
     protected String rightAnswer;
     protected String articleUrl;
     protected boolean isArticleLinkAlive;
+    protected String altArticleUrl;
 
 }

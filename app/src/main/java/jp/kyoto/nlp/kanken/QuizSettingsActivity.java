@@ -335,14 +335,37 @@ public class QuizSettingsActivity extends AppCompatActivity {
                     String statement = jsonProblem.getString(2);
                     String rightAnswer = jsonProblem.getString(3);
                     String articleUrl = jsonProblem.getString(4);
-                    int isLinkAlive = jsonProblem.getInt(5);
+                    Object objIsLinkAlive = jsonProblem.get(5);
+                    
+                    boolean isLinkAlive = objIsLinkAlive != null && objIsLinkAlive instanceof Integer && ((Integer)objIsLinkAlive).intValue() == 1;
+
+                    String altArticleUrl = null;
+                    try {
+                        if (!isLinkAlive && objIsLinkAlive != null && objIsLinkAlive instanceof JSONArray) {
+                            StringBuilder strParams = new StringBuilder();
+                            String paramDelim = "";
+                            JSONArray searchTerms = (JSONArray)objIsLinkAlive;
+                            for (int t = 0; t < searchTerms.length(); t++) {
+                                strParams.append(paramDelim);
+                                strParams.append(URLEncoder.encode(searchTerms.getString(t), "UTF-8"));
+                                paramDelim = "+";
+                            }
+                            if (strParams.length() > 0)
+                                altArticleUrl = String.format(getResources().getString(R.string.search_engine_url), strParams);
+                        }
+                    }
+                    catch (UnsupportedEncodingException ignore) {
+                        ignore.printStackTrace();
+                    }
 
                     // System.out.println("id="+id);
                     // System.out.println("jumanInfo="+jumanInfo);
                     // System.out.println("statement="+statement);
                     // System.out.println("rightAnswer="+rightAnswer);
                     // System.out.println("articleUrl="+articleUrl);
+                    // System.out.println("objIsLinkAlive="+objIsLinkAlive);
                     // System.out.println("isLinkAlive="+isLinkAlive);
+                    // System.out.println("altArticleUrl="+altArticleUrl);
 
                     Set<Problem.Topic> topics = new HashSet<Problem.Topic>();
                     for (int j = 0; j < jsonProblemTopics.length(); j++) {
@@ -352,11 +375,10 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
                     Problem problem = null;
                     try {
-                        //if (Problem.Type.READING.getLabelId().equals(type))
                         if (Problem.Type.READING == quiz.getType())
-                            problem = new ReadingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
+                            problem = new ReadingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
                         else
-                            problem = new WritingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive == 1);
+                            problem = new WritingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
                     }
                     catch(NumberFormatException e) {
                         e.printStackTrace();

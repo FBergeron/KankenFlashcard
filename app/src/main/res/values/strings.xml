@@ -69,4 +69,5 @@
     <string name="warning_cancel_quiz_title">Terminate the quiz?</string>
     <string name="warning_cancel_quiz_msg">Do you want to terminate the current quiz and go back to the main settings page?</string>
     <string name="button_terminate">Terminate</string>
+    <string name="search_engine_url">https://www.google.com/search?q=%1$s</string>
 </resources>
