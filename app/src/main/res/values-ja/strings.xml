@@ -6,7 +6,7 @@
     <string name="button_show_directions">遊び方</string>
     <string name="button_show_terms_of_usage">利用規約</string>
     <string name="label_quiz_level">難しさ</string>
-    <string name="label_quiz_topics">ジャンル</string>
+    <string name="label_quiz_topics">ニュースのジャンル</string>
     <string name="button_select_topics">選択する</string>
     <string name="label_quiz_type">問題の種類</string>
     <string name="label_quiz_type_reading">読み問題</string>

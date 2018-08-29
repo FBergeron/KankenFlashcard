@@ -6,7 +6,7 @@
     <string name="button_show_directions">Help</string>
     <string name="button_show_terms_of_usage">Terms of Usage</string>
     <string name="label_quiz_level">Difficulty Level</string>
-    <string name="label_quiz_topics">Topics</string>
+    <string name="label_quiz_topics">News Topics</string>
     <string name="button_select_topics">Select...</string>
     <string name="label_quiz_type">Type of Problems</string>
     <string name="label_quiz_type_reading">Reading</string>
