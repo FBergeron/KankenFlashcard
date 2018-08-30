@@ -27,6 +27,8 @@ class Quiz {
         problems.clear();
         answers.clear();
         rightAnswers.clear();
+        familiarities.clear();
+        reportedAsIncorrects.clear();
         currentProblem = -1;
     }
 
@@ -84,6 +86,10 @@ class Quiz {
         return familiarities.iterator();
     }
 
+    public Iterator<Boolean> getReportedAsIncorrects() {
+        return reportedAsIncorrects.iterator();
+    }
+
     public boolean validateAnswer(String answer) {
         answers.add(answer);
         if (answer != null && answer.equals(getCurrentProblem().getRightAnswer())) {
@@ -96,14 +102,26 @@ class Quiz {
         }
     }
 
+    public void reportAsIncorrect() {
+        reportedAsIncorrects.add(Boolean.TRUE);
+        familiarities.add(null);
+    }
+
     public void addFamiliarity(int familiarity) {
         familiarities.add(new Integer(familiarity));
+        reportedAsIncorrects.add(Boolean.FALSE);
     }
 
     public Boolean isCurrentAnswerRight() {
         if (currentProblem == -1 || currentProblem >= rightAnswers.size())
             return null;
         return rightAnswers.get(currentProblem);
+    }
+
+    public Boolean isCurrentProblemReportedAsIncorrect() {
+        if (currentProblem == -1 || currentProblem >= reportedAsIncorrects.size())
+            return null;
+        return reportedAsIncorrects.get(currentProblem);
     }
 
     private int length;
@@ -118,5 +136,6 @@ class Quiz {
     private ArrayList<String> answers = new ArrayList<String>();
     private ArrayList<Boolean> rightAnswers = new ArrayList<Boolean>();
     private ArrayList<Integer> familiarities = new ArrayList<Integer>();
+    private ArrayList<Boolean> reportedAsIncorrects = new ArrayList<Boolean>();
 
 }

@@ -49,6 +49,11 @@
     <string name="label_not_familiar">ない</string>
     <string name="label_very_familiar">ある</string>
     <string name="button_next">次へ</string>
+    <string name="info_confirm_report_title">間違いを申告する</string>
+    <string name="info_confirm_report_msg">問題が何か問題があると思われる場合は、問題を報告して下さい。</string>
+    <string name="button_report">報告する</string>
+    <string name="info_report_title">ありがとうございます。</string>
+    <string name="info_report_msg">問題を再検討してから、修正します。</string>
     <string name="label_summary_title">サマリー</string>
     <string name="label_summary_problem">問題 %1$d</string>
     <string name="label_summary_statement">文</string>
@@ -56,6 +61,7 @@
     <string name="label_summary_right_answer">正しい答え</string>
     <string name="label_summary_outcome">結果</string>
     <string name="label_summary_familiarity">親密度</string>
+    <string name="label_summary_reported">間違いを申告してあります!</string>
     <string name="button_leave_summary">戻る</string>
     <string name="label_finding_characters">Finding matching characters...</string>
     <string name="button_signout">サインアウト</string>

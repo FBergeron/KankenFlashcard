@@ -34,8 +34,9 @@ public class QuizSummaryActivity extends AppCompatActivity {
         summary.append("em { color: red; font-weight: bold; font-style: normal; }");
         summary.append("table { width: 95%; border: 1px solid; margin: 10px 10px 20px 10px; border-collapse: collapse; }");
         summary.append("table th { border: 1px solid #333333; background-color: #6666ff; color: #ffffff; padding: 10px; }");
-        summary.append("table td { border: 1px solid #333333; background-color: #ffffff; color: #000000; padding: 10px; }");
+        summary.append("table td { border: 1px solid #333333; background-color: #ffffff; color: #000000; padding: 10px; text-align: center; }");
         summary.append("table td.label { border: 1px solid #333333; background-color: #ccccff; color: #000000; padding: 10px; }");
+        summary.append("table td.reported { border: 1px solid #333333; background-color: #f8c461; color: #ff0000; padding: 10px; text-align: center;}");
         summary.append("</style>");
         summary.append("</head>");
         summary.append("<body>");
@@ -46,18 +47,21 @@ public class QuizSummaryActivity extends AppCompatActivity {
         Iterator<String> itAnswer = quiz.getAnswers();
         Iterator<Boolean> itRightAnswer = quiz.getRightAnswers();
         Iterator<Integer> itFamiliarity = quiz.getFamiliarities();
+        Iterator<Boolean> itReported = quiz.getReportedAsIncorrects();
         for (int i = 0; i < length; i++) {
             Problem problem = itProblem.next();
             String answer = itAnswer.next();
             Boolean isRightAnswer = itRightAnswer.next();
             Integer familiarity = itFamiliarity.next();
+            Boolean isReportedAsIncorrect = itReported.next();
+
             summary.append("<table class=\"problem\">");
             String problemLabel = String.format(getResources().getString(R.string.label_summary_problem), (i+1));
             String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : problem.getAltArticleUrl());
             String buttonImg = (problem.isArticleLinkAlive() ? "view-article" : "search");
             String statementLabel = getResources().getString(R.string.label_summary_statement);
             summary.append("<tr><th width=\"4%\" class=\"rotate\" rowspan=\"2\"><div width=\"12%\">" + problemLabel + "</div></th><td width=\"12%\" class=\"label\">" + statementLabel + "</td><td width=\"72%\" colspan=\"6\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>");
-            summary.append("<td align=\"center\"><a target=\"_blank\" href=\"" + link + "\"><img width=\"32\" height=\"32\" src=\"" + buttonImg + ".svg\"/></a></td>");
+            summary.append("<td width=\"12%\" align=\"center\"><a target=\"_blank\" href=\"" + link + "\"><img width=\"32\" height=\"32\" src=\"" + buttonImg + ".svg\"/></a></td>");
             summary.append("</tr>");
             summary.append("<tr>");
             String userAnswerLabel = getResources().getString(R.string.label_summary_user_answer);
@@ -69,9 +73,15 @@ public class QuizSummaryActivity extends AppCompatActivity {
             String outcomeLabel = getResources().getString(R.string.label_summary_outcome);
             summary.append("<td class=\"label\" width=\"12%\">" + outcomeLabel + "</td>");
             summary.append("<td width=\"12%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "right" : "wrong") + ".svg\"/></td>");
-            String familiarityLabel = getResources().getString(R.string.label_summary_familiarity);
-            summary.append("<td class=\"label\" width=\"12%\">" + familiarityLabel + "</td>");
-            summary.append("<td width=\"12%\">" + familiarity + "</td>");
+            if (isReportedAsIncorrect.booleanValue()) {
+                String reportedLabel = getResources().getString(R.string.label_summary_reported);
+                summary.append("<td colspan=\"2\" class=\"reported\" width=\"24%\">" + reportedLabel + "</td>");
+            }
+            else {
+                String familiarityLabel = getResources().getString(R.string.label_summary_familiarity);
+                summary.append("<td class=\"label\" width=\"12%\">" + familiarityLabel + "</td>");
+                summary.append("<td width=\"12%\">" + familiarity + "</td>");
+            }
             summary.append("</tr>");
             summary.append("</table>");
         }

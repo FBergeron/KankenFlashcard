@@ -1,6 +1,8 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -116,9 +118,33 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
     }
     
     public void reportProblemAsErroneous(android.view.View view) {
-        System.out.println( "This problem is incorrect." );        
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProblemEvaluationActivity.this);
+        builder.setTitle(getResources().getString(R.string.info_confirm_report_title))
+        .setMessage(getResources().getString(R.string.info_confirm_report_msg))
+        .setPositiveButton(R.string.button_report, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProblemEvaluationActivity.this);
+                builder.setTitle(getResources().getString(R.string.info_report_title))
+                .setMessage(getResources().getString(R.string.info_report_msg))
+                .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) { 
+                        appl.getQuiz().reportAsIncorrect();
 
-        goNextPage();
+                        goNextPage();
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setCancelable(true)
+                .show();
+            }
+         })
+        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+            }
+         })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setCancelable(true)
+        .show();
     }
 
     @Override
@@ -185,24 +211,26 @@ public class ProblemEvaluationActivity extends AppCompatActivity {
             URL storeResultsUrl = (URL)objs[0];
             try {
                 Map<String, String> params = new HashMap<String, String>();
-                //params.put("user", appl.getUserEmail());
 
                 int length = appl.getQuiz().getLength();
                 Iterator<Problem> itProblem = appl.getQuiz().getProblems();
                 Iterator<String> itAnswer = appl.getQuiz().getAnswers();
                 Iterator<Boolean> itRightAnswer = appl.getQuiz().getRightAnswers();
                 Iterator<Integer> itFamiliarities = appl.getQuiz().getFamiliarities();
+                Iterator<Boolean> itReported = appl.getQuiz().getReportedAsIncorrects();
                 for (int i = 0; i < length; i++) {
                     Problem problem = itProblem.next();
                     String answer = itAnswer.next();
                     Boolean isRightAnswer = itRightAnswer.next();
                     Integer familiarity = itFamiliarities.next();
+                    Boolean isReportedAsIncorrect = itReported.next();
 
                     params.put("problemId_" + i, problem.getId());
                     params.put("problemJuman_" + i, problem.getJumanInfo());
                     params.put("problemRightAnswer_" + i, (isRightAnswer.booleanValue() ? 1 : 0) + ""); 
                     params.put("problemFamiliarity_" + i, familiarity + "");
                     params.put("problemAnswer_" + i, answer);
+                    params.put("problemReportedAsIncorrect_" + i, (isReportedAsIncorrect.booleanValue() ? 1 : 0) + "");
                 }
 
                 StringBuilder builder = new StringBuilder();

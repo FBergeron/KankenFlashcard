@@ -125,6 +125,16 @@ abstract class Problem {
         return id.hashCode();
     }
 
+    public boolean equals(Object obj) {
+        if(obj == null)
+            return false;
+        if (!(obj instanceof Problem))
+            return false;
+        if (obj == this)
+            return true;
+        return this.getId() == ((Problem)obj).getId();
+    }
+
     protected String id;
     protected int level;
     protected Set<Problem.Topic> topics;

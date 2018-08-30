@@ -45,11 +45,16 @@
     <string name="label_evaluation_right_answer">The right answer</string>
     <string name="label_right_answer">Right!</string>
     <string name="label_wrong_answer">Wrong!</string>
-    <string name="button_report_error">Mark the problem as incorrect</string>
+    <string name="button_report_error">Report the problem as incorrect</string>
     <string name="label_enter_problem_familiarity">Please, enter the familiarity level in regard to this word: %1$s.</string>
     <string name="label_not_familiar">Not familiar</string>
     <string name="label_very_familiar">Very familiar</string>
     <string name="button_next">Next</string>
+    <string name="info_confirm_report_title">Reporting incorrect problem...</string>
+    <string name="info_confirm_report_msg">If you believe that there is something wrong with the problem, whether the statement looks funny or the right answer seems incorrect or for any other reasons, you can report the problem as faulty.</string>
+    <string name="button_report">Report</string>
+    <string name="info_report_title">Thank you!</string>
+    <string name="info_report_msg">We will review the problem and fix it if it\'s appropriate.\n\nYour feedback is very appreciated.</string>
     <string name="label_summary_title">Quiz Summary</string>
     <string name="label_summary_problem">Problem %1$d</string>
     <string name="label_summary_statement">Statement</string>
@@ -57,6 +62,7 @@
     <string name="label_summary_right_answer">Correct answer</string>
     <string name="label_summary_outcome">Outcome</string>
     <string name="label_summary_familiarity">Familiarity</string>
+    <string name="label_summary_reported">Reported as Incorrect!</string>
     <string name="button_leave_summary">Start another quiz</string>
     <string name="label_finding_characters">Finding matching characters...</string>
     <string name="button_signout">Sign out</string>
