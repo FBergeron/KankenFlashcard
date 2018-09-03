@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -64,6 +65,24 @@ public class WritingProblemActivity extends AppCompatActivity {
     };
 
     private final static int KANJIS_MAX_COUNT = 60;
+
+    public void showArticle(android.view.View view) {
+        String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
+        if (articleUrl != null) {
+            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+            httpIntent.setData(Uri.parse(articleUrl));
+            startActivity(httpIntent);
+        }
+    }
+
+    public void search(android.view.View view) {
+        String altArticleUrl = appl.getQuiz().getCurrentProblem().getAltArticleUrl();
+        if (altArticleUrl != null) {
+            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+            httpIntent.setData(Uri.parse(altArticleUrl));
+            startActivity(httpIntent);
+        }
+    }
 
     @Override
     public void onBackPressed() {
