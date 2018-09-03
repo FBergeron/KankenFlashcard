@@ -40,7 +40,6 @@ public class ReadingProblemActivity extends AppCompatActivity {
             foundKana = Util.findKana(subword);
             if (foundKana != null) {
                 textViewReadingProblemUserAnswer.setText(answer.substring(0, answer.length() - 2));
-                initKanaButtons();
                 findViewById(R.id.buttonDeleteKana).setEnabled(textViewReadingProblemUserAnswer.getText().toString().length() > 0);
                 return;
             }
@@ -50,7 +49,6 @@ public class ReadingProblemActivity extends AppCompatActivity {
             foundKana = Util.findKana(subword);
             if (foundKana != null) {
                 textViewReadingProblemUserAnswer.setText(answer.substring(0, answer.length() - 1));
-                initKanaButtons();
                 findViewById(R.id.buttonDeleteKana).setEnabled(textViewReadingProblemUserAnswer.getText().toString().length() > 0);
                 return;
             }
@@ -58,21 +56,15 @@ public class ReadingProblemActivity extends AppCompatActivity {
     }
 
     public void enterKana(android.view.View view) {
-        List<String> buttonKanas = getButtonKanas();
-        if (buttonKanas != null) {
-            for (int i = 0; i < buttonKanas.size(); i++) {
-                int buttonNumber = i +  1;
-                String buttonName = "buttonKana" + (buttonNumber < 10 ? "0" : "") + buttonNumber;
-                int buttonId = getResources().getIdentifier(buttonName, "id", ReadingProblemActivity.this.getPackageName());
-                if (buttonId == view.getId()) {
-                    TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
-                    List<String> answerKanas = Util.findKanasFrom(textViewReadingProblemUserAnswer.getText().toString(), false);
-                    if (answerKanas.size() < MAX_ANSWER_LENGTH) {
-                        textViewReadingProblemUserAnswer.setText(textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i));
-                        findViewById(R.id.buttonDeleteKana).setEnabled(true);
-                        initKanaButtons();
-                    }
-                    break;
+        for (int i = 0; i < buttonKanas.size(); i++) {
+            int buttonNumber = i +  1;
+            String buttonName = "buttonKana" + (buttonNumber < 10 ? "0" : "") + buttonNumber;
+            int buttonId = getResources().getIdentifier(buttonName, "id", ReadingProblemActivity.this.getPackageName());
+            if (buttonId == view.getId()) {
+                TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
+                if (textViewReadingProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) {
+                    textViewReadingProblemUserAnswer.setText(textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i));
+                    findViewById(R.id.buttonDeleteKana).setEnabled(true);
                 }
             }
         }
@@ -157,50 +149,29 @@ public class ReadingProblemActivity extends AppCompatActivity {
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewReadingProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
+
+        buttonKanas = new ArrayList<String>();
+
+        List<String> answerKanas = Util.findKanasFrom(currProb.getRightAnswer(), true);
+        buttonKanas.addAll(answerKanas);
        
-        allButtonKanas.clear();
-        initKanaButtons();
-
-        findViewById(R.id.buttonDeleteKana).setEnabled(false);
-    }
-
-    private void initKanaButtons() {
-        TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
-        List<String> answerKanas = Util.findKanasFrom(textViewReadingProblemUserAnswer.getText().toString(), false);
-        int answerLength = answerKanas.size();
-
-        List<String> buttonKanas = null;
-        if (allButtonKanas.size() > answerLength)
-            buttonKanas = allButtonKanas.get(answerLength);
-        else {
-            buttonKanas = new ArrayList<String>();
-            Problem currProb = appl.getQuiz().getCurrentProblem();
-            List<String> rightAnswerKanas = Util.findKanasFrom(currProb.getRightAnswer(), false);
-            if (answerLength < rightAnswerKanas.size()) {
-                String rightKana = rightAnswerKanas.get(answerLength);
-                buttonKanas.add(rightKana);
+        while (buttonKanas.size() < 9) {
+            String fillerKana = null;
+            try {
+                fillerKana = Util.findRandomKana();
             }
-
-            while (buttonKanas.size() < 9) {
-                String fillerKana = null;
-                try {
-                    fillerKana = Util.findRandomKana();
-                }
-                catch (IOException ignore) {
-                    ignore.printStackTrace();
-                }
-                if (fillerKana != null && !buttonKanas.contains(fillerKana))
-                    buttonKanas.add(fillerKana);
+            catch (IOException ignore) {
+                ignore.printStackTrace();
             }
-
-            Random r = new Random();
-            ArrayList<String> shuffledButtonKanas = new ArrayList<String>();
-            while (!buttonKanas.isEmpty())
-                shuffledButtonKanas.add(buttonKanas.remove(r.nextInt(buttonKanas.size())));
-            buttonKanas = shuffledButtonKanas;
-
-            allButtonKanas.add(buttonKanas);
+            if (fillerKana != null && !buttonKanas.contains(fillerKana))
+                buttonKanas.add(fillerKana);
         }
+ 
+        Random r = new Random();
+        ArrayList<String> shuffledButtonKanas = new ArrayList<String>();
+        while (!buttonKanas.isEmpty())
+            shuffledButtonKanas.add(buttonKanas.remove(r.nextInt(buttonKanas.size())));
+        buttonKanas = shuffledButtonKanas;
 
         for (int i = 0; i < buttonKanas.size(); i++) {
             int buttonNumber = i +  1;
@@ -209,21 +180,12 @@ public class ReadingProblemActivity extends AppCompatActivity {
             Button button = (Button)findViewById(buttonId);
             button.setText(buttonKanas.get(i));
         }
-    }
 
-    private List<String> getButtonKanas() {
-        TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
-        List<String> answerKanas = Util.findKanasFrom(textViewReadingProblemUserAnswer.getText().toString(), false);
-        int answerLength = answerKanas.size();
-
-        if (allButtonKanas.size() > answerLength)
-            return allButtonKanas.get(answerLength);
-        else
-            return null;
+        findViewById(R.id.buttonDeleteKana).setEnabled(false);
     }
 
     private KankenApplication appl = KankenApplication.getInstance();
 
-    private List<List<String>> allButtonKanas = new ArrayList<List<String>>();
+    private List<String> buttonKanas = new ArrayList<String>();
 
 }
