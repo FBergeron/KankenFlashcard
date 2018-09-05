@@ -392,6 +392,8 @@ public class QuizSettingsActivity extends AppCompatActivity {
             }
 
             quiz.setProblems(problems);
+            quiz.setCurrentAnswer("");
+            quiz.setCurrentMode(Quiz.Mode.MODE_ASK);
             Problem currProb = quiz.getCurrentProblem();
 
             Intent problemActivity = (Problem.Type.READING.equals(currProb.getType()) ?

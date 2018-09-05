@@ -8,6 +8,11 @@ class Quiz {
 
     public static final int DEFAULT_LENGTH = 5;
 
+    public enum Mode {
+        MODE_ASK,
+        MODE_EVALUATION
+    }
+
     public Quiz(Problem.Type type, Set<Problem.Topic> topics, int level, int length) {
         this.type = type;
         this.topics = topics;
@@ -124,9 +129,27 @@ class Quiz {
         return reportedAsIncorrects.get(currentProblem);
     }
 
+    public String getCurrentAnswer() {
+        return currentAnswer;
+    }
+
+    public void setCurrentAnswer(String currAns) {
+        currentAnswer = currAns;
+    }
+
+    public Mode getCurrentMode() {
+        return currentMode;
+    }
+
+    public void setCurrentMode(Mode currMode) {
+        currentMode = currMode;
+    }
+
     private int length;
 
     private int currentProblem = -1;
+    private String currentAnswer;
+    private Mode currentMode = Mode.MODE_ASK;
 
     private Problem.Type type;
     private Set<Problem.Topic> topics;

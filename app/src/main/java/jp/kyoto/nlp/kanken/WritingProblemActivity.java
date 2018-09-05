@@ -104,8 +104,12 @@ public class WritingProblemActivity extends AppCompatActivity {
                 e3.printStackTrace();
             }
         }
-        else
+        else {
+            appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_ASK);
+            appl.getQuiz().setCurrentAnswer("");
             showProblemStatement();
+            askProblem();
+        }
     }
 
     public void setProblemFamiliarity(int familiarity) {
@@ -161,8 +165,10 @@ public class WritingProblemActivity extends AppCompatActivity {
         TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
         String origText = textViewWritingProblemUserAnswer.getText().toString();
         if (origText.length() > 0) {
-            textViewWritingProblemUserAnswer.setText(origText.substring(0, origText.length() - 1));
-            findViewById(R.id.buttonDeleteKanji).setEnabled(textViewWritingProblemUserAnswer.getText().toString().length() > 0);
+            String newAnswer = origText.substring(0, origText.length() - 1);
+            textViewWritingProblemUserAnswer.setText(newAnswer);
+            appl.getQuiz().setCurrentAnswer(newAnswer);
+            findViewById(R.id.buttonDeleteKanji).setEnabled(newAnswer.length() > 0);
         }
     }
 
@@ -226,6 +232,8 @@ public class WritingProblemActivity extends AppCompatActivity {
             .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     appl.getQuiz().validateAnswer(answer);
+                    appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
+                    appl.getQuiz().setCurrentAnswer("");
                     showProblemEvaluation();    
                 }
              })
@@ -240,6 +248,8 @@ public class WritingProblemActivity extends AppCompatActivity {
         }
 
         appl.getQuiz().validateAnswer(answer);
+        appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
+        appl.getQuiz().setCurrentAnswer("");
         showProblemEvaluation();
     }
 
@@ -252,18 +262,16 @@ public class WritingProblemActivity extends AppCompatActivity {
         new LoadThread();
 
         showProblemStatement();
+
+        if (appl.getQuiz().getCurrentMode() == Quiz.Mode.MODE_ASK)
+            askProblem();
+        else
+            showProblemEvaluation();
     }
 
     private void showProblemStatement() {
         Problem currProb = appl.getQuiz().getCurrentProblem();
         int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
-
-        findViewById(R.id.imageButtonViewWritingProblemArticle).setVisibility(GONE);
-        findViewById(R.id.imageButtonSearchWritingProblemArticle).setVisibility(GONE);
-
-        findViewById(R.id.layoutKanjiInput).setVisibility(VISIBLE);
-        findViewById(R.id.layoutWritingProblemUserAnswer).setVisibility(VISIBLE);
-        findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
         TextView textViewProblemInfoLevel = (TextView)findViewById(R.id.textViewWritingProblemInfoLevel);
         String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), currProb.getLevel());
@@ -304,9 +312,21 @@ public class WritingProblemActivity extends AppCompatActivity {
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
+    }
+
+    private void askProblem() {
+        Problem currProb = appl.getQuiz().getCurrentProblem();
+        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
+
+        findViewById(R.id.imageButtonViewWritingProblemArticle).setVisibility(GONE);
+        findViewById(R.id.imageButtonSearchWritingProblemArticle).setVisibility(GONE);
+
+        findViewById(R.id.layoutKanjiInput).setVisibility(VISIBLE);
+        findViewById(R.id.layoutWritingProblemUserAnswer).setVisibility(VISIBLE);
+        findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
         TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
-        textViewWritingProblemUserAnswer.setText("");
+        textViewWritingProblemUserAnswer.setText(appl.getQuiz().getCurrentAnswer());
 
         layoutKanjiInputRight_a = (LinearLayout)findViewById(R.id.layoutKanjiInputRight_a); 
         layoutKanjiInputRight_a.setVisibility(VISIBLE);
@@ -338,10 +358,14 @@ public class WritingProblemActivity extends AppCompatActivity {
 
         ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewWritingProblemArticle);
         ImageButton imageButtonSearchWritingProblemArticle = (ImageButton)findViewById(R.id.imageButtonSearchWritingProblemArticle);
-        if (currProb.isArticleLinkAlive()) 
+        if (currProb.isArticleLinkAlive()) {
             imageButtonViewArticle.setVisibility(VISIBLE);
-        else
+            imageButtonSearchWritingProblemArticle.setVisibility(GONE);
+        }
+        else {
+            imageButtonViewArticle.setVisibility(GONE);
             imageButtonSearchWritingProblemArticle.setVisibility(VISIBLE);
+        }
 
         findViewById(R.id.layoutKanjiInput).setVisibility(GONE);
         findViewById(R.id.layoutWritingProblemUserAnswer).setVisibility(GONE);
@@ -410,7 +434,9 @@ public class WritingProblemActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
                                 if (textViewWritingProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
-                                    textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                                    String newAnswer = textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString();
+                                    textViewWritingProblemUserAnswer.setText(newAnswer);
+                                    appl.getQuiz().setCurrentAnswer(newAnswer);
                                     findViewById(R.id.buttonDeleteKanji).setEnabled(true);
                                     clearCanvas(v);
                                 }
@@ -466,7 +492,8 @@ public class WritingProblemActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 TextView textViewWritingProblemUserAnswer = (TextView)findViewById(R.id.textViewWritingProblemUserAnswer);
                                 if (textViewWritingProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
-                                    textViewWritingProblemUserAnswer.setText(textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString());
+                                    String newAnswer = textViewWritingProblemUserAnswer.getText().toString() + button.getText().toString();
+                                    textViewWritingProblemUserAnswer.setText(newAnswer);
                                     findViewById(R.id.buttonDeleteKanji).setEnabled(true);
                                     clearCanvas(v);
                                 }

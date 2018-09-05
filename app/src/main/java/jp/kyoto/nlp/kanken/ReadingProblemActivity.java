@@ -71,8 +71,12 @@ public class ReadingProblemActivity extends AppCompatActivity {
                 e3.printStackTrace();
             }
         }
-        else
+        else {
+            appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_ASK);
+            appl.getQuiz().setCurrentAnswer("");
             showProblemStatement();
+            askProblem();
+        }
     }
 
     public void setProblemFamiliarity(int familiarity) {
@@ -134,8 +138,10 @@ System.out.println( "altArticleUrl="+altArticleUrl );
             subword = answer.substring(answer.length() - 2, answer.length());
             foundKana = Util.findKana(subword);
             if (foundKana != null) {
-                textViewReadingProblemUserAnswer.setText(answer.substring(0, answer.length() - 2));
-                findViewById(R.id.buttonDeleteKana).setEnabled(textViewReadingProblemUserAnswer.getText().toString().length() > 0);
+                String newAnswer = answer.substring(0, answer.length() - 2);
+                textViewReadingProblemUserAnswer.setText(newAnswer);
+                appl.getQuiz().setCurrentAnswer(newAnswer);
+                findViewById(R.id.buttonDeleteKana).setEnabled(newAnswer.length() > 0);
                 return;
             }
         }
@@ -143,8 +149,10 @@ System.out.println( "altArticleUrl="+altArticleUrl );
             subword = answer.substring(answer.length() - 1, answer.length()); 
             foundKana = Util.findKana(subword);
             if (foundKana != null) {
-                textViewReadingProblemUserAnswer.setText(answer.substring(0, answer.length() - 1));
-                findViewById(R.id.buttonDeleteKana).setEnabled(textViewReadingProblemUserAnswer.getText().toString().length() > 0);
+                String newAnswer = answer.substring(0, answer.length() - 1);
+                textViewReadingProblemUserAnswer.setText(newAnswer);
+                appl.getQuiz().setCurrentAnswer(newAnswer);
+                findViewById(R.id.buttonDeleteKana).setEnabled(newAnswer.length() > 0);
                 return;
             }
         }
@@ -158,7 +166,9 @@ System.out.println( "altArticleUrl="+altArticleUrl );
             if (buttonId == view.getId()) {
                 TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
                 if (textViewReadingProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) {
-                    textViewReadingProblemUserAnswer.setText(textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i));
+                    String newAnswer = textViewReadingProblemUserAnswer.getText() + buttonKanas.get(i);
+                    textViewReadingProblemUserAnswer.setText(newAnswer);
+                    appl.getQuiz().setCurrentAnswer(newAnswer);
                     findViewById(R.id.buttonDeleteKana).setEnabled(true);
                 }
             }
@@ -176,6 +186,8 @@ System.out.println( "altArticleUrl="+altArticleUrl );
             .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) { 
                     appl.getQuiz().validateAnswer(answer);
+                    appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
+                    appl.getQuiz().setCurrentAnswer("");
                     showProblemEvaluation();
                 }
              })
@@ -190,6 +202,8 @@ System.out.println( "altArticleUrl="+altArticleUrl );
         }
 
         appl.getQuiz().validateAnswer(answer);
+        appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
+        appl.getQuiz().setCurrentAnswer("");
         showProblemEvaluation();
     }
     
@@ -199,18 +213,16 @@ System.out.println( "altArticleUrl="+altArticleUrl );
         setContentView(R.layout.activity_reading_problem);
 
         showProblemStatement();
+
+        if (appl.getQuiz().getCurrentMode() == Quiz.Mode.MODE_ASK)
+            askProblem();
+        else
+            showProblemEvaluation();
     }
 
     private void showProblemStatement() {
         Problem currProb = appl.getQuiz().getCurrentProblem();
         int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
-
-        findViewById(R.id.imageButtonViewReadingProblemArticle).setVisibility(GONE);
-        findViewById(R.id.imageButtonSearchReadingProblemArticle).setVisibility(GONE);
-
-        findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(VISIBLE);
-        findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(VISIBLE);
-        findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
         TextView textViewProblemInfoLevel = (TextView)findViewById(R.id.textViewReadingProblemInfoLevel);
         String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), currProb.getLevel());
@@ -251,9 +263,21 @@ System.out.println( "altArticleUrl="+altArticleUrl );
 
         WebView webViewProblemStatement = (WebView)findViewById(R.id.webViewProblemStatement);
         webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
+    }
+
+    private void askProblem() {
+        Problem currProb = appl.getQuiz().getCurrentProblem();
+        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
+
+        findViewById(R.id.imageButtonViewReadingProblemArticle).setVisibility(GONE);
+        findViewById(R.id.imageButtonSearchReadingProblemArticle).setVisibility(GONE);
+
+        findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(VISIBLE);
+        findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(VISIBLE);
+        findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
         TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
-        textViewReadingProblemUserAnswer.setText("");
+        textViewReadingProblemUserAnswer.setText(appl.getQuiz().getCurrentAnswer());
 
         findViewById(R.id.imageButtonViewReadingProblemArticle).setVisibility(GONE);
         findViewById(R.id.imageButtonSearchReadingProblemArticle).setVisibility(GONE);
@@ -298,10 +322,14 @@ System.out.println( "altArticleUrl="+altArticleUrl );
 
         ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewReadingProblemArticle);
         ImageButton imageButtonSearchReadingProblemArticle = (ImageButton)findViewById(R.id.imageButtonSearchReadingProblemArticle);
-        if (currProb.isArticleLinkAlive()) 
+        if (currProb.isArticleLinkAlive()) { 
             imageButtonViewArticle.setVisibility(VISIBLE);
-        else
+            imageButtonSearchReadingProblemArticle.setVisibility(GONE);
+        }
+        else {
+            imageButtonViewArticle.setVisibility(GONE);
             imageButtonSearchReadingProblemArticle.setVisibility(VISIBLE);
+        }
 
         findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(GONE);
         findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(GONE);
