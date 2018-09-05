@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -71,7 +71,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButtonViewProblemArticle"
+                    android:id="@+id/imageButtonViewWritingProblemArticle"
                     android:layout_width="@dimen/button_view_article"
                     android:layout_height="@dimen/button_view_article"
                     android:layout_weight="0"
@@ -79,7 +79,7 @@
                     android:onClick="showArticle" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonSearch"
+                    android:id="@+id/imageButtonSearchWritingProblemArticle"
                     android:layout_width="@dimen/button_view_article"
                     android:layout_height="@dimen/button_view_article"
                     android:layout_weight="0"
@@ -427,6 +427,15 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <fragment
+            android:id="@+id/fragmentProblemEvaluation"
+            android:name="jp.kyoto.nlp.kanken.ProblemEvaluationFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="68"
+            android:visibility="gone"
+            tools:layout="@layout/fragment_problem_evaluation" />
 
     </LinearLayout>
 

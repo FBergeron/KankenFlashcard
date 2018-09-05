@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -47,14 +47,52 @@
             android:layout_weight="6"
             android:textSize="20sp" />
 
-        <WebView
-            android:id="@+id/webViewWritingProblemStatement"
+        <LinearLayout
+            android:id="@+id/layoutProblemStatement"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="20">
+            android:layout_weight="20"
+            android:orientation="horizontal">
 
-        </WebView>
+            <WebView
+                android:id="@+id/webViewProblemStatement"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="9">
+
+            </WebView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButtonViewWritingProblemArticle"
+                    android:layout_width="@dimen/button_view_article"
+                    android:layout_height="@dimen/button_view_article"
+                    android:layout_weight="0"
+                    android:background="@drawable/ic_view_article"
+                    android:onClick="showArticle" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonSearchWritingProblemArticle"
+                    android:layout_width="@dimen/button_view_article"
+                    android:layout_height="@dimen/button_view_article"
+                    android:layout_weight="0"
+                    android:background="@drawable/ic_search"
+                    android:onClick="search" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layoutKanjiInput"
@@ -63,8 +101,7 @@
             android:layout_weight="50"
             android:baselineAligned="false"
             android:gravity="top"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/intersection_gap_height">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/layoutKanjiInputLeft"
@@ -396,6 +433,15 @@
 
 
         </LinearLayout>
+
+        <fragment
+            android:id="@+id/fragmentProblemEvaluation"
+            android:name="jp.kyoto.nlp.kanken.ProblemEvaluationFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:visibility="gone"
+            tools:layout="@layout/fragment_problem_evaluation" />
 
     </LinearLayout>
 

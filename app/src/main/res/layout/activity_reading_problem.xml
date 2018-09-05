@@ -71,7 +71,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButtonViewProblemArticle"
+                    android:id="@+id/imageButtonViewReadingProblemArticle"
                     android:layout_width="@dimen/button_view_article"
                     android:layout_height="@dimen/button_view_article"
                     android:layout_weight="0"
@@ -79,7 +79,7 @@
                     android:onClick="showArticle" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonSearch"
+                    android:id="@+id/imageButtonSearchReadingProblemArticle"
                     android:layout_width="@dimen/button_view_article"
                     android:layout_height="@dimen/button_view_article"
                     android:layout_weight="0"

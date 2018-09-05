@@ -205,8 +205,8 @@ System.out.println( "altArticleUrl="+altArticleUrl );
         Problem currProb = appl.getQuiz().getCurrentProblem();
         int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
-        findViewById(R.id.imageButtonViewProblemArticle).setVisibility(GONE);
-        findViewById(R.id.imageButtonSearch).setVisibility(GONE);
+        findViewById(R.id.imageButtonViewReadingProblemArticle).setVisibility(GONE);
+        findViewById(R.id.imageButtonSearchReadingProblemArticle).setVisibility(GONE);
 
         findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(VISIBLE);
         findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(VISIBLE);
@@ -255,8 +255,8 @@ System.out.println( "altArticleUrl="+altArticleUrl );
         TextView textViewReadingProblemUserAnswer = (TextView)findViewById(R.id.textViewReadingProblemUserAnswer);
         textViewReadingProblemUserAnswer.setText("");
 
-        findViewById(R.id.imageButtonViewProblemArticle).setVisibility(GONE);
-        findViewById(R.id.imageButtonSearch).setVisibility(GONE);
+        findViewById(R.id.imageButtonViewReadingProblemArticle).setVisibility(GONE);
+        findViewById(R.id.imageButtonSearchReadingProblemArticle).setVisibility(GONE);
 
         buttonKanas = new ArrayList<String>();
 
@@ -296,12 +296,12 @@ System.out.println( "altArticleUrl="+altArticleUrl );
         Problem currProb = appl.getQuiz().getCurrentProblem();
         int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
-        ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewProblemArticle);
-        ImageButton imageButtonSearch = (ImageButton)findViewById(R.id.imageButtonSearch);
+        ImageButton imageButtonViewArticle = (ImageButton)findViewById(R.id.imageButtonViewReadingProblemArticle);
+        ImageButton imageButtonSearchReadingProblemArticle = (ImageButton)findViewById(R.id.imageButtonSearchReadingProblemArticle);
         if (currProb.isArticleLinkAlive()) 
             imageButtonViewArticle.setVisibility(VISIBLE);
         else
-            imageButtonSearch.setVisibility(VISIBLE);
+            imageButtonSearchReadingProblemArticle.setVisibility(VISIBLE);
 
         findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(GONE);
         findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(GONE);
