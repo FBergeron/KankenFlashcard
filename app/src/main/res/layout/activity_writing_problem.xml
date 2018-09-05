@@ -20,20 +20,20 @@
             android:paddingBottom="6dp">
 
             <TextView
-                android:id="@+id/textViewWritingProblemInfoLevel"
+                android:id="@+id/textViewProblemInfoLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/textViewWritingProblemInfoTopic"
+                android:id="@+id/textViewProblemInfoTopic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal" />
 
             <TextView
-                android:id="@+id/textViewWritingProblemInfoType"
+                android:id="@+id/textViewProblemInfoType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,7 +41,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewWritingProblemNumber"
+            android:id="@+id/textViewProblemNumber"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
@@ -71,7 +71,7 @@
                 android:orientation="vertical">
 
                 <ImageButton
-                    android:id="@+id/imageButtonViewWritingProblemArticle"
+                    android:id="@+id/imageButtonViewProblemArticle"
                     android:layout_width="@dimen/button_view_article"
                     android:layout_height="@dimen/button_view_article"
                     android:layout_weight="0"
@@ -79,7 +79,7 @@
                     android:onClick="showArticle" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonSearchWritingProblemArticle"
+                    android:id="@+id/imageButtonSearchProblemArticle"
                     android:layout_width="@dimen/button_view_article"
                     android:layout_height="@dimen/button_view_article"
                     android:layout_weight="0"
@@ -395,7 +395,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textViewWritingProblemUserAnswer"
+                android:id="@+id/textViewProblemUserAnswer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6sp"
