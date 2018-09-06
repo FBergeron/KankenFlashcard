@@ -127,7 +127,6 @@ public class ReadingProblemActivity extends QuizProblemActivity {
                 public void onClick(DialogInterface dialog, int which) { 
                     appl.getQuiz().validateAnswer(answer);
                     appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
-                    //appl.getQuiz().setCurrentAnswer("");
                     showProblemEvaluation();
                 }
              })
@@ -143,7 +142,6 @@ public class ReadingProblemActivity extends QuizProblemActivity {
 
         appl.getQuiz().validateAnswer(answer);
         appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
-        //appl.getQuiz().setCurrentAnswer("");
         showProblemEvaluation();
     }
     

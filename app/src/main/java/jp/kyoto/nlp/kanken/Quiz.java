@@ -2,7 +2,10 @@ package jp.kyoto.nlp.kanken;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
+
+import static jp.kyoto.nlp.kanken.Quiz.Mode.MODE_EVALUATION;
 
 class Quiz {
 
@@ -137,18 +140,27 @@ class Quiz {
         currentAnswer = currAns;
     }
 
+    public int getCurrentResultStringNumber() {
+        return currentResultStringNumber;
+    }
+
     public Mode getCurrentMode() {
         return currentMode;
     }
 
     public void setCurrentMode(Mode currMode) {
         currentMode = currMode;
+        if (currentMode == MODE_EVALUATION) {
+            Random r = new Random();
+            currentResultStringNumber = r.nextInt(4);
+        }
     }
 
     private int length;
 
     private int currentProblem = -1;
     private String currentAnswer;
+    private int currentResultStringNumber;
     private Mode currentMode = Mode.MODE_ASK;
 
     private Problem.Type type;

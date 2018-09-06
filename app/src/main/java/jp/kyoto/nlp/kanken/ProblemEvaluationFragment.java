@@ -27,7 +27,6 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -170,8 +169,7 @@ public class ProblemEvaluationFragment extends Fragment {
         ImageView imageViewWrong = (ImageView)parentActivity.findViewById(R.id.imageViewWrong);
         TextView textViewEvaluationResult = (TextView)parentActivity.findViewById(R.id.textViewEvaluationResult);
         TextView textViewDetailedAnswer = (TextView)parentActivity.findViewById(R.id.textViewDetailedAnswer);
-        Random r = new Random();
-        int strNum = r.nextInt(4);
+        int strNum = appl.getQuiz().getCurrentResultStringNumber();
         if (appl.getQuiz().isCurrentAnswerRight()) {
             imageViewRight.setVisibility(VISIBLE);
             imageViewWrong.setVisibility(GONE);
