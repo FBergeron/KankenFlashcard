@@ -22,4 +22,6 @@
     <dimen name="intersection_gap_height">20dp</dimen>
     <dimen name="evaluation_answer_text_size">20sp</dimen>
     <dimen name="evaluation_outcome_text_size">32sp</dimen>
+    <dimen name="evaluation_problem_familiarity_text_size">28sp</dimen>
+    <dimen name="layout_problem_statement_weight">34</dimen>
 </resources>

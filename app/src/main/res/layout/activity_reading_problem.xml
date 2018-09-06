@@ -51,7 +51,7 @@
             android:id="@+id/layoutProblemStatement"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="34"
+            android:layout_weight="@dimen/layout_problem_statement_weight"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/intersection_gap_height">
 
