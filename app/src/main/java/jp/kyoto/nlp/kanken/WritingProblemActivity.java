@@ -232,7 +232,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
             new KanjiDrawing.Listener() {
                 @Override
                 public void strokes(DrawnStroke[] strokes) {
-                    System.out.println("strokes="+strokes+" max="+KanjiDrawing.MAX_STROKES);
                     findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(strokes.length > 0);
                     findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(strokes.length > 0);
                     findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(strokes.length > 0);
