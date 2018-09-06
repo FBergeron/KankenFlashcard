@@ -236,12 +236,31 @@ public class ProblemEvaluationFragment extends Fragment {
             textViewDetailedAnswer.setText(strDetailedAnswer);
         }
 
-        String jumanInfo = currProb.getJumanInfo();
-        int indexOfSlash = jumanInfo.indexOf("/");
-        String wordInKanjis = (indexOfSlash == -1 ? jumanInfo : jumanInfo.substring(0, indexOfSlash));
+
+        String wordInKanjis = getWordInKanjis(currProb.getJumanInfo());
         String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
         TextView textViewProblemFamiliarity = (TextView)parentActivity.findViewById(R.id.textViewProblemFamiliarity);
         textViewProblemFamiliarity.setText(text);
+    }
+
+    private String getWordInKanjis(String jumanInfo) {
+        StringBuilder wordInKanjis = new StringBuilder();
+        
+        // Handle each part separated by a plus mark.
+        String[] parts = jumanInfo.split("\\+");
+        for (int i = 0; i < parts.length; i++) {
+            // Remove part after question mark.
+            int indexOfQuestionMark = parts[i].indexOf("?");
+            if (indexOfQuestionMark != -1)
+                parts[i] = parts[i].substring(0, indexOfQuestionMark);
+       
+            // Append the string that is left to the slash.
+            int indexOfSlash = parts[i].indexOf("/");
+            if (indexOfSlash != -1) 
+                wordInKanjis.append(parts[i].substring(0, indexOfSlash));
+        }
+
+        return wordInKanjis.toString();
     }
 
     private class SendResultsTask extends AsyncTask {
