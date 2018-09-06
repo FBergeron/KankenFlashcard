@@ -1,8 +1,10 @@
 package jp.kyoto.nlp.kanken;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -34,6 +36,37 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class ProblemEvaluationFragment extends Fragment {
+
+    public void reportProblemAsErroneous(android.view.View view) {
+        final QuizProblemActivity parentActivity = (QuizProblemActivity)getActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+        builder.setTitle(getResources().getString(R.string.info_confirm_report_title))
+        .setMessage(getResources().getString(R.string.info_confirm_report_msg))
+        .setPositiveButton(R.string.button_report, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+                builder.setTitle(getResources().getString(R.string.info_report_title))
+                .setMessage(getResources().getString(R.string.info_report_msg))
+                .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        appl.getQuiz().reportAsIncorrect();
+
+                        goNextProblem();
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setCancelable(true)
+                .show();
+            }
+         })
+        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+            }
+         })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setCancelable(true)
+        .show();
+    }
 
     public void goNextProblem() {
         Problem nextProblem = appl.getQuiz().nextProblem();
@@ -144,6 +177,16 @@ public class ProblemEvaluationFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     setProblemFamiliarity(4);
+                }
+            }
+        );
+
+        Button buttonReportErroneousProblem = (Button)view.findViewById(R.id.buttonReportErroneousProblem);
+        buttonReportErroneousProblem.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    reportProblemAsErroneous(v);
                 }
             }
         );
