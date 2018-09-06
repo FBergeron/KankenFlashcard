@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -26,6 +27,12 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class ProblemEvaluationFragment extends Fragment {
 
@@ -149,24 +156,43 @@ public class ProblemEvaluationFragment extends Fragment {
         Problem currProb = appl.getQuiz().getCurrentProblem();
         int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
+        Pattern problemPattern = Pattern.compile(".*\\[(.*)\\].*");
+        String statement = appl.getQuiz().getCurrentProblem().getStatement();
+
+        Matcher problemMatcher = problemPattern.matcher(statement);
+        String problemWord = "";
+        if (problemMatcher.matches())
+            problemWord = problemMatcher.group(1);
+
         QuizProblemActivity parentActivity = (QuizProblemActivity)getActivity();
 
-        TextView textViewAnswerValue = (TextView)parentActivity.findViewById(R.id.textViewAnswerValue);
-        textViewAnswerValue.setText(appl.getQuiz().getAnswer(currProbIndex));
-
-        TextView textViewAnswerRightValue = (TextView)parentActivity.findViewById(R.id.textViewAnswerRightValue);
-        textViewAnswerRightValue.setText(currProb.getRightAnswer());
-
+        ImageView imageViewRight = (ImageView)parentActivity.findViewById(R.id.imageViewRight);
+        ImageView imageViewWrong = (ImageView)parentActivity.findViewById(R.id.imageViewWrong);
         TextView textViewEvaluationResult = (TextView)parentActivity.findViewById(R.id.textViewEvaluationResult);
+        TextView textViewDetailedAnswer = (TextView)parentActivity.findViewById(R.id.textViewDetailedAnswer);
+        Random r = new Random();
+        int strNum = r.nextInt(4);
         if (appl.getQuiz().isCurrentAnswerRight()) {
-            String strRightAnswer = getResources().getString(R.string.label_right_answer);
+            imageViewRight.setVisibility(VISIBLE);
+            imageViewWrong.setVisibility(GONE);
+            String strResName = "label_right_answer_" + (strNum + 1);
+            int strId = getResources().getIdentifier(strResName, "string", parentActivity.getPackageName());
+            String strRightAnswer = getResources().getString(strId);
             textViewEvaluationResult.setText(strRightAnswer);
             textViewEvaluationResult.setTextColor(Color.GREEN);
+            String strDetailedAnswer = String.format(getResources().getString(R.string.label_detailed_answer_right), problemWord, currProb.getRightAnswer());
+            textViewDetailedAnswer.setText(strDetailedAnswer);
         }
         else {
-            String strWrongAnswer = getResources().getString(R.string.label_wrong_answer);
+            imageViewRight.setVisibility(GONE);
+            imageViewWrong.setVisibility(VISIBLE);
+            String strResName = "label_wrong_answer_" + (strNum + 1);
+            int strId = getResources().getIdentifier(strResName, "string", parentActivity.getPackageName());
+            String strWrongAnswer = getResources().getString(strId);
             textViewEvaluationResult.setText(strWrongAnswer);
             textViewEvaluationResult.setTextColor(Color.RED);
+            String strDetailedAnswer = String.format(getResources().getString(R.string.label_detailed_answer_wrong), problemWord, appl.getQuiz().getCurrentAnswer(), currProb.getRightAnswer());
+            textViewDetailedAnswer.setText(strDetailedAnswer);
         }
 
         String jumanInfo = currProb.getJumanInfo();

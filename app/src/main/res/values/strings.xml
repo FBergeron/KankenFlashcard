@@ -43,8 +43,18 @@
     <string name="label_problem_eval_title">Evaluation</string>
     <string name="label_evaluation_answer">Your answer</string>
     <string name="label_evaluation_right_answer">The right answer</string>
-    <string name="label_right_answer">Right!</string>
-    <string name="label_wrong_answer">Wrong!</string>
+    <string name="label_right_answer_1">Right!</string>
+    <string name="label_right_answer_2">That\'s correct!</string>
+    <string name="label_right_answer_3">Good job!</string>
+    <string name="label_right_answer_4">Well done!</string>
+    <string name="label_right_answer_5">Very good!</string>
+    <string name="label_wrong_answer_1">Wrong!</string>
+    <string name="label_wrong_answer_2">That\'s incorrect!</string>
+    <string name="label_wrong_answer_3">Sorry!</string>
+    <string name="label_wrong_answer_4">Oops!</string>
+    <string name="label_wrong_answer_5">That is not right.</string>
+    <string name="label_detailed_answer_right">%1$s = %2$s</string>
+    <string name="label_detailed_answer_wrong">%1$s ≠ %2$s\n\n%1$s = %3$s</string>
     <string name="button_report_error">Report the problem as incorrect</string>
     <string name="label_enter_problem_familiarity">Please, enter the familiarity level in regard to this word: %1$s.</string>
     <string name="label_not_familiar">Not familiar</string>

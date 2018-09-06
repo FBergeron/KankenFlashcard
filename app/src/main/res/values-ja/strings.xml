@@ -42,8 +42,18 @@
     <string name="label_problem_eval_title">解答結果</string>
     <string name="label_evaluation_answer">あなたの答え</string>
     <string name="label_evaluation_right_answer">正しい答え</string>
-    <string name="label_right_answer">正解</string>
-    <string name="label_wrong_answer">不正解</string>
+    <string name="label_right_answer_1">正解!</string>
+    <string name="label_right_answer_2">Good job!</string>
+    <string name="label_right_answer_3">良かった！</string>
+    <string name="label_right_answer_4">正しいです！</string>
+    <string name="label_right_answer_5">Well done!</string>
+    <string name="label_wrong_answer_1">不正解</string>
+    <string name="label_wrong_answer_2">正しくない！</string>
+    <string name="label_wrong_answer_3">残念です。</string>
+    <string name="label_wrong_answer_4">Not good!</string>
+    <string name="label_wrong_answer_5">ごめんなさい！</string>
+    <string name="label_detailed_answer_right">%1$s = %2$s</string>
+    <string name="label_detailed_answer_wrong">%1$s ≠ %2$s\n\n%1$s = %3$s</string>
     <string name="button_report_error">間違いを申告する</string>
     <string name="label_enter_problem_familiarity">あなたは「%1$s」という単語にどれぐらいなじみがありますか？</string>
     <string name="label_not_familiar">ない</string>
