@@ -64,7 +64,8 @@ public class QuizSummaryActivity extends AppCompatActivity {
         summary.append("body { font-size: 24px; }\n");
         summary.append("em { color: red; font-weight: bold; font-style: normal; }\n");
         summary.append("table { width: 95%; border: 1px solid; margin: 6px 6px 12px 6px; border-collapse: collapse; }\n");
-        summary.append("table th { border: 1px solid #333333; background-color: #6666ff; color: #ffffff; padding: 6px; }\n");
+        summary.append("table th.problem { border: 1px solid #333333; background-color: #6666ff; color: #ffffff; padding: 6px; }\n");
+        summary.append("table th.topic { border: 1px solid #333333; background-color: #9999ff; color: #ffffff; padding: 6px; font-size: smaller;}\n");
         summary.append("table td { background-color: #ffffff; color: #000000; padding: 6px; text-align: center; }\n");
         summary.append("table td.label { border: 1px solid #333333; background-color: #ccccff; color: #000000; padding: 6px; }\n");
         summary.append("table td.reported { border: 1px solid #333333; background-color: #f8c461; color: #ff0000; padding: 6px; text-align: center;}\n");
@@ -86,12 +87,27 @@ public class QuizSummaryActivity extends AppCompatActivity {
             Integer familiarity = itFamiliarity.next();
             Boolean isReportedAsIncorrect = itReported.next();
 
+            String strTopic = "";
+            // Just show the first pertinent topic.
+            for (Problem.Topic topic : problem.getTopics()) {
+                if (appl.getQuiz().getTopics().contains(topic)) {
+                    strResName = "label_topic_" + topic.getLabelId();
+                    labelId = getResources().getIdentifier(strResName, "string", QuizSummaryActivity.this.getPackageName());
+                    strTopic = String.format(getResources().getString(R.string.label_problem_info_topic), getResources().getString(labelId));
+                    break;
+                }
+            }
+
             summary.append("<table class=\"problem\">\n");
             String problemLabel = String.format(getResources().getString(R.string.label_summary_problem), (i+1));
             String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : problem.getAltArticleUrl());
             String buttonImg = (problem.isArticleLinkAlive() ? "view-article" : "search");
             String statementLabel = getResources().getString(R.string.label_summary_statement);
-            summary.append("<tr><th width=\"4%\" class=\"rotate\" rowspan=\"2\"><div width=\"12%\">" + problemLabel + "</div></th><td width=\"12%\" class=\"label\">" + statementLabel + "</td><td width=\"72%\" colspan=\"6\" class=\"stmt\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>\n");
+            summary.append("<tr>");
+            summary.append("<th width=\"6%\" class=\"rotate problem\" rowspan=\"2\"><div>" + problemLabel + "</div></th>");
+            summary.append("<th width=\"6%\" class=\"rotate topic\" rowspan=\"2\"><div>" + strTopic + "</div></th>");
+            summary.append("<td width=\"12%\" class=\"label\">" + statementLabel + "</td>");
+            summary.append("<td width=\"72%\" colspan=\"6\" class=\"stmt\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>\n");
             summary.append("<td width=\"12%\" align=\"center\" class=\"link\"><a target=\"_blank\" href=\"" + link + "\"><img width=\"32\" height=\"32\" src=\"" + buttonImg + ".svg\"/></a></td>\n");
             summary.append("</tr>\n");
             summary.append("<tr>\n");
@@ -102,7 +118,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
             summary.append("<td class=\"label\" width=\"12%\">" + rightAnswerLabel + "</td>\n");
             summary.append("<td width=\"16%\">" + problem.getRightAnswer() + "</td>\n");
             String outcomeLabel = getResources().getString(R.string.label_summary_outcome);
-            summary.append("<td class=\"label\" width=\"10%\">" + outcomeLabel + "</td>\n");
+            summary.append("<td class=\"label\" width=\"8%\">" + outcomeLabel + "</td>\n");
             summary.append("<td width=\"10%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "right" : "wrong") + ".svg\"/></td>\n");
             if (isReportedAsIncorrect.booleanValue()) {
                 String reportedLabel = getResources().getString(R.string.label_summary_reported);
@@ -110,8 +126,8 @@ public class QuizSummaryActivity extends AppCompatActivity {
             }
             else {
                 String familiarityLabel = getResources().getString(R.string.label_summary_familiarity);
-                summary.append("<td class=\"label\" width=\"10%\">" + familiarityLabel + "</td>\n");
-                summary.append("<td width=\"10%\">" + familiarity + "</td>\n");
+                summary.append("<td class=\"label\" width=\"8%\">" + familiarityLabel + "</td>\n");
+                summary.append("<td width=\"6%\">" + familiarity + "</td>\n");
             }
             summary.append("</tr>\n");
             summary.append("</table>\n");
