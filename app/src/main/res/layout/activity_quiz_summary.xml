@@ -11,11 +11,17 @@
         android:id="@+id/textViewSummaryTitle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="6dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/label_summary_title"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewSummaryTypeAndLevel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center" />
 
     <WebView
         android:id="@+id/webViewSummary"
