@@ -75,7 +75,7 @@ public class ProblemEvaluationFragment extends Fragment {
             try {
                 storeResultsUrl = new URL(appl.getServerBaseUrl() + storeResultsReqPath);
 
-                progressDialog = new ProgressDialog(getContext());
+                progressDialog = new ProgressDialog(getActivity());
                 progressDialog.setMessage(getResources().getString(R.string.label_sending_results_data));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
@@ -346,8 +346,7 @@ public class ProblemEvaluationFragment extends Fragment {
                 progressDialog = null;
             }
 
-            //Intent quizSummaryActivity = new Intent(ReadingProblemActivity.this, QuizSummaryActivity.class);
-            Intent quizSummaryActivity = new Intent(getContext(), QuizSummaryActivity.class);
+            Intent quizSummaryActivity = new Intent(getActivity(), QuizSummaryActivity.class);
             startActivity(quizSummaryActivity);
         }
 
