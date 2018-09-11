@@ -91,9 +91,9 @@ public class QuizSummaryActivity extends AppCompatActivity {
             // Just show the first pertinent topic.
             for (Problem.Topic topic : problem.getTopics()) {
                 if (appl.getQuiz().getTopics().contains(topic)) {
-                    strResName = "label_topic_" + topic.getLabelId();
+                    strResName = "label_topic_" + topic.getLabelId() + "_short";
                     labelId = getResources().getIdentifier(strResName, "string", QuizSummaryActivity.this.getPackageName());
-                    strTopic = String.format(getResources().getString(R.string.label_problem_info_topic), getResources().getString(labelId));
+                    strTopic = getResources().getString(labelId);
                     break;
                 }
             }

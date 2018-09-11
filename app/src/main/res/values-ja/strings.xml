@@ -20,6 +20,14 @@
     <string name="label_topic_science_education">科学・教育</string>
     <string name="label_topic_home_living">家庭・暮らし</string>
     <string name="label_topic_other">無し</string>
+    <string name="label_topic_business_short">ビジネス</string>
+    <string name="label_topic_politics_short">政治</string>
+    <string name="label_topic_sports_short">スポーツ</string>
+    <string name="label_topic_health_medicine_short">健康・医学</string>
+    <string name="label_topic_culture_arts_short">文化・芸術</string>
+    <string name="label_topic_science_education_short">科学・教育</string>
+    <string name="label_topic_home_living_short">家庭・暮らし</string>
+    <string name="label_topic_other_short">無し</string>
     <string name="button_select">選択</string>
     <string name="button_cancel">キャンセル</string>
     <string name="error_no_topics_selected_title">ジャンルがではありません。</string>

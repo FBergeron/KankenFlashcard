@@ -21,6 +21,14 @@
     <string name="label_topic_science_education">Science - Education</string>
     <string name="label_topic_home_living">Home - Living</string>
     <string name="label_topic_other">Other</string>
+    <string name="label_topic_business_short">Business</string>
+    <string name="label_topic_politics_short">Politics</string>
+    <string name="label_topic_sports_short">Sports</string>
+    <string name="label_topic_health_medicine_short">Health/Med.</string>
+    <string name="label_topic_culture_arts_short">Cult./Arts</string>
+    <string name="label_topic_science_education_short">Sci./Edu.</string>
+    <string name="label_topic_home_living_short">Home/Liv.</string>
+    <string name="label_topic_other_short">Other</string>
     <string name="button_select">Select</string>
     <string name="button_cancel">Cancel</string>
     <string name="error_no_topics_selected_title">No topics selected.</string>
