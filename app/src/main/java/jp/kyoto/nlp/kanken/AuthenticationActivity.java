@@ -170,47 +170,61 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     private class SignInTask extends AsyncTask {
 
+        public static final int MAX_ATTEMPTS = 3;
+
         protected Object doInBackground(Object... objs) {
-            URL signInUrl = (URL)objs[0];
-            try {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("idToken", appl.getUserIdToken());
-               
-                StringBuilder builder = new StringBuilder();
-                String delimiter = "";
-                for (Map.Entry<String, String> entry : params.entrySet()) {
-                    builder.append(delimiter).append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-                    delimiter = "&";
+            int attempt = 0; 
+            while (attempt < MAX_ATTEMPTS) {
+                URL signInUrl = (URL)objs[0];
+                try {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("idToken", appl.getUserIdToken());
+                   
+                    StringBuilder builder = new StringBuilder();
+                    String delimiter = "";
+                    for (Map.Entry<String, String> entry : params.entrySet()) {
+                        builder.append(delimiter).append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+                        delimiter = "&";
+                    }
+                    byte[] data = builder.toString().getBytes("UTF-8");
+
+                    HttpURLConnection con = (HttpURLConnection) signInUrl.openConnection();
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                    con.setRequestProperty("Accept", "application/json");
+                    con.setRequestMethod("POST");
+                    con.setFixedLengthStreamingMode(data.length);
+                    con.connect();
+
+                    OutputStream writer = con.getOutputStream();
+                    writer.write(data);
+                    writer.flush();
+                    writer.close();
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
+                    System.out.println( "cookie first header="+cookieHeaders.get(0));
+                    appl.setSessionCookie(cookieHeaders.get(0));
+
+                    return null;
                 }
-                byte[] data = builder.toString().getBytes("UTF-8");
-
-                HttpURLConnection con = (HttpURLConnection) signInUrl.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
-                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                con.setRequestProperty("Accept", "application/json");
-                con.setRequestMethod("POST");
-                con.setFixedLengthStreamingMode(data.length);
-                con.connect();
-
-                OutputStream writer = con.getOutputStream();
-                writer.write(data);
-                writer.flush();
-                writer.close();
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+                catch (IOException e) {
+                    e.printStackTrace(); 
+                    attempt++;
+                    if (attempt == MAX_ATTEMPTS) {
+                        exception = e;
+                        System.err.println("I give up after " + attempt + " attempts.");
+                    }
+                    else 
+                        System.err.println("Let's try again (attempt=" + attempt+")");
                 }
-                in.close();
-                List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
-                System.out.println( "cookie first header="+cookieHeaders.get(0));
-                appl.setSessionCookie(cookieHeaders.get(0));
-            }
-            catch (IOException e) {
-                e.printStackTrace();
             }
 
             return null;
