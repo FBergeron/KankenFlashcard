@@ -326,24 +326,34 @@ public class ProblemEvaluationFragment extends Fragment {
             }
             catch (IOException e) {
                 e.printStackTrace();
+
+                exception = e;
             }
 
             return null;
         }
 
         protected void onPostExecute(final Object obj) {
-            if (exception != null) {
-                System.out.println("An exception has occured: " + exception);
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                    progressDialog = null;
-                }
-                return;
-            }
-
             if (progressDialog != null) {
                 progressDialog.dismiss();
                 progressDialog = null;
+            }
+
+            if (exception != null) {
+                System.out.println("An exception has occured: " + exception);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
+                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(true)
+                .show();
+
+                return;
             }
 
             Intent quizSummaryActivity = new Intent(getActivity(), QuizSummaryActivity.class);

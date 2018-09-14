@@ -1,6 +1,8 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -231,18 +233,26 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         }
 
         protected void onPostExecute(final Object obj) {
-            if (exception != null) {
-                System.out.println("An exception has occured: " + exception);
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                    progressDialog = null;
-                }
-                return;
-            }
-
             if (progressDialog != null) {
                 progressDialog.dismiss();
                 progressDialog = null;
+            }
+
+            if (exception != null) {
+                System.out.println("An exception has occured: " + exception);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AuthenticationActivity.this);
+                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
+                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(true)
+                .show();
+
+                return;
             }
 
             updateUI(true);

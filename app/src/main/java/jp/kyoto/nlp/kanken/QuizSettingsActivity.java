@@ -292,15 +292,23 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 progressDialog = null;
             }
 
-            if (exception != null) {
-                System.out.println("An exception has occured: " + exception);
-                // TODO Handle that in a better way.
-                return;
-            }
+            if (exception != null || obj == null) {
+                if (exception != null)
+                    System.out.println("An exception has occured: " + exception);
+                if (obj == null)
+                    System.out.println("Cannot retrieve problems.");
 
-            if (obj == null) {
-                System.out.println("obj=null!!");
-                // TODO Handle that in a better way.
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
+                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
+                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(true)
+                .show();
+
                 return;
             }
 
@@ -313,7 +321,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_not_enough_problems_found_title))
                 .setMessage(getResources().getString(R.string.error_not_enough_problems_found_msg))
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 })
