@@ -116,7 +116,7 @@ class Quiz {
     }
 
     public void addFamiliarity(int familiarity) {
-        familiarities.add(new Integer(familiarity));
+        familiarities.add(Integer.valueOf(familiarity));
         reportedAsIncorrects.add(Boolean.FALSE);
     }
 

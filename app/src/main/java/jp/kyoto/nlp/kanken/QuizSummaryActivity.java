@@ -25,7 +25,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_summary);
 
         int topicCount = Problem.Topic.values().length;
-        labelTopics = new String[topicCount];
+        String[] labelTopics = new String[topicCount];
         for (int i = 0; i < topicCount; i++) {
             String strResName = "label_topic_" + Problem.Topic.values()[i].getLabelId();
             int labelId = getResources().getIdentifier(strResName, "string", QuizSummaryActivity.this.getPackageName());
@@ -49,10 +49,10 @@ public class QuizSummaryActivity extends AppCompatActivity {
             }
         }
 
-        TextView textViewSummaryTypeAndLevel = (TextView)findViewById(R.id.textViewSummaryTypeAndLevel);
+        TextView textViewSummaryTypeAndLevel = findViewById(R.id.textViewSummaryTypeAndLevel);
         textViewSummaryTypeAndLevel.setText(strType + "; " + strLevel + "; " + strTopics);
         
-        StringBuffer summary = new StringBuffer();
+        StringBuilder summary = new StringBuilder();
         summary.append("<html>\n");
         summary.append("<head>\n");
         summary.append("<head>\n");
@@ -120,7 +120,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
             String outcomeLabel = getResources().getString(R.string.label_summary_outcome);
             summary.append("<td class=\"label\" width=\"8%\">" + outcomeLabel + "</td>\n");
             summary.append("<td width=\"10%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "right" : "wrong") + ".svg\"/></td>\n");
-            if (isReportedAsIncorrect.booleanValue()) {
+            if (isReportedAsIncorrect) {
                 String reportedLabel = getResources().getString(R.string.label_summary_reported);
                 summary.append("<td colspan=\"2\" class=\"reported\" width=\"20%\">" + reportedLabel + "</td>\n");
             }
@@ -138,7 +138,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
 
         // System.out.println("html="+summary.toString());
 
-        WebView webViewSummary = (WebView)findViewById(R.id.webViewSummary);
+        WebView webViewSummary = findViewById(R.id.webViewSummary);
         webViewSummary.loadDataWithBaseURL("file:///android_asset/", summary.toString(), "text/html; charset=utf-8", "utf-8", null);
     }
 
@@ -146,8 +146,6 @@ public class QuizSummaryActivity extends AppCompatActivity {
         Intent quizSettingsActivity = new Intent(QuizSummaryActivity.this, QuizSettingsActivity.class);
         startActivity(quizSettingsActivity);
     }
-
-    private String[] labelTopics;
 
     private KankenApplication appl = KankenApplication.getInstance();
 

@@ -1,7 +1,5 @@
 package jp.kyoto.nlp.kanken;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -18,9 +16,7 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -32,6 +28,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.app.AlertDialog.Builder;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -39,12 +36,12 @@ public class ProblemEvaluationFragment extends Fragment {
 
     public void reportProblemAsErroneous(android.view.View view) {
         final QuizProblemActivity parentActivity = (QuizProblemActivity)getActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+        Builder builder = new Builder(parentActivity);
         builder.setTitle(getResources().getString(R.string.info_confirm_report_title))
         .setMessage(getResources().getString(R.string.info_confirm_report_msg))
         .setPositiveButton(R.string.button_report, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+                Builder builder = new Builder(parentActivity);
                 builder.setTitle(getResources().getString(R.string.info_report_title))
                 .setMessage(getResources().getString(R.string.info_report_msg))
                 .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
@@ -60,7 +57,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
          })
         .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) { 
+            public void onClick(DialogInterface dialog, int which) {
             }
          })
         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -71,7 +68,7 @@ public class ProblemEvaluationFragment extends Fragment {
     public void goNextProblem() {
         Problem nextProblem = appl.getQuiz().nextProblem();
         if (nextProblem == null) {
-            URL storeResultsUrl = null;
+            URL storeResultsUrl;
             try {
                 storeResultsUrl = new URL(appl.getServerBaseUrl() + storeResultsReqPath);
 
@@ -131,7 +128,7 @@ public class ProblemEvaluationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_problem_evaluation, container, false);
 
-        Button buttonSetProblemFamiliarity0 = (Button)view.findViewById(R.id.buttonFamiliarity0);
+        Button buttonSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
         buttonSetProblemFamiliarity0.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -141,7 +138,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity1 = (Button)view.findViewById(R.id.buttonFamiliarity1);
+        Button buttonSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
         buttonSetProblemFamiliarity1.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -151,7 +148,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity2 = (Button)view.findViewById(R.id.buttonFamiliarity2);
+        Button buttonSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
         buttonSetProblemFamiliarity2.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -161,7 +158,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity3 = (Button)view.findViewById(R.id.buttonFamiliarity3);
+        Button buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
         buttonSetProblemFamiliarity3.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -171,7 +168,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity4 = (Button)view.findViewById(R.id.buttonFamiliarity4);
+        Button buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
         buttonSetProblemFamiliarity4.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -181,7 +178,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonReportErroneousProblem = (Button)view.findViewById(R.id.buttonReportErroneousProblem);
+        Button buttonReportErroneousProblem = view.findViewById(R.id.buttonReportErroneousProblem);
         buttonReportErroneousProblem.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -196,7 +193,6 @@ public class ProblemEvaluationFragment extends Fragment {
 
     public void showProblemEvaluation() {
         Problem currProb = appl.getQuiz().getCurrentProblem();
-        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
         Pattern problemPattern = Pattern.compile(".*\\[(.*)\\].*");
         String statement = appl.getQuiz().getCurrentProblem().getStatement();
@@ -208,10 +204,10 @@ public class ProblemEvaluationFragment extends Fragment {
 
         QuizProblemActivity parentActivity = (QuizProblemActivity)getActivity();
 
-        ImageView imageViewRight = (ImageView)parentActivity.findViewById(R.id.imageViewRight);
-        ImageView imageViewWrong = (ImageView)parentActivity.findViewById(R.id.imageViewWrong);
-        TextView textViewEvaluationResult = (TextView)parentActivity.findViewById(R.id.textViewEvaluationResult);
-        TextView textViewDetailedAnswer = (TextView)parentActivity.findViewById(R.id.textViewDetailedAnswer);
+        ImageView imageViewRight = parentActivity.findViewById(R.id.imageViewRight);
+        ImageView imageViewWrong = parentActivity.findViewById(R.id.imageViewWrong);
+        TextView textViewEvaluationResult = parentActivity.findViewById(R.id.textViewEvaluationResult);
+        TextView textViewDetailedAnswer = parentActivity.findViewById(R.id.textViewDetailedAnswer);
         int strNum = appl.getQuiz().getCurrentResultStringNumber();
         if (appl.getQuiz().isCurrentAnswerRight()) {
             imageViewRight.setVisibility(VISIBLE);
@@ -239,7 +235,7 @@ public class ProblemEvaluationFragment extends Fragment {
 
         String wordInKanjis = getWordInKanjis(currProb.getJumanInfo());
         String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
-        TextView textViewProblemFamiliarity = (TextView)parentActivity.findViewById(R.id.textViewProblemFamiliarity);
+        TextView textViewProblemFamiliarity = parentActivity.findViewById(R.id.textViewProblemFamiliarity);
         textViewProblemFamiliarity.setText(text);
     }
 
@@ -285,10 +281,10 @@ public class ProblemEvaluationFragment extends Fragment {
 
                     params.put("problemId_" + i, problem.getId());
                     params.put("problemJuman_" + i, problem.getJumanInfo());
-                    params.put("problemRightAnswer_" + i, (isRightAnswer.booleanValue() ? 1 : 0) + ""); 
+                    params.put("problemRightAnswer_" + i, (isRightAnswer ? 1 : 0) + "");
                     params.put("problemFamiliarity_" + i, familiarity + "");
                     params.put("problemAnswer_" + i, answer);
-                    params.put("problemReportedAsIncorrect_" + i, (isReportedAsIncorrect.booleanValue() ? 1 : 0) + "");
+                    params.put("problemReportedAsIncorrect_" + i, (isReportedAsIncorrect ? 1 : 0) + "");
                 }
 
                 StringBuilder builder = new StringBuilder();
@@ -315,14 +311,6 @@ public class ProblemEvaluationFragment extends Fragment {
                 writer.write(data);
                 writer.flush();
                 writer.close();
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -340,9 +328,9 @@ public class ProblemEvaluationFragment extends Fragment {
             }
 
             if (exception != null) {
-                System.out.println("An exception has occured: " + exception);
+                System.out.println("An exception has occurred: " + exception);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                Builder builder = new Builder(getActivity());
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
                 .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {

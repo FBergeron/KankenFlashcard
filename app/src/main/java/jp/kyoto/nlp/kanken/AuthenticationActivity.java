@@ -6,9 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,9 +28,7 @@ import com.google.android.gms.common.api.Status;
 
 import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -66,15 +64,15 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
-        layoutUserInfo = (LinearLayout)findViewById(R.id.layoutUserInfo);
-        layoutLogin = (LinearLayout)findViewById(R.id.layoutLogin);
-        buttonSignOut = (Button)findViewById(R.id.buttonSignOut);
-        buttonSignIn = (SignInButton)findViewById(R.id.buttonSignIn);
-        textViewUserName = (TextView)findViewById(R.id.textViewUserName);
-        textViewUserEmail = (TextView)findViewById(R.id.textViewUserEmail);
-        imageViewUserPicture = (ImageView)findViewById(R.id.imageViewUserPicture);
-        textViewAuthenticationInfoTitle = (TextView)findViewById(R.id.textViewAuthenticationInfoTitle);
-        textViewAuthenticationInfo = (TextView)findViewById(R.id.textViewAuthenticationInfo);
+        layoutUserInfo = findViewById(R.id.layoutUserInfo);
+        layoutLogin = findViewById(R.id.layoutLogin);
+        Button buttonSignOut = findViewById(R.id.buttonSignOut);
+        SignInButton buttonSignIn = findViewById(R.id.buttonSignIn);
+        textViewUserName = findViewById(R.id.textViewUserName);
+        textViewUserEmail = findViewById(R.id.textViewUserEmail);
+        imageViewUserPicture = findViewById(R.id.imageViewUserPicture);
+        TextView textViewAuthenticationInfoTitle = findViewById(R.id.textViewAuthenticationInfoTitle);
+        TextView textViewAuthenticationInfo = findViewById(R.id.textViewAuthenticationInfo);
 
         // No title needed for now.  Delete it eventually.
         textViewAuthenticationInfoTitle.setVisibility(View.GONE);
@@ -97,6 +95,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
+            assert account != null;
             String name = account.getDisplayName();
             String email = account.getEmail();
             String idToken = account.getIdToken();
@@ -111,7 +110,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
             Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
 
-            URL signInUrl = null;
+            URL signInUrl;
             try {
                 signInUrl = new URL(appl.getServerBaseUrl() + signInReqPath);
                 
@@ -204,13 +203,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     writer.flush();
                     writer.close();
 
-                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
                     List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
                     System.out.println( "cookie first header="+cookieHeaders.get(0));
                     appl.setSessionCookie(cookieHeaders.get(0));
@@ -239,7 +231,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             }
 
             if (exception != null) {
-                System.out.println("An exception has occured: " + exception);
+                System.out.println("An exception has occurred: " + exception);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AuthenticationActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
@@ -263,14 +255,10 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     }
 
     private LinearLayout layoutUserInfo;
-    private Button buttonSignOut;
-    private SignInButton buttonSignIn;
     private TextView textViewUserName;
     private TextView textViewUserEmail;
     private ImageView imageViewUserPicture;
     private LinearLayout layoutLogin;
-    private TextView textViewAuthenticationInfoTitle;
-    private TextView textViewAuthenticationInfo;
 
     private GoogleApiClient googleApiClient;
 

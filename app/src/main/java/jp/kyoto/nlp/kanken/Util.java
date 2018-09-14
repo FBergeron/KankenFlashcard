@@ -5,24 +5,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import com.leafdigital.kanji.android.MultiAssetInputStream;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 class Util {
 
@@ -177,8 +174,8 @@ class Util {
         longKanas.add("\u3074\u3087"); // ぴょ
     }
 
-    public static Map<String, Float> kanaFreq = null;
-    public static List<String> kanaFreqSorted = null;
+    private static Map<String, Float> kanaFreq = null;
+    private static List<String> kanaFreqSorted = null;
 
     public static void initKanaFreq(InputStream is) throws IOException {
         kanaFreqSorted = new ArrayList<String>();
@@ -242,10 +239,9 @@ class Util {
     public static String findKana(String k) {
         ArrayList<String> kanasToSearch = (k.length() == 2 ? Util.longKanas : Util.kanas);
 
-        for (Iterator it = kanasToSearch.iterator(); it.hasNext();) {
-            String kana = (String)it.next();
+        for (String kana : kanasToSearch) {
             if (kana.equals(k))
-                return(kana);
+                return (kana);
         }
 
         return null;
@@ -260,12 +256,11 @@ class Util {
 
         Random r = new Random();
         float f = r.nextFloat() * 100;
-        
-        for (Iterator<String> it = kanaFreqSorted.iterator(); it.hasNext(); ) {
-            String kana = it.next();
+
+        for (String kana : kanaFreqSorted) {
             Float freq = (kanaFreq.containsKey(kana) ? kanaFreq.get(kana) : null);
             if (freq != null) {
-                f = f - freq.floatValue();
+                f = f - freq;
                 if (f < 0)
                     return kana;
             }

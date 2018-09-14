@@ -108,7 +108,7 @@ abstract class Problem {
     }
 
     public String toString() {
-        StringBuffer str = new StringBuffer();
+        StringBuilder str = new StringBuilder();
         str.append("id: ").append(id);
         str.append("; level: ").append(level);
         str.append("; topics: ").append(topics);
@@ -126,13 +126,11 @@ abstract class Problem {
     }
 
     public boolean equals(Object obj) {
-        if(obj == null)
+        if (obj == null)
             return false;
         if (!(obj instanceof Problem))
             return false;
-        if (obj == this)
-            return true;
-        return this.getId() == ((Problem)obj).getId();
+        return obj == this || this.getId() == ((Problem) obj).getId();
     }
 
     protected String id;

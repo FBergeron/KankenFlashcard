@@ -1,17 +1,15 @@
 package jp.kyoto.nlp.kanken;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Set;
-
 import android.app.Application;
-import android.content.Context;
 
 import com.leafdigital.kanji.android.MultiAssetInputStream;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Set;
 
 public class KankenApplication extends Application {
 

@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -25,7 +24,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -34,11 +32,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 public class QuizSettingsActivity extends AppCompatActivity {
 
@@ -94,7 +90,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
     public void startQuiz(android.view.View view) {
         Set<Problem.Topic> quizTopics = new HashSet<Problem.Topic>();
         for (Integer selectedTopic : selectedTopics)
-            quizTopics.add(Problem.Topic.values()[selectedTopic.intValue()]);
+            quizTopics.add(Problem.Topic.values()[selectedTopic]);
         
         if (quizTopics.isEmpty()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
@@ -113,11 +109,11 @@ public class QuizSettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
+        SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
         int level = seekbarQuizLevel.getProgress() + 1;
         editor.putInt("QuizLevel", level); 
 
-        StringBuffer strPrefTopics = new StringBuffer();
+        StringBuilder strPrefTopics = new StringBuilder();
         String delimiter = "";
         for (Problem.Topic topic : quizTopics) {
             strPrefTopics.append(delimiter);
@@ -126,13 +122,13 @@ public class QuizSettingsActivity extends AppCompatActivity {
         }
         editor.putString("QuizTopics", strPrefTopics.toString());
 
-        RadioGroup radioGroupQuizType = (RadioGroup) findViewById(R.id.radioGroupQuizType);
+        RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
         int selectedRadioButtonId = radioGroupQuizType.getCheckedRadioButtonId();
         Problem.Type type = (selectedRadioButtonId == R.id.radioButtonQuizTypeReading ? 
             Problem.Type.READING : Problem.Type.WRITING);
         editor.putString("QuizType", type.getLabelId());
 
-        editor.commit();
+        editor.apply();
         
         appl.startQuiz(type, quizTopics, level);
 
@@ -155,20 +151,20 @@ public class QuizSettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
 
         int prefLevel = sharedPref.getInt("QuizLevel", 1);
-        SeekBar seekbarQuizLevel = (SeekBar) findViewById(R.id.seekBarQuizLevel);
+        SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
         seekbarQuizLevel.setProgress(prefLevel - 1);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
+        // int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
 
         // Try to adjust the width of the space objects.
         // Not perfect but looks good enough.
-        Space spaceQuizLevel12 = (Space)findViewById(R.id.spaceQuizLevel12);
-        Space spaceQuizLevel23 = (Space)findViewById(R.id.spaceQuizLevel23);
-        Space spaceQuizLevel34 = (Space)findViewById(R.id.spaceQuizLevel34);
-        Space spaceQuizLevel45 = (Space)findViewById(R.id.spaceQuizLevel45);
+        Space spaceQuizLevel12 = findViewById(R.id.spaceQuizLevel12);
+        Space spaceQuizLevel23 = findViewById(R.id.spaceQuizLevel23);
+        Space spaceQuizLevel34 = findViewById(R.id.spaceQuizLevel34);
+        Space spaceQuizLevel45 = findViewById(R.id.spaceQuizLevel45);
         ViewGroup.LayoutParams spaceParams = spaceQuizLevel12.getLayoutParams();
         spaceParams.width = (width >= 1024 ? 200 : 30);
         spaceQuizLevel12.setLayoutParams(spaceParams);
@@ -182,12 +178,12 @@ public class QuizSettingsActivity extends AppCompatActivity {
         HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
         for (int i = 0; i < Problem.Topic.values().length; i++) {
             if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
-                selectedTopics.add(new Integer(i));
+                selectedTopics.add(Integer.valueOf(i));
         }
         showSelectedTopics();
 
         String prefType = sharedPref.getString("QuizType", "reading");
-        RadioGroup radioGroupQuizType = (RadioGroup) findViewById(R.id.radioGroupQuizType);
+        RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
         if (Problem.Type.READING.getLabelId().equals(prefType)) 
             radioGroupQuizType.check(R.id.radioButtonQuizTypeReading);
         else
@@ -207,16 +203,16 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 delimiter = ", ";
             }
         }
-        TextView textViewSelectedTopics = (TextView)findViewById(R.id.textViewSelectedTopics);
+        TextView textViewSelectedTopics = findViewById(R.id.textViewSelectedTopics);
         textViewSelectedTopics.setText(str.toString());
     }
 
     private void fetchProblems(int level, Set<Problem.Topic> topics, Problem.Type type) {
         System.out.println("fetchProblems level="+level+" topics="+topics+" type="+type);
-        URL getNextProblemsUrl = null;
+        URL getNextProblemsUrl;
         try {
             String delim = "";
-            StringBuffer topicsParam = new StringBuffer();
+            StringBuilder topicsParam = new StringBuilder();
             List<Problem.Topic> sortedTopics = new ArrayList<Problem.Topic>(topics);
             Collections.sort(sortedTopics);
             for (Problem.Topic topic : sortedTopics) {
@@ -267,7 +263,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String inputLine;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
@@ -294,7 +290,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
             if (exception != null || obj == null) {
                 if (exception != null)
-                    System.out.println("An exception has occured: " + exception);
+                    System.out.println("An exception has occurred: " + exception);
                 if (obj == null)
                     System.out.println("Cannot retrieve problems.");
 
@@ -345,7 +341,7 @@ public class QuizSettingsActivity extends AppCompatActivity {
                     String articleUrl = jsonProblem.getString(4);
                     Object objIsLinkAlive = jsonProblem.get(5);
                     
-                    boolean isLinkAlive = objIsLinkAlive != null && objIsLinkAlive instanceof Integer && ((Integer)objIsLinkAlive).intValue() == 1;
+                    boolean isLinkAlive = objIsLinkAlive != null && objIsLinkAlive instanceof Integer && (Integer) objIsLinkAlive == 1;
 
                     String altArticleUrl = null;
                     try {
@@ -421,8 +417,6 @@ public class QuizSettingsActivity extends AppCompatActivity {
     private HashSet<Integer> selectedTopics = new HashSet<Integer>();
 
     private ProgressDialog progressDialog;
-
-    private String sharedPrefFile = "jp.kyoto.nlp.kanken.KankenApplPrefs";
 
     private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
 

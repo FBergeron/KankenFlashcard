@@ -1,43 +1,17 @@
 package jp.kyoto.nlp.kanken;
 
-import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
+import android.support.v7.app.AlertDialog;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -70,7 +44,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
     }
 
     public void deleteKana(android.view.View view) {
-        TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+        TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         String answer = textViewProblemUserAnswer.getText().toString();
         String foundKana = null;
         String subword = null;
@@ -104,7 +78,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             String buttonName = "buttonKana" + (buttonNumber < 10 ? "0" : "") + buttonNumber;
             int buttonId = getResources().getIdentifier(buttonName, "id", ReadingProblemActivity.this.getPackageName());
             if (buttonId == view.getId()) {
-                TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+                TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
                 if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) {
                     String newAnswer = textViewProblemUserAnswer.getText() + buttonKanas.get(i);
                     textViewProblemUserAnswer.setText(newAnswer);
@@ -116,7 +90,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
     }
     
     public void validateAnswer(android.view.View view) {
-        TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+        TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         final String answer = textViewProblemUserAnswer.getText().toString();
 
         if (answer.trim().equals("")) {
@@ -162,13 +136,12 @@ public class ReadingProblemActivity extends QuizProblemActivity {
         super.askProblem();
 
         Problem currProb = appl.getQuiz().getCurrentProblem();
-        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
 
         findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(VISIBLE);
         findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(VISIBLE);
         findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
-        TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+        TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         textViewProblemUserAnswer.setText(appl.getQuiz().getCurrentAnswer());
 
         buttonKanas = new ArrayList<String>();
@@ -198,7 +171,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             int buttonNumber = i +  1;
             String buttonName = "buttonKana" + (buttonNumber < 10 ? "0" : "") + buttonNumber;
             int buttonId = getResources().getIdentifier(buttonName, "id", ReadingProblemActivity.this.getPackageName());
-            Button button = (Button)findViewById(buttonId);
+            Button button = findViewById(buttonId);
             button.setText(buttonKanas.get(i));
         }
 

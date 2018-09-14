@@ -3,23 +3,15 @@ package jp.kyoto.nlp.kanken;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,30 +23,16 @@ import com.leafdigital.kanji.android.KanjiDrawing;
 import com.leafdigital.kanji.android.KanjiDrawing.DrawnStroke;
 import com.leafdigital.kanji.android.MultiAssetInputStream;
 
-import org.json.JSONException;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.Random;
 
-import static android.view.View.*;
+import static android.view.View.GONE;
+import static android.view.View.OnClickListener;
+import static android.view.View.VISIBLE;
 
 public class WritingProblemActivity extends QuizProblemActivity {
 
@@ -104,7 +82,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
     }
 
     public void deleteKanji(android.view.View view) {
-        TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+        TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         String origText = textViewProblemUserAnswer.getText().toString();
         if (origText.length() > 0) {
             String newAnswer = origText.substring(0, origText.length() - 1);
@@ -119,12 +97,12 @@ public class WritingProblemActivity extends QuizProblemActivity {
             kanjiTimer.cancel();
 
         findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
-        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
+        KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         new MatchThread(this, kanjiCanvas.getStrokes(), R.string.label_finding_characters, true);
     }
 
     public void undoCanvas(android.view.View view) {
-        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
+        KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.undo();
         
         kanjiPage = 0;
@@ -139,7 +117,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
+        KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.clear();
 
         findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(false);
@@ -151,8 +129,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
         layoutKanjiInputRight_b.setVisibility(GONE);
 
         int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
-        for (int i = 0; i < buttonAIds.length; i++) {
-            Button button = (Button)findViewById(buttonAIds[i]);
+        for (int buttonAId : buttonAIds) {
+            Button button = findViewById(buttonAId);
             if (button != null) {
                 button.setText("");
                 button.setEnabled(false);
@@ -164,7 +142,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
     }
 
     public void validateAnswer(android.view.View view) {
-        TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+        TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         final String answer = textViewProblemUserAnswer.getText().toString();
 
         if (answer.trim().equals("")) {
@@ -212,22 +190,19 @@ public class WritingProblemActivity extends QuizProblemActivity {
     protected void askProblem() {
         super.askProblem();
 
-        Problem currProb = appl.getQuiz().getCurrentProblem();
-        int currProbIndex = appl.getQuiz().getCurrentProblemIndex();
-
         findViewById(R.id.layoutKanjiInput).setVisibility(VISIBLE);
         findViewById(R.id.layoutWritingProblemUserAnswer).setVisibility(VISIBLE);
         findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
-        TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+        TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         textViewProblemUserAnswer.setText(appl.getQuiz().getCurrentAnswer());
 
-        layoutKanjiInputRight_a = (LinearLayout)findViewById(R.id.layoutKanjiInputRight_a); 
+        layoutKanjiInputRight_a = findViewById(R.id.layoutKanjiInputRight_a);
         layoutKanjiInputRight_a.setVisibility(VISIBLE);
-        layoutKanjiInputRight_b = (LinearLayout)findViewById(R.id.layoutKanjiInputRight_b); 
+        layoutKanjiInputRight_b = findViewById(R.id.layoutKanjiInputRight_b);
         layoutKanjiInputRight_b.setVisibility(GONE);
 
-        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
+        KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.setListener(
             new KanjiDrawing.Listener() {
                 @Override
@@ -280,7 +255,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
             int k = 0;
             while (k < buttonAIds.length && k < kanjis.length) {
-                final Button button = (Button)findViewById(buttonAIds[k]);
+                final Button button = findViewById(buttonAIds[k]);
                 if (button != null) {
                     button.setText(kanjis[k]);
                     button.setEnabled(true);
@@ -288,7 +263,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+                                TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
                                 if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
                                     String newAnswer = textViewProblemUserAnswer.getText().toString() + button.getText().toString();
                                     textViewProblemUserAnswer.setText(newAnswer);
@@ -304,7 +279,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 k++;
             }
             while (k < buttonAIds.length) {
-                Button button = (Button)findViewById(buttonAIds[k]);
+                Button button = findViewById(buttonAIds[k]);
                 if (button != null) {
                     button.setText(" ");
                     button.setEnabled(false);
@@ -312,7 +287,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 k++;
             }
 
-            Button buttonNextPage = (Button)findViewById(R.id.buttonShowNextPage_a);
+            Button buttonNextPage = findViewById(R.id.buttonShowNextPage_a);
             if (buttonNextPage != null) {
                 if (kanjis.length > 7) {
                     buttonNextPage.setVisibility(VISIBLE);
@@ -338,7 +313,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             int k = 12 * (kanjiPage - 1) + 7; 
             int b = 0;
             while (b < buttonBIds.length && k < kanjis.length) {
-                final Button button = (Button)findViewById(buttonBIds[b]);
+                final Button button = findViewById(buttonBIds[b]);
                 if (button != null) {
                     button.setText(kanjis[k]);
                     button.setEnabled(true);
@@ -346,7 +321,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+                                TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
                                 if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
                                     String newAnswer = textViewProblemUserAnswer.getText().toString() + button.getText().toString();
                                     textViewProblemUserAnswer.setText(newAnswer);
@@ -362,7 +337,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 k++;
             }
             while (b < buttonBIds.length) {
-                Button button = (Button)findViewById(buttonBIds[b]);
+                Button button = findViewById(buttonBIds[b]);
                 if (button != null) {
                     button.setText(" ");
                     button.setEnabled(false);
@@ -370,7 +345,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 b++;
             }
             
-            Button buttonPrevPage = (Button)findViewById(R.id.buttonShowPrevPage_b);
+            Button buttonPrevPage = findViewById(R.id.buttonShowPrevPage_b);
             if (buttonPrevPage != null) {
                 buttonPrevPage.setVisibility(VISIBLE);
                 buttonPrevPage.setOnClickListener(
@@ -383,7 +358,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     }
                 );
             }
-            Button buttonNextPage = (Button)findViewById(R.id.buttonShowNextPage_b);
+            Button buttonNextPage = findViewById(R.id.buttonShowNextPage_b);
             if (buttonNextPage != null) {
                 if (kanjis.length > 12 * kanjiPage + 7) {
                     buttonNextPage.setVisibility(VISIBLE);
@@ -408,7 +383,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
      * if needed.
      */
     private void loaded() {
-        KanjiDrawing kanjiCanvas = (KanjiDrawing)findViewById(R.id.kanjiDrawing);
+        KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         DrawnStroke[] strokes = kanjiCanvas.getStrokes();
     }
 
@@ -513,7 +488,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 final Problem currProb = quiz.getCurrentProblem();
                 final String rightAnswer = currProb.getRightAnswer();
 
-                TextView textViewProblemUserAnswer = (TextView)findViewById(R.id.textViewProblemUserAnswer);
+                TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
                 String answer = textViewProblemUserAnswer.getText().toString();
                 final String rightChar = (answer.length() < rightAnswer.length() ? rightAnswer.charAt(answer.length()) + "" : null);
 
@@ -521,8 +496,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 boolean isRightKanjiFound = false;
                 if (rightChar != null) {
                     // System.out.println("Looking in exactMatches exact.l=" + exactMatches.length);                    
-                    for (int i = 0; i < exactMatches.length; i++ ) {
-                        if (exactMatches[i].getKanji().getKanji().equals(rightChar)) {
+                    for (KanjiMatch exactMatch : exactMatches) {
+                        if (exactMatch.getKanji().getKanji().equals(rightChar)) {
                             isRightKanjiFound = true;
                             // System.out.println("Found! No need to compute fuzzy.");
                             break;
@@ -533,8 +508,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 final KanjiMatch[] fuzzyMatches = (isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null));
                 if (rightChar != null) {
                     // System.out.println("Looking in fuzzyMatches fuzzy.l="+fuzzyMatches.length);
-                    for (int i = 0; i < fuzzyMatches.length; i++ ) {
-                        if (fuzzyMatches[i].getKanji().getKanji().equals(rightChar)) {
+                    for (KanjiMatch fuzzyMatch : fuzzyMatches) {
+                        if (fuzzyMatch.getKanji().getKanji().equals(rightChar)) {
                             isRightKanjiFound = true;
                             // System.out.println("Found! No need to compute fuzzier1.");
                             break;
@@ -545,8 +520,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 final KanjiMatch[] fuzzier1Matches = (isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null));
                 if (rightChar != null) {
                     // System.out.println("Looking in fuzzier1Matches fuzzy.l="+fuzzier1Matches.length);
-                    for (int i = 0; i < fuzzier1Matches.length; i++ ) {
-                        if (fuzzier1Matches[i].getKanji().getKanji().equals(rightChar)) {
+                    for (KanjiMatch fuzzier1Match : fuzzier1Matches) {
+                        if (fuzzier1Match.getKanji().getKanji().equals(rightChar)) {
                             isRightKanjiFound = true;
                             // System.out.println("Found! No need to compute fuzzier2.");
                             break;
@@ -570,29 +545,29 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         List<String> fuzzier2Chars = new ArrayList<String>();
                         // List<Float> fuzzier2Scores = new ArrayList<Float>();
 
-                        for (int i = 0; i < exactMatches.length; i++) {
-                            String kanji = exactMatches[i].getKanji().getKanji();
+                        for (KanjiMatch exactMatch : exactMatches) {
+                            String kanji = exactMatch.getKanji().getKanji();
                             // float score = exactMatches[i].getScore();
                             exactChars.add(kanji);
                             // exactScores.add(new Float(score));
                         }
 
-                        for (int i = 0; i < fuzzyMatches.length; i++) {
-                            String kanji = fuzzyMatches[i].getKanji().getKanji();
+                        for (KanjiMatch fuzzyMatch : fuzzyMatches) {
+                            String kanji = fuzzyMatch.getKanji().getKanji();
                             // float score = fuzzyMatches[i].getScore();
                             fuzzyChars.add(kanji);
                             // fuzzyScores.add(score);
                         }
 
-                        for (int i = 0; i < fuzzier1Matches.length; i++) {
-                            String kanji = fuzzier1Matches[i].getKanji().getKanji();
+                        for (KanjiMatch fuzzier1Match : fuzzier1Matches) {
+                            String kanji = fuzzier1Match.getKanji().getKanji();
                             // float score = fuzzier1Matches[i].getScore();
                             fuzzier1Chars.add(kanji);
                             // fuzzier1Scores.add(score);
                         }
 
-                        for (int i = 0; i < fuzzier2Matches.length; i++) {
-                            String kanji = fuzzier2Matches[i].getKanji().getKanji();
+                        for (KanjiMatch fuzzier2Match : fuzzier2Matches) {
+                            String kanji = fuzzier2Match.getKanji().getKanji();
                             // float score = fuzzier2Matches[i].getScore();
                             fuzzier2Chars.add(kanji);
                             // fuzzier2Scores.add(score);
@@ -705,7 +680,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
     private static KanjiList list;
     private static boolean listLoading;
     private static LinkedList<WritingProblemActivity> waitingActivities = new LinkedList<WritingProblemActivity>();
-    private static Object listSynch = new Object();
+    private static final Object listSynch = new Object();
 
     private Random rand = new Random();
 
