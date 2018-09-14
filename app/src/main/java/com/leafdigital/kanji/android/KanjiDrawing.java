@@ -70,6 +70,10 @@ public class KanjiDrawing extends View
      */
     public static class DrawnStroke
     {
+        public String toString() {
+            return "(" + startX + ", " + startY + ")-(" + endX + ", " + endY + ")";
+        }
+
         private float startX, startY, endX, endY;
 
         private final static String EXTRA_STROKESX = "strokesx",
