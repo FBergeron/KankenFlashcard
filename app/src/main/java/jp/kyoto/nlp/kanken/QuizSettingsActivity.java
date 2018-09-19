@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -16,6 +17,13 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Space;
 import android.widget.TextView;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,10 +44,40 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuizSettingsActivity extends AppCompatActivity {
+public class QuizSettingsActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     public static final String termsOfUsageLink = "http://www.bbc.co.uk";
     public static final String directionsLink = "http://www.radio-canada.ca";
+
+    public void signOut(android.view.View view) {
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+            new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    URL signOutUrl;
+                    try {
+                        signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
+
+                        progressDialog = new ProgressDialog(QuizSettingsActivity.this);
+                        progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+
+                        new SignOutTask().execute(signOutUrl);
+                    }
+                    catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    catch(IOException e2) {
+                        e2.printStackTrace();
+                    }
+                    catch(JSONException e3) {
+                        e3.printStackTrace();
+                    }
+                }
+            }
+        );
+    }
 
     public void invokeTopicChooser(android.view.View view) {
         for (int i = 0; i < checkedTopics.length; i++)
@@ -190,6 +228,9 @@ public class QuizSettingsActivity extends AppCompatActivity {
             radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
 
         appl = KankenApplication.getInstance();
+        
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
+        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
     }
 
     private void showSelectedTopics() {
@@ -247,6 +288,11 @@ public class QuizSettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
     private class FetchProblemsTask extends AsyncTask {
 
         protected Object doInBackground(Object... objs) {
@@ -272,10 +318,12 @@ public class QuizSettingsActivity extends AppCompatActivity {
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 jsonProblems = jsonResponse.getJSONArray("problems");
             }
-            catch (IOException e) {
+            catch(IOException e) {
                 e.printStackTrace();
+                this.exception = e;
             }
             catch(JSONException e2) {
+                e2.printStackTrace(); 
                 this.exception = e2;
             }
 
@@ -410,6 +458,80 @@ public class QuizSettingsActivity extends AppCompatActivity {
 
     }
 
+    private class SignOutTask extends AsyncTask {
+
+        protected Object doInBackground(Object... objs) {
+            URL signOutUrl = (URL)objs[0];
+            try {
+                HttpURLConnection con = (HttpURLConnection) signOutUrl.openConnection();
+                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                con.setRequestProperty("Accept", "application/json");
+                con.setRequestMethod("POST");
+                    con.setFixedLengthStreamingMode(0);
+                con.connect();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                String status = jsonResponse.getString("status");
+System.out.println( "status="+status );            
+            
+                return null;
+            }
+            catch(IOException e) {
+                e.printStackTrace(); 
+                exception = e;
+            }
+            catch(JSONException e2) {
+                e2.printStackTrace(); 
+                exception = e2;
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(final Object obj) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+
+            if (exception != null) {
+                System.out.println("An exception has occurred: " + exception);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
+                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
+                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(true)
+                .show();
+
+                return;
+            }
+
+            appl.setUserName(null);
+            appl.setUserEmail(null);
+            appl.setUserIdToken(null);
+            appl.setSessionCookie(null);
+
+            Intent authenticationActivity = new Intent(QuizSettingsActivity.this, AuthenticationActivity.class);
+            startActivity(authenticationActivity);
+        }
+
+        private Exception exception;
+
+    }
+
     private KankenApplication appl;
 
     private String[] labelTopics;
@@ -417,7 +539,10 @@ public class QuizSettingsActivity extends AppCompatActivity {
     private HashSet<Integer> selectedTopics = new HashSet<Integer>();
 
     private ProgressDialog progressDialog;
+    
+    private GoogleApiClient googleApiClient;
 
     private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
+    private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
 
 }

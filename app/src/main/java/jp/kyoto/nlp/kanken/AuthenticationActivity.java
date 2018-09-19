@@ -260,7 +260,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                 return;
             }
 
-            updateUI(true);
+            //updateUI(true);
+            play(null);
         }
 
         private Exception exception;
