@@ -7,16 +7,74 @@
     android:orientation="vertical"
     tools:context=".QuizSettingsActivity">
 
-    <TextView
-        android:id="@+id/textViewWelcome"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/margin_left_right"
-        android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="@dimen/settings_title_weight"
-        android:gravity="center"
-        android:text="@string/welcome"
-        android:textSize="30sp" />
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginRight="@dimen/margin_left_right"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/welcome"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageViewUserPicture"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10sp"
+                app:srcCompat="@drawable/unidentifier_user" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="18sp"
+                    android:text="Username"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewUserEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email" />
+
+                <Button
+                    android:id="@+id/buttonSignOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:layout_weight="0"
+                    android:onClick="signOut"
+                    android:text="@string/button_signout" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutQuizLevel"
@@ -166,7 +224,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:orientation="vertical">
 
         <TextView
@@ -203,10 +261,8 @@
         android:id="@+id/buttonStartQuiz"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10sp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_marginTop="10sp"
         android:layout_weight="1"
         android:onClick="startQuiz"
         android:text="@string/button_start_quiz" />
@@ -217,6 +273,7 @@
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
         android:layout_weight="1"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <Button
@@ -237,15 +294,22 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonSignOut"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10sp"
+        android:layout_height="0dp"
         android:layout_marginLeft="@dimen/margin_left_right"
         android:layout_marginRight="@dimen/margin_left_right"
-        android:layout_weight="0"
-        android:onClick="signOut"
-        android:text="@string/button_signout" />
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonSignOut2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:onClick="signOut"
+            android:text="@string/button_signout" />
+    </LinearLayout>
 
 </LinearLayout>

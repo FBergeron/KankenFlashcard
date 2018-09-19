@@ -12,12 +12,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Space;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -44,7 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuizSettingsActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class QuizSettingsActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     public static final String termsOfUsageLink = "http://www.bbc.co.uk";
     public static final String directionsLink = "http://www.radio-canada.ca";
@@ -178,6 +181,15 @@ public class QuizSettingsActivity extends AppCompatActivity implements GoogleApi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_settings);
 
+        appl = KankenApplication.getInstance();
+        
+        TextView textViewUserName = findViewById(R.id.textViewUserName);
+        textViewUserName.setText(appl.getUserName());
+        TextView textViewUserEmail = findViewById(R.id.textViewUserEmail);
+        textViewUserEmail.setText(appl.getUserEmail());
+        ImageView imageViewUserPicture = findViewById(R.id.imageViewUserPicture);
+        Glide.with(this).load(appl.getUserPictureUrl()).into(imageViewUserPicture);
+
         int topicCount = Problem.Topic.values().length;
         labelTopics = new String[topicCount];
         for (int i = 0; i < topicCount; i++) {
@@ -227,8 +239,6 @@ public class QuizSettingsActivity extends AppCompatActivity implements GoogleApi
         else
             radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
 
-        appl = KankenApplication.getInstance();
-        
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
     }
@@ -291,6 +301,10 @@ public class QuizSettingsActivity extends AppCompatActivity implements GoogleApi
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
     }
 
     private class FetchProblemsTask extends AsyncTask {
@@ -480,7 +494,7 @@ public class QuizSettingsActivity extends AppCompatActivity implements GoogleApi
                 
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 String status = jsonResponse.getString("status");
-System.out.println( "status="+status );            
+                System.out.println( "status="+status );            
             
                 return null;
             }

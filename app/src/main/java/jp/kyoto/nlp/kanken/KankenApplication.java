@@ -1,6 +1,7 @@
 package jp.kyoto.nlp.kanken;
 
 import android.app.Application;
+import android.net.Uri;
 
 import com.leafdigital.kanji.android.MultiAssetInputStream;
 
@@ -46,6 +47,14 @@ public class KankenApplication extends Application {
         this.userName = userName;
     }
 
+    public Uri getUserPictureUrl() {
+        return userPictureUrl;
+    }
+
+    public void setUserPictureUrl(Uri pictureUri) {
+        this.userPictureUrl = pictureUri;
+    }
+
     public String getUserIdToken() {
         return userIdToken;
     }
@@ -78,13 +87,14 @@ public class KankenApplication extends Application {
 
     private static KankenApplication instance;
 
-    private Quiz quiz;
+    private Quiz    quiz;
 
-    private String userName;
-    private String userEmail;
-    private String userIdToken;
-    private String sessionCookie;
+    private String  userName;
+    private String  userEmail;
+    private Uri     userPictureUrl;
+    private String  userIdToken;
+    private String  sessionCookie;
 
-    private String serverBaseUrl;
+    private String  serverBaseUrl;
 
 }

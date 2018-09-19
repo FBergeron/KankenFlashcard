@@ -122,6 +122,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
            
             appl.setUserName(name);
             appl.setUserEmail(email);
+            appl.setUserPictureUrl(pictureUrl);
             appl.setUserIdToken(idToken);
 
             Glide.with(this).load(pictureUrl).into(imageViewUserPicture);
