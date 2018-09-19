@@ -4,4 +4,6 @@ android:
         - tools
         - platform-tools
         - android-27
+    licenses:
+        - 'android-sdk-license-.+'
 
