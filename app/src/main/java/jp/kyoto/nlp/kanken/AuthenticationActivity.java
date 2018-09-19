@@ -55,7 +55,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                         signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
 
                         progressDialog = new ProgressDialog(AuthenticationActivity.this);
-                        progressDialog.setMessage(getResources().getString(R.string.label_signing_in));
+                        progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
                         progressDialog.setCancelable(false);
                         progressDialog.show();
 

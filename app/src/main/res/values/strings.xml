@@ -89,6 +89,7 @@
     <string name="button_signout">Sign out</string>
     <string name="button_play">Play</string>
     <string name="label_signing_in">Signing in...</string>
+    <string name="label_signing_out">Signing out...</string>
     <string name="label_authentication_title">Important!</string>
     <string name="label_authentication">Please authenticate yourself with your Google account before using the application.</string>
     <string name="label_fetching_quiz_data">Fetching quiz data...</string>
