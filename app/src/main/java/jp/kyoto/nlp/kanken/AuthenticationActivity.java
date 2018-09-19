@@ -46,17 +46,33 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     }
 
     public void signOut(android.view.View view) {
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                appl.setUserName(null);
-                appl.setUserEmail(null);
-                appl.setUserIdToken(null);
-                appl.setSessionCookie(null);
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+            new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    URL signOutUrl;
+                    try {
+                        signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
 
-                updateUI(false);
+                        progressDialog = new ProgressDialog(AuthenticationActivity.this);
+                        progressDialog.setMessage(getResources().getString(R.string.label_signing_in));
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+
+                        new SignOutTask().execute(signOutUrl);
+                    }
+                    catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    catch(IOException e2) {
+                        e2.printStackTrace();
+                    }
+                    catch(JSONException e3) {
+                        e3.printStackTrace();
+                    }
+                }
             }
-        });
+        );
     }
 
     @Override
@@ -79,7 +95,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
         layoutUserInfo.setVisibility(View.GONE);
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(clientId).requestEmail().build();
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
         buttonSignIn.setOnClickListener(
@@ -161,12 +177,10 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     @Override
     public void onClick(View v) {
-
     }
 
     private class SignInTask extends AsyncTask {
@@ -204,7 +218,6 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     writer.close();
 
                     List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
-                    System.out.println( "cookie first header="+cookieHeaders.get(0));
                     appl.setSessionCookie(cookieHeaders.get(0));
 
                     return null;
@@ -254,6 +267,63 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
     }
 
+    private class SignOutTask extends AsyncTask {
+
+        protected Object doInBackground(Object... objs) {
+            URL signOutUrl = (URL)objs[0];
+            try {
+                HttpURLConnection con = (HttpURLConnection) signOutUrl.openConnection();
+                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                con.setRequestProperty("Accept", "application/json");
+                con.setRequestMethod("POST");
+                    con.setFixedLengthStreamingMode(0);
+                con.connect();
+
+                return null;
+            }
+            catch(IOException e) {
+                e.printStackTrace(); 
+                exception = e;
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(final Object obj) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+
+            if (exception != null) {
+                System.out.println("An exception has occurred: " + exception);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AuthenticationActivity.this);
+                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
+                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(true)
+                .show();
+
+                return;
+            }
+
+            appl.setUserName(null);
+            appl.setUserEmail(null);
+            appl.setUserIdToken(null);
+            appl.setSessionCookie(null);
+
+            updateUI(false);
+        }
+
+        private Exception exception;
+
+    }
+
     private LinearLayout layoutUserInfo;
     private TextView textViewUserName;
     private TextView textViewUserEmail;
@@ -267,9 +337,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
     private ProgressDialog progressDialog;
 
     private static final int REQ_CODE = 9001;
-
-    private static final String clientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
    
     private static final String signInReqPath = "/cgi-bin/sign_in.cgi";
+    private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
 
 }
