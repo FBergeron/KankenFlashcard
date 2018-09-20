@@ -97,4 +97,6 @@
     <string name="warning_cancel_quiz_msg">クイズを終了してから、設定のページに戻りたいですか？</string>
     <string name="button_terminate">終了する</string>
     <string name="search_engine_url">https://www.google.co.jp/search?q=%1$s</string>
+    <string name="link_directions">http://www.radio-canada.ca</string>
+    <string name="link_terms_of_usage">http://www.bbc.co.uk</string>
 </resources>

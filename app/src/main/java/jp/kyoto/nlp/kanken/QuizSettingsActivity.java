@@ -49,9 +49,6 @@ import java.util.Set;
 
 public class QuizSettingsActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    public static final String termsOfUsageLink = "http://www.bbc.co.uk";
-    public static final String directionsLink = "http://www.radio-canada.ca";
-
     public void signOut(android.view.View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
             new ResultCallback<Status>() {
@@ -118,12 +115,14 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
 
     public void showTermsOfUsage(android.view.View view) {
         Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+        String termsOfUsageLink = getResources().getString(R.string.link_terms_of_usage);
         httpIntent.setData(Uri.parse(termsOfUsageLink));
         startActivity(httpIntent);
     }
 
     public void showDirections(android.view.View view) {
         Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+        String directionsLink = getResources().getString(R.string.link_directions);
         httpIntent.setData(Uri.parse(directionsLink));
         startActivity(httpIntent);
     }
