@@ -11,6 +11,8 @@ before_script:
     - android list target
     - android list device
     - android list avd
+    - android list sdk
+    - adb shell getprop ro.product.cpu.abilist
     - echo no | android create avd --force -n test -t android-27 --abi armeabi
     - emulator -avd test -no-audio -no-window &
     - android-wait-for-emulator
