@@ -21,7 +21,7 @@ public class QuizSettingsActivityTest {
     public void checkIfHelpWorks() {
         Activity activity = Robolectric.setupActivity(QuizSettingsActivity.class);
         Button buttonShowDirections = (Button)activity.findViewById(R.id.buttonShowDirections);
-        assertThat("Help", equalTo(buttonShowDirections.getText().toString()));
+        assertThat("Help!", equalTo(buttonShowDirections.getText().toString()));
     }
 
 }
