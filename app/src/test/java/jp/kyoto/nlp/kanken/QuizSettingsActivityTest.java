@@ -50,6 +50,15 @@ public class QuizSettingsActivityTest {
         assertEquals(termsOfUsageLink, startedIntent.getData().toString());
     }
 
+    @Test
+    public void checkQuizDoNotStartIfNoTopicIsSelected() {
+        Button buttonStartQuiz = (Button)quizSettingsActivity.findViewById(R.id.buttonStartQuiz);
+        buttonStartQuiz.performClick();
+        ShadowActivity shadowActivity = shadowOf(quizSettingsActivity);
+        Intent startedIntent = shadowActivity.getNextStartedActivity();
+        assertEquals(null, startedIntent);
+    }
+
     private QuizSettingsActivity quizSettingsActivity;
 
 }
