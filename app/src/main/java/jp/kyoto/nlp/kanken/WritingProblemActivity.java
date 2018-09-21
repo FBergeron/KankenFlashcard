@@ -11,9 +11,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.leafdigital.kanji.InputStroke;
 import com.leafdigital.kanji.KanjiInfo;
 import com.leafdigital.kanji.KanjiList;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Random;
 
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.OnClickListener;
 import static android.view.View.VISIBLE;
 
@@ -104,6 +107,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             matchThread.stop();
             matchThread = null;
         }
+        imageViewSearchingWritingProblemCharacter.setVisibility(VISIBLE);
         matchThread = new MatchThread(this, kanjiCanvas.getStrokes(), R.string.label_finding_characters, true);
     }
 
@@ -191,6 +195,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
             askProblem();
         else
             showProblemEvaluation();
+
+        imageViewSearchingWritingProblemCharacter = findViewById(R.id.imageViewSearchingWritingProblemCharacter);
+        Glide.with(this).load("android_asset/searching.gif").into(imageViewSearchingWritingProblemCharacter);
+        imageViewSearchingWritingProblemCharacter.setVisibility(INVISIBLE);
     }
 
     protected void askProblem() {
@@ -693,6 +701,8 @@ System.out.println( "out4!" );
                         
                         long stopTime = System.currentTimeMillis();
                         System.out.println("Update time="+(stopTime-startTime)+" ms");
+
+                        imageViewSearchingWritingProblemCharacter.setVisibility(INVISIBLE);
                     }
                 });
             }
@@ -712,6 +722,8 @@ System.out.println( "out4!" );
 
     private LinearLayout layoutKanjiInputRight_a; 
     private LinearLayout layoutKanjiInputRight_b; 
+
+    private ImageView imageViewSearchingWritingProblemCharacter;
 
     private int kanjiPage = 0;
     private String[] kanjis;

@@ -149,7 +149,14 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/white_right_pointing_index_selector"
-                        android:onClick="enterCharacter" />
+                        android:onClick="enterCharacter"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imageViewSearchingWritingProblemCharacter"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
