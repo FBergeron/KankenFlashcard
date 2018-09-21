@@ -2,7 +2,6 @@ package jp.kyoto.nlp.kanken;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -471,10 +470,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
         MatchThread(Activity owner, DrawnStroke[] strokes, int waitString, boolean showMore) {
             this.activity = owner;
             this.strokes = strokes;
-            progressDialog = new ProgressDialog(activity);
-            progressDialog.setMessage(activity.getString(waitString));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
 
             info = getKanjiInfo(strokes);
 
@@ -534,8 +529,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog.dismiss();
-
                         List<String> exactChars = new ArrayList<String>();
                         // List<Float> exactScores = new ArrayList<Float>();
                         List<String> fuzzyChars = new ArrayList<String>();
@@ -655,7 +648,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressDialog.dismiss();
                         }
                     });
                 }
@@ -663,7 +655,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
         }
 
         private KanjiInfo info;
-        private ProgressDialog progressDialog;
         private Activity activity;
         private DrawnStroke[] strokes;
 
