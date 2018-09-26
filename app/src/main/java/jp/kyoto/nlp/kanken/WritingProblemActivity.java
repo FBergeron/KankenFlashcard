@@ -426,7 +426,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             setPriority(MIN_PRIORITY);
             // Start loading the kanji list but only if it wasn't loaded already
             synchronized(listSynch) {
-                if(list==null) {
+                if(listExact==null) {
                     waitingActivities.add(WritingProblemActivity.this);
                     if (!listLoading) {
                         listLoading = true;
@@ -444,7 +444,67 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 InputStream input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
                 KanjiList loaded = new KanjiList(input);
                 synchronized(listSynch) {
-                    list = loaded;
+                    listExact = loaded;
+                    for(WritingProblemActivity listening : waitingActivities) {
+                        final WritingProblemActivity current = listening;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                current.loaded();
+                            }
+                        });
+                    }
+                    //waitingActivities = null;
+                }
+                long time = System.currentTimeMillis() - start;
+                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
+                
+                start = System.currentTimeMillis();
+                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loading");
+                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
+                loaded = new KanjiList(input);
+                synchronized(listSynch) {
+                    listFuzzy = loaded;
+                    for(WritingProblemActivity listening : waitingActivities) {
+                        final WritingProblemActivity current = listening;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                current.loaded();
+                            }
+                        });
+                    }
+                    //waitingActivities = null;
+                }
+                time = System.currentTimeMillis() - start;
+                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
+                
+                start = System.currentTimeMillis();
+                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loading");
+                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
+                loaded = new KanjiList(input);
+                synchronized(listSynch) {
+                    listFuzzier1 = loaded;
+                    for(WritingProblemActivity listening : waitingActivities) {
+                        final WritingProblemActivity current = listening;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                current.loaded();
+                            }
+                        });
+                    }
+                    //waitingActivities = null;
+                }
+                time = System.currentTimeMillis() - start;
+                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
+                
+                start = System.currentTimeMillis();
+                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loading");
+                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
+                loaded = new KanjiList(input);
+                synchronized(listSynch) {
+                    listFuzzier2 = loaded;
                     for(WritingProblemActivity listening : waitingActivities) {
                         final WritingProblemActivity current = listening;
                         runOnUiThread(new Runnable() {
@@ -456,7 +516,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     }
                     waitingActivities = null;
                 }
-                long time = System.currentTimeMillis() - start;
+                time = System.currentTimeMillis() - start;
                 Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
             }
             catch(IOException e) {
@@ -487,6 +547,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
             this.strokes = strokes;
 
             info = getKanjiInfo(strokes);
+            infoExact = getKanjiInfo(strokes);
+            infoFuzzy = getKanjiInfo(strokes);
+            infoFuzzier1 = getKanjiInfo(strokes);
+            infoFuzzier2 = getKanjiInfo(strokes);
 
             worker = new Thread(this);
             worker.start();
@@ -520,7 +584,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 }
                 long startTimeExact = System.currentTimeMillis();
                 //final KanjiMatch[] exactMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
-                exactMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
+                exactMatches = listExact.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
                 long stopTimeExact = System.currentTimeMillis();
 
                 boolean isRightKanjiFound = false;
@@ -541,7 +605,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     return;
                 }
                 //final KanjiMatch[] fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null));
-                fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null));
+                fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzy.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null));
                 long stopTimeFuzzy = System.currentTimeMillis();
                 if (rightChar != null) {
                     System.out.println("Looking in fuzzyMatches fuzzy.l="+fuzzyMatches.length);
@@ -560,7 +624,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 }
                 long startTimeFuzzier1 = System.currentTimeMillis();
                 //final KanjiMatch[] fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null));
-                fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null));
+                fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier1.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null));
                 long stopTimeFuzzier1 = System.currentTimeMillis();
                 if (rightChar != null) {
                     System.out.println("Looking in fuzzier1Matches fuzzy.l="+fuzzier1Matches.length);
@@ -579,7 +643,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 }
                 long startTimeFuzzier2 = System.currentTimeMillis();
                 //final KanjiMatch[] fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null));
-                fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null));
+                fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier2.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null));
                 long stopTimeFuzzier2 = System.currentTimeMillis();
                 System.out.println("fuzzier2Matches fuzzy.l="+fuzzier2Matches.length);
 
@@ -597,7 +661,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     new Runnable() {
                         public void run() {
                             long startTimeExact = System.currentTimeMillis();
-                            exactMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
+                            exactMatches = listExact.getTopMatches(infoExact, KanjiInfo.MatchAlgorithm.STRICT, null);
                             long stopTimeExact = System.currentTimeMillis();
                             System.out.println("Exact time="+(stopTimeExact-startTimeExact)+" ms");
                         }
@@ -607,7 +671,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     new Runnable() {
                         public void run() {
                             long startTimeFuzzy = System.currentTimeMillis();
-                            fuzzyMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null);
+                            fuzzyMatches = listFuzzy.getTopMatches(infoFuzzy, KanjiInfo.MatchAlgorithm.FUZZY, null);
                             long stopTimeFuzzy = System.currentTimeMillis();
                             System.out.println("Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
                         }
@@ -617,7 +681,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     new Runnable() {
                         public void run() {
                             long startTimeFuzzier1 = System.currentTimeMillis();
-                            fuzzier1Matches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null);
+                            fuzzier1Matches = listFuzzier1.getTopMatches(infoFuzzier1, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null);
                             long stopTimeFuzzier1 = System.currentTimeMillis();
                             System.out.println("Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
                         }
@@ -627,7 +691,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     new Runnable() {
                         public void run() {
                             long startTimeFuzzier2 = System.currentTimeMillis();
-                            fuzzier2Matches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null);
+                            fuzzier2Matches = listFuzzier2.getTopMatches(infoFuzzier2, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null);
                             long stopTimeFuzzier2 = System.currentTimeMillis();
                             System.out.println("Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
                         }
@@ -796,6 +860,11 @@ public class WritingProblemActivity extends QuizProblemActivity {
         }
 
         private KanjiInfo info;
+        private KanjiInfo infoExact;
+        private KanjiInfo infoFuzzy;
+        private KanjiInfo infoFuzzier1;
+        private KanjiInfo infoFuzzier2;
+
         private Activity activity;
         private DrawnStroke[] strokes;
 
@@ -815,7 +884,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
     private int kanjiPage = 0;
     private String[] kanjis;
 
-    private static KanjiList list;
+    private static KanjiList listExact;
+    private static KanjiList listFuzzy;
+    private static KanjiList listFuzzier1;
+    private static KanjiList listFuzzier2;
     private static boolean listLoading;
     private static LinkedList<WritingProblemActivity> waitingActivities = new LinkedList<WritingProblemActivity>();
     private static final Object listSynch = new Object();
