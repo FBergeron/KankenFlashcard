@@ -28,6 +28,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.leafdigital.kanji.KanjiInfo.MatchAlgorithm;
 
+import jp.kyoto.nlp.kanken.Runner;
+
 /**
  * Stores list of all {@link KanjiInfo} objects loaded, organised by
  * stroke count.
@@ -173,7 +175,7 @@ public class KanjiList
      * @throws IllegalArgumentException If match algorithm not set
      */
     public synchronized KanjiMatch[] getTopMatches(KanjiInfo compare,
-        KanjiInfo.MatchAlgorithm algo, Progress progress)
+        KanjiInfo.MatchAlgorithm algo, Progress progress, Runner runner)
         throws IllegalArgumentException
     {
         TreeSet<KanjiMatch> matches = new TreeSet<KanjiMatch>();
@@ -190,8 +192,9 @@ public class KanjiList
                         progress.progress(0, max);
                     }
                     int i = 0;
-                    for(KanjiInfo other : list)
+                    for(Iterator<KanjiInfo> it = list.iterator(); it.hasNext() && (runner == null || runner.isRunning()); )
                     {
+                        KanjiInfo other = it.next();
                         float score = compare.getMatchScore(other, algo);
                         if(score > 0)
                         {
@@ -250,8 +253,9 @@ public class KanjiList
                     progress.progress(0, max);
                 }
                 int i = 0;
-                for(KanjiInfo other : list)
+                for(Iterator<KanjiInfo> it = list.iterator(); it.hasNext() && (runner == null || runner.isRunning()); )
                 {
+                    KanjiInfo other = it.next();
                     float score = compare.getMatchScore(other, algo);
                     KanjiMatch match = new KanjiMatch(other, score);
                     matches.add(match);
@@ -268,8 +272,9 @@ public class KanjiList
         // Pull everything down to half match score
         LinkedList<KanjiMatch> results = new LinkedList<KanjiMatch>();
         float maxScore = -1;
-        for(KanjiMatch match : matches)
+        for(Iterator<KanjiMatch> it = matches.iterator(); it.hasNext() && (runner == null || runner.isRunning()); )
         {
+            KanjiMatch match = it.next();
             if(maxScore == -1)
             {
                 maxScore = match.getScore();

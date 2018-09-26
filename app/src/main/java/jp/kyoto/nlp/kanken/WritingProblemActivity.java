@@ -534,7 +534,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
    /**
      * Do the match on another thread.
      */
-    class MatchThread implements Runnable {
+    class MatchThread implements Runnable, Runner {
 
         /**
          * @param owner Owning activity
@@ -554,6 +554,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
             worker = new Thread(this);
             worker.start();
+        }
+
+        public boolean isRunning() {
+            return isRunning;
         }
 
         public void stop() {
@@ -583,8 +587,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     return;
                 }
                 long startTimeExact = System.currentTimeMillis();
-                //final KanjiMatch[] exactMatches = list.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
-                exactMatches = listExact.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null);
+                exactMatches = listExact.getTopMatches(info, KanjiInfo.MatchAlgorithm.STRICT, null, this);
                 long stopTimeExact = System.currentTimeMillis();
 
                 boolean isRightKanjiFound = false;
@@ -604,8 +607,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
     System.out.println( "out1!" );
                     return;
                 }
-                //final KanjiMatch[] fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null));
-                fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzy.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null));
+                fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzy.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null, this));
                 long stopTimeFuzzy = System.currentTimeMillis();
                 if (rightChar != null) {
                     System.out.println("Looking in fuzzyMatches fuzzy.l="+fuzzyMatches.length);
@@ -623,8 +625,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     return;
                 }
                 long startTimeFuzzier1 = System.currentTimeMillis();
-                //final KanjiMatch[] fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null));
-                fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier1.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null));
+                fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier1.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null, this));
                 long stopTimeFuzzier1 = System.currentTimeMillis();
                 if (rightChar != null) {
                     System.out.println("Looking in fuzzier1Matches fuzzy.l="+fuzzier1Matches.length);
@@ -642,8 +643,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     return;
                 }
                 long startTimeFuzzier2 = System.currentTimeMillis();
-                //final KanjiMatch[] fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : list.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null));
-                fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier2.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null));
+                fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier2.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null, this));
                 long stopTimeFuzzier2 = System.currentTimeMillis();
                 System.out.println("fuzzier2Matches fuzzy.l="+fuzzier2Matches.length);
 
@@ -651,17 +651,19 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 System.out.println("Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
                 System.out.println("Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
                 System.out.println("Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
+                System.out.println("Total time="+((stopTimeExact-startTimeExact)+(stopTimeFuzzy-startTimeFuzzy)+(stopTimeFuzzier1-startTimeFuzzier1)+(stopTimeFuzzier2-startTimeFuzzier2))+" ms");
                 if (!isRunning) {
     System.out.println( "out4!" );                
                     return;
                 }
             }
             else {
+                final MatchThread parent = this;
                 Thread workerExact = new Thread(
                     new Runnable() {
                         public void run() {
                             long startTimeExact = System.currentTimeMillis();
-                            exactMatches = listExact.getTopMatches(infoExact, KanjiInfo.MatchAlgorithm.STRICT, null);
+                            exactMatches = listExact.getTopMatches(infoExact, KanjiInfo.MatchAlgorithm.STRICT, null, parent);
                             long stopTimeExact = System.currentTimeMillis();
                             System.out.println("Exact time="+(stopTimeExact-startTimeExact)+" ms");
                         }
@@ -671,7 +673,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     new Runnable() {
                         public void run() {
                             long startTimeFuzzy = System.currentTimeMillis();
-                            fuzzyMatches = listFuzzy.getTopMatches(infoFuzzy, KanjiInfo.MatchAlgorithm.FUZZY, null);
+                            fuzzyMatches = listFuzzy.getTopMatches(infoFuzzy, KanjiInfo.MatchAlgorithm.FUZZY, null, parent);
                             long stopTimeFuzzy = System.currentTimeMillis();
                             System.out.println("Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
                         }
@@ -681,7 +683,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     new Runnable() {
                         public void run() {
                             long startTimeFuzzier1 = System.currentTimeMillis();
-                            fuzzier1Matches = listFuzzier1.getTopMatches(infoFuzzier1, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null);
+                            fuzzier1Matches = listFuzzier1.getTopMatches(infoFuzzier1, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null, parent);
                             long stopTimeFuzzier1 = System.currentTimeMillis();
                             System.out.println("Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
                         }
@@ -691,7 +693,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     new Runnable() {
                         public void run() {
                             long startTimeFuzzier2 = System.currentTimeMillis();
-                            fuzzier2Matches = listFuzzier2.getTopMatches(infoFuzzier2, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null);
+                            fuzzier2Matches = listFuzzier2.getTopMatches(infoFuzzier2, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null, parent);
                             long stopTimeFuzzier2 = System.currentTimeMillis();
                             System.out.println("Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
                         }
@@ -700,10 +702,12 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 long startTime = System.currentTimeMillis();
                 if (!isRunning)
                     return;
+
                 workerExact.start();
                 workerFuzzy.start();
                 workerFuzzier1.start();
                 workerFuzzier2.start();
+
                 try {
                     workerExact.join();
                 }
