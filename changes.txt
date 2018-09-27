@@ -1,5 +1,36 @@
 CHANGES
 
+0.5-beta
+--------
+- Replaced Right and Wrong answer image.
+- Show View Article button when the right answer is shown.
+- Changed Familiarity input widget:
+    - Inverted ある and ない labels.
+    - Changed the button values from 0 to 4 instead of 1 to 5.
+- Changed Select Topic button’s label (…➡️選択する).
+- Added numbers below Select Difficulty widget.
+- Improved layout for Writing Problems on Smartphones:
+    - Larger Up and Down arrow buttons.
+    - 1 row fewer of buttons.
+- Stop showing unfrequent kanas in Reading Problems.
+- Reduced the number of buttons in Reading Problems.
+- Improved kanji recognition algorithm for kanjis like 上.
+- Prevented too long answers for both Reading and Writing Problems.
+- Improved layout handling when screen orientation is changed.
+- Show recognized kanjis automatically while performing a Writing Problem.
+    - Replaced the 検索中… popup by a less obtrusive animation (rotating wheel).
+    - Removed the no longer needed ☝️ button.
+    - Faster kanji search.
+- Always use kanjis when showing the right answer.
+- Added some information in Summary page.
+- Removed Evaluation Page and simplified look.
+- Show error dialog when network issue occurs.
+- Added Search Article button for articles with dead links.
+- Back button allows user to interrupt a quiz and go back to Main Page.
+- Reduced length of list of kanjis found in Writing Problems.
+- Removed some troublesome katakanas from the kana buttons of the Reading Problems to prevent confusion (e.g.: ro vs kuchi).
+- Implemented Signing Out.
+
 0.4-alpha
 ---------
 - Replaced Right and Wrong images.
