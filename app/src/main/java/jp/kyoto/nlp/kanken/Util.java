@@ -228,13 +228,8 @@ class Util {
         while ((cp = rd.read()) != -1) {
             sb.append((char) cp);
             counter++;
-            // This seems to help downloading the data file.
-            // Maybe there is a buffering issue?
-            if (counter % 80 == 0)
-                System.out.print(".");
 
         }
-        System.out.println("!");
         return sb.toString();
     }
 

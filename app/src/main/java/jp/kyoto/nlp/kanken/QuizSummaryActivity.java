@@ -3,6 +3,7 @@ package jp.kyoto.nlp.kanken;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
         StringBuilder strTopics = new StringBuilder();
         String delimiter = "";
         for (int i = 0; i < topicCount; i++) {
-            System.out.println("topic="+Problem.Topic.values()[i]);
+            Log.d(tag, "topic="+Problem.Topic.values()[i]);
             if (appl.getQuiz().getTopics().contains(Problem.Topic.values()[i])) {
                 strTopics.append(delimiter);
                 strTopics.append(labelTopics[i]);
@@ -136,7 +137,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
         summary.append("</body>\n");
         summary.append("</html>\n");
 
-        // System.out.println("html="+summary.toString());
+        // Log.d(tag. "html="+summary.toString());
 
         WebView webViewSummary = findViewById(R.id.webViewSummary);
         webViewSummary.loadDataWithBaseURL("file:///android_asset/", summary.toString(), "text/html; charset=utf-8", "utf-8", null);
@@ -148,5 +149,7 @@ public class QuizSummaryActivity extends AppCompatActivity {
     }
 
     private KankenApplication appl = KankenApplication.getInstance();
+
+    private static final String tag = "QuizSummaryActivity";
 
 }

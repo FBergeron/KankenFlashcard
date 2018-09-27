@@ -38,31 +38,6 @@ import static android.view.View.VISIBLE;
 
 public class WritingProblemActivity extends QuizProblemActivity {
 
-    private final static int MAX_ANSWER_LENGTH = 10;
-
-    //private final static long SHOW_KANJIS_DELAY = 1200; // In ms.
-    //private final static long SHOW_KANJIS_DELAY = 600; // In ms.
-    //private final static long SHOW_KANJIS_DELAY = 200; // In ms.
-    private final static long SHOW_KANJIS_DELAY = 0; // In ms.
-
-    private final static int[] ALL_IDS_a_w600dp = {
-        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a, R.id.no7_a
-    };
-
-    private final static int[] ALL_IDS_b_w600dp = {
-        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b, R.id.no10_b, R.id.no11_b, R.id.no12_b
-    };
-
-    private final static int[] ALL_IDS_a = {
-        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a
-    };
-
-    private final static int[] ALL_IDS_b = {
-        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b
-    };
-
-    private final static int KANJIS_MAX_COUNT = 80;
-
     public void showArticle(android.view.View view) {
         String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
         if (articleUrl != null) {
@@ -457,10 +432,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     //waitingActivities = null;
                 }
                 long time = System.currentTimeMillis() - start;
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
+                Log.d(tag, "Kanji drawing dictionary loaded (" + time + "ms)");
                 
                 start = System.currentTimeMillis();
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loading");
+                Log.d(tag, "Kanji drawing dictionary loading");
                 input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
                 loaded = new KanjiList(input);
                 synchronized(listSynch) {
@@ -477,10 +452,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     //waitingActivities = null;
                 }
                 time = System.currentTimeMillis() - start;
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
+                Log.d(tag, "Kanji drawing dictionary loaded (" + time + "ms)");
                 
                 start = System.currentTimeMillis();
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loading");
+                Log.d(tag, "Kanji drawing dictionary loading");
                 input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
                 loaded = new KanjiList(input);
                 synchronized(listSynch) {
@@ -497,10 +472,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     //waitingActivities = null;
                 }
                 time = System.currentTimeMillis() - start;
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
+                Log.d(tag, "Kanji drawing dictionary loaded (" + time + "ms)");
                 
                 start = System.currentTimeMillis();
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loading");
+                Log.d(tag, "Kanji drawing dictionary loading");
                 input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
                 loaded = new KanjiList(input);
                 synchronized(listSynch) {
@@ -517,7 +492,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     waitingActivities = null;
                 }
                 time = System.currentTimeMillis() - start;
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loaded (" + time + "ms)");
+                Log.d(tag, "Kanji drawing dictionary loaded (" + time + "ms)");
             }
             catch(IOException e) {
                 Log.e(WritingProblemActivity.class.getName(), "Error loading dictionary", e);
@@ -583,7 +558,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
             if (strokes.length < 8 || strokes.length >= 20) {
                 if (!isRunning) {
-    System.out.println( "out0!" );                
+                    Log.d(tag,  "out0!" );                
                     return;
                 }
                 long startTimeExact = System.currentTimeMillis();
@@ -592,11 +567,11 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
                 boolean isRightKanjiFound = false;
                 if (rightChar != null) {
-                    System.out.println("Looking in exactMatches exact.l=" + exactMatches.length);                    
+                    Log.d(tag, "Looking in exactMatches exact.l=" + exactMatches.length);                    
                     for (KanjiMatch exactMatch : exactMatches) {
                         if (exactMatch.getKanji().getKanji().equals(rightChar)) {
                             isRightKanjiFound = true;
-                            System.out.println("Found! No need to compute fuzzy.");
+                            Log.d(tag, "Found! No need to compute fuzzy.");
                             break;
                         }
                     }
@@ -604,56 +579,56 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
                 long startTimeFuzzy = System.currentTimeMillis();
                 if (!isRunning) {
-    System.out.println( "out1!" );
+                    Log.d(tag,  "out1!" );
                     return;
                 }
                 fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzy.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null, this));
                 long stopTimeFuzzy = System.currentTimeMillis();
                 if (rightChar != null) {
-                    System.out.println("Looking in fuzzyMatches fuzzy.l="+fuzzyMatches.length);
+                    Log.d(tag, "Looking in fuzzyMatches fuzzy.l="+fuzzyMatches.length);
                     for (KanjiMatch fuzzyMatch : fuzzyMatches) {
                         if (fuzzyMatch.getKanji().getKanji().equals(rightChar)) {
                             isRightKanjiFound = true;
-                            System.out.println("Found! No need to compute fuzzier1.");
+                            Log.d(tag, "Found! No need to compute fuzzier1.");
                             break;
                         }
                     }
                 }
 
                 if (!isRunning) {
-    System.out.println( "out2!" );
+                    Log.d(tag,  "out2!" );
                     return;
                 }
                 long startTimeFuzzier1 = System.currentTimeMillis();
                 fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier1.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null, this));
                 long stopTimeFuzzier1 = System.currentTimeMillis();
                 if (rightChar != null) {
-                    System.out.println("Looking in fuzzier1Matches fuzzy.l="+fuzzier1Matches.length);
+                    Log.d(tag, "Looking in fuzzier1Matches fuzzy.l="+fuzzier1Matches.length);
                     for (KanjiMatch fuzzier1Match : fuzzier1Matches) {
                         if (fuzzier1Match.getKanji().getKanji().equals(rightChar)) {
                             isRightKanjiFound = true;
-                            System.out.println("Found! No need to compute fuzzier2.");
+                            Log.d(tag, "Found! No need to compute fuzzier2.");
                             break;
                         }
                     }
                 }
 
                 if (!isRunning) {
-    System.out.println( "out3!" );                
+                    Log.d(tag,  "out3!" );                
                     return;
                 }
                 long startTimeFuzzier2 = System.currentTimeMillis();
                 fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier2.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null, this));
                 long stopTimeFuzzier2 = System.currentTimeMillis();
-                System.out.println("fuzzier2Matches fuzzy.l="+fuzzier2Matches.length);
+                Log.d(tag, "fuzzier2Matches fuzzy.l="+fuzzier2Matches.length);
 
-                System.out.println("Exact time="+(stopTimeExact-startTimeExact)+" ms");
-                System.out.println("Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
-                System.out.println("Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
-                System.out.println("Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
-                System.out.println("Total time="+((stopTimeExact-startTimeExact)+(stopTimeFuzzy-startTimeFuzzy)+(stopTimeFuzzier1-startTimeFuzzier1)+(stopTimeFuzzier2-startTimeFuzzier2))+" ms");
+                Log.d(tag, "Exact time="+(stopTimeExact-startTimeExact)+" ms");
+                Log.d(tag, "Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
+                Log.d(tag, "Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
+                Log.d(tag, "Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
+                Log.d(tag, "Total time="+((stopTimeExact-startTimeExact)+(stopTimeFuzzy-startTimeFuzzy)+(stopTimeFuzzier1-startTimeFuzzier1)+(stopTimeFuzzier2-startTimeFuzzier2))+" ms");
                 if (!isRunning) {
-    System.out.println( "out4!" );                
+                    Log.d(tag,  "out4!" );                
                     return;
                 }
             }
@@ -665,7 +640,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                             long startTimeExact = System.currentTimeMillis();
                             exactMatches = listExact.getTopMatches(infoExact, KanjiInfo.MatchAlgorithm.STRICT, null, parent);
                             long stopTimeExact = System.currentTimeMillis();
-                            System.out.println("Exact time="+(stopTimeExact-startTimeExact)+" ms");
+                            Log.d(tag, "Exact time="+(stopTimeExact-startTimeExact)+" ms");
                         }
                     }
                 );
@@ -675,7 +650,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                             long startTimeFuzzy = System.currentTimeMillis();
                             fuzzyMatches = listFuzzy.getTopMatches(infoFuzzy, KanjiInfo.MatchAlgorithm.FUZZY, null, parent);
                             long stopTimeFuzzy = System.currentTimeMillis();
-                            System.out.println("Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
+                            Log.d(tag, "Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
                         }
                     }
                 );
@@ -685,7 +660,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                             long startTimeFuzzier1 = System.currentTimeMillis();
                             fuzzier1Matches = listFuzzier1.getTopMatches(infoFuzzier1, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null, parent);
                             long stopTimeFuzzier1 = System.currentTimeMillis();
-                            System.out.println("Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
+                            Log.d(tag, "Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
                         }
                     }
                 );
@@ -695,7 +670,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                             long startTimeFuzzier2 = System.currentTimeMillis();
                             fuzzier2Matches = listFuzzier2.getTopMatches(infoFuzzier2, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null, parent);
                             long stopTimeFuzzier2 = System.currentTimeMillis();
-                            System.out.println("Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
+                            Log.d(tag, "Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
                         }
                     }
                 );
@@ -733,7 +708,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     ignore.printStackTrace();
                 }
                 long stopTime = System.currentTimeMillis();
-                System.out.println("Search time="+(stopTime-startTime)+" ms");
+                Log.d(tag, "Search time="+(stopTime-startTime)+" ms");
             }
 
             if (isRunning) {
@@ -799,7 +774,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         //         line.append("c="+c+" fuzzier="+fuzzier2Chars.get(c)+" ("+fuzzierScores.get(c)+")   ");
                         //     else
                         //         line.append("                          ");
-                        //     System.out.println(line.toString());
+                        //     Log.d(tag, line.toString());
                         //     c++;
                         // }
 
@@ -836,12 +811,12 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         // For user's convenience, if the right kanji is in the list, bring it to the first pages.
                         if (rightChar != null) {
                             int indexOfRightChar = mixedChars.indexOf(rightChar);
-                            // System.out.println("The right character " + rightChar + "'s index in the mixed chars is " + indexOfRightChar);
+                            // Log.d(tag, "The right character " + rightChar + "'s index in the mixed chars is " + indexOfRightChar);
                             if (indexOfRightChar != -1 && indexOfRightChar >= 7) {
                                 int newPos = rand.nextInt(6) + 1;
                                 mixedChars.remove(rightChar);
                                 mixedChars.add(newPos, rightChar);
-                                // System.out.println("Let's move it to index=" + newPos);
+                                // Log.d(tag, "Let's move it to index=" + newPos);
                             }
                         }
 
@@ -849,13 +824,13 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
                         // Show mixed kanji list.
                         // for (int m = 0; m < kanjis.length; m++)
-                        // System.out.println("m="+m+" MIXED="+kanjis[m]);
+                        // Log.d(tag, "m="+m+" MIXED="+kanjis[m]);
                         // out.println("index exact="+exactChars.indexOf(rightChar) + " fuzzy="+fuzzyChars.indexOf(rightChar)+" fuzzier1="+fuzzier1Chars.indexOf(rightChar)+" fuzzier2="+fuzzier2Chars.indexOf(rightChar));
 
                         ((WritingProblemActivity)activity).initializeKanjiButtons();
                         
                         long stopTime = System.currentTimeMillis();
-                        System.out.println("Update time="+(stopTime-startTime)+" ms");
+                        Log.d(tag, "Update time="+(stopTime-startTime)+" ms");
 
                         imageViewSearchingWritingProblemCharacter.setVisibility(INVISIBLE);
                     }
@@ -901,5 +876,32 @@ public class WritingProblemActivity extends QuizProblemActivity {
     private CountDownTimer kanjiTimer = null;
 
     private MatchThread matchThread = null;
+
+    private final static int MAX_ANSWER_LENGTH = 10;
+
+    //private final static long SHOW_KANJIS_DELAY = 1200; // In ms.
+    //private final static long SHOW_KANJIS_DELAY = 600; // In ms.
+    //private final static long SHOW_KANJIS_DELAY = 200; // In ms.
+    private final static long SHOW_KANJIS_DELAY = 0; // In ms.
+
+    private final static int[] ALL_IDS_a_w600dp = {
+        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a, R.id.no7_a
+    };
+
+    private final static int[] ALL_IDS_b_w600dp = {
+        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b, R.id.no10_b, R.id.no11_b, R.id.no12_b
+    };
+
+    private final static int[] ALL_IDS_a = {
+        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a
+    };
+
+    private final static int[] ALL_IDS_b = {
+        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b
+    };
+
+    private final static int KANJIS_MAX_COUNT = 80;
+
+    private final static String tag = "WritingProblemActivity";
 
 }

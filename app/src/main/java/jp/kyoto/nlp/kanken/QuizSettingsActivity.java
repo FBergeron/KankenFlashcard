@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -258,7 +259,7 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void fetchProblems(int level, Set<Problem.Topic> topics, Problem.Type type) {
-        System.out.println("fetchProblems level="+level+" topics="+topics+" type="+type);
+        Log.d(tag, "fetchProblems level="+level+" topics="+topics+" type="+type);
         URL getNextProblemsUrl;
         try {
             String delim = "";
@@ -351,9 +352,9 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
 
             if (exception != null || obj == null) {
                 if (exception != null)
-                    System.out.println("An exception has occurred: " + exception);
+                    Log.e(tag, "An exception has occurred: " + exception);
                 if (obj == null)
-                    System.out.println("Cannot retrieve problems.");
+                    Log.e(tag, "Cannot retrieve problems.");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
@@ -423,14 +424,14 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
                         ignore.printStackTrace();
                     }
 
-                    // System.out.println("id="+id);
-                    // System.out.println("jumanInfo="+jumanInfo);
-                    // System.out.println("statement="+statement);
-                    // System.out.println("rightAnswer="+rightAnswer);
-                    // System.out.println("articleUrl="+articleUrl);
-                    // System.out.println("objIsLinkAlive="+objIsLinkAlive);
-                    // System.out.println("isLinkAlive="+isLinkAlive);
-                    // System.out.println("altArticleUrl="+altArticleUrl);
+                    // Log.d(tag, "id="+id);
+                    // Log.d(tag, "jumanInfo="+jumanInfo);
+                    // Log.d(tag, "statement="+statement);
+                    // Log.d(tag, "rightAnswer="+rightAnswer);
+                    // Log.d(tag, "articleUrl="+articleUrl);
+                    // Log.d(tag, "objIsLinkAlive="+objIsLinkAlive);
+                    // Log.d(tag, "isLinkAlive="+isLinkAlive);
+                    // Log.d(tag, "altArticleUrl="+altArticleUrl);
 
                     Set<Problem.Topic> topics = new HashSet<Problem.Topic>();
                     for (int j = 0; j < jsonProblemTopics.length(); j++) {
@@ -493,7 +494,7 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
                 
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 String status = jsonResponse.getString("status");
-                System.out.println( "status="+status );            
+                Log.d(tag,  "status="+status );            
             
                 return null;
             }
@@ -516,7 +517,7 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
             }
 
             if (exception != null) {
-                System.out.println("An exception has occurred: " + exception);
+                Log.e(tag, "An exception has occurred: " + exception);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
@@ -557,5 +558,7 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
 
     private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
     private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
+
+    private static final String tag = "QuizSettingsActivity";
 
 }

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -245,7 +246,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             }
 
             if (exception != null) {
-                System.out.println("An exception has occurred: " + exception);
+                Log.e(tag, "An exception has occurred: " + exception);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AuthenticationActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
@@ -298,7 +299,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             }
 
             if (exception != null) {
-                System.out.println("An exception has occurred: " + exception);
+                Log.e(tag, "An exception has occurred: " + exception);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AuthenticationActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
@@ -342,5 +343,7 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
    
     private static final String signInReqPath = "/cgi-bin/sign_in.cgi";
     private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
+
+    private static final String tag = "AuthenticationActivity";
 
 }

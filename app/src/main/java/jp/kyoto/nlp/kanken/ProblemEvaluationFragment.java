@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -328,7 +329,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
 
             if (exception != null) {
-                System.out.println("An exception has occurred: " + exception);
+                Log.e(tag, "An exception has occurred: " + exception);
 
                 Builder builder = new Builder(getActivity());
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
@@ -357,6 +358,8 @@ public class ProblemEvaluationFragment extends Fragment {
     private KankenApplication appl = KankenApplication.getInstance();
 
     private static final String storeResultsReqPath = "/cgi-bin/store_results.cgi";
+
+    private static final String tag = "ProblemEvaluationFragment";
 
 }
 
