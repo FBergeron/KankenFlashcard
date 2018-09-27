@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,8 +30,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -194,8 +199,17 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             while (attempt < MAX_ATTEMPTS) {
                 URL signInUrl = (URL)objs[0];
                 try {
+                    String version = null;
+                    try {
+                        PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                        version = pkgInfo.versionName;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("idToken", appl.getUserIdToken());
+                    params.put("clientVersion", version);
                    
                     StringBuilder builder = new StringBuilder();
                     String delimiter = "";
@@ -219,8 +233,22 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     writer.flush();
                     writer.close();
 
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuilder response = new StringBuilder();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    String status = jsonResponse.getString("status");
+
                     List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
                     appl.setSessionCookie(cookieHeaders.get(0));
+
+                    if ("client_too_old".equals(status))
+                        exception = new Exception(status);
 
                     return null;
                 }
@@ -234,6 +262,10 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     else 
                         System.err.println("Let's try again (attempt=" + attempt+")");
                 }
+                catch(JSONException e2) {
+                    e2.printStackTrace(); 
+                    exception = e2;
+                }
             }
 
             return null;
@@ -246,11 +278,22 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
             }
 
             if (exception != null) {
+                String title;
+                String msg;
+                if ("client_too_old".equals(exception.getMessage())) {
+                    title = getResources().getString(R.string.error_client_too_old_title);
+                    msg = getResources().getString(R.string.error_client_too_old_msg);
+                }
+                else {
+                    title = getResources().getString(R.string.error_server_unreachable_title);
+                    msg = getResources().getString(R.string.error_server_unreachable_msg);
+                }
+
                 Log.e(tag, "An exception has occurred: " + exception);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AuthenticationActivity.this);
-                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
-                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                builder.setTitle(title)
+                .setMessage(msg)
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
