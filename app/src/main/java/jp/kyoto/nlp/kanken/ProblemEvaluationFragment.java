@@ -359,7 +359,7 @@ public class ProblemEvaluationFragment extends Fragment {
 
     private static final String storeResultsReqPath = "/cgi-bin/store_results.cgi";
 
-    private static final String tag = "ProblemEvaluationFragment";
+    private static final String tag = "ProblemEvalFragment";
 
 }
 
