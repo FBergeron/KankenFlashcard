@@ -319,6 +319,7 @@ public class KanjiDrawing extends View
     {
         if(strokes.isEmpty())
         {
+            updateListener();
             return;
         }
         strokes.clear();

@@ -89,41 +89,11 @@ public class WritingProblemActivity extends QuizProblemActivity {
     public void undoCanvas(android.view.View view) {
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.undo();
-        
-        kanjiPage = 0;
-        kanjis = null;
     }
 
     public void clearCanvas(android.view.View view) {
-        if (kanjiTimer != null)
-            kanjiTimer.cancel();
-
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.clear();
-
-        findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(false);
-        findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(false);
-        findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
-        findViewById(R.id.buttonShowNextPage_a).setVisibility(GONE);
-
-        layoutKanjiInputRight_a.setVisibility(VISIBLE);
-        layoutKanjiInputRight_b.setVisibility(GONE);
-
-        int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
-        for (int buttonAId : buttonAIds) {
-            Button button = findViewById(buttonAId);
-            if (button != null) {
-                button.setText("");
-                button.setEnabled(false);
-            }
-        }
-
-        kanjiPage = 0;
-        kanjis = null;
     }
 
     public void validateAnswer(android.view.View view) {
@@ -196,11 +166,40 @@ public class WritingProblemActivity extends QuizProblemActivity {
             new KanjiDrawing.Listener() {
                 @Override
                 public void strokes(DrawnStroke[] strokes) {
-                    findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(strokes.length > 0);
-                    findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(strokes.length > 0);
-                    findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(strokes.length > 0);
-                    if (strokes != null && strokes.length > 0)
+                    if (strokes.length > 0) {
                         startTimer(SHOW_KANJIS_DELAY);
+
+                        findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(true);
+                        findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(true);
+                        findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(true);
+                    }
+                    else {
+                        if (kanjiTimer != null)
+                            kanjiTimer.cancel();
+
+                        findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(false);
+                        findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(false);
+                        findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
+                        findViewById(R.id.buttonShowNextPage_a).setVisibility(GONE);
+
+                        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+                        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+                        layoutKanjiInputRight_a.setVisibility(VISIBLE);
+                        layoutKanjiInputRight_b.setVisibility(GONE);
+
+                        int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
+                        for (int buttonAId : buttonAIds) {
+                            Button button = findViewById(buttonAId);
+                            if (button != null) {
+                                button.setText("");
+                                button.setEnabled(false);
+                            }
+                        }
+                        kanjis = null;
+                    }
+                    kanjiPage = 0;
                 }
             }
         );
