@@ -217,18 +217,22 @@ public class WritingProblemActivity extends QuizProblemActivity {
     }
 
     private void startTimer(long time) {
-        if (kanjiTimer == null) {
-            kanjiTimer = new CountDownTimer(time, SHOW_KANJIS_DELAY / 3) {
-                public void onTick(long millisUntilDone) {
-                }
+        if (time > 0) {
+            if (kanjiTimer == null) {
+                kanjiTimer = new CountDownTimer(time, SHOW_KANJIS_DELAY / 3) {
+                    public void onTick(long millisUntilDone) {
+                    }
 
-                public void onFinish() {
-                    enterCharacter(null);
-                }
-            };
+                    public void onFinish() {
+                        enterCharacter(null);
+                    }
+                };
+            }
+            kanjiTimer.cancel();
+            kanjiTimer.start();
         }
-        kanjiTimer.cancel();
-        kanjiTimer.start();
+        else
+            enterCharacter(null);
     }
 
     private void initializeKanjiButtons() {
