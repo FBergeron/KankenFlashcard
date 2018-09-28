@@ -87,13 +87,25 @@ public class WritingProblemActivity extends QuizProblemActivity {
     }
 
     public void undoCanvas(android.view.View view) {
+        stopSearchingForKanjis();
+
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.undo();
     }
 
     public void clearCanvas(android.view.View view) {
+        stopSearchingForKanjis();
+
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.clear();
+    }
+
+    public void stopSearchingForKanjis() {
+        if (matchThread != null) {
+            matchThread.stop();
+            matchThread = null;
+        }
+        imageViewSearchingWritingProblemCharacter.setVisibility(INVISIBLE);
     }
 
     public void validateAnswer(android.view.View view) {
@@ -134,6 +146,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
         // Make sure the list gets loaded
         new LoadThread();
 
+        imageViewSearchingWritingProblemCharacter = findViewById(R.id.imageViewSearchingWritingProblemCharacter);
+
         showProblemStatement();
 
         if (appl.getQuiz().getCurrentMode() == Quiz.Mode.MODE_ASK)
@@ -141,9 +155,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
         else
             showProblemEvaluation();
 
-        imageViewSearchingWritingProblemCharacter = findViewById(R.id.imageViewSearchingWritingProblemCharacter);
         Glide.with(this).load("android_asset/searching.gif").into(imageViewSearchingWritingProblemCharacter);
-        imageViewSearchingWritingProblemCharacter.setVisibility(INVISIBLE);
     }
 
     protected void askProblem() {
@@ -257,6 +269,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                             public void onClick(View v) {
                                 TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
                                 if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
+                                    stopSearchingForKanjis();
                                     String newAnswer = textViewProblemUserAnswer.getText().toString() + button.getText().toString();
                                     textViewProblemUserAnswer.setText(newAnswer);
                                     appl.getQuiz().setCurrentAnswer(newAnswer);
