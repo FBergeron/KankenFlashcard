@@ -431,7 +431,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
         public void run() {
             try {
                 long start = System.currentTimeMillis();
-                Log.d(WritingProblemActivity.class.getName(), "Kanji drawing dictionary loading");
+                Log.d(tag, "Kanji drawing dictionary loading");
                 InputStream input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
                 KanjiList loaded = new KanjiList(input);
                 synchronized(listSynch) {
@@ -511,7 +511,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 Log.d(tag, "Kanji drawing dictionary loaded (" + time + "ms)");
             }
             catch(IOException e) {
-                Log.e(WritingProblemActivity.class.getName(), "Error loading dictionary", e);
+                Log.e(tag, "Error loading dictionary", e);
             }
             finally {
                 synchronized(listSynch) {
