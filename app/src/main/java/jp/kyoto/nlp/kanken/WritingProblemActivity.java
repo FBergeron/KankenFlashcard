@@ -8,8 +8,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -162,6 +166,33 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
         typefaceKanjiButton = Typeface.createFromAsset(getAssets(), "gyate-luminescence.otf");
         textViewProblemUserAnswer.setTypeface(typefaceKanjiButton);
+
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        actionBar.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.action_bar_writing_problem_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        String menuTitle = (String)item.getTitle();
+
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("You clicked menu ");
+        stringBuffer.append(menuTitle);
+
+        String message = stringBuffer.toString();
+
+        return super.onOptionsItemSelected(item);
     }
 
     protected void askProblem() {
@@ -883,6 +914,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
     private ImageView imageViewSearchingWritingProblemCharacter;
     private TextView textViewProblemUserAnswer;
+    private ActionBar actionBar;
 
     private Typeface typefaceKanjiButton;
 
