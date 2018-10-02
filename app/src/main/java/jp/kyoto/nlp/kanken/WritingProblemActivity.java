@@ -586,16 +586,19 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 long stopTimeExact = System.currentTimeMillis();
 
                 boolean isRightKanjiFound = false;
-                if (rightChar != null) {
-                    Log.d(tag, "Looking in exactMatches exact.l=" + exactMatches.length);                    
-                    for (KanjiMatch exactMatch : exactMatches) {
-                        if (exactMatch.getKanji().getKanji().equals(rightChar)) {
-                            isRightKanjiFound = true;
-                            Log.d(tag, "Found! No need to compute fuzzy.");
-                            break;
-                        }
-                    }
-                }
+                // It's better not to set isRightKanjiFound to true too early because the list of kanji might be too suspiciously short.
+                // For example, in the case where the right answer contains the kanji ichi.  The list will contain only 1 kanji.
+                //
+                // if (rightChar != null) {
+                //     Log.d(tag, "Looking in exactMatches exact.l=" + exactMatches.length);                    
+                //     for (KanjiMatch exactMatch : exactMatches) {
+                //         if (exactMatch.getKanji().getKanji().equals(rightChar)) {
+                //             isRightKanjiFound = true;
+                //             Log.d(tag, "Found! No need to compute fuzzy.");
+                //             break;
+                //         }
+                //     }
+                // }
 
                 long startTimeFuzzy = System.currentTimeMillis();
                 if (!isRunning) {
