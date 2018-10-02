@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -146,6 +147,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
         // Make sure the list gets loaded
         new LoadThread();
 
+        textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
+
         imageViewSearchingWritingProblemCharacter = findViewById(R.id.imageViewSearchingWritingProblemCharacter);
 
         showProblemStatement();
@@ -156,6 +159,9 @@ public class WritingProblemActivity extends QuizProblemActivity {
             showProblemEvaluation();
 
         Glide.with(this).load("android_asset/searching.gif").into(imageViewSearchingWritingProblemCharacter);
+
+        typefaceKanjiButton = Typeface.createFromAsset(getAssets(), "gyate-luminescence.otf");
+        textViewProblemUserAnswer.setTypeface(typefaceKanjiButton);
     }
 
     protected void askProblem() {
@@ -165,7 +171,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
         findViewById(R.id.layoutWritingProblemUserAnswer).setVisibility(VISIBLE);
         findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
-        TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         textViewProblemUserAnswer.setText(appl.getQuiz().getCurrentAnswer());
 
         layoutKanjiInputRight_a = findViewById(R.id.layoutKanjiInputRight_a);
@@ -263,11 +268,11 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 if (button != null) {
                     button.setText(kanjis[k]);
                     button.setEnabled(true);
+                    button.setTypeface(typefaceKanjiButton);
                     button.setOnClickListener(
                         new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
                                 if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
                                     stopSearchingForKanjis();
                                     String newAnswer = textViewProblemUserAnswer.getText().toString() + button.getText().toString();
@@ -322,11 +327,11 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 if (button != null) {
                     button.setText(kanjis[k]);
                     button.setEnabled(true);
+                    button.setTypeface(typefaceKanjiButton);
                     button.setOnClickListener(
                         new OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
                                 if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
                                     String newAnswer = textViewProblemUserAnswer.getText().toString() + button.getText().toString();
                                     textViewProblemUserAnswer.setText(newAnswer);
@@ -568,7 +573,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
             final Problem currProb = quiz.getCurrentProblem();
             final String rightAnswer = currProb.getRightAnswer();
 
-            TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
             String answer = textViewProblemUserAnswer.getText().toString();
             final String rightChar = (answer.length() < rightAnswer.length() ? rightAnswer.charAt(answer.length()) + "" : null);
 
@@ -875,6 +879,9 @@ public class WritingProblemActivity extends QuizProblemActivity {
     private LinearLayout layoutKanjiInputRight_b; 
 
     private ImageView imageViewSearchingWritingProblemCharacter;
+    private TextView textViewProblemUserAnswer;
+
+    private Typeface typefaceKanjiButton;
 
     private int kanjiPage = 0;
     private String[] kanjis;
