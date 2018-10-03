@@ -91,7 +91,6 @@
     <string name="button_play">スタート</string>
     <string name="label_signing_in">サインイン中...</string>
     <string name="label_signing_out">サインアウト中...</string>
-    <string name="label_authentication_title">Important!</string>
     <string name="label_authentication">グーグルアカウントでログインする。</string>
     <string name="label_fetching_quiz_data">クイズのデータを取得中...</string>
     <string name="label_sending_results_data">結果のデータを送信中...</string>
