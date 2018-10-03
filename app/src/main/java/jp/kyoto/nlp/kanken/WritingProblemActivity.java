@@ -437,7 +437,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             try {
                 long start = System.currentTimeMillis();
                 Log.d(tag, "Kanji drawing dictionary loading");
-                InputStream input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
+                InputStream input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20160426.xml.1", "strokes-20160426.xml.2" });
                 KanjiList loaded = new KanjiList(input);
                 synchronized(listSynch) {
                     listExact = loaded;
@@ -457,7 +457,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 
                 start = System.currentTimeMillis();
                 Log.d(tag, "Kanji drawing dictionary loading");
-                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
+                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20160426.xml.1", "strokes-20160426.xml.2" });
                 loaded = new KanjiList(input);
                 synchronized(listSynch) {
                     listFuzzy = loaded;
@@ -477,7 +477,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 
                 start = System.currentTimeMillis();
                 Log.d(tag, "Kanji drawing dictionary loading");
-                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
+                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20160426.xml.1", "strokes-20160426.xml.2" });
                 loaded = new KanjiList(input);
                 synchronized(listSynch) {
                     listFuzzier1 = loaded;
@@ -497,7 +497,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 
                 start = System.currentTimeMillis();
                 Log.d(tag, "Kanji drawing dictionary loading");
-                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20100823.xml.1", "strokes-20100823.xml.2" });
+                input = new MultiAssetInputStream(getAssets(), new String[] { "strokes-20160426.xml.1", "strokes-20160426.xml.2" });
                 loaded = new KanjiList(input);
                 synchronized(listSynch) {
                     listFuzzier2 = loaded;
