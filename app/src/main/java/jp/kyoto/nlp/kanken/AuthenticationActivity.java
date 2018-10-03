@@ -327,11 +327,29 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
                     con.setFixedLengthStreamingMode(0);
                 con.connect();
 
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                String status = jsonResponse.getString("status");
+                Log.d(tag, "status=" + status);
+                if (!"ok".equals(status))
+                    exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
+
                 return null;
             }
             catch(IOException e) {
                 e.printStackTrace(); 
                 exception = e;
+            }
+            catch(JSONException e2) {
+                e2.printStackTrace(); 
+                exception = e2;
             }
 
             return null;
