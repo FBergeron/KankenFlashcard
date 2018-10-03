@@ -495,6 +495,8 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 String status = jsonResponse.getString("status");
                 Log.d(tag,  "status="+status );            
+                if (!"ok".equals(status))
+                    exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
             
                 return null;
             }
