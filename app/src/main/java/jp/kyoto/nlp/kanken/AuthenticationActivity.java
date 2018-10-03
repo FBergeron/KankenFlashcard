@@ -249,6 +249,8 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
 
                     if ("client_too_old".equals(status))
                         exception = new Exception(status);
+                    else if (!"ok".equals(status))
+                        exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
 
                     return null;
                 }
