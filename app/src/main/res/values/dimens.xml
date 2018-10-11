@@ -24,5 +24,6 @@
     <dimen name="evaluation_outcome_text_size">20sp</dimen>
     <dimen name="evaluation_problem_familiarity_text_size">14sp</dimen>
     <dimen name="layout_problem_statement_weight">24</dimen>
+    <dimen name="kanji_list_item_size">60dp</dimen>
 </resources>
 
