@@ -8,6 +8,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -162,6 +164,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
         typefaceKanjiButton = Typeface.createFromAsset(getAssets(), "gyate-luminescence.otf");
         textViewProblemUserAnswer.setTypeface(typefaceKanjiButton);
+
+        recyclerViewKanjiInputRight = findViewById(R.id.recyclerViewKanjiInputRight);
+        int numberOfColumns = 3;
+        recyclerViewKanjiInputRight.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
     }
 
     protected void askProblem() {
@@ -174,9 +180,9 @@ public class WritingProblemActivity extends QuizProblemActivity {
         textViewProblemUserAnswer.setText(appl.getQuiz().getCurrentAnswer());
 
         layoutKanjiInputRight_a = findViewById(R.id.layoutKanjiInputRight_a);
-        layoutKanjiInputRight_a.setVisibility(VISIBLE);
+        //layoutKanjiInputRight_a.setVisibility(VISIBLE);
         layoutKanjiInputRight_b = findViewById(R.id.layoutKanjiInputRight_b);
-        layoutKanjiInputRight_b.setVisibility(GONE);
+        //layoutKanjiInputRight_b.setVisibility(GONE);
 
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.setListener(
@@ -203,8 +209,13 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
                         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-                        layoutKanjiInputRight_a.setVisibility(VISIBLE);
-                        layoutKanjiInputRight_b.setVisibility(GONE);
+                        //layoutKanjiInputRight_a.setVisibility(VISIBLE);
+                        //layoutKanjiInputRight_b.setVisibility(GONE);
+                        if (recyclerViewKanjiInputRight != null) {
+                            KanjiListRecyclerViewAdapter kanjiListAdapter = (KanjiListRecyclerViewAdapter)recyclerViewKanjiInputRight.getAdapter();
+                            if (kanjiListAdapter != null) 
+                                kanjiListAdapter.clear();
+                        }
 
                         int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
                         for (int buttonAId : buttonAIds) {
@@ -258,8 +269,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
         if (kanjiPage == 0) {
-            layoutKanjiInputRight_a.setVisibility(VISIBLE);
-            layoutKanjiInputRight_b.setVisibility(GONE);
+            //layoutKanjiInputRight_a.setVisibility(VISIBLE);
+            //layoutKanjiInputRight_b.setVisibility(GONE);
 
             int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
             int k = 0;
@@ -316,8 +327,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
             }
         }
         else {
-            layoutKanjiInputRight_a.setVisibility(GONE);
-            layoutKanjiInputRight_b.setVisibility(VISIBLE);
+            //layoutKanjiInputRight_a.setVisibility(GONE);
+            //layoutKanjiInputRight_b.setVisibility(VISIBLE);
 
             int[] buttonBIds = (dpWidth >= 600 ? ALL_IDS_b_w600dp : ALL_IDS_b);
             int k = 12 * (kanjiPage - 1) + 7; 
@@ -386,6 +397,31 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     buttonNextPage.setVisibility(GONE);
             }
         }
+        
+        RecyclerView recyclerViewKanjiInputRight = findViewById(R.id.recyclerViewKanjiInputRight);
+        int numberOfColumns = 3;
+        recyclerViewKanjiInputRight.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+
+        String[] shownKanjis = new String[Math.min(kanjis.length, KANJIS_MAX_COUNT)];
+        for (int i = 0; i < shownKanjis.length; i++) 
+            shownKanjis[i] = kanjis[i];
+
+        final KanjiListRecyclerViewAdapter adapter = new KanjiListRecyclerViewAdapter(this, shownKanjis);
+        adapter.setClickListener(
+            new KanjiListRecyclerViewAdapter.ItemClickListener() {
+                public void onItemClick(View view, int position) {
+                    Log.d(tag, "view=" + view + " pos=" + position);
+                    if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
+                        String newAnswer = textViewProblemUserAnswer.getText().toString() + adapter.getItem(position);
+                        textViewProblemUserAnswer.setText(newAnswer);
+                        appl.getQuiz().setCurrentAnswer(newAnswer);
+                        findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                        clearCanvas(view);
+                    }
+                }
+            }
+        );
+        recyclerViewKanjiInputRight.setAdapter(adapter);
     }
 
     /**
@@ -880,6 +916,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
     private LinearLayout layoutKanjiInputRight_a; 
     private LinearLayout layoutKanjiInputRight_b; 
+    private RecyclerView recyclerViewKanjiInputRight;
 
     private ImageView imageViewSearchingWritingProblemCharacter;
     private TextView textViewProblemUserAnswer;
