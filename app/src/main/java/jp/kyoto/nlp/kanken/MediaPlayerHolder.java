@@ -57,7 +57,13 @@ public final class MediaPlayerHolder implements PlayerAdapter {
                 context.getResources().openRawResourceFd(resId);
         try {
             Log.d(tag, "load() {1. setDataSource}");
-            mediaPlayer.setDataSource(assetFileDescriptor);
+            // Instead of using this call that requires API 24:
+            // mediaPlayer.setDataSource(assetFileDescriptor);
+            // Use the following code.
+            if (assetFileDescriptor.getDeclaredLength() < 0) 
+                mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor());
+            else
+                mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getDeclaredLength());
         } catch (Exception e) {
             Log.d(tag, e.toString());
         }
