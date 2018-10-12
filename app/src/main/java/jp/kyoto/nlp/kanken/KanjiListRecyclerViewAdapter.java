@@ -1,6 +1,7 @@
 package jp.kyoto.nlp.kanken;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ public class KanjiListRecyclerViewAdapter extends RecyclerView.Adapter<KanjiList
     KanjiListRecyclerViewAdapter(Context context, String[] data) {
         this.inflater = LayoutInflater.from(context);
         this.data = data;
+        this.typeface = null;
     }
 
     @Override
@@ -25,6 +27,8 @@ public class KanjiListRecyclerViewAdapter extends RecyclerView.Adapter<KanjiList
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.kanjiTextView.setText(data[position]);
+        if (typeface != null)
+            holder.kanjiTextView.setTypeface(typeface);
     }
 
     @Override
@@ -36,6 +40,11 @@ public class KanjiListRecyclerViewAdapter extends RecyclerView.Adapter<KanjiList
         final int size = data.length;
         data = new String[] {};
         notifyItemRangeRemoved(0, size);
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -66,6 +75,7 @@ public class KanjiListRecyclerViewAdapter extends RecyclerView.Adapter<KanjiList
     }
 
     private String[] data;
+    private Typeface typeface;
     private LayoutInflater inflater;
     private ItemClickListener clickListener;
 

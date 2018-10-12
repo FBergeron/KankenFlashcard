@@ -252,6 +252,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             shownKanjis[i] = kanjis[i];
 
         final KanjiListRecyclerViewAdapter adapter = new KanjiListRecyclerViewAdapter(this, shownKanjis);
+        adapter.setTypeface(typefaceKanjiButton);
         adapter.setClickListener(
             new KanjiListRecyclerViewAdapter.ItemClickListener() {
                 public void onItemClick(View view, int position) {
