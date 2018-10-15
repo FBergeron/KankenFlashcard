@@ -2,6 +2,7 @@ package jp.kyoto.nlp.kanken;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
@@ -11,12 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public abstract class ActionActivity extends AppCompatActivity {
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initActionBar();
-    }
+public abstract class ActionActivity extends BaseActionActivity {
 
     protected void onStart() {
         super.onStart();
@@ -24,11 +20,7 @@ public abstract class ActionActivity extends AppCompatActivity {
     }
 
     protected void initActionBar() {
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setTitle(getResources().getString(R.string.app_name));
-        actionBar.show();
+        super.initActionBar();
 
         appl.initializePlaybackController();
     }
@@ -85,7 +77,6 @@ public abstract class ActionActivity extends AppCompatActivity {
 
     }
 
-    private ActionBar actionBar;
     private Menu actionBarMenu;
 
     private final static String tag = "ActionActivity";

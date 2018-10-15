@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AuthenticationActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class AuthenticationActivity extends BaseActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     public void play(android.view.View view) {
         Intent quizSettingsActivity = new Intent(AuthenticationActivity.this, QuizSettingsActivity.class);
