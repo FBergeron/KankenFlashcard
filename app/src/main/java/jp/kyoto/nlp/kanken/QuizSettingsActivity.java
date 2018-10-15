@@ -48,7 +48,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuizSettingsActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     public void signOut(android.view.View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(

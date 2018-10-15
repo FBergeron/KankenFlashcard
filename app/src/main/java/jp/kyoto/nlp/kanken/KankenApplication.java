@@ -2,6 +2,7 @@ package jp.kyoto.nlp.kanken;
 
 import android.app.Application;
 import android.net.Uri;
+import android.util.Log;
 
 import com.leafdigital.kanji.android.MultiAssetInputStream;
 
@@ -71,6 +72,22 @@ public class KankenApplication extends Application {
         this.sessionCookie = sessionCookie;
     }
 
+    public boolean isBackgroundMusicEnabled() {
+        return isBackgroundMusicEnabled;
+    }
+
+    public void setBackgroundMusicEnabled(boolean isOn) {
+        isBackgroundMusicEnabled = isOn;
+        if (isOn) {
+            if (playerAdapter != null)
+                playerAdapter.play();
+        }
+        else {
+            if (playerAdapter != null)
+                playerAdapter.pause();
+        }
+    }
+
     public String getServerBaseUrl() throws IOException, JSONException {
         if (serverBaseUrl == null) {
             InputStream is = new MultiAssetInputStream(getAssets(), new String[] { "config.json" });
@@ -85,6 +102,33 @@ public class KankenApplication extends Application {
         Util.initKanaFreq(is);
     }
 
+    public void initializePlaybackController() {
+        if (mediaPlayerHolder == null) {
+            mediaPlayerHolder = new MediaPlayerHolder(this);
+            mediaPlayerHolder.setPlaybackInfoListener(new PlaybackListener());
+            playerAdapter = mediaPlayerHolder;
+        }
+        if (mediaPlayerHolder.getCurrentPosition() == -1)
+            playerAdapter.loadMedia(R.raw.background_music);
+    }
+
+    public void playBackgroundMusic() {
+        Log.d(tag,"playBackgroundMusic playerAdapter="+playerAdapter);
+        if (playerAdapter != null) {
+            Log.d(tag, "playBackgroundMusic isBackgroundMusicEnabled="+isBackgroundMusicEnabled+" isPlaying="+playerAdapter.isPlaying());
+            if (isBackgroundMusicEnabled && !playerAdapter.isPlaying()) {
+                if (backgroundMusicPos != -1)
+                    playerAdapter.seekTo(backgroundMusicPos);
+                playerAdapter.play();
+            }
+        }
+    }
+
+    public void stopBackgroundMusic() {
+        if (playerAdapter != null)
+            playerAdapter.release();
+    }
+
     private static KankenApplication instance;
 
     private Quiz    quiz;
@@ -95,6 +139,13 @@ public class KankenApplication extends Application {
     private String  userIdToken;
     private String  sessionCookie;
 
+    private MediaPlayerHolder mediaPlayerHolder;
+    private PlayerAdapter playerAdapter; 
+    private int backgroundMusicPos = -1;
+    private boolean isBackgroundMusicEnabled = true;
+
     private String  serverBaseUrl;
+    
+    private final static String tag = "KankenApplication";
 
 }

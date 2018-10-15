@@ -64,6 +64,12 @@ public class AuthenticationActivity extends AppCompatActivity implements View.On
         );
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        appl.stopBackgroundMusic(); 
+    }
+
     private void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();

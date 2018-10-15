@@ -5,17 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,6 +36,8 @@ import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.OnClickListener;
 import static android.view.View.VISIBLE;
+
+//import android.support.v7.app.ActionBar;
 
 public class WritingProblemActivity extends QuizProblemActivity {
 
@@ -168,67 +164,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
         typefaceKanjiButton = Typeface.createFromAsset(getAssets(), "gyate-luminescence.otf");
         textViewProblemUserAnswer.setTypeface(typefaceKanjiButton);
-
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setTitle(getResources().getString(R.string.app_name));
-        actionBar.show();
-
-        initializePlaybackController();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        playerAdapter.loadMedia(R.raw.background_music);
-        if (backgroundMusicPos != -1)
-            playerAdapter.seekTo(backgroundMusicPos);
-        if (isBackgroundMusicOn)
-            playerAdapter.play();
-        Log.d(tag, "onStart: create MediaPlayer");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (isChangingConfigurations() && playerAdapter.isPlaying()) {
-            Log.d(tag, "onStop: don't release MediaPlayer as screen is rotating & playing");
-        } else {
-            backgroundMusicPos = playerAdapter.getCurrentPosition();
-            playerAdapter.release();
-            Log.d(tag, "onStop: release MediaPlayer");
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        actionBarMenu = menu;
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.action_bar_writing_problem_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menuToggleMusic) {
-            if (isBackgroundMusicOn) {
-                actionBarMenu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.music_off, null));
-                isBackgroundMusicOn = false;
-                // Also save this information as a preference.
-                playerAdapter.pause();
-            }
-            else {
-                actionBarMenu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.music_on, null));
-                isBackgroundMusicOn = true;
-                // Also save this information as a preference.
-                playerAdapter.play();
-                //MediaPlayer mediaPlayer = MediaPlayer.create(WritingProblemActivity.this, R.raw.background_music);
-                //mediaPlayer.start();
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     protected void askProblem() {
@@ -462,14 +397,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
     private void loaded() {
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         DrawnStroke[] strokes = kanjiCanvas.getStrokes();
-    }
-
-    private void initializePlaybackController() {
-        MediaPlayerHolder mediaPlayerHolder = new MediaPlayerHolder(this);
-        Log.d(tag, "initializePlaybackController: created MediaPlayerHolder");
-        mediaPlayerHolder.setPlaybackInfoListener(new PlaybackListener());
-        playerAdapter = mediaPlayerHolder;
-        Log.d(tag, "initializePlaybackController: MediaPlayerHolder progress callback set");
     }
 
     /**
@@ -951,50 +878,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
     }
 
-    public class PlaybackListener extends PlaybackInfoListener {
-
-        @Override
-        public void onDurationChanged(int duration) {
-            //mSeekbarAudio.setMax(duration);
-            Log.d(tag, String.format("setPlaybackDuration: setMax(%d)", duration));
-        }
-
-        @Override
-        public void onPositionChanged(int position) {
-            //if (!mUserIsSeeking) {
-            //    mSeekbarAudio.setProgress(position, true);
-            //    Log.d(tag, String.format("setPlaybackPosition: setProgress(%d)", position));
-            //}
-        }
-
-        @Override
-        public void onStateChanged(@State int state) {
-            //String stateToString = PlaybackInfoListener.convertStateToString(state);
-            //onLogUpdated(String.format("onStateChanged(%s)", stateToString));
-        }
-
-        @Override
-        public void onPlaybackCompleted() {
-        }
-
-        @Override
-        public void onLogUpdated(String message) {
-            //if (mTextDebug != null) {
-            //    mTextDebug.append(message);
-            //    mTextDebug.append("\n");
-            //    // Moves the scrollContainer focus to the end.
-            //    mScrollContainer.post(
-            //            new Runnable() {
-            //                @Override
-            //                public void run() {
-            //                    mScrollContainer.fullScroll(ScrollView.FOCUS_DOWN);
-            //                }
-            //            });
-            //}
-        }
-
-    }
-
     private KankenApplication appl = KankenApplication.getInstance();
 
     private LinearLayout layoutKanjiInputRight_a; 
@@ -1002,14 +885,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
     private ImageView imageViewSearchingWritingProblemCharacter;
     private TextView textViewProblemUserAnswer;
-    private ActionBar actionBar;
-    private Menu actionBarMenu;
 
     private Typeface typefaceKanjiButton;
-
-    private PlayerAdapter playerAdapter; 
-    private int backgroundMusicPos = -1;
-    private boolean isBackgroundMusicOn = true;
 
     private int kanjiPage = 0;
     private String[] kanjis;

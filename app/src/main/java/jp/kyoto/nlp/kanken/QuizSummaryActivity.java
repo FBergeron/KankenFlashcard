@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.Iterator;
 
-public class QuizSummaryActivity extends AppCompatActivity {
+public class QuizSummaryActivity extends ActionActivity {
 
     @Override
     public void onBackPressed() {

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public abstract class QuizProblemActivity extends AppCompatActivity {
+public abstract class QuizProblemActivity extends ActionActivity {
 
     protected void showProblemStatement() {
         Problem currProb = appl.getQuiz().getCurrentProblem();

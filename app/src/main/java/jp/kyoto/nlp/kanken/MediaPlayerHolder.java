@@ -26,7 +26,7 @@ public final class MediaPlayerHolder implements PlayerAdapter {
      */
     private void initializeMediaPlayer() {
         if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
+            mediaPlayer = new ImprovedMediaPlayer();
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
@@ -83,6 +83,16 @@ public final class MediaPlayerHolder implements PlayerAdapter {
     public void release() {
         if (mediaPlayer != null) {
             Log.d(tag, "release() and mediaPlayer = null");
+            Log.d(tag, "currVol="+mediaPlayer.getVolume());
+            for (float vol = mediaPlayer.getVolume(); vol > 0.0f; vol -= 0.2f) {
+                mediaPlayer.setVolume(vol);
+                try {
+                    Thread.sleep(200);
+                }
+                catch (InterruptedException ignore) {
+                    ignore.printStackTrace();
+                }
+            }
             mediaPlayer.release();
             mediaPlayer = null;
         }
@@ -98,10 +108,20 @@ public final class MediaPlayerHolder implements PlayerAdapter {
 
     @Override
     public void play() {
+        Log.d(tag, "play mediaPlayer="+mediaPlayer+" playing="+(mediaPlayer==null?"n/a":mediaPlayer.isPlaying())+ " vol="+(mediaPlayer==null?"n/a":mediaPlayer.getVolume()));
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             Log.d(tag, String.format("playbackStart() %s",
                                   context.getResources().getResourceEntryName(resId)));
             mediaPlayer.start();
+            for (float vol = mediaPlayer.getVolume(); vol < 1.0f; vol += 0.2f) {
+                mediaPlayer.setVolume(vol);
+                try {
+                    Thread.sleep(200);
+                }
+                catch (InterruptedException ignore) {
+                    ignore.printStackTrace();
+                }
+            }
             if (playbackInfoListener != null) {
                 playbackInfoListener.onStateChanged(PlaybackInfoListener.State.PLAYING);
             }
@@ -125,6 +145,15 @@ public final class MediaPlayerHolder implements PlayerAdapter {
     @Override
     public void pause() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            for (float vol = mediaPlayer.getVolume(); vol > 0.0f; vol -= 0.2f) {
+                mediaPlayer.setVolume(vol);
+                try {
+                    Thread.sleep(200);
+                }
+                catch (InterruptedException ignore) {
+                    ignore.printStackTrace();
+                }
+            }
             mediaPlayer.pause();
             if (playbackInfoListener != null) {
                 playbackInfoListener.onStateChanged(PlaybackInfoListener.State.PAUSED);
@@ -203,12 +232,11 @@ public final class MediaPlayerHolder implements PlayerAdapter {
     }
 
     private final Context context;
-    private MediaPlayer mediaPlayer;
+    private ImprovedMediaPlayer mediaPlayer;
     private int resId;
     private PlaybackInfoListener playbackInfoListener;
     private ScheduledExecutorService scheduleExecuter;
-    //private Runnable mSeekbarPositionUpdateTask;
-
+    
     private final static String tag = "MediaPlayerHolder";
 
 }
