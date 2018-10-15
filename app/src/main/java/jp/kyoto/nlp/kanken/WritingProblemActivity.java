@@ -8,7 +8,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.DisplayMetrics;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -164,6 +165,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
         typefaceKanjiButton = Typeface.createFromAsset(getAssets(), "gyate-luminescence.otf");
         textViewProblemUserAnswer.setTypeface(typefaceKanjiButton);
+
+        recyclerViewKanjiInputRight = findViewById(R.id.recyclerViewKanjiInputRight);
+        int numberOfColumns = 3;
+        recyclerViewKanjiInputRight.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
     }
 
     protected void askProblem() {
@@ -174,11 +179,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
         findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
         textViewProblemUserAnswer.setText(appl.getQuiz().getCurrentAnswer());
-
-        layoutKanjiInputRight_a = findViewById(R.id.layoutKanjiInputRight_a);
-        layoutKanjiInputRight_a.setVisibility(VISIBLE);
-        layoutKanjiInputRight_b = findViewById(R.id.layoutKanjiInputRight_b);
-        layoutKanjiInputRight_b.setVisibility(GONE);
 
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.setListener(
@@ -199,23 +199,13 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         findViewById(R.id.buttonUndoWritingProblemCanvas).setEnabled(false);
                         findViewById(R.id.buttonClearWritingProblemCanvas).setEnabled(false);
                         findViewById(R.id.buttonEnterWritingProblemCharacter).setEnabled(false);
-                        findViewById(R.id.buttonShowNextPage_a).setVisibility(GONE);
 
-                        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-                        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-                        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-
-                        layoutKanjiInputRight_a.setVisibility(VISIBLE);
-                        layoutKanjiInputRight_b.setVisibility(GONE);
-
-                        int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
-                        for (int buttonAId : buttonAIds) {
-                            Button button = findViewById(buttonAId);
-                            if (button != null) {
-                                button.setText("");
-                                button.setEnabled(false);
-                            }
+                        if (recyclerViewKanjiInputRight != null) {
+                            KanjiListRecyclerViewAdapter kanjiListAdapter = (KanjiListRecyclerViewAdapter)recyclerViewKanjiInputRight.getAdapter();
+                            if (kanjiListAdapter != null) 
+                                kanjiListAdapter.clear();
                         }
+
                         kanjis = null;
                     }
                     kanjiPage = 0;
@@ -255,139 +245,31 @@ public class WritingProblemActivity extends QuizProblemActivity {
     }
 
     private void initializeKanjiButtons() {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        RecyclerView recyclerViewKanjiInputRight = findViewById(R.id.recyclerViewKanjiInputRight);
+        int numberOfColumns = 3;
+        recyclerViewKanjiInputRight.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
-        if (kanjiPage == 0) {
-            layoutKanjiInputRight_a.setVisibility(VISIBLE);
-            layoutKanjiInputRight_b.setVisibility(GONE);
+        String[] shownKanjis = new String[Math.min(kanjis.length, KANJIS_MAX_COUNT)];
+        for (int i = 0; i < shownKanjis.length; i++) 
+            shownKanjis[i] = kanjis[i];
 
-            int[] buttonAIds = (dpWidth >= 600 ? ALL_IDS_a_w600dp : ALL_IDS_a);
-            int k = 0;
-            while (k < buttonAIds.length && k < kanjis.length) {
-                final Button button = findViewById(buttonAIds[k]);
-                if (button != null) {
-                    button.setText(kanjis[k]);
-                    button.setEnabled(true);
-                    button.setTypeface(typefaceKanjiButton);
-                    button.setOnClickListener(
-                        new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
-                                    stopSearchingForKanjis();
-                                    String newAnswer = textViewProblemUserAnswer.getText().toString() + button.getText().toString();
-                                    textViewProblemUserAnswer.setText(newAnswer);
-                                    appl.getQuiz().setCurrentAnswer(newAnswer);
-                                    findViewById(R.id.buttonDeleteKanji).setEnabled(true);
-                                    clearCanvas(v);
-                                }
-                            }
-                        }
-                    );
-                }
-
-                k++;
-            }
-            while (k < buttonAIds.length) {
-                Button button = findViewById(buttonAIds[k]);
-                if (button != null) {
-                    button.setText(" ");
-                    button.setEnabled(false);
-                }
-                k++;
-            }
-
-            Button buttonNextPage = findViewById(R.id.buttonShowNextPage_a);
-            if (buttonNextPage != null) {
-                if (kanjis.length > 7) {
-                    buttonNextPage.setVisibility(VISIBLE);
-                    buttonNextPage.setOnClickListener(
-                        new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                kanjiPage++;
-                                initializeKanjiButtons();
-                             }
-                        }
-                    );
-                }
-                else
-                    buttonNextPage.setVisibility(GONE);
-            }
-        }
-        else {
-            layoutKanjiInputRight_a.setVisibility(GONE);
-            layoutKanjiInputRight_b.setVisibility(VISIBLE);
-
-            int[] buttonBIds = (dpWidth >= 600 ? ALL_IDS_b_w600dp : ALL_IDS_b);
-            int k = 12 * (kanjiPage - 1) + 7; 
-            int b = 0;
-            while (b < buttonBIds.length && k < kanjis.length) {
-                final Button button = findViewById(buttonBIds[b]);
-                if (button != null) {
-                    button.setText(kanjis[k]);
-                    button.setEnabled(true);
-                    button.setTypeface(typefaceKanjiButton);
-                    button.setOnClickListener(
-                        new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
-                                    String newAnswer = textViewProblemUserAnswer.getText().toString() + button.getText().toString();
-                                    textViewProblemUserAnswer.setText(newAnswer);
-                                    findViewById(R.id.buttonDeleteKanji).setEnabled(true);
-                                    clearCanvas(v);
-                                }
-                            }
-                        }
-                    );
-                }
-
-                b++;
-                k++;
-            }
-            while (b < buttonBIds.length) {
-                Button button = findViewById(buttonBIds[b]);
-                if (button != null) {
-                    button.setText(" ");
-                    button.setEnabled(false);
-                }
-                b++;
-            }
-            
-            Button buttonPrevPage = findViewById(R.id.buttonShowPrevPage_b);
-            if (buttonPrevPage != null) {
-                buttonPrevPage.setVisibility(VISIBLE);
-                buttonPrevPage.setOnClickListener(
-                    new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            kanjiPage--;
-                            initializeKanjiButtons();
-                         }
+        final KanjiListRecyclerViewAdapter adapter = new KanjiListRecyclerViewAdapter(this, shownKanjis);
+        adapter.setTypeface(typefaceKanjiButton);
+        adapter.setClickListener(
+            new KanjiListRecyclerViewAdapter.ItemClickListener() {
+                public void onItemClick(View view, int position) {
+                    Log.d(tag, "view=" + view + " pos=" + position);
+                    if (textViewProblemUserAnswer.getText().toString().length() < MAX_ANSWER_LENGTH) { 
+                        String newAnswer = textViewProblemUserAnswer.getText().toString() + adapter.getItem(position);
+                        textViewProblemUserAnswer.setText(newAnswer);
+                        appl.getQuiz().setCurrentAnswer(newAnswer);
+                        findViewById(R.id.buttonDeleteKanji).setEnabled(true);
+                        clearCanvas(view);
                     }
-                );
-            }
-            Button buttonNextPage = findViewById(R.id.buttonShowNextPage_b);
-            if (buttonNextPage != null) {
-                if (kanjis.length > 12 * kanjiPage + 7) {
-                    buttonNextPage.setVisibility(VISIBLE);
-                    buttonNextPage.setOnClickListener(
-                        new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                kanjiPage++;
-                                initializeKanjiButtons();
-                             }
-                        }
-                    );
                 }
-                else
-                    buttonNextPage.setVisibility(GONE);
             }
-        }
+        );
+        recyclerViewKanjiInputRight.setAdapter(adapter);
     }
 
     /**
@@ -880,8 +762,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
     private KankenApplication appl = KankenApplication.getInstance();
 
-    private LinearLayout layoutKanjiInputRight_a; 
-    private LinearLayout layoutKanjiInputRight_b; 
+    private RecyclerView recyclerViewKanjiInputRight;
 
     private ImageView imageViewSearchingWritingProblemCharacter;
     private TextView textViewProblemUserAnswer;
@@ -911,22 +792,6 @@ public class WritingProblemActivity extends QuizProblemActivity {
     //private final static long SHOW_KANJIS_DELAY = 600; // In ms.
     //private final static long SHOW_KANJIS_DELAY = 200; // In ms.
     private final static long SHOW_KANJIS_DELAY = 0; // In ms.
-
-    private final static int[] ALL_IDS_a_w600dp = {
-        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a, R.id.no7_a
-    };
-
-    private final static int[] ALL_IDS_b_w600dp = {
-        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b, R.id.no10_b, R.id.no11_b, R.id.no12_b
-    };
-
-    private final static int[] ALL_IDS_a = {
-        R.id.no1_a, R.id.no2_a, R.id.no3_a, R.id.no4_a, R.id.no5_a, R.id.no6_a
-    };
-
-    private final static int[] ALL_IDS_b = {
-        R.id.no1_b, R.id.no2_b, R.id.no3_b, R.id.no4_b, R.id.no5_b, R.id.no6_b, R.id.no7_b, R.id.no8_b, R.id.no9_b
-    };
 
     private final static int KANJIS_MAX_COUNT = 80;
 
