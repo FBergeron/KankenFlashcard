@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">漢検DEニュース</string>
+    <string name="app_name">漢検とニュース</string>
     <string name="welcome">ようこそ!</string>
     <string name="button_start_quiz">スタート</string>
     <string name="button_show_directions">遊び方</string>
