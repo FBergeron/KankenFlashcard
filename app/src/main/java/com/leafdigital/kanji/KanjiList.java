@@ -49,7 +49,7 @@ public class KanjiList
          * @param done Amount of progress achieved
          * @param max Maximum at which task will be achieved
          */
-        public void progress(int done, int max);
+        void progress(int done, int max);
     }
 
     /**
@@ -124,14 +124,12 @@ public class KanjiList
         }
         catch(ParserConfigurationException e)
         {
-            IOException x = new IOException("Failed to initialise SAX parser");
-            x.initCause(e);
+            IOException x = new IOException("Failed to initialise SAX parser", e);
             throw x;
         }
         catch(SAXException e)
         {
-            IOException x = new IOException("Failed to parse strokes file");
-            x.initCause(e);
+            IOException x = new IOException("Failed to parse strokes file", e);
             throw x;
         }
     }

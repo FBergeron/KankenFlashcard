@@ -257,7 +257,7 @@ public class ProblemEvaluationFragment extends Fragment {
             // Append the string that is left to the slash.
             int indexOfSlash = parts[i].indexOf("/");
             if (indexOfSlash != -1) 
-                wordInKanjis.append(parts[i].substring(0, indexOfSlash));
+                wordInKanjis.append(parts[i], 0, indexOfSlash);
         }
 
         return wordInKanjis.toString();
