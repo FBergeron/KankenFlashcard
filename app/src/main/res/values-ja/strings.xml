@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">漢検とニュース</string>
-    <string name="welcome">ようこそ!</string>
+    <string name="welcome">クイズの設定を入力して下さい。</string>
     <string name="button_start_quiz">スタート</string>
     <string name="button_show_directions">遊び方</string>
     <string name="button_show_terms_of_usage">利用規約</string>
