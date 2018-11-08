@@ -69,9 +69,17 @@
     <string name="label_detailed_answer_right">%1$s = %2$s</string>
     <string name="label_detailed_answer_wrong">%1$s ≠ %2$s\n\n%1$s = %3$s</string>
     <string name="button_report_error">Report the problem as incorrect</string>
-    <string name="label_enter_problem_familiarity">Please, enter the familiarity level in regard to this word: %1$s.</string>
-    <string name="label_not_familiar">Not familiar</string>
-    <string name="label_very_familiar">Very familiar</string>
+    <string name="label_enter_problem_familiarity">Please, indicate the period from which you think that you have understood and started to use the word \"%1$s\".</string>
+    <string name="label_familiarity_0">I do not know the meaning of the word</string>
+    <string name="label_familiarity_1">Before elem. school</string>
+    <string name="label_familiarity_2">Elem. school (low)</string>
+    <string name="label_familiarity_3">Elem. school (high)</string>
+    <string name="label_familiarity_4">Junior high school</string>
+    <string name="label_familiarity_long_0">I do not know the meaning of the word</string>
+    <string name="label_familiarity_long_1">Before elementary school</string>
+    <string name="label_familiarity_long_2">Elementary school (lower grades)</string>
+    <string name="label_familiarity_long_3">Elementary school (higher grades)</string>
+    <string name="label_familiarity_long_4">Junior high school</string>
     <string name="button_next">Next</string>
     <string name="info_confirm_report_title">Reporting incorrect problem...</string>
     <string name="info_confirm_report_msg">If you believe that there is something wrong with the problem, whether the statement looks funny or the right answer seems incorrect or for any other reasons, you can report the problem as faulty.</string>
@@ -84,7 +92,7 @@
     <string name="label_summary_user_answer">Your answer</string>
     <string name="label_summary_right_answer">Correct answer</string>
     <string name="label_summary_outcome">Outcome</string>
-    <string name="label_summary_familiarity">Familiarity</string>
+    <string name="label_summary_familiarity">Since when the word has been learned/used</string>
     <string name="label_summary_reported">Reported as Incorrect!</string>
     <string name="button_leave_summary">Start another quiz</string>
     <string name="label_finding_characters">Finding matching characters...</string>

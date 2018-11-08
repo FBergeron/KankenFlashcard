@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="2.2"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -85,8 +85,6 @@
         android:id="@+id/layoutErroneousProblem"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="6dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -123,77 +121,60 @@
             android:id="@+id/layoutProblemFamiliarityButtons"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonFamiliarity1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/label_familiarity_1" />
+
+                <Button
+                    android:id="@+id/buttonFamiliarity2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/label_familiarity_2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonFamiliarity3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/label_familiarity_3" />
+
+                <Button
+                    android:id="@+id/buttonFamiliarity4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/label_familiarity_4" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/buttonFamiliarity0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="0" />
+                android:text="@string/label_familiarity_0" />
 
-            <Button
-                android:id="@+id/buttonFamiliarity1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1" />
-
-            <Button
-                android:id="@+id/buttonFamiliarity2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2" />
-
-            <Button
-                android:id="@+id/buttonFamiliarity3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3" />
-
-            <Button
-                android:id="@+id/buttonFamiliarity4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="4" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="top"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewFamiliarityEasy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_weight="1"
-                android:gravity="top|left"
-                android:text="@string/label_not_familiar"
-                android:textSize="@dimen/evaluation_problem_familiarity_text_size" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/textViewFamiliarityDifficult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                android:layout_weight="1"
-                android:gravity="top|right"
-                android:text="@string/label_very_familiar"
-                android:textSize="@dimen/evaluation_problem_familiarity_text_size" />
         </LinearLayout>
 
     </LinearLayout>

@@ -68,9 +68,18 @@
     <string name="label_detailed_answer_right">%1$s = %2$s</string>
     <string name="label_detailed_answer_wrong">%1$s ≠ %2$s\n\n%1$s = %3$s</string>
     <string name="button_report_error">間違いを申告する</string>
-    <string name="label_enter_problem_familiarity">あなたは「%1$s」という単語にどれぐらいなじみがありますか？</string>
-    <string name="label_not_familiar">ない</string>
-    <string name="label_very_familiar">ある</string>
+    <string name="label_enter_problem_familiarity">「%1$s」という単語をあなたが理解し、
+使い始めたと思われる時期を教えてください。</string>
+    <string name="label_familiarity_0">単語の意味を知らない/見聞きしたことがない</string>
+    <string name="label_familiarity_1">小学生になる前</string>
+    <string name="label_familiarity_2">小学校低学年</string>
+    <string name="label_familiarity_3">小学校高学年</string>
+    <string name="label_familiarity_4">中学生になった後</string>
+    <string name="label_familiarity_long_0">単語の意味を知らない/見聞きしたことがない</string>
+    <string name="label_familiarity_long_1">小学生になる前</string>
+    <string name="label_familiarity_long_2">小学校低学年</string>
+    <string name="label_familiarity_long_3">小学校高学年</string>
+    <string name="label_familiarity_long_4">中学生になった後</string>
     <string name="button_next">次へ</string>
     <string name="info_confirm_report_title">間違いを申告する</string>
     <string name="info_confirm_report_msg">問題が何か問題があると思われる場合は、問題を報告して下さい。</string>
@@ -83,7 +92,7 @@
     <string name="label_summary_user_answer">あなたの答え</string>
     <string name="label_summary_right_answer">正しい答え</string>
     <string name="label_summary_outcome">結果</string>
-    <string name="label_summary_familiarity">親密度</string>
+    <string name="label_summary_familiarity">単語を理解し、使い始める</string>
     <string name="label_summary_reported">間違いを申告してあります!</string>
     <string name="button_leave_summary">戻る</string>
     <string name="label_finding_characters">検索中...</string>
