@@ -52,9 +52,9 @@ public class KanjiInfo
 		 * either +2 or -2 stroke count. Also slow
 		 */
 		FUZZY_2OUT
-	};
-	
-	private String kanji;
+	}
+
+    private String kanji;
 	private LinkedList<InputStroke> loadingStrokes;
 	private Stroke[] strokes;
 	private Direction[] strokeDirections, moveDirections;

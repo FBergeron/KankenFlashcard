@@ -62,7 +62,7 @@ public class KanjiDrawing extends View
          * number of strokes changes.
          * @param strokes All strokes currently in the drawing
          */
-        public void strokes(DrawnStroke[] strokes);
+        void strokes(DrawnStroke[] strokes);
     }
 
     /**
@@ -319,6 +319,7 @@ public class KanjiDrawing extends View
     {
         if(strokes.isEmpty())
         {
+            updateListener();
             return;
         }
         strokes.clear();

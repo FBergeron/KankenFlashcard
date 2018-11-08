@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kanken Flashcard</string>
-    <string name="welcome">Welcome to Kanken Quiz!</string>
+    <string name="app_name">Kanken/News Flashcard</string>
+    <string name="welcome">Enter quiz settings.</string>
     <string name="button_start_quiz">Play</string>
     <string name="button_show_directions">Help</string>
     <string name="button_show_terms_of_usage">Terms of Usage</string>
@@ -41,6 +41,8 @@
     <string name="error_empty_answer_msg">The answer field is blank. This will be interpreted as if you do not know the answer to the problem.</string>
     <string name="error_server_unreachable_title">The server is unreachable.</string>
     <string name="error_server_unreachable_msg">The application cannot contact the server.\n\nMake sure that your network connection is running properly.\n\nIf the problem persists, try later.\n\nSorry for the inconvenience.</string>
+    <string name="error_client_too_old_title">The client is obsolete.</string>
+    <string name="error_client_too_old_msg">The version of the application is too old.\n\nInstall the latest version to connect to the server.</string>
     <string name="label_problem_info_level">Lvl: %1$d</string>
     <string name="label_problem_info_topic">Topic: %1$s</string>
     <string name="label_problem_info_type">%1$s</string>
@@ -90,7 +92,6 @@
     <string name="button_play">Play</string>
     <string name="label_signing_in">Signing in...</string>
     <string name="label_signing_out">Signing out...</string>
-    <string name="label_authentication_title">Important!</string>
     <string name="label_authentication">Please authenticate yourself with your Google account before using the application.</string>
     <string name="label_fetching_quiz_data">Fetching quiz data...</string>
     <string name="label_sending_results_data">Sending results data...</string>

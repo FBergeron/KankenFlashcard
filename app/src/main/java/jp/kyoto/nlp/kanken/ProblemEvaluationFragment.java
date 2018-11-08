@@ -16,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -254,7 +257,7 @@ public class ProblemEvaluationFragment extends Fragment {
             // Append the string that is left to the slash.
             int indexOfSlash = parts[i].indexOf("/");
             if (indexOfSlash != -1) 
-                wordInKanjis.append(parts[i].substring(0, indexOfSlash));
+                wordInKanjis.append(parts[i], 0, indexOfSlash);
         }
 
         return wordInKanjis.toString();
@@ -312,11 +315,30 @@ public class ProblemEvaluationFragment extends Fragment {
                 writer.write(data);
                 writer.flush();
                 writer.close();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+                
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                String status = jsonResponse.getString("status");
+                Log.d(tag, "status=" + status);
+                if (!"ok".equals(status))
+                    exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
             }
             catch (IOException e) {
                 e.printStackTrace();
 
                 exception = e;
+            }
+            catch (JSONException e2) {
+                e2.printStackTrace();
+
+                exception = e2;
             }
 
             return null;

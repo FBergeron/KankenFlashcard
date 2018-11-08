@@ -48,7 +48,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QuizSettingsActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     public void signOut(android.view.View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
@@ -495,6 +495,8 @@ public class QuizSettingsActivity extends AppCompatActivity implements View.OnCl
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 String status = jsonResponse.getString("status");
                 Log.d(tag,  "status="+status );            
+                if (!"ok".equals(status))
+                    exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
             
                 return null;
             }

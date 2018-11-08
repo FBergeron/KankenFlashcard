@@ -1,5 +1,15 @@
 CHANGES
 
+0.6-beta
+--------
+- Validate client version with the server.
+- Show recognized kanjis in Writing Problems as a scrolling list.
+- Changed font for Writing Problems.
+- Added ActionBar with background image and button.
+- Added background music.
+- Updated strokes data files from 20100823 to 20160426.
+- Fixed various bugs and miscellaneous optimizations. 
+
 0.5-beta
 --------
 - Replaced Right and Wrong answer image.
