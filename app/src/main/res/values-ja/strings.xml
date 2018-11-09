@@ -71,15 +71,15 @@
     <string name="label_enter_problem_familiarity">「%1$s」という単語をあなたが理解し、
 使い始めたと思われる時期を教えてください。</string>
     <string name="label_familiarity_0">単語の意味を知らない/見聞きしたことがない</string>
-    <string name="label_familiarity_1">小学生になる前</string>
+    <string name="label_familiarity_1">小学生より前</string>
     <string name="label_familiarity_2">小学校低学年</string>
     <string name="label_familiarity_3">小学校高学年</string>
-    <string name="label_familiarity_4">中学生になった後</string>
+    <string name="label_familiarity_4">中学生以降</string>
     <string name="label_familiarity_long_0">単語の意味を知らない/見聞きしたことがない</string>
-    <string name="label_familiarity_long_1">小学生になる前</string>
+    <string name="label_familiarity_long_1">小学生より前</string>
     <string name="label_familiarity_long_2">小学校低学年</string>
     <string name="label_familiarity_long_3">小学校高学年</string>
-    <string name="label_familiarity_long_4">中学生になった後</string>
+    <string name="label_familiarity_long_4">中学生以降</string>
     <string name="button_next">次へ</string>
     <string name="info_confirm_report_title">間違いを申告する</string>
     <string name="info_confirm_report_msg">問題が何か問題があると思われる場合は、問題を報告して下さい。</string>

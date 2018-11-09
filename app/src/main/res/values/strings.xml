@@ -79,7 +79,7 @@
     <string name="label_familiarity_long_1">Before elementary school</string>
     <string name="label_familiarity_long_2">Elementary school (lower grades)</string>
     <string name="label_familiarity_long_3">Elementary school (higher grades)</string>
-    <string name="label_familiarity_long_4">Junior high school</string>
+    <string name="label_familiarity_long_4">Junior high school or later</string>
     <string name="button_next">Next</string>
     <string name="info_confirm_report_title">Reporting incorrect problem...</string>
     <string name="info_confirm_report_msg">If you believe that there is something wrong with the problem, whether the statement looks funny or the right answer seems incorrect or for any other reasons, you can report the problem as faulty.</string>
