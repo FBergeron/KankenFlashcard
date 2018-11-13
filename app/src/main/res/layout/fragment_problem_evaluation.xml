@@ -121,59 +121,57 @@
             android:id="@+id/layoutProblemFamiliarityButtons"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="2"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/buttonFamiliarity1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_1" />
+                    android:text="@string/label_familiarity_1"
+                    android:textSize="@dimen/button_familiarity_text_size" />
 
                 <Button
                     android:id="@+id/buttonFamiliarity2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_2" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                    android:text="@string/label_familiarity_2"
+                    android:textSize="@dimen/button_familiarity_text_size" />
 
                 <Button
                     android:id="@+id/buttonFamiliarity3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_3" />
+                    android:text="@string/label_familiarity_3"
+                    android:textSize="@dimen/button_familiarity_text_size" />
 
                 <Button
                     android:id="@+id/buttonFamiliarity4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_4" />
+                    android:text="@string/label_familiarity_4"
+                    android:textSize="@dimen/button_familiarity_text_size" />
+
             </LinearLayout>
 
             <Button
                 android:id="@+id/buttonFamiliarity0"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/label_familiarity_0" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/label_familiarity_0"
+                android:textSize="@dimen/button_familiarity_text_size" />
 
         </LinearLayout>
 
