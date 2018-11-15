@@ -186,8 +186,10 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
                     List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
                     appl.setSessionCookie(cookieHeaders.get(0));
 
-                    if ("client_too_old".equals(status))
-                        exception = new Exception(status);
+                    if ("client_too_old".equals(status)) {
+                        String minVersion = jsonResponse.getString("min_version");
+                        exception = new Exception(status + " minVersion=" + minVersion);
+                    }
                     else if (!"ok".equals(status))
                         exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
 
@@ -221,9 +223,10 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
             if (exception != null) {
                 String title;
                 String msg;
-                if ("client_too_old".equals(exception.getMessage())) {
+                if (exception.getMessage().startsWith("client_too_old")) {
+                    String minVersion = exception.getMessage().substring(exception.getMessage().indexOf("=") + 1);
                     title = getResources().getString(R.string.error_client_too_old_title);
-                    msg = getResources().getString(R.string.error_client_too_old_msg);
+                    msg = String.format(getResources().getString(R.string.error_client_too_old_msg), minVersion);
                 }
                 else {
                     title = getResources().getString(R.string.error_server_unreachable_title);
