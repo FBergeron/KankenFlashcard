@@ -49,3 +49,4 @@ obj/
 tags
 app/client_secret*.json
 app/src/main/assets/config.json
+app/keystore
