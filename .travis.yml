@@ -21,4 +21,5 @@ before_install:
     - yes | sdkmanager "platforms;android-27"
 
 script:
+    - cp keystore.properties.sample keystore.properties
     - ./gradlew clean build --info --stacktrace
