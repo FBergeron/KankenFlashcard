@@ -134,7 +134,7 @@
                 <Button
                     android:id="@+id/buttonFamiliarity1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/label_familiarity_1"
                     android:textSize="@dimen/button_familiarity_text_size" />
@@ -142,7 +142,7 @@
                 <Button
                     android:id="@+id/buttonFamiliarity2"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/label_familiarity_2"
                     android:textSize="@dimen/button_familiarity_text_size" />
@@ -150,7 +150,7 @@
                 <Button
                     android:id="@+id/buttonFamiliarity3"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/label_familiarity_3"
                     android:textSize="@dimen/button_familiarity_text_size" />
@@ -158,7 +158,7 @@
                 <Button
                     android:id="@+id/buttonFamiliarity4"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/label_familiarity_4"
                     android:textSize="@dimen/button_familiarity_text_size" />
