@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Kanken/News Flashcard</string>
     <string name="welcome">Enter quiz settings.</string>
     <string name="button_start_quiz">Play</string>
@@ -21,6 +21,8 @@
     <string name="label_topic_science_education">Science - Education</string>
     <string name="label_topic_home_living">Home - Living</string>
     <string name="label_topic_other">Other</string>
+    <string name="label_topic_all">All</string>
+    <string name="label_topic_all_unselect">一括解除</string>
     <string name="label_topic_business_short">Business</string>
     <string name="label_topic_politics_short">Politics</string>
     <string name="label_topic_sports_short">Sports</string>
@@ -29,6 +31,8 @@
     <string name="label_topic_science_education_short">Sci./Edu.</string>
     <string name="label_topic_home_living_short">Home/Liv.</string>
     <string name="label_topic_other_short">Other</string>
+    <string name="label_topic_all_short">All</string>
+    <string name="label_topic_all_unselect_short">一括解除</string>
     <string name="button_select">Select</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
@@ -42,11 +46,11 @@
     <string name="error_server_unreachable_title">The server is unreachable.</string>
     <string name="error_server_unreachable_msg">The application cannot contact the server.\n\nMake sure that your network connection is running properly.\n\nIf the problem persists, try later.\n\nSorry for the inconvenience.</string>
     <string name="error_client_too_old_title">The client is obsolete.</string>
-    <string name="error_client_too_old_msg">The version of the application is too old.\n\nInstall version %1$s or later to connect to the server.</string>
+    <string name="error_client_too_old_msg">The version of the application is too old.\n\nPlease install latest version to connect to the server.</string>
     <string name="label_problem_info_level">Lvl: %1$d</string>
     <string name="label_problem_info_topic">Topic: %1$s</string>
     <string name="label_problem_info_type">%1$s</string>
-    <string name="label_problem_number">Problem %1$d/%2$d</string>
+    <string name="label_problem_number">%1$d/%2$d</string>
     <string name="label_answer">Your answer</string>
     <string name="button_validate_answer">⏎</string>
     <string name="button_delete_kanji">⌫</string>
@@ -106,7 +110,14 @@
     <string name="warning_cancel_quiz_title">Terminate the quiz?</string>
     <string name="warning_cancel_quiz_msg">Do you want to terminate the current quiz and go back to the main settings page?</string>
     <string name="button_terminate">Terminate</string>
-    <string name="search_engine_url">https://www.google.com/search?q=%1$s</string>
-    <string name="link_directions">http://www.radio-canada.ca</string>
-    <string name="link_terms_of_usage">http://www.bbc.co.uk</string>
+    <string name="search_engine_url" translatable="false">https://www.google.com/search?q=%1$s</string>
+    <string name="link_directions" translatable="false">http://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/howto.html</string>
+    <string name="link_terms_of_usage" translatable="false">http://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/terms.html</string>
+    <string name="link_kanken" translatable="false">https://www.kanken.or.jp/</string>
+    <string name="link_kyoto_university" translatable="false">http://www.kyoto-u.ac.jp/</string>
+    <string name="link_yomiuri" translatable="false">https://www.yomiuri.co.jp/</string>
+    <string name="btn_next_items">別の候補を表示▼</string>
+    <string name="nothing_familiarity" translatable="false">---</string>
+    <string name="loading" translatable="false">Now Loading...</string>
+
 </resources>

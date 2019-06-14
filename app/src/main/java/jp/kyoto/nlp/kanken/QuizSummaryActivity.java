@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class QuizSummaryActivity extends ActionActivity {
 
@@ -26,11 +29,10 @@ public class QuizSummaryActivity extends ActionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_summary);
 
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-
-        String tableWidth = dpWidth >= 600 ? "95%" : "600px";
+        ListView listView = findViewById(R.id.listView);
+        SummaryListViewAdapter listViewAdapter = new SummaryListViewAdapter(this, getLayoutInflater());
+        listView.setAdapter(listViewAdapter);
+        List<SummaryItem> summaryItems = new ArrayList<>();
 
         int topicCount = Problem.Topic.values().length;
         String[] labelTopics = new String[topicCount];
@@ -57,30 +59,6 @@ public class QuizSummaryActivity extends ActionActivity {
             }
         }
 
-        TextView textViewSummaryTypeAndLevel = findViewById(R.id.textViewSummaryTypeAndLevel);
-        textViewSummaryTypeAndLevel.setText(strType + "; " + strLevel + "; " + strTopics);
-        
-        StringBuilder summary = new StringBuilder();
-        summary.append("<html>\n");
-        summary.append("<head>\n");
-        summary.append("<head>\n");
-        summary.append("<style type\"text/css\">\n");
-        summary.append(".stmt { text-align: left; }\n");
-        summary.append(".link { text-align: center; }\n");
-        summary.append(".rotate { text-align: center; white-space: nowrap; vertical-align: middle; width: 1.5em; }\n");
-        summary.append(".rotate div { -webkit-transform: rotate(-90.0deg); margin-left: -10em; margin-right: -10em; }\n");
-        summary.append("body { font-size: 24px; }\n");
-        summary.append("em { color: red; font-weight: bold; font-style: normal; }\n");
-        summary.append("table { width: " + tableWidth + "; border: 1px solid; margin: 6px 6px 12px 6px; border-collapse: collapse; }\n");
-        summary.append("table th.problem { border: 1px solid #333333; background-color: #6666ff; color: #ffffff; padding: 6px; }\n");
-        summary.append("table th.topic { border: 1px solid #333333; background-color: #9999ff; color: #ffffff; padding: 6px; font-size: smaller;}\n");
-        summary.append("table td { background-color: #ffffff; color: #000000; padding: 6px; text-align: center; border-bottom: 1px solid; }\n");
-        summary.append("table td.label { border: 1px solid #333333; background-color: #ccccff; color: #000000; padding: 6px; text-align: left; }\n");
-        summary.append("table td.reported { border: 1px solid #333333; background-color: #f8c461; color: #ff0000; padding: 6px; text-align: center;}\n");
-        summary.append("</style>\n");
-        summary.append("</head>\n");
-        summary.append("<body>\n");
-
         Quiz quiz = appl.getQuiz();
         int length = quiz.getLength();
         Iterator<Problem> itProblem = quiz.getProblems();
@@ -106,57 +84,40 @@ public class QuizSummaryActivity extends ActionActivity {
                 }
             }
 
-            int strFamiliarityId = getResources().getIdentifier("label_familiarity_long_" + familiarity, "string", QuizSummaryActivity.this.getPackageName());
+            int strFamiliarityId = 0;
+            if (isReportedAsIncorrect) {
+                strFamiliarityId = R.string.nothing_familiarity;
+            } else {
+                strFamiliarityId = getResources().getIdentifier("label_familiarity_long_" + familiarity, "string", QuizSummaryActivity.this.getPackageName());
+            }
             String strFamiliarity = getResources().getString(strFamiliarityId);
 
-            summary.append("<table class=\"problem\">\n");
-            String problemLabel = String.format(getResources().getString(R.string.label_summary_problem), (i+1));
+
+            String problemLabel = String.format(getResources().getString(R.string.label_problem_number), (i+1), length);
             String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : problem.getAltArticleUrl());
-            String buttonImg = (problem.isArticleLinkAlive() ? "view-article" : "search");
-            String statementLabel = getResources().getString(R.string.label_summary_statement);
-            summary.append("<tr>");
-            summary.append("<th width=\"8%\" class=\"rotate problem\" rowspan=\"3\"><div>" + problemLabel + "</div></th>");
-            summary.append("<th width=\"8%\" class=\"rotate topic\" rowspan=\"3\"><div>" + strTopic + "</div></th>");
-            summary.append("<td width=\"12%\" class=\"label\">" + statementLabel + "</td>");
-            summary.append("<td width=\"60%\" colspan=\"4\" class=\"stmt\">" + problem.getStatement().replace("[", "<em>").replace("]", "</em>") + "</td>\n");
-            summary.append("<td width=\"12%\" align=\"center\" class=\"link\"><a target=\"_blank\" href=\"" + link + "\"><img width=\"32\" height=\"32\" src=\"" + buttonImg + ".svg\"/></a></td>\n");
-            summary.append("</tr>\n");
-            summary.append("<tr>\n");
-            String userAnswerLabel = getResources().getString(R.string.label_summary_user_answer);
-            summary.append("<td class=\"label\" width=\"12%\">" + userAnswerLabel + "</td>\n");
-            summary.append("<td width=\"21%\">" + answer + "</td>\n");
-            String rightAnswerLabel = getResources().getString(R.string.label_summary_right_answer);
-            summary.append("<td class=\"label\" width=\"12%\">" + rightAnswerLabel + "</td>\n");
-            summary.append("<td width=\"21%\">" + problem.getRightAnswer() + "</td>\n");
-            String outcomeLabel = getResources().getString(R.string.label_summary_outcome);
-            summary.append("<td class=\"label\" width=\"8%\">" + outcomeLabel + "</td>\n");
-            summary.append("<td width=\"10%\" align=\"center\"><img width=\"32\" height\"32\" src=\"" + (isRightAnswer ? "right" : "wrong") + ".svg\"/></td>\n");
-            summary.append("</tr><tr>");
-            if (isReportedAsIncorrect) {
-                String reportedLabel = getResources().getString(R.string.label_summary_reported);
-                summary.append("<td colspan=\"6\" class=\"reported\" width=\"84%\">" + reportedLabel + "</td>\n");
-            }
-            else {
-                String familiarityLabel = getResources().getString(R.string.label_summary_familiarity);
-                summary.append("<td colspan=\"2\" class=\"label\" width=\"33%\">" + familiarityLabel + "</td>\n");
-                summary.append("<td colspan=\"4\" class=\"stmt\" width=\"51%\">" + strFamiliarity + "</td>\n");
-            }
-            summary.append("</tr>\n");
-            summary.append("</table>\n");
+            String statement =  problem.getStatement();
+            String rightAnswer = problem.getRightAnswer();
+
+            SummaryItem summaryItem = new SummaryItem(
+                    answer,
+                    rightAnswer,
+                    isRightAnswer,
+                    strFamiliarity,
+                    link,
+                    strTopic,
+                    strLevel,
+                    problemLabel,
+                    statement
+            );
+            summaryItems.add(summaryItem);
         }
 
-        summary.append("</body>\n");
-        summary.append("</html>\n");
+        listViewAdapter.setItems(summaryItems);
 
-        // Log.d(tag, "html="+summary.toString());
-
-        WebView webViewSummary = findViewById(R.id.webViewSummary);
-        webViewSummary.loadDataWithBaseURL("file:///android_asset/", summary.toString(), "text/html; charset=utf-8", "utf-8", null);
     }
 
     private void doLeaveSummary() {
-        Intent quizSettingsActivity = new Intent(QuizSummaryActivity.this, QuizSettingsActivity.class);
-        startActivity(quizSettingsActivity);
+        finish();
     }
 
     private KankenApplication appl = KankenApplication.getInstance();

@@ -1,55 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/bg_main"
     tools:context=".QuizSummaryActivity">
 
-    <TextView
-        android:id="@+id/textViewSummaryTitle"
+    <jp.kyoto.nlp.kanken.CustomToolBar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"
+        app:title_image="@drawable/text_header01">
+
+    </jp.kyoto.nlp.kanken.CustomToolBar>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bg_hasen"/>
+
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/label_summary_title"
-        android:textSize="24sp" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLeaveSummary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:listitem="@layout/view_summary_item" />
 
-    <TextView
-        android:id="@+id/textViewSummaryTypeAndLevel"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center" />
+    <ImageButton
+        android:id="@+id/buttonLeaveSummary"
+        android:layout_width="@dimen/btn_main_width"
+        android:layout_height="@dimen/btn_main_height"
+        android:layout_marginBottom="8dp"
+        android:onClick="leaveSummary"
+        app:srcCompat="@drawable/text_btn02"
+        android:background="@drawable/btn_kadomaru"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <WebView
-        android:id="@+id/webViewSummary"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="6dp"
-        android:layout_weight="8">
-
-    </WebView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/buttonLeaveSummary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:onClick="leaveSummary"
-            android:text="@string/button_leave_summary" />
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

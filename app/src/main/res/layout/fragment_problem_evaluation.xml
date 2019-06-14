@@ -1,121 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ProblemEvaluationActivity">
+    tools:context=".ProblemEvaluationFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/imageButtonViewProblemArticle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:onClick="showArticle"
+        android:src="@drawable/btn_read_news"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="2.2"
-        android:orientation="horizontal">
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="h,174:31"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageButtonViewProblemArticle"
+        app:srcCompat="@drawable/nine_patch_text_window00" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/imageView15"
+        app:layout_constraintEnd_toEndOf="@id/imageView15"
+        app:layout_constraintStart_toStartOf="@id/imageView15"
+        app:layout_constraintTop_toTopOf="@id/imageView15"
+        app:srcCompat="@drawable/text_result00" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5" />
+    <jp.kyoto.nlp.kanken.SpecifyFontTextView
+        android:id="@+id/textViewAnswer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="あなたの答え"
+        android:textSize="@dimen/evaluation_outcome_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/imageView15"
+        app:layout_constraintEnd_toEndOf="@id/imageView15"
+        app:layout_constraintStart_toStartOf="@id/imageView15"
+        app:layout_constraintTop_toTopOf="@id/imageView15" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/imageViewResult"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutErroneousProblem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnswer"
+        app:srcCompat="@drawable/text_result02" />
 
-                <ImageView
-                    android:id="@+id/imageViewWrong"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_wrong" />
-
-                <ImageView
-                    android:id="@+id/imageViewRight"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_right" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textViewEvaluationResult"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="top|center"
-                android:textSize="@dimen/evaluation_outcome_text_size" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textViewDetailedAnswer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="@dimen/evaluation_outcome_text_size" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/layoutErroneousProblem"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/textViewProblemFamiliarity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
 
-        <Space
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="fitXY"
+            app:layout_constraintDimensionRatio="h,178:49"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/nine_patch_flame_white" />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/text_result03" />
 
-        <Button
+        <jp.kyoto.nlp.kanken.SpecifyFontTextView
+            android:id="@+id/textViewDetailedAnswer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textSize="@dimen/evaluation_outcome_text_size"
+            android:text="答え"
+            app:layout_constraintBottom_toBottomOf="@id/imageView16"
+            app:layout_constraintEnd_toEndOf="@id/imageView16"
+            app:layout_constraintStart_toStartOf="@id/imageView16"
+            app:layout_constraintTop_toTopOf="@id/imageView16" />
+
+
+        <ImageButton
             android:id="@+id/buttonReportErroneousProblem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="@string/button_report_error" />
-    </LinearLayout>
+            android:background="@null"
+            android:src="@drawable/btn_report_error"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textViewProblemFamiliarity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:textSize="@dimen/evaluation_problem_familiarity_text_size"
+        android:text="「返し」という単語をあなたが理解し、使い始めたと思われる時期を教えてください。"
+        app:layout_constraintBottom_toTopOf="@+id/layoutProblemFamiliarity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/layoutProblemFamiliarity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textViewProblemFamiliarity"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:textSize="@dimen/evaluation_problem_familiarity_text_size" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/layoutProblemFamiliarityButtons"
@@ -131,50 +152,50 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/buttonFamiliarity1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_1"
-                    android:textSize="@dimen/button_familiarity_text_size" />
+                    android:background="@drawable/btn_kadomaru"
+                    android:src="@drawable/text_btn05" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/buttonFamiliarity2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_2"
-                    android:textSize="@dimen/button_familiarity_text_size" />
+                    android:background="@drawable/btn_kadomaru"
+                    android:src="@drawable/text_btn07" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/buttonFamiliarity3"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_3"
-                    android:textSize="@dimen/button_familiarity_text_size" />
+                    android:background="@drawable/btn_kadomaru"
+                    android:src="@drawable/text_btn08" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/buttonFamiliarity4"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/label_familiarity_4"
-                    android:textSize="@dimen/button_familiarity_text_size" />
+                    android:background="@drawable/btn_kadomaru"
+                    android:src="@drawable/text_btn09" />
 
             </LinearLayout>
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonFamiliarity0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_kadomaru"
                 android:gravity="center"
-                android:text="@string/label_familiarity_0"
-                android:textSize="@dimen/button_familiarity_text_size" />
+                android:src="@drawable/text_btn06" />
 
         </LinearLayout>
 
     </LinearLayout>
+</android.support.constraint.ConstraintLayout>
 
-</LinearLayout>

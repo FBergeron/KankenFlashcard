@@ -1,6 +1,7 @@
 package jp.kyoto.nlp.kanken;
 
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -30,48 +31,27 @@ public abstract class QuizProblemActivity extends ActionActivity {
             }
         }
 
-        TextView textViewProblemInfoType = findViewById(R.id.textViewProblemInfoType);
-        String strResName = "label_quiz_type_" + currProb.getType().getLabelId();
-        int labelId = getResources().getIdentifier(strResName, "string", QuizProblemActivity.this.getPackageName());
-        String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
-        textViewProblemInfoType.setText(strType);
-
         TextView textViewProblemNumber = findViewById(R.id.textViewProblemNumber);
         String strProblemNumber = String.format(getResources().getString(R.string.label_problem_number), currProbIndex + 1, Quiz.DEFAULT_LENGTH);
         textViewProblemNumber.setText(strProblemNumber);
 
-        StringBuilder stmt = new StringBuilder();
-        stmt.append("<html>");
-        stmt.append("<head>");
-        stmt.append("<style type\"text/css\">");
-        stmt.append("body { font-size: x-large;}");
-        stmt.append("em { color: red; font-weight: bold; font-style: normal;}");
-        stmt.append("</style>");
-        stmt.append("</head>");
-        stmt.append("<body>" + currProb.getStatement().replace("[", "<em>").replace("]", "</em>")  + "</body>");
-        stmt.append("</html>");
+        TextView statement = findViewById(R.id.statement);
+        statement.setText(Html.fromHtml(currProb.getStatement().replace("[", "<u><font color=\"red\">").replace("]", "</font></u>")));
 
-        WebView webViewProblemStatement = findViewById(R.id.webViewProblemStatement);
-        webViewProblemStatement.loadData(stmt.toString(), "text/html; charset=utf-8", "utf-8");
     }
 
     protected void askProblem() {
-        findViewById(R.id.imageButtonViewProblemArticle).setVisibility(GONE);
-        findViewById(R.id.imageButtonSearchProblemArticle).setVisibility(GONE);
     }
 
     protected void showProblemEvaluation() {
         Problem currProb = appl.getQuiz().getCurrentProblem();
 
         ImageButton imageButtonViewArticle = findViewById(R.id.imageButtonViewProblemArticle);
-        ImageButton imageButtonSearchProblemArticle = findViewById(R.id.imageButtonSearchProblemArticle);
-        if (currProb.isArticleLinkAlive()) { 
+        if (currProb.isArticleLinkAlive()) {
             imageButtonViewArticle.setVisibility(VISIBLE);
-            imageButtonSearchProblemArticle.setVisibility(GONE);
         }
         else {
             imageButtonViewArticle.setVisibility(GONE);
-            imageButtonSearchProblemArticle.setVisibility(VISIBLE);
         }
 
         ProblemEvaluationFragment problemEvaluationFragment = (ProblemEvaluationFragment)getFragmentManager().findFragmentById(R.id.fragmentProblemEvaluation);

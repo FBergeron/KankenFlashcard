@@ -13,7 +13,8 @@ abstract class Problem {
         SCIENCE_EDUCATION("science_education"),
         HOME_LIVING("home_living"),
         SPORTS("sports"),
-        OTHER("other");
+        OTHER("other"),
+        ALL("all");
 
         Topic(String labelId) {
             this.labelId = labelId;
@@ -36,7 +37,8 @@ abstract class Problem {
             topicsByJapStr.put("政治", Problem.Topic.POLITICS);
             topicsByJapStr.put("科学・教育", Problem.Topic.SCIENCE_EDUCATION);
             topicsByJapStr.put("スポーツ", Problem.Topic.SPORTS);
-            topicsByJapStr.put("無し", Problem.Topic.OTHER);
+            topicsByJapStr.put("その他", Problem.Topic.OTHER);
+            topicsByJapStr.put("一括選択",Problem.Topic.ALL);
         }
         return topicsByJapStr.get(str);
     }

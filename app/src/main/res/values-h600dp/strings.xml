@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="label_familiarity_0">I do not know the meaning of the word</string>
-    <string name="label_familiarity_1">Before elementary school</string>
-    <string name="label_familiarity_2">Elementary school (lower grades)</string>
-    <string name="label_familiarity_3">Elementary school (higher grades)</string>
-    <string name="label_familiarity_4">Junior high school</string>
-</resources>
-
