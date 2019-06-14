@@ -1,9 +1,10 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -297,17 +298,16 @@ class Util {
         return chars;
     }
 
-    public static void goBackToSettings(final Context context) {
+    public static void goBackToSettings(final Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(R.string.warning_cancel_quiz_title))
         .setMessage(context.getResources().getString(R.string.warning_cancel_quiz_msg))
-        .setPositiveButton(R.string.button_terminate, new DialogInterface.OnClickListener() {
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Intent quizSettingsActivity = new Intent(context, QuizSettingsActivity.class);
-                context.startActivity(quizSettingsActivity);
+                context.finish();
             }
          })
-        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) { 
             }
          })
@@ -317,6 +317,25 @@ class Util {
     }
 
     public static final String PREFS_GENERAL = "KankenAppPrefsGeneral";
+
+    private static final String PREF_KEY_AGREEMENT = "agreement";
+
+    private static SharedPreferences getPreferences(Context context) {
+        return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+    }
+
+    public static boolean needAgreement(Context context) {
+        SharedPreferences preferences = getPreferences(context);
+        return !preferences.getBoolean(PREF_KEY_AGREEMENT, false);
+    }
+
+    public static void setAgreement(Context context) {
+        SharedPreferences preferences = getPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(PREF_KEY_AGREEMENT, true);
+        editor.apply();
+        editor.commit();
+    }
 
 }
 

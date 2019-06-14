@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_kana_text_size">48sp</dimen>
+    <dimen name="kanji_btn_large">180dp</dimen>
+    <dimen name="kanji_btn_medium">90dp</dimen>
+    <dimen name="kanji_btn_small">67dp</dimen>
+    <dimen name="kanji_btn_next_width">249dp</dimen>
+    <dimen name="kanji_btn_next_height">60dp</dimen>
+</resources>

@@ -16,7 +16,7 @@ public abstract class ActionActivity extends BaseActionActivity {
 
     protected void onStart() {
         super.onStart();
-        appl.playBackgroundMusic();
+//        appl.playBackgroundMusic();
     }
 
     protected void initActionBar() {

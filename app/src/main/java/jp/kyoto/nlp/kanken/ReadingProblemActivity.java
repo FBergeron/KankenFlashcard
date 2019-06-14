@@ -18,7 +18,7 @@ import static android.view.View.VISIBLE;
 
 public class ReadingProblemActivity extends QuizProblemActivity {
 
-    private final static int MAX_ANSWER_LENGTH = 16;
+    private final static int MAX_ANSWER_LENGTH = 10;
 
     public void showArticle(android.view.View view) {
         String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
@@ -97,7 +97,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(ReadingProblemActivity.this);
             builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
             .setMessage(getResources().getString(R.string.error_empty_answer_msg))
-            .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.button_next, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) { 
                     appl.getQuiz().validateAnswer(answer);
                     appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
@@ -137,8 +137,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
 
         Problem currProb = appl.getQuiz().getCurrentProblem();
 
-        findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(VISIBLE);
-        findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(VISIBLE);
+        findViewById(R.id.contentBody).setVisibility(VISIBLE);
         findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
         TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
@@ -181,8 +180,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
     protected void showProblemEvaluation() {
         super.showProblemEvaluation();
 
-        findViewById(R.id.tableLayoutReadingProblemAnswerButtons).setVisibility(GONE);
-        findViewById(R.id.layoutReadingProblemUserAnswer).setVisibility(GONE);
+        findViewById(R.id.contentBody).setVisibility(GONE);
         findViewById(R.id.fragmentProblemEvaluation).setVisibility(VISIBLE);
     }
 

@@ -216,7 +216,8 @@ public class KanjiDrawing extends View
         // Draw background colour
         //canvas.drawColor(Color.HSVToColor(new float[] {100f, 0.05f, 0.15f}));
         //canvas.drawColor(Color.WHITE);
-        canvas.drawColor(Color.HSVToColor(new float[] {56f, 0.11f, 0.98f}));
+//        canvas.drawColor(Color.HSVToColor(new float[] {56f, 0.11f, 0.98f}));
+        canvas.drawColor(Color.TRANSPARENT);
 
         Paint fg = new Paint();
         //fg.setColor(Color.WHITE);

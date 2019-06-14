@@ -21,4 +21,5 @@ before_install:
     - yes | sdkmanager "platforms;android-27"
 
 script:
-    - ./gradlew clean build --info --stacktrace
+    - mkdir ../keystore && cp keystore.properties.sample ../keystore/kanken.properties
+    - ./gradlew clean build --info --stacktrace --warning-mode all

@@ -4,14 +4,15 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,8 +34,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.app.AlertDialog.Builder;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 public class ProblemEvaluationFragment extends Fragment {
 
@@ -132,7 +131,7 @@ public class ProblemEvaluationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_problem_evaluation, container, false);
 
-        Button buttonSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
+        ImageButton buttonSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
         buttonSetProblemFamiliarity0.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -142,7 +141,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
+        ImageButton buttonSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
         buttonSetProblemFamiliarity1.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -152,7 +151,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
+        ImageButton buttonSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
         buttonSetProblemFamiliarity2.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -162,7 +161,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
+        ImageButton buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
         buttonSetProblemFamiliarity3.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -172,7 +171,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
+        ImageButton buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
         buttonSetProblemFamiliarity4.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -182,7 +181,7 @@ public class ProblemEvaluationFragment extends Fragment {
             }
         );
 
-        Button buttonReportErroneousProblem = view.findViewById(R.id.buttonReportErroneousProblem);
+        ImageButton buttonReportErroneousProblem = view.findViewById(R.id.buttonReportErroneousProblem);
         buttonReportErroneousProblem.setOnClickListener(
             new View.OnClickListener() {
                 @Override
@@ -193,6 +192,15 @@ public class ProblemEvaluationFragment extends Fragment {
         );
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        imageViewResult = view.findViewById(R.id.imageViewResult);
+        textViewAnswer = view.findViewById(R.id.textViewAnswer);
+        textViewDetailedAnswer = view.findViewById(R.id.textViewDetailedAnswer);
+        textViewProblemFamiliarity = view.findViewById(R.id.textViewProblemFamiliarity);
     }
 
     public void showProblemEvaluation() {
@@ -206,40 +214,17 @@ public class ProblemEvaluationFragment extends Fragment {
         if (problemMatcher.matches())
             problemWord = problemMatcher.group(1);
 
-        QuizProblemActivity parentActivity = (QuizProblemActivity)getActivity();
+        String answer = appl.getQuiz().getCurrentAnswer();
+        String rightAnswer = currProb.getRightAnswer();
+        textViewAnswer.setText(answer);
+        textViewDetailedAnswer.setText(rightAnswer);
 
-        ImageView imageViewRight = parentActivity.findViewById(R.id.imageViewRight);
-        ImageView imageViewWrong = parentActivity.findViewById(R.id.imageViewWrong);
-        TextView textViewEvaluationResult = parentActivity.findViewById(R.id.textViewEvaluationResult);
-        TextView textViewDetailedAnswer = parentActivity.findViewById(R.id.textViewDetailedAnswer);
-        int strNum = appl.getQuiz().getCurrentResultStringNumber();
-        if (appl.getQuiz().isCurrentAnswerRight()) {
-            imageViewRight.setVisibility(VISIBLE);
-            imageViewWrong.setVisibility(GONE);
-            String strResName = "label_right_answer_" + (strNum + 1);
-            int strId = getResources().getIdentifier(strResName, "string", parentActivity.getPackageName());
-            String strRightAnswer = getResources().getString(strId);
-            textViewEvaluationResult.setText(strRightAnswer);
-            textViewEvaluationResult.setTextColor(Color.GREEN);
-            String strDetailedAnswer = String.format(getResources().getString(R.string.label_detailed_answer_right), problemWord, currProb.getRightAnswer());
-            textViewDetailedAnswer.setText(strDetailedAnswer);
-        }
-        else {
-            imageViewRight.setVisibility(GONE);
-            imageViewWrong.setVisibility(VISIBLE);
-            String strResName = "label_wrong_answer_" + (strNum + 1);
-            int strId = getResources().getIdentifier(strResName, "string", parentActivity.getPackageName());
-            String strWrongAnswer = getResources().getString(strId);
-            textViewEvaluationResult.setText(strWrongAnswer);
-            textViewEvaluationResult.setTextColor(Color.RED);
-            String strDetailedAnswer = String.format(getResources().getString(R.string.label_detailed_answer_wrong), problemWord, appl.getQuiz().getCurrentAnswer(), currProb.getRightAnswer());
-            textViewDetailedAnswer.setText(strDetailedAnswer);
-        }
+        int resultResId = appl.getQuiz().isCurrentAnswerRight() ? R.drawable.text_result02 : R.drawable.text_result01;
 
+        imageViewResult.setImageResource(resultResId);
 
         String wordInKanjis = getWordInKanjis(currProb.getJumanInfo());
         String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
-        TextView textViewProblemFamiliarity = parentActivity.findViewById(R.id.textViewProblemFamiliarity);
         textViewProblemFamiliarity.setText(text);
     }
 
@@ -261,6 +246,15 @@ public class ProblemEvaluationFragment extends Fragment {
         }
 
         return wordInKanjis.toString();
+    }
+
+    public void showArticle(android.view.View view) {
+        String articleUrl = appl.getQuiz().getCurrentProblem().getArticleUrl();
+        if (articleUrl != null) {
+            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+            httpIntent.setData(Uri.parse(articleUrl));
+            startActivity(httpIntent);
+        }
     }
 
     private class SendResultsTask extends AsyncTask {
@@ -369,6 +363,7 @@ public class ProblemEvaluationFragment extends Fragment {
 
             Intent quizSummaryActivity = new Intent(getActivity(), QuizSummaryActivity.class);
             startActivity(quizSummaryActivity);
+            getActivity().finish();
         }
 
         private Exception exception;
@@ -382,6 +377,11 @@ public class ProblemEvaluationFragment extends Fragment {
     private static final String storeResultsReqPath = "/cgi-bin/store_results.cgi";
 
     private static final String tag = "ProblemEvalFragment";
+
+    private ImageView imageViewResult;
+    private TextView textViewAnswer;
+    private TextView textViewDetailedAnswer;
+    private TextView textViewProblemFamiliarity;
 
 }
 

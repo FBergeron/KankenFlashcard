@@ -10,18 +10,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Space;
 import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -49,34 +51,50 @@ import java.util.List;
 import java.util.Set;
 
 public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+    public class CustomAdapter extends ArrayAdapter<String> {
+        private LayoutInflater inflater;
+
+        public CustomAdapter(Context context, int resource, List<String> objects) {
+            super(context, resource, objects);
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View v, ViewGroup parent) {
+            String item = getItem(position);
+            if (null == v) v = inflater.inflate(R.layout.custom_listview, null);
+
+            CheckBox ch = v.findViewById(R.id.checkBox);
+            ch.setText(item);
+            ch.setChecked(checkedTopics[position]);
+            return v;
+        }
+    }
 
     public void signOut(android.view.View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-            new ResultCallback<Status>() {
-                @Override
-                public void onResult(@NonNull Status status) {
-                    URL signOutUrl;
-                    try {
-                        signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        URL signOutUrl;
+                        try {
+                            signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
 
-                        progressDialog = new ProgressDialog(QuizSettingsActivity.this);
-                        progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();
+                            progressDialog = new ProgressDialog(QuizSettingsActivity.this);
+                            progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
 
-                        new SignOutTask().execute(signOutUrl);
-                    }
-                    catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-                    catch(IOException e2) {
-                        e2.printStackTrace();
-                    }
-                    catch(JSONException e3) {
-                        e3.printStackTrace();
+                            new SignOutTask().execute(signOutUrl);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (IOException e2) {
+                            e2.printStackTrace();
+                        } catch (JSONException e3) {
+                            e3.printStackTrace();
+                        }
                     }
                 }
-            }
         );
     }
 
@@ -84,13 +102,48 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         for (int i = 0; i < checkedTopics.length; i++)
             checkedTopics[i] = selectedTopics.contains(i);
 
-        AlertDialog.Builder builderTopicChooser = new AlertDialog.Builder(QuizSettingsActivity.this);
-        builderTopicChooser.setTitle(getResources().getString(R.string.label_topic_chooser_title));
-        builderTopicChooser.setMultiChoiceItems(labelTopics, checkedTopics, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int topicIndex, boolean isChecked) {
+
+        CustomAdapter adapter = new CustomAdapter(getApplicationContext(), 0, Arrays.asList(labelTopics));
+        ListView listView = new ListView(this);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int lastNum = checkedTopics.length - 1;
+                boolean last = checkedTopics[lastNum];
+                if (position != lastNum) {
+                    checkedTopics[lastNum] = false;
+                    checkedTopics[position] = !checkedTopics[position];
+                    boolean isAllChecked = true;
+                    for (int i = 0; i < checkedTopics.length - 1; i++) {
+                        if (!checkedTopics[i]) {
+                            isAllChecked = false;
+                            break;
+                        }
+                    }
+                    checkedTopics[lastNum] = isAllChecked;
+                    labelTopics[lastNum] = isAllChecked ? getString(R.string.label_topic_all_unselect) : getString(R.string.label_topic_all);
+                } else {
+                    boolean temp = !last;
+                    for (int i = 0; i < checkedTopics.length; i++) {
+                        checkedTopics[i] = temp;
+                    }
+                    labelTopics[position] = checkedTopics[position] ? getString(R.string.label_topic_all_unselect) : getString(R.string.label_topic_all);
+                    adapter.notifyDataSetChanged();
+                }
+                CustomAdapter tmp = (CustomAdapter) listView.getAdapter();
+                tmp.notifyDataSetChanged();
             }
         });
+        AlertDialog.Builder builderTopicChooser = new AlertDialog.Builder(QuizSettingsActivity.this);
+        builderTopicChooser.setTitle(getResources().getString(R.string.label_topic_chooser_title));
+        builderTopicChooser.setView(listView);
+        // builderTopicChooser.setMultiChoiceItems(labelTopics, checkedTopics, new DialogInterface.OnMultiChoiceClickListener() {
+        //     @Override
+        //     public void onClick(DialogInterface dialog, int topicIndex, boolean isChecked) {
+        //         checkedTopics[topicIndex] = false;
+        //         checkedTopics[topicIndex+1] = isChecked;
+        //     }
+        // });
         builderTopicChooser.setCancelable(false);
         builderTopicChooser.setPositiveButton(getResources().getString(R.string.button_select), new DialogInterface.OnClickListener() {
             @Override
@@ -112,6 +165,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         });
         AlertDialog dialogTopicChooser = builderTopicChooser.create();
         dialogTopicChooser.show();
+
     }
 
     public void showTermsOfUsage(android.view.View view) {
@@ -132,19 +186,19 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         Set<Problem.Topic> quizTopics = new HashSet<Problem.Topic>();
         for (Integer selectedTopic : selectedTopics)
             quizTopics.add(Problem.Topic.values()[selectedTopic]);
-        
+
         if (quizTopics.isEmpty()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
             builder.setTitle(getResources().getString(R.string.error_no_topics_selected_title))
-            .setMessage(getResources().getString(R.string.error_no_topics_selected_msg))
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) { 
-                }
-             })
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .setCancelable(true)
-            .show();
-            return;    
+                    .setMessage(getResources().getString(R.string.error_no_topics_selected_msg))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setCancelable(true)
+                    .show();
+            return;
         }
 
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
@@ -152,7 +206,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
         int level = seekbarQuizLevel.getProgress() + 1;
-        editor.putInt("QuizLevel", level); 
+        editor.putInt("QuizLevel", level);
 
         StringBuilder strPrefTopics = new StringBuilder();
         String delimiter = "";
@@ -165,12 +219,12 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
         int selectedRadioButtonId = radioGroupQuizType.getCheckedRadioButtonId();
-        Problem.Type type = (selectedRadioButtonId == R.id.radioButtonQuizTypeReading ? 
-            Problem.Type.READING : Problem.Type.WRITING);
+        Problem.Type type = (selectedRadioButtonId == R.id.radioButtonQuizTypeReading ?
+                Problem.Type.READING : Problem.Type.WRITING);
         editor.putString("QuizType", type.getLabelId());
 
         editor.apply();
-        
+
         appl.startQuiz(type, quizTopics, level);
 
         fetchProblems(level, quizTopics, type);
@@ -182,13 +236,11 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         setContentView(R.layout.activity_quiz_settings);
 
         appl = KankenApplication.getInstance();
-        
-        TextView textViewUserName = findViewById(R.id.textViewUserName);
-        textViewUserName.setText(appl.getUserName());
-        TextView textViewUserEmail = findViewById(R.id.textViewUserEmail);
-        textViewUserEmail.setText(appl.getUserEmail());
-        ImageView imageViewUserPicture = findViewById(R.id.imageViewUserPicture);
-        Glide.with(this).load(appl.getUserPictureUrl()).into(imageViewUserPicture);
+
+        TextView userName = findViewById(R.id.userName);
+        userName.setText(appl.getUserName());
+
+        seekBarE = findViewById(R.id.seekBarE);
 
         int topicCount = Problem.Topic.values().length;
         labelTopics = new String[topicCount];
@@ -202,25 +254,28 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         int prefLevel = sharedPref.getInt("QuizLevel", 1);
         SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
+        seekbarQuizLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                setSeekBarImageWidth(progress, seekBar);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         seekbarQuizLevel.setProgress(prefLevel - 1);
+        setSeekBarImageWidth(prefLevel - 1, seekbarQuizLevel);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
 
-        // Try to adjust the width of the space objects.
-        // Not perfect but looks good enough.
-        Space spaceQuizLevel12 = findViewById(R.id.spaceQuizLevel12);
-        Space spaceQuizLevel23 = findViewById(R.id.spaceQuizLevel23);
-        Space spaceQuizLevel34 = findViewById(R.id.spaceQuizLevel34);
-        Space spaceQuizLevel45 = findViewById(R.id.spaceQuizLevel45);
-        ViewGroup.LayoutParams spaceParams = spaceQuizLevel12.getLayoutParams();
-        spaceParams.width = (width >= 1024 ? 200 : 30);
-        spaceQuizLevel12.setLayoutParams(spaceParams);
-        spaceQuizLevel23.setLayoutParams(spaceParams);
-        spaceQuizLevel34.setLayoutParams(spaceParams);
-        spaceQuizLevel45.setLayoutParams(spaceParams);
 
         checkedTopics = new boolean[labelTopics.length];
 
@@ -234,7 +289,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         String prefType = sharedPref.getString("QuizType", "reading");
         RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
-        if (Problem.Type.READING.getLabelId().equals(prefType)) 
+        if (Problem.Type.READING.getLabelId().equals(prefType))
             radioGroupQuizType.check(R.id.radioButtonQuizTypeReading);
         else
             radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
@@ -243,11 +298,24 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
     }
 
+    private void setSeekBarImageWidth(int progress, SeekBar seekBar) {
+        float x = (float) (progress) / (float) seekBar.getMax();
+        if (progress == 0) {
+            x = 0.01f;
+        } else if (progress == 3) {
+            x = 0.7f;
+        }
+        ViewGroup.LayoutParams params = seekBarE.getLayoutParams();
+        float seekBarMaxWidth = getResources().getDimension(R.dimen.seek_bar_width);
+        params.width = (int) (seekBarMaxWidth * x);
+        seekBarE.setLayoutParams(params);
+    }
+
     private void showSelectedTopics() {
         StringBuilder str = new StringBuilder();
         String delimiter = "";
         int topicCount = Problem.Topic.values().length;
-        for (int i = 0; i < topicCount; i++) {
+        for (int i = 0; i < topicCount - 1; i++) {
             if (selectedTopics.contains(i)) {
                 str.append(delimiter);
                 str.append(labelTopics[i]);
@@ -259,7 +327,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     }
 
     private void fetchProblems(int level, Set<Problem.Topic> topics, Problem.Type type) {
-        Log.d(tag, "fetchProblems level="+level+" topics="+topics+" type="+type);
+        Log.d(TAG, "fetchProblems level=" + level + " topics=" + topics + " type=" + type);
         URL getNextProblemsUrl;
         try {
             String delim = "";
@@ -272,10 +340,10 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                 delim = ",";
             }
 
-            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + getNextProblemsReqPath + 
-                "?type=" + URLEncoder.encode(type.toString().toLowerCase()) + 
-                "&level=" + URLEncoder.encode(level + "", "UTF-8") + 
-                "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
+            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + getNextProblemsReqPath +
+                    "?type=" + URLEncoder.encode(type.toString().toLowerCase()) +
+                    "&level=" + URLEncoder.encode(level + "", "UTF-8") +
+                    "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
 
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(getResources().getString(R.string.label_fetching_quiz_data));
@@ -283,17 +351,13 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
             progressDialog.show();
 
             new FetchProblemsTask().execute(getNextProblemsUrl);
-        }
-        catch(MalformedURLException e1) {
+        } catch (MalformedURLException e1) {
             e1.printStackTrace();
-        }
-        catch(UnsupportedEncodingException e2) {
+        } catch (UnsupportedEncodingException e2) {
             e2.printStackTrace();
-        }
-        catch(IOException e3) {
+        } catch (IOException e3) {
             e3.printStackTrace();
-        }
-        catch(JSONException e4) {
+        } catch (JSONException e4) {
             e4.printStackTrace();
         }
     }
@@ -311,7 +375,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         protected Object doInBackground(Object... objs) {
             JSONArray jsonProblems = null;
-            URL getNextProblemsUrl = (URL)objs[0];
+            URL getNextProblemsUrl = (URL) objs[0];
             try {
                 HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
                 con.setRequestProperty("Accept", "application/json");
@@ -328,16 +392,14 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                     response.append(inputLine);
                 }
                 in.close();
-            
+
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 jsonProblems = jsonResponse.getJSONArray("problems");
-            }
-            catch(IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
                 this.exception = e;
-            }
-            catch(JSONException e2) {
-                e2.printStackTrace(); 
+            } catch (JSONException e2) {
+                e2.printStackTrace();
                 this.exception = e2;
             }
 
@@ -352,40 +414,40 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
             if (exception != null || obj == null) {
                 if (exception != null)
-                    Log.e(tag, "An exception has occurred: " + exception);
+                    Log.e(TAG, "An exception has occurred: " + exception);
                 if (obj == null)
-                    Log.e(tag, "Cannot retrieve problems.");
+                    Log.e(TAG, "Cannot retrieve problems.");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
-                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setCancelable(true)
-                .show();
+                        .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(true)
+                        .show();
 
                 return;
             }
 
-            ArrayList<Problem> problems = new ArrayList<Problem>(); 
+            ArrayList<Problem> problems = new ArrayList<Problem>();
             Quiz quiz = appl.getQuiz();
 
-            JSONArray jsonProblems = (JSONArray)obj;
-            
+            JSONArray jsonProblems = (JSONArray) obj;
+
             if (jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_not_enough_problems_found_title))
-                .setMessage(getResources().getString(R.string.error_not_enough_problems_found_msg))
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setCancelable(true)
-                .show();
+                        .setMessage(getResources().getString(R.string.error_not_enough_problems_found_msg))
+                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(true)
+                        .show();
                 return;
             }
 
@@ -402,7 +464,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                     String rightAnswer = jsonProblem.getString(3);
                     String articleUrl = jsonProblem.getString(4);
                     Object objIsLinkAlive = jsonProblem.get(5);
-                    
+
                     boolean isLinkAlive = objIsLinkAlive != null && objIsLinkAlive instanceof Integer && (Integer) objIsLinkAlive == 1;
 
                     String altArticleUrl = null;
@@ -410,7 +472,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                         if (!isLinkAlive && objIsLinkAlive != null && objIsLinkAlive instanceof JSONArray) {
                             StringBuilder strParams = new StringBuilder();
                             String paramDelim = "";
-                            JSONArray searchTerms = (JSONArray)objIsLinkAlive;
+                            JSONArray searchTerms = (JSONArray) objIsLinkAlive;
                             for (int t = 0; t < searchTerms.length(); t++) {
                                 strParams.append(paramDelim);
                                 strParams.append(URLEncoder.encode(searchTerms.getString(t), "UTF-8"));
@@ -419,19 +481,18 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                             if (strParams.length() > 0)
                                 altArticleUrl = String.format(getResources().getString(R.string.search_engine_url), strParams);
                         }
-                    }
-                    catch (UnsupportedEncodingException ignore) {
+                    } catch (UnsupportedEncodingException ignore) {
                         ignore.printStackTrace();
                     }
 
-                    // Log.d(tag, "id="+id);
-                    // Log.d(tag, "jumanInfo="+jumanInfo);
-                    // Log.d(tag, "statement="+statement);
-                    // Log.d(tag, "rightAnswer="+rightAnswer);
-                    // Log.d(tag, "articleUrl="+articleUrl);
-                    // Log.d(tag, "objIsLinkAlive="+objIsLinkAlive);
-                    // Log.d(tag, "isLinkAlive="+isLinkAlive);
-                    // Log.d(tag, "altArticleUrl="+altArticleUrl);
+                    // Log.d(TAG, "id="+id);
+                    // Log.d(TAG, "jumanInfo="+jumanInfo);
+                    // Log.d(TAG, "statement="+statement);
+                    // Log.d(TAG, "rightAnswer="+rightAnswer);
+                    // Log.d(TAG, "articleUrl="+articleUrl);
+                    // Log.d(TAG, "objIsLinkAlive="+objIsLinkAlive);
+                    // Log.d(TAG, "isLinkAlive="+isLinkAlive);
+                    // Log.d(TAG, "altArticleUrl="+altArticleUrl);
 
                     Set<Problem.Topic> topics = new HashSet<Problem.Topic>();
                     for (int j = 0; j < jsonProblemTopics.length(); j++) {
@@ -445,14 +506,12 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                             problem = new ReadingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
                         else
                             problem = new WritingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
-                    }
-                    catch(NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
                     if (problem != null)
                         problems.add(problem);
-                }
-                catch(JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -475,13 +534,13 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     private class SignOutTask extends AsyncTask {
 
         protected Object doInBackground(Object... objs) {
-            URL signOutUrl = (URL)objs[0];
+            URL signOutUrl = (URL) objs[0];
             try {
                 HttpURLConnection con = (HttpURLConnection) signOutUrl.openConnection();
                 con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
                 con.setRequestProperty("Accept", "application/json");
                 con.setRequestMethod("POST");
-                    con.setFixedLengthStreamingMode(0);
+                con.setFixedLengthStreamingMode(0);
                 con.connect();
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -491,21 +550,19 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                     response.append(inputLine);
                 }
                 in.close();
-                
+
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 String status = jsonResponse.getString("status");
-                Log.d(tag,  "status="+status );            
+                Log.d(TAG, "status=" + status);
                 if (!"ok".equals(status))
                     exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
-            
+
                 return null;
-            }
-            catch(IOException e) {
-                e.printStackTrace(); 
+            } catch (IOException e) {
+                e.printStackTrace();
                 exception = e;
-            }
-            catch(JSONException e2) {
-                e2.printStackTrace(); 
+            } catch (JSONException e2) {
+                e2.printStackTrace();
                 exception = e2;
             }
 
@@ -519,18 +576,18 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
             }
 
             if (exception != null) {
-                Log.e(tag, "An exception has occurred: " + exception);
+                Log.e(TAG, "An exception has occurred: " + exception);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
                 builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
-                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setCancelable(true)
-                .show();
+                        .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(true)
+                        .show();
 
                 return;
             }
@@ -541,6 +598,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
             appl.setSessionCookie(null);
 
             Intent authenticationActivity = new Intent(QuizSettingsActivity.this, AuthenticationActivity.class);
+            authenticationActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(authenticationActivity);
         }
 
@@ -555,12 +613,14 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     private HashSet<Integer> selectedTopics = new HashSet<Integer>();
 
     private ProgressDialog progressDialog;
-    
+
     private GoogleApiClient googleApiClient;
+
+    private View seekBarE;
 
     private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
     private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
 
-    private static final String tag = "QuizSettingsActivity";
+    private static final String TAG = "QuizSettingsActivity";
 
 }

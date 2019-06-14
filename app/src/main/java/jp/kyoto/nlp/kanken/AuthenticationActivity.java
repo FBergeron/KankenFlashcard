@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.StringRes;
 import android.util.Log;
 import android.view.View;
 
@@ -37,21 +37,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AuthenticationActivity extends BaseActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class AuthenticationActivity extends BaseActionActivity implements GoogleApiClient.OnConnectionFailedListener {
+    private static final String TAG = "Authentication";
 
     public void play(android.view.View view) {
         Intent quizSettingsActivity = new Intent(AuthenticationActivity.this, QuizSettingsActivity.class);
         startActivity(quizSettingsActivity);
+        finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // ここで1秒間スリープし、スプラッシュを表示させたままにする。
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        // スプラッシュthemeを通常themeに変更する
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_authentication);
 
         SignInButton buttonSignIn = findViewById(R.id.buttonSignIn);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
+        Log.d(TAG, "onCreate: " + Util.googleClientId);
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
 
         buttonSignIn.setOnClickListener(
@@ -71,12 +81,15 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
     }
 
     private void handleResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleResult: " + result.getStatus().getStatusMessage());
+        Log.d(TAG, "handleResult: " + result.getStatus().toString());
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
             assert account != null;
             String name = account.getDisplayName();
             String email = account.getEmail();
             String idToken = account.getIdToken();
+            Log.d(TAG, "handleResult: " + String.format("%s,%s,%s", name, email, idToken));
 
             Uri pictureUrl = account.getPhotoUrl();
            
@@ -125,10 +138,6 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
-    @Override
-    public void onClick(View v) {
-    }
-
     private class SignInTask extends AsyncTask {
 
         public static final int MAX_ATTEMPTS = 3;
@@ -137,18 +146,14 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
             int attempt = 0; 
             while (attempt < MAX_ATTEMPTS) {
                 URL signInUrl = (URL)objs[0];
+                Log.d(TAG, "doInBackground: " + signInUrl.toString());
                 try {
-                    String version = null;
-                    try {
-                        PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-                        version = pkgInfo.versionName;
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    String version = "1.0";
 
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("idToken", appl.getUserIdToken());
                     params.put("clientVersion", version);
+                    Log.d(TAG, "doInBackground: " + params.toString());
                    
                     StringBuilder builder = new StringBuilder();
                     String delimiter = "";
@@ -179,6 +184,8 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
                         response.append(inputLine);
                     }
                     in.close();
+
+                    Log.d(TAG, "doInBackground: " + response.toString());
                     
                     JSONObject jsonResponse = new JSONObject(response.toString());
                     String status = jsonResponse.getString("status");
@@ -186,8 +193,10 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
                     List<String> cookieHeaders = con.getHeaderFields().get("Set-Cookie");
                     appl.setSessionCookie(cookieHeaders.get(0));
 
-                    if ("client_too_old".equals(status))
-                        exception = new Exception(status);
+                    if ("client_too_old".equals(status)) {
+                        String minVersion = jsonResponse.getString("min_version");
+                        exception = new Exception(status + " minVersion=" + minVersion);
+                    }
                     else if (!"ok".equals(status))
                         exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
 
@@ -221,7 +230,8 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
             if (exception != null) {
                 String title;
                 String msg;
-                if ("client_too_old".equals(exception.getMessage())) {
+                if (exception.getMessage().startsWith("client_too_old")) {
+                    String minVersion = exception.getMessage().substring(exception.getMessage().indexOf("=") + 1);
                     title = getResources().getString(R.string.error_client_too_old_title);
                     msg = getResources().getString(R.string.error_client_too_old_msg);
                 }
@@ -264,5 +274,32 @@ public class AuthenticationActivity extends BaseActionActivity implements View.O
     private static final String signInReqPath = "/cgi-bin/sign_in.cgi";
 
     private static final String tag = "AuthenticationActivity";
+
+    public void onClickTermsOfService(View view) {
+        openUrl(R.string.link_terms_of_usage);
+    }
+
+    public void onClickHowToPlay(View view) {
+        openUrl(R.string.link_directions);
+    }
+
+    public void onClickKanken(View v) {
+        openUrl(R.string.link_kanken);
+    }
+
+    public void onClickKyotoUniversity(View v) {
+        openUrl(R.string.link_kyoto_university);
+    }
+
+    public void onClickYomiuri(View v) {
+        openUrl(R.string.link_yomiuri);
+    }
+
+    private void openUrl(@StringRes int resId) {
+        Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+        String termsOfUsageLink = getResources().getString(resId);
+        httpIntent.setData(Uri.parse(termsOfUsageLink));
+        startActivity(httpIntent);
+    }
 
 }
