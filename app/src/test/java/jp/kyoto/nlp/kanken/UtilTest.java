@@ -1,23 +1,12 @@
 package jp.kyoto.nlp.kanken;
 
-import android.app.Activity;
-import android.view.View;
-import android.widget.Button;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
 public class UtilTest {
 
     @Test
@@ -34,7 +23,7 @@ public class UtilTest {
             {"じゅ", "ん", "え", "ん"},
             {"と", "じょ", "う", "こ", "く"}
         };
-        
+
         for (int w = 0; w < words.length; w++) {
             List<String> kanas = new ArrayList<String>();
             for (int k = 0; k < words[w].length; k++)
