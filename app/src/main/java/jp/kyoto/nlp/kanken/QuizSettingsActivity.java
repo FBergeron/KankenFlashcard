@@ -15,14 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -182,7 +180,15 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         startActivity(httpIntent);
     }
 
-    public void startQuiz(android.view.View view) {
+    public void startReadingQuiz(android.view.View view) {
+        startQuiz(Problem.Type.READING);
+    }
+
+    public void startWritingQuiz(android.view.View view) {
+        startQuiz(Problem.Type.WRITING);
+    }
+
+    public void startQuiz(Problem.Type type) {
         Set<Problem.Topic> quizTopics = new HashSet<Problem.Topic>();
         for (Integer selectedTopic : selectedTopics)
             quizTopics.add(Problem.Topic.values()[selectedTopic]);
@@ -217,10 +223,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
         editor.putString("QuizTopics", strPrefTopics.toString());
 
-        RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
-        int selectedRadioButtonId = radioGroupQuizType.getCheckedRadioButtonId();
-        Problem.Type type = (selectedRadioButtonId == R.id.radioButtonQuizTypeReading ?
-                Problem.Type.READING : Problem.Type.WRITING);
         editor.putString("QuizType", type.getLabelId());
 
         editor.apply();
@@ -288,11 +290,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         showSelectedTopics();
 
         String prefType = sharedPref.getString("QuizType", "reading");
-        RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
-        if (Problem.Type.READING.getLabelId().equals(prefType))
-            radioGroupQuizType.check(R.id.radioButtonQuizTypeReading);
-        else
-            radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
