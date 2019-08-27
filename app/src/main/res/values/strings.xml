@@ -22,7 +22,7 @@
     <string name="label_topic_home_living">Home - Living</string>
     <string name="label_topic_other">Other</string>
     <string name="label_topic_all">All</string>
-    <string name="label_topic_all_unselect">一括解除</string>
+    <string name="label_topic_all_unselect">Deslect All</string>
     <string name="label_topic_business_short">Business</string>
     <string name="label_topic_politics_short">Politics</string>
     <string name="label_topic_sports_short">Sports</string>
@@ -32,7 +32,7 @@
     <string name="label_topic_home_living_short">Home/Liv.</string>
     <string name="label_topic_other_short">Other</string>
     <string name="label_topic_all_short">All</string>
-    <string name="label_topic_all_unselect_short">一括解除</string>
+    <string name="label_topic_all_unselect_short">Deselect All</string>
     <string name="button_select">Select</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
