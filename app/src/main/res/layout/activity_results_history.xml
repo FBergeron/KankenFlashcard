@@ -11,9 +11,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:contentInsetStart="0dp"
         app:contentInsetEnd="0dp"
-        app:title_image="@drawable/text_header01">
+        app:contentInsetStart="0dp"
+        app:title_image="@drawable/text_header_results_history">
 
     </jp.kyoto.nlp.kanken.CustomToolBar>
 
@@ -37,15 +37,15 @@
         tools:listitem="@layout/view_results_history_item" />
 
     <ImageButton
-        android:id="@+id/buttonLeaveSummary"
+        android:id="@+id/buttonBack"
         android:layout_width="@dimen/btn_main_width"
         android:layout_height="@dimen/btn_main_height"
         android:layout_marginBottom="8dp"
-        android:onClick="leaveSummary"
-        app:srcCompat="@drawable/text_btn02"
         android:background="@drawable/btn_kadomaru"
+        android:onClick="leaveSummary"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:srcCompat="@drawable/text_btn_back" />
 
 </android.support.constraint.ConstraintLayout>

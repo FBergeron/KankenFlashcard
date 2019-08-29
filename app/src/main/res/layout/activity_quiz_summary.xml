@@ -37,7 +37,7 @@
         tools:listitem="@layout/view_summary_item" />
 
     <ImageButton
-        android:id="@+id/buttonLeaveSummary"
+        android:id="@+id/buttonBack"
         android:layout_width="@dimen/btn_main_width"
         android:layout_height="@dimen/btn_main_height"
         android:layout_marginBottom="8dp"
