@@ -114,7 +114,7 @@
     <string name="link_directions" translatable="false">http://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/howto.html</string>
     <string name="link_terms_of_usage" translatable="false">http://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/terms.html</string>
     <string name="link_kanken" translatable="false">https://www.kanken.or.jp/</string>
-    <string name="link_kyoto_university" translatable="false">http://www.kyoto-u.ac.jp/</string>
+    <string name="link_kyoto_university">https://www.kyoto-u.ac.jp/en/</string>
     <string name="link_yomiuri" translatable="false">https://www.yomiuri.co.jp/</string>
     <string name="btn_next_items">別の候補を表示▼</string>
     <string name="nothing_familiarity" translatable="false">---</string>

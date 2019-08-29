@@ -111,4 +111,5 @@
     <string name="warning_cancel_quiz_msg">終了して、出題条件指定に戻りますか</string>
     <string name="button_terminate">終了する</string>
     <string name="btn_next_items">別の候補を表示▼</string>
+    <string name="link_kyoto_university">http://www.kyoto-u.ac.jp/</string>
 </resources>
