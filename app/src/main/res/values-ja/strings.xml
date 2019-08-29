@@ -106,6 +106,7 @@
     <string name="label_signing_out">サインアウト中...</string>
     <string name="label_authentication">グーグルアカウントでログインする。</string>
     <string name="label_fetching_quiz_data">問題のデータを取得中...</string>
+    <string name="label_fetching_data">データを取得中...</string>
     <string name="label_sending_results_data">結果のデータを送信中...</string>
     <string name="warning_cancel_quiz_title">終了</string>
     <string name="warning_cancel_quiz_msg">終了して、出題条件指定に戻りますか</string>

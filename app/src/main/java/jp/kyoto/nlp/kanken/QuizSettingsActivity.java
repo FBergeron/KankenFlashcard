@@ -69,31 +69,58 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
     }
 
+    public void getResultHistory() {
+        Log.d(TAG, "getResultHistory");
+        URL getResultHistoryUrl;
+        try {
+            getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
+
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            new FetchResultHistoryTask().execute(getResultHistoryUrl);
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (UnsupportedEncodingException e2) {
+            e2.printStackTrace();
+        } catch (IOException e3) {
+            e3.printStackTrace();
+        } catch (JSONException e4) {
+            e4.printStackTrace();
+        }
+    }
+
     public void signOut(android.view.View view) {
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        URL signOutUrl;
-                        try {
-                            signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
+        getResultHistory();
 
-                            progressDialog = new ProgressDialog(QuizSettingsActivity.this);
-                            progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
+        // Disable signOut implementation temporarily to test getResultHistory().
+        //
+        //Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+        //        new ResultCallback<Status>() {
+        //            @Override
+        //            public void onResult(@NonNull Status status) {
+        //                URL signOutUrl;
+        //                try {
+        //                    signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
 
-                            new SignOutTask().execute(signOutUrl);
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (IOException e2) {
-                            e2.printStackTrace();
-                        } catch (JSONException e3) {
-                            e3.printStackTrace();
-                        }
-                    }
-                }
-        );
+        //                    progressDialog = new ProgressDialog(QuizSettingsActivity.this);
+        //                    progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
+        //                    progressDialog.setCancelable(false);
+        //                    progressDialog.show();
+
+        //                    new SignOutTask().execute(signOutUrl);
+        //                } catch (MalformedURLException e) {
+        //                    e.printStackTrace();
+        //                } catch (IOException e2) {
+        //                    e2.printStackTrace();
+        //                } catch (JSONException e3) {
+        //                    e3.printStackTrace();
+        //                }
+        //            }
+        //        }
+        //);
     }
 
     public void invokeTopicChooser(android.view.View view) {
@@ -368,6 +395,173 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     public void onClick(View v) {
     }
 
+    private class FetchResultHistoryTask extends AsyncTask {
+
+        protected Object doInBackground(Object... objs) {
+            JSONObject jsonResultHistory = null;
+            //JSONArray jsonProblems = null;
+            URL getResultHistoryUrl = (URL) objs[0];
+            // URL getNextProblemsUrl = (URL) objs[0];
+            try {
+                HttpURLConnection con = (HttpURLConnection) getResultHistoryUrl.openConnection();
+                // HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
+                con.setRequestProperty("Accept", "application/json");
+                String cookie = appl.getSessionCookie();
+                if (cookie != null)
+                    con.setRequestProperty("Cookie", cookie);
+                con.setRequestMethod("GET");
+                con.connect();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                jsonResultHistory = jsonResponse;
+                //jsonProblems = jsonResponse.getJSONArray("problems");
+            } catch (IOException e) {
+                e.printStackTrace();
+                this.exception = e;
+            } catch (JSONException e2) {
+                e2.printStackTrace();
+                this.exception = e2;
+            }
+
+            return jsonResultHistory;
+            // return jsonProblems;
+        }
+
+        protected void onPostExecute(final Object obj) {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+
+            if (exception != null || obj == null) {
+                if (exception != null)
+                    Log.e(TAG, "An exception has occurred: " + exception);
+                if (obj == null)
+                    Log.e(TAG, "Cannot retrieve problems.");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
+                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
+                        .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(true)
+                        .show();
+
+                return;
+            }
+
+            Log.d(TAG, "resultHistory=" + obj);
+
+            // ArrayList<Problem> problems = new ArrayList<Problem>();
+            // Quiz quiz = appl.getQuiz();
+
+            // JSONArray jsonProblems = (JSONArray) obj;
+
+            // if (jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
+            //     AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
+            //     builder.setTitle(getResources().getString(R.string.error_not_enough_problems_found_title))
+            //             .setMessage(getResources().getString(R.string.error_not_enough_problems_found_msg))
+            //             .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+            //                 public void onClick(DialogInterface dialog, int which) {
+            //                 }
+            //             })
+            //             .setIcon(android.R.drawable.ic_dialog_alert)
+            //             .setCancelable(true)
+            //             .show();
+            //     return;
+            // }
+
+            // for (int i = 0; i < jsonProblems.length(); i++) {
+            //     try {
+            //         JSONArray jsonProblemData = jsonProblems.getJSONArray(i);
+
+            //         JSONArray jsonProblem = jsonProblemData.getJSONArray(0);
+            //         JSONArray jsonProblemTopics = jsonProblemData.getJSONArray(1);
+
+            //         String id = jsonProblem.getString(0);
+            //         String jumanInfo = jsonProblem.getString(1);
+            //         String statement = jsonProblem.getString(2);
+            //         String rightAnswer = jsonProblem.getString(3);
+            //         String articleUrl = jsonProblem.getString(4);
+            //         Object objIsLinkAlive = jsonProblem.get(5);
+
+            //         boolean isLinkAlive = objIsLinkAlive != null && objIsLinkAlive instanceof Integer && (Integer) objIsLinkAlive == 1;
+
+            //         String altArticleUrl = null;
+            //         try {
+            //             if (!isLinkAlive && objIsLinkAlive != null && objIsLinkAlive instanceof JSONArray) {
+            //                 StringBuilder strParams = new StringBuilder();
+            //                 String paramDelim = "";
+            //                 JSONArray searchTerms = (JSONArray) objIsLinkAlive;
+            //                 for (int t = 0; t < searchTerms.length(); t++) {
+            //                     strParams.append(paramDelim);
+            //                     strParams.append(URLEncoder.encode(searchTerms.getString(t), "UTF-8"));
+            //                     paramDelim = "+";
+            //                 }
+            //                 if (strParams.length() > 0)
+            //                     altArticleUrl = String.format(getResources().getString(R.string.search_engine_url), strParams);
+            //             }
+            //         } catch (UnsupportedEncodingException ignore) {
+            //             ignore.printStackTrace();
+            //         }
+
+            //         // Log.d(TAG, "id="+id);
+            //         // Log.d(TAG, "jumanInfo="+jumanInfo);
+            //         // Log.d(TAG, "statement="+statement);
+            //         // Log.d(TAG, "rightAnswer="+rightAnswer);
+            //         // Log.d(TAG, "articleUrl="+articleUrl);
+            //         // Log.d(TAG, "objIsLinkAlive="+objIsLinkAlive);
+            //         // Log.d(TAG, "isLinkAlive="+isLinkAlive);
+            //         // Log.d(TAG, "altArticleUrl="+altArticleUrl);
+
+            //         Set<Problem.Topic> topics = new HashSet<Problem.Topic>();
+            //         for (int j = 0; j < jsonProblemTopics.length(); j++) {
+            //             String topic = jsonProblemTopics.getString(j);
+            //             topics.add(Problem.Topic.valueOf(topic.toUpperCase()));
+            //         }
+
+            //         Problem problem = null;
+            //         try {
+            //             if (Problem.Type.READING == quiz.getType())
+            //                 problem = new ReadingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
+            //             else
+            //                 problem = new WritingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
+            //         } catch (NumberFormatException e) {
+            //             e.printStackTrace();
+            //         }
+            //         if (problem != null)
+            //             problems.add(problem);
+            //     } catch (JSONException e) {
+            //         e.printStackTrace();
+            //     }
+            // }
+
+            // quiz.setProblems(problems);
+            // quiz.setCurrentAnswer("");
+            // quiz.setCurrentMode(Quiz.Mode.MODE_ASK);
+            // Problem currProb = quiz.getCurrentProblem();
+
+            // Intent problemActivity = (Problem.Type.READING.equals(currProb.getType()) ?
+            //         new Intent(QuizSettingsActivity.this, ReadingProblemActivity.class) :
+            //         new Intent(QuizSettingsActivity.this, WritingProblemActivity.class));
+            // startActivity(problemActivity);
+        }
+
+        private Exception exception;
+
+    }
+
     private class FetchProblemsTask extends AsyncTask {
 
         protected Object doInBackground(Object... objs) {
@@ -615,6 +809,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
     private View seekBarE;
 
+    private static final String getResultHistoryReqPath = "/cgi-bin/get_result_history.cgi";
     private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
     private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
 
