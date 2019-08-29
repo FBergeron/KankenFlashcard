@@ -29,9 +29,9 @@ public class ResultsHistoryActivity extends ActionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_history);
 
-        //ListView listView = findViewById(R.id.listView);
-        //SummaryListViewAdapter listViewAdapter = new SummaryListViewAdapter(this, getLayoutInflater());
-        //listView.setAdapter(listViewAdapter);
+        ListView listViewResultEntries = findViewById(R.id.listViewResultEntries);
+        ResultsHistoryListViewAdapter listViewAdapter = new ResultsHistoryListViewAdapter(this, getLayoutInflater());
+        //listViewResultEntries.setAdapter(listViewAdapter);
         //List<SummaryItem> summaryItems = new ArrayList<>();
 
         //int topicCount = Problem.Topic.values().length;
