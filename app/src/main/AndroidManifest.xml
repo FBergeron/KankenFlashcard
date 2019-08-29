@@ -24,6 +24,8 @@
         <activity android:name=".WritingProblemActivity"
             android:screenOrientation="portrait"
             android:noHistory="false"/>
+        <activity android:name=".ResultsHistoryActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".QuizSummaryActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AuthenticationActivity"

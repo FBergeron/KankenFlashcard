@@ -93,7 +93,9 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     }
 
     public void signOut(android.view.View view) {
-        getResultHistory();
+        Intent resultsHistoryActivity = new Intent(QuizSettingsActivity.this, ResultsHistoryActivity.class);
+        startActivity(resultsHistoryActivity);
+        // getResultHistory();
 
         // Disable signOut implementation temporarily to test getResultHistory().
         //

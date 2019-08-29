@@ -42,7 +42,7 @@
         android:layout_height="@dimen/btn_main_height"
         android:layout_marginBottom="8dp"
         android:background="@drawable/btn_kadomaru"
-        android:onClick="leaveSummary"
+        android:onClick="leaveResultsHistory"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
