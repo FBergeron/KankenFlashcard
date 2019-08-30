@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,8 @@ public class ResultsHistoryListViewAdapter extends BaseAdapter {
         }
 
         public void bind(ResultsHistoryItem item) {
-            textViewDate.setText(item.getDate() + "");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            textViewDate.setText(formatter.format(item.getDate()));
             textViewReadingRights.setText(item.getReadingRights() + "");
             textViewReadingWrongs.setText(item.getReadingWrongs() + "");
             textViewWritingRights.setText(item.getWritingRights() + "");
@@ -81,20 +83,12 @@ public class ResultsHistoryListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.view_summary_item, null);
+            convertView = inflater.inflate(R.layout.view_results_history_item, null);
             convertView.setTag(new ViewHolder(convertView));
         }
         ViewHolder holder = (ViewHolder) convertView.getTag();
         ResultsHistoryItem item = items.get(position);
         holder.bind(item);
         return convertView;
-    }
-
-    private void onClickReadNews(String link) {
-        if (link != null && !link.isEmpty()) {
-            Intent httpIntent = new Intent(Intent.ACTION_VIEW);
-            httpIntent.setData(Uri.parse(link));
-            context.startActivity(httpIntent);
-        }
     }
 }

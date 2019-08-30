@@ -43,7 +43,7 @@ public class ResultsHistoryItem {
     }
 
     public int getTotalWrongs() {
-        return writingRights + writingWrongs;
+        return readingWrongs + writingWrongs;
     }
 
     @Override
