@@ -17,6 +17,62 @@
 
     </jp.kyoto.nlp.kanken.CustomToolBar>
 
+    <LinearLayout
+        android:id="@+id/linearLayoutHeaders"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewHeaderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Date" />
+
+        <TextView
+            android:id="@+id/textViewHeaderReadingRights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rights (R)" />
+
+        <TextView
+            android:id="@+id/textViewHeaderReadingWrongs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Wrongs (R)" />
+
+        <TextView
+            android:id="@+id/textViewHeaderWritingRights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rights (W)" />
+
+        <TextView
+            android:id="@+id/textViewHeaderWritingWrongs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Wrongs (W)" />
+
+        <TextView
+            android:id="@+id/textViewHeaderTotalRights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Rights (T)" />
+
+        <TextView
+            android:id="@+id/textViewHeaderTotalWrongs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Wrongs (T)" />
+    </LinearLayout>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
