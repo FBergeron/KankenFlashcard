@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:contentInsetEnd="0dp"
         app:contentInsetStart="0dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:title_image="@drawable/text_header_results_history">
 
     </jp.kyoto.nlp.kanken.CustomToolBar>
@@ -20,76 +21,89 @@
     <LinearLayout
         android:id="@+id/linearLayoutHeaders"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:background="#FCD86B"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <TextView
             android:id="@+id/textViewHeaderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Date" />
+            android:paddingLeft="14dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text="0000-00-00"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textViewHeaderReadingRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Rights (R)" />
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textViewHeaderReadingWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wrongs (R)" />
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textViewHeaderWritingRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Rights (W)" />
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textViewHeaderWritingWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wrongs (W)" />
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textViewHeaderTotalRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Rights (T)" />
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/textViewHeaderTotalWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Wrongs (T)" />
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="10dp"
+            android:text="0"
+            android:textAlignment="center" />
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bg_hasen"/>
 
     <ListView
         android:id="@+id/listViewResultEntries"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLeaveSummary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/buttonBack"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutHeaders"
         tools:listitem="@layout/view_results_history_item" />
 
     <ImageButton

@@ -51,78 +51,29 @@ public class ResultsHistoryActivity extends ActionActivity {
         listViewAdapter = new ResultsHistoryListViewAdapter(this, getLayoutInflater());
         listViewResultEntries.setAdapter(listViewAdapter);
 
-        getResultsHistory();
+        TextView textViewHeaderDate = findViewById(R.id.textViewHeaderDate);
+        textViewHeaderDate.setText("Date      ");
+        TextView textViewHeaderReadingRights = findViewById(R.id.textViewHeaderReadingRights);
+        textViewHeaderReadingRights.setText("Reading\nRights");
+        TextView textViewHeaderReadingWrongs = findViewById(R.id.textViewHeaderReadingWrongs);
+        textViewHeaderReadingWrongs.setText("Reading\nWrongs");
+        TextView textViewHeaderWritingRights = findViewById(R.id.textViewHeaderWritingRights);
+        textViewHeaderWritingRights.setText("Writing\nRights");
+        TextView textViewHeaderWritingWrongs = findViewById(R.id.textViewHeaderWritingWrongs);
+        textViewHeaderWritingWrongs.setText("Writing\nWrongs");
+        TextView textViewHeaderTotalRights = findViewById(R.id.textViewHeaderTotalRights);
+        textViewHeaderTotalRights.setText("Total\nRights");
+        TextView textViewHeaderTotalWrongs = findViewById(R.id.textViewHeaderTotalWrongs);
+        textViewHeaderTotalWrongs.setText("Total\nWrongs");
 
-        //int topicCount = Problem.Topic.values().length;
-        //String[] labelTopics = new String[topicCount];
-        //for (int i = 0; i < topicCount; i++) {
-        //    String strResName = "label_topic_" + Problem.Topic.values()[i].getLabelId();
-        //    int labelId = getResources().getIdentifier(strResName, "string", ResultsHistoryActivity.this.getPackageName());
-        //    labelTopics[i] = getResources().getString(labelId);
-        //}
-
-        //String strResName = "label_quiz_type_" + appl.getQuiz().getType().getLabelId();
-        //int labelId = getResources().getIdentifier(strResName, "string", ResultsHistoryActivity.this.getPackageName());
-        //String strType = String.format(getResources().getString(R.string.label_problem_info_type), getResources().getString(labelId));
-
-        //Quiz quiz = appl.getQuiz();
-        //int length = quiz.getLength();
-        //Iterator<Problem> itProblem = quiz.getProblems();
-        //Iterator<String> itAnswer = quiz.getAnswers();
-        //Iterator<Boolean> itRightAnswer = quiz.getRightAnswers();
-        //Iterator<Integer> itFamiliarity = quiz.getFamiliarities();
-        //Iterator<Boolean> itReported = quiz.getReportedAsIncorrects();
-        //for (int i = 0; i < length; i++) {
-        //    Problem problem = itProblem.next();
-        //    String answer = itAnswer.next();
-        //    Boolean isRightAnswer = itRightAnswer.next();
-        //    Integer familiarity = itFamiliarity.next();
-        //    Boolean isReportedAsIncorrect = itReported.next();
-
-        //    String strTopic = "";
-        //    // Just show the first pertinent topic.
-        //    for (Problem.Topic topic : problem.getTopics()) {
-        //        if (appl.getQuiz().getTopics().contains(topic)) {
-        //            strResName = "label_topic_" + topic.getLabelId() + "_short";
-        //            labelId = getResources().getIdentifier(strResName, "string", ResultsHistoryActivity.this.getPackageName());
-        //            strTopic = getResources().getString(labelId);
-        //            break;
-        //        }
-        //    }
-
-        //    int strFamiliarityId = 0;
-        //    if (isReportedAsIncorrect) {
-        //        strFamiliarityId = R.string.nothing_familiarity;
-        //    } else {
-        //        strFamiliarityId = getResources().getIdentifier("label_familiarity_long_" + familiarity, "string", ResultsHistoryActivity.this.getPackageName());
-        //    }
-        //    String strFamiliarity = getResources().getString(strFamiliarityId);
-
-
-        //    String problemLabel = String.format(getResources().getString(R.string.label_problem_number), (i+1), length);
-        //    String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : problem.getAltArticleUrl());
-        //    String statement =  problem.getStatement();
-        //    String rightAnswer = problem.getRightAnswer();
-
-        //    ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(
-        //            date,
-        //            readingRights,
-        //            readingWrongs,
-        //            writingRights,
-        //            writingWrongs,
-        //    );
-        //    resultsHistoryItems.add(summaryItem);
-        //}
-
-        //listViewAdapter.setItems(resultsHistoryItems);
+        initResultsHistory();
     }
 
     private void doLeaveResultsHistory() {
         finish();
     }
 
-    private void getResultsHistory() {
-        Log.d(tag, "getResultsHistory");
+    private void initResultsHistory() {
         URL getResultHistoryUrl;
         try {
             getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
