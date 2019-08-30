@@ -52,7 +52,7 @@ public class ResultsHistoryActivity extends ActionActivity {
         listViewResultEntries.setAdapter(listViewAdapter);
 
         TextView textViewHeaderDate = findViewById(R.id.textViewHeaderDate);
-        textViewHeaderDate.setText("Date      ");
+        textViewHeaderDate.setText("\nDate      ");
         TextView textViewHeaderReadingRights = findViewById(R.id.textViewHeaderReadingRights);
         textViewHeaderReadingRights.setText("Reading\nRights");
         TextView textViewHeaderReadingWrongs = findViewById(R.id.textViewHeaderReadingWrongs);
