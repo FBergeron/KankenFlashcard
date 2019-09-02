@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TextResultsHistoryFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutHeaders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FCD86B"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="0dp"
+        tools:layout_conversion_absoluteWidth="411dp"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/textViewHeaderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="14dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text="0000-00-00"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewHeaderReadingRights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewHeaderReadingWrongs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewHeaderWritingRights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewHeaderWritingWrongs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewHeaderTotalRights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="0"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewHeaderTotalWrongs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="10dp"
+            android:text="0"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listViewResultEntries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutHeaders"
+        tools:layout_conversion_absoluteHeight="0dp"
+        tools:layout_conversion_absoluteWidth="411dp"
+        tools:listitem="@layout/view_results_history_item">
+
+    </ListView>
+</android.support.constraint.ConstraintLayout>
