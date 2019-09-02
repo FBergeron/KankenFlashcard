@@ -47,182 +47,167 @@ public class ResultsHistoryActivity extends ActionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_history);
 
-        ListView listViewResultEntries = findViewById(R.id.listViewResultEntries);
-        listViewAdapter = new ResultsHistoryListViewAdapter(this, getLayoutInflater());
-        listViewResultEntries.setAdapter(listViewAdapter);
-
-        TextView textViewHeaderDate = findViewById(R.id.textViewHeaderDate);
-        textViewHeaderDate.setText("\nDate      ");
-        TextView textViewHeaderReadingRights = findViewById(R.id.textViewHeaderReadingRights);
-        textViewHeaderReadingRights.setText("Reading\nRights");
-        TextView textViewHeaderReadingWrongs = findViewById(R.id.textViewHeaderReadingWrongs);
-        textViewHeaderReadingWrongs.setText("Reading\nWrongs");
-        TextView textViewHeaderWritingRights = findViewById(R.id.textViewHeaderWritingRights);
-        textViewHeaderWritingRights.setText("Writing\nRights");
-        TextView textViewHeaderWritingWrongs = findViewById(R.id.textViewHeaderWritingWrongs);
-        textViewHeaderWritingWrongs.setText("Writing\nWrongs");
-        TextView textViewHeaderTotalRights = findViewById(R.id.textViewHeaderTotalRights);
-        textViewHeaderTotalRights.setText("Total\nRights");
-        TextView textViewHeaderTotalWrongs = findViewById(R.id.textViewHeaderTotalWrongs);
-        textViewHeaderTotalWrongs.setText("Total\nWrongs");
-
-        initResultsHistory();
+        // initResultsHistory();
     }
 
     private void doLeaveResultsHistory() {
         finish();
     }
 
-    private void initResultsHistory() {
-        URL getResultHistoryUrl;
-        try {
-            getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
+    // I have moved this to TextResultsHistoryActivityFragment but it's not sure yet if it's a good idea.
+    // If the text and graphic views use the same data, it's probably better to load the data in ResultsHistoryActivity.
+    // If they use different data, then it's better that each view has its own data fetcher.
 
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+    // private void initResultsHistory() {
+    //     URL getResultHistoryUrl;
+    //     try {
+    //         getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
 
-            new FetchResultHistoryTask().execute(getResultHistoryUrl);
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (UnsupportedEncodingException e2) {
-            e2.printStackTrace();
-        } catch (IOException e3) {
-            e3.printStackTrace();
-        } catch (JSONException e4) {
-            e4.printStackTrace();
-        }
-    }
+    //         progressDialog = new ProgressDialog(this);
+    //         progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
+    //         progressDialog.setCancelable(false);
+    //         progressDialog.show();
 
-    private class FetchResultHistoryTask extends AsyncTask {
+    //         new FetchResultHistoryTask().execute(getResultHistoryUrl);
+    //     } catch (MalformedURLException e1) {
+    //         e1.printStackTrace();
+    //     } catch (UnsupportedEncodingException e2) {
+    //         e2.printStackTrace();
+    //     } catch (IOException e3) {
+    //         e3.printStackTrace();
+    //     } catch (JSONException e4) {
+    //         e4.printStackTrace();
+    //     }
+    // }
 
-        protected Object doInBackground(Object... objs) {
-            JSONObject jsonResultHistory = null;
-            URL getResultHistoryUrl = (URL) objs[0];
-            try {
-                HttpURLConnection con = (HttpURLConnection) getResultHistoryUrl.openConnection();
-                con.setRequestProperty("Accept", "application/json");
-                String cookie = appl.getSessionCookie();
-                if (cookie != null)
-                    con.setRequestProperty("Cookie", cookie);
-                con.setRequestMethod("GET");
-                con.connect();
+    // private class FetchResultHistoryTask extends AsyncTask {
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
+    //     protected Object doInBackground(Object... objs) {
+    //         JSONObject jsonResultHistory = null;
+    //         URL getResultHistoryUrl = (URL) objs[0];
+    //         try {
+    //             HttpURLConnection con = (HttpURLConnection) getResultHistoryUrl.openConnection();
+    //             con.setRequestProperty("Accept", "application/json");
+    //             String cookie = appl.getSessionCookie();
+    //             if (cookie != null)
+    //                 con.setRequestProperty("Cookie", cookie);
+    //             con.setRequestMethod("GET");
+    //             con.connect();
 
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                jsonResultHistory = jsonResponse;
-            } catch (IOException e) {
-                e.printStackTrace();
-                this.exception = e;
-            } catch (JSONException e2) {
-                e2.printStackTrace();
-                this.exception = e2;
-            }
+    //             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    //             String inputLine;
+    //             StringBuilder response = new StringBuilder();
+    //             while ((inputLine = in.readLine()) != null) {
+    //                 response.append(inputLine);
+    //             }
+    //             in.close();
 
-            return jsonResultHistory;
-        }
+    //             JSONObject jsonResponse = new JSONObject(response.toString());
+    //             jsonResultHistory = jsonResponse;
+    //         } catch (IOException e) {
+    //             e.printStackTrace();
+    //             this.exception = e;
+    //         } catch (JSONException e2) {
+    //             e2.printStackTrace();
+    //             this.exception = e2;
+    //         }
 
-        protected void onPostExecute(final Object obj) {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-                progressDialog = null;
-            }
+    //         return jsonResultHistory;
+    //     }
 
-            if (exception != null || obj == null) {
-                if (exception != null)
-                    Log.e(tag, "An exception has occurred: " + exception);
-                if (obj == null)
-                    Log.e(tag, "Cannot retrieve problems.");
+    //     protected void onPostExecute(final Object obj) {
+    //         if (progressDialog != null) {
+    //             progressDialog.dismiss();
+    //             progressDialog = null;
+    //         }
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ResultsHistoryActivity.this);
-                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
-                        .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
-                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setCancelable(true)
-                        .show();
+    //         if (exception != null || obj == null) {
+    //             if (exception != null)
+    //                 Log.e(tag, "An exception has occurred: " + exception);
+    //             if (obj == null)
+    //                 Log.e(tag, "Cannot retrieve problems.");
 
-                return;
-            }
+    //             AlertDialog.Builder builder = new AlertDialog.Builder(ResultsHistoryActivity.this);
+    //             builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
+    //                     .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
+    //                     .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+    //                         public void onClick(DialogInterface dialog, int which) {
+    //                         }
+    //                     })
+    //                     .setIcon(android.R.drawable.ic_dialog_alert)
+    //                     .setCancelable(true)
+    //                     .show();
 
-            Log.d(tag, "resultsHistory=" + obj);
+    //             return;
+    //         }
 
-            List<ResultsHistoryItem> resultsHistoryItems = new ArrayList<>();
-            JSONObject jsonResultsHistory = (JSONObject)obj;
-            if (jsonResultsHistory.has("results_history")) {
-                JSONArray jsonResults = null;
-                try {
-                    jsonResults = (JSONArray)jsonResultsHistory.get("results_history");
-                }
-                catch(JSONException e) {
-                    e.printStackTrace();
-                }
-                if (jsonResults != null) {
-                    for (int i = 0; i < jsonResults.length(); i++) {
-                        try {
-                            JSONObject result = (JSONObject)jsonResults.get(i);
-                            Integer readingRights = null;
-                            Integer readingWrongs = null;
-                            Integer writingRights = null;
-                            Integer writingWrongs = null;
+    //         Log.d(tag, "resultsHistory=" + obj);
 
-                            String strDateKey = null;
-                            for (Iterator<String> keys = result.keys(); keys.hasNext(); ) {
-                                strDateKey = keys.next();
-                                JSONObject dailyResult = (JSONObject)result.get(strDateKey);
-                                if (dailyResult.has("reading")) {
-                                    JSONObject readingData = (JSONObject)dailyResult.get("reading");
-                                    readingRights = (Integer)readingData.get("rights");
-                                    readingWrongs = (Integer)readingData.get("wrongs");
-                                }
-                                if (dailyResult.has("writing")) {
-                                    JSONObject writingData = (JSONObject)dailyResult.get("writing");
-                                    writingRights = (Integer)writingData.get("rights");
-                                    writingWrongs = (Integer)writingData.get("wrongs");
-                                }
-                            }
+    //         List<ResultsHistoryItem> resultsHistoryItems = new ArrayList<>();
+    //         JSONObject jsonResultsHistory = (JSONObject)obj;
+    //         if (jsonResultsHistory.has("results_history")) {
+    //             JSONArray jsonResults = null;
+    //             try {
+    //                 jsonResults = (JSONArray)jsonResultsHistory.get("results_history");
+    //             }
+    //             catch(JSONException e) {
+    //                 e.printStackTrace();
+    //             }
+    //             if (jsonResults != null) {
+    //                 for (int i = 0; i < jsonResults.length(); i++) {
+    //                     try {
+    //                         JSONObject result = (JSONObject)jsonResults.get(i);
+    //                         Integer readingRights = null;
+    //                         Integer readingWrongs = null;
+    //                         Integer writingRights = null;
+    //                         Integer writingWrongs = null;
 
-                            if (strDateKey != null) {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                try {
-                                    Date date = formatter.parse(strDateKey);
-                                    ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(
-                                        date,
-                                        readingRights.intValue(),
-                                        readingWrongs.intValue(),
-                                        writingRights.intValue(),
-                                        writingWrongs.intValue()
-                                   );
-                                   resultsHistoryItems.add(resultsHistoryItem);
-                                }
-                                catch(ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        catch(JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    listViewAdapter.setItems(resultsHistoryItems);
-                }
-            }
-        }
+    //                         String strDateKey = null;
+    //                         for (Iterator<String> keys = result.keys(); keys.hasNext(); ) {
+    //                             strDateKey = keys.next();
+    //                             JSONObject dailyResult = (JSONObject)result.get(strDateKey);
+    //                             if (dailyResult.has("reading")) {
+    //                                 JSONObject readingData = (JSONObject)dailyResult.get("reading");
+    //                                 readingRights = (Integer)readingData.get("rights");
+    //                                 readingWrongs = (Integer)readingData.get("wrongs");
+    //                             }
+    //                             if (dailyResult.has("writing")) {
+    //                                 JSONObject writingData = (JSONObject)dailyResult.get("writing");
+    //                                 writingRights = (Integer)writingData.get("rights");
+    //                                 writingWrongs = (Integer)writingData.get("wrongs");
+    //                             }
+    //                         }
 
-        private Exception exception;
+    //                         if (strDateKey != null) {
+    //                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    //                             try {
+    //                                 Date date = formatter.parse(strDateKey);
+    //                                 ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(
+    //                                     date,
+    //                                     readingRights.intValue(),
+    //                                     readingWrongs.intValue(),
+    //                                     writingRights.intValue(),
+    //                                     writingWrongs.intValue()
+    //                                );
+    //                                resultsHistoryItems.add(resultsHistoryItem);
+    //                             }
+    //                             catch(ParseException e) {
+    //                                 e.printStackTrace();
+    //                             }
+    //                         }
+    //                     }
+    //                     catch(JSONException e) {
+    //                         e.printStackTrace();
+    //                     }
+    //                 }
+    //                 listViewAdapter.setItems(resultsHistoryItems);
+    //             }
+    //         }
+    //     }
 
-    }
+    //     private Exception exception;
+
+    // }
 
     private ResultsHistoryListViewAdapter listViewAdapter;
 
@@ -230,7 +215,7 @@ public class ResultsHistoryActivity extends ActionActivity {
 
     private KankenApplication appl = KankenApplication.getInstance();
 
-    private static final String getResultHistoryReqPath = "/cgi-bin/get_results_history.cgi";
+    //private static final String getResultHistoryReqPath = "/cgi-bin/get_results_history.cgi";
 
     private static final String tag = "ResultsHistoryActivity";
 

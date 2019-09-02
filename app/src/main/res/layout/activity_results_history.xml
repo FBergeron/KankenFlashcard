@@ -18,98 +18,21 @@
 
     </jp.kyoto.nlp.kanken.CustomToolBar>
 
-    <LinearLayout
-        android:id="@+id/linearLayoutHeaders"
-        android:layout_width="match_parent"
+    <fragment
+        android:id="@+id/fragmentTextResultsHistory"
+        android:name="jp.kyoto.nlp.kanken.TextResultsHistoryFragment"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#FCD86B"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <TextView
-            android:id="@+id/textViewHeaderDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="14dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:text="0000-00-00"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewHeaderReadingRights"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewHeaderReadingWrongs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewHeaderWritingRights"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewHeaderWritingWrongs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewHeaderTotalRights"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewHeaderTotalWrongs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="14dp"
-            android:paddingBottom="10dp"
-            android:text="0"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/listViewResultEntries"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/buttonTextView"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutHeaders"
-        tools:listitem="@layout/view_results_history_item">
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:layout="@layout/fragment_text_results_history" />
 
-    </ListView>
+
+
 
     <Button
         android:id="@+id/buttonTextView"
