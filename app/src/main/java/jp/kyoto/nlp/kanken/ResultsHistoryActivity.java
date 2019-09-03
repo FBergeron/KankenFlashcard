@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +32,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class ResultsHistoryActivity extends ActionActivity {
 
     @Override
@@ -42,10 +45,28 @@ public class ResultsHistoryActivity extends ActionActivity {
         doLeaveResultsHistory();
     }
 
+    public void showTextView(android.view.View view) {
+        fragmentGraphicView.setVisibility(View.GONE);
+        fragmentTextView.setVisibility(View.VISIBLE);
+    }
+
+    public void showGraphicView(android.view.View view) {
+        System.out.println("showGraphicView");
+        fragmentGraphicView.setVisibility(View.VISIBLE);
+        fragmentTextView.setVisibility(View.GONE);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_history);
+
+        fragmentTextView = findViewById(R.id.fragmentTextResultsHistory);
+        fragmentGraphicView = findViewById(R.id.fragmentGraphicResultsHistory);
+
+        fragmentTextView.setVisibility(View.VISIBLE);
+        fragmentGraphicView.setVisibility(View.GONE);
 
         // initResultsHistory();
     }
@@ -210,6 +231,9 @@ public class ResultsHistoryActivity extends ActionActivity {
     // }
 
     private ResultsHistoryListViewAdapter listViewAdapter;
+
+    private View fragmentTextView;
+    private View fragmentGraphicView;
 
     private ProgressDialog progressDialog;
 

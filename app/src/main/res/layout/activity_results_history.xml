@@ -32,12 +32,24 @@
         tools:layout="@layout/fragment_text_results_history" />
 
 
-
+    <fragment
+        android:id="@+id/fragmentGraphicResultsHistory"
+        android:name="jp.kyoto.nlp.kanken.GraphicResultsHistoryFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/buttonTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:layout="@layout/fragment_text_results_history" />
 
     <Button
         android:id="@+id/buttonTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="showTextView"
         android:text="Text"
         app:layout_constraintBottom_toTopOf="@+id/buttonBack"
         app:layout_constraintEnd_toStartOf="@id/buttonGraphicView"
@@ -48,6 +60,7 @@
         android:id="@+id/buttonGraphicView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="showGraphicView"
         android:text="Graphic"
         app:layout_constraintBottom_toTopOf="@+id/buttonBack"
         app:layout_constraintEnd_toEndOf="parent"
