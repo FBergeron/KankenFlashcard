@@ -233,6 +233,7 @@ public class TextResultsHistoryFragment extends Fragment {
         private Exception exception;
 
     }
+
     private ResultsHistoryListViewAdapter listViewAdapter;
 
     private ProgressDialog progressDialog;
