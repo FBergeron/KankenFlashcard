@@ -56,7 +56,6 @@ public class ResultsHistoryActivity extends ActionActivity {
         fragmentTextView.setVisibility(View.GONE);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

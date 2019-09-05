@@ -15,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -50,6 +52,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -76,8 +79,21 @@ public class GraphicResultsHistoryFragment extends Fragment {
 
         chart = view.findViewById(R.id.chart);
 
-        initResultsHistory();
-        //initTest();
+        radioButtonLastWeek = view.findViewById(R.id.radioButtonLastWeek);
+        radioButtonLastMonth = view.findViewById(R.id.radioButtonLastMonth);
+        radioButtonLast3Months = view.findViewById(R.id.radioButtonLast3Months);
+
+        radioGroupPeriod = view.findViewById(R.id.radioGroupPeriod);
+        radioGroupPeriod.setOnCheckedChangeListener(
+            new RadioGroup.OnCheckedChangeListener() {
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    int selectedId = radioGroupPeriod.getCheckedRadioButtonId();
+                    updateHistoryChart();
+                }
+            }
+        );
+
+        updateHistoryChart();
         return view;
     }
 
@@ -89,108 +105,9 @@ public class GraphicResultsHistoryFragment extends Fragment {
 
     List<String> xAxisValues = new ArrayList<>(Arrays.asList("Jan", "Feb", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"));
 
-
-    private void initTest() {
-        int size = 12;
-        List<BarEntry> incomeEntries = getIncomeEntries(size);
-        List<BarEntry> expenseEntries = getExpenseEntries(size);
-        datasets = new ArrayList<>();
-        BarDataSet set1, set2;
-
-        set1 = new BarDataSet(incomeEntries, "Income");
-        set1.setColor(Color.rgb(65, 168, 121));
-        set1.setValueTextColor(Color.rgb(55, 70, 73));
-        set1.setValueTextSize(10f);
-
-        set2 = new BarDataSet(expenseEntries, "Expense");
-        set2.setColors(Color.rgb(241, 107, 72));
-        set2.setValueTextColor(Color.rgb(55, 70, 73));
-        set2.setValueTextSize(10f);
-
-        datasets.add(set1);
-        datasets.add(set2);
-
-        BarData data = new BarData(datasets);
-        chart.setData(data);
-        chart.getAxisLeft().setAxisMinimum(0);
-
-        chart.getDescription().setEnabled(false);
-        chart.getAxisRight().setAxisMinimum(0);
-        chart.setDrawBarShadow(false);
-        chart.setDrawValueAboveBar(true);
-        chart.setMaxVisibleValueCount(10);
-        chart.setPinchZoom(false);
-        chart.setDrawGridBackground(false);
-
-        Legend l = chart.getLegend();
-        l.setWordWrapEnabled(true);
-        l.setTextSize(14);
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setForm(Legend.LegendForm.CIRCLE);
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setGranularity(1f);
-        xAxis.setCenterAxisLabels(true);
-        xAxis.setDrawGridLines(false);
-        xAxis.setLabelRotationAngle(-45);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMaximum(getExpenseEntries(size).size());
-
-        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisValues));
-
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.removeAllLimitLines();
-        leftAxis.setTypeface(Typeface.DEFAULT);
-        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setTextColor(Color.BLACK);
-        leftAxis.setDrawGridLines(false);
-        chart.getAxisRight().setEnabled(false);
-
-        setBarWidth(data, size);
-        chart.invalidate();
-    }
-
-private List<BarEntry> getExpenseEntries(int size) {
-    ArrayList<BarEntry> expenseEntries = new ArrayList<>();
-
-    expenseEntries.add(new BarEntry(1,1710));
-    expenseEntries.add(new BarEntry(2,2480));
-    expenseEntries.add(new BarEntry(3,242));
-    expenseEntries.add(new BarEntry(4,2409));
-    expenseEntries.add(new BarEntry(5,8100));
-    expenseEntries.add(new BarEntry(6,1200));
-    expenseEntries.add(new BarEntry(7,6570));
-    expenseEntries.add(new BarEntry(8,5455));
-    expenseEntries.add(new BarEntry(9,15000));
-    expenseEntries.add(new BarEntry(10,11340));
-    expenseEntries.add(new BarEntry(11,9100));
-    expenseEntries.add(new BarEntry(12,6300));
-    return expenseEntries.subList(0, size);
-}
-
-private List<BarEntry> getIncomeEntries(int size) {
-    ArrayList<BarEntry> incomeEntries = new ArrayList<>();
-
-    incomeEntries.add(new BarEntry(1, 11300));
-    incomeEntries.add(new BarEntry(2, 1390));
-    incomeEntries.add(new BarEntry(3, 1190));
-    incomeEntries.add(new BarEntry(4, 7200));
-    incomeEntries.add(new BarEntry(5, 4790));
-    incomeEntries.add(new BarEntry(6, 4500));
-    incomeEntries.add(new BarEntry(7, 8000));
-    incomeEntries.add(new BarEntry(8, 7034));
-    incomeEntries.add(new BarEntry(9, 4307));
-    incomeEntries.add(new BarEntry(10, 8762));
-    incomeEntries.add(new BarEntry(11, 4355));
-    incomeEntries.add(new BarEntry(12, 6000));
-    return incomeEntries.subList(0, size);
-}
-
-
-    private void initResultsHistory() {
+    private void updateHistoryChart() {
+        // A parameter should be initialized in function of the selected period (radio button).
+        // For now, we fetch all the data.
         URL getResultHistoryUrl;
         try {
             getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
@@ -290,65 +207,100 @@ private List<BarEntry> getIncomeEntries(int size) {
                     List<BarEntry> rightEntries = new ArrayList<BarEntry>();
                     List<BarEntry> wrongEntries = new ArrayList<BarEntry>();
 
-                    for (int i = 0; i < jsonResults.length(); i++) {
-                        try {
-                            JSONObject result = (JSONObject)jsonResults.get(i);
-                            Integer readingRights = new Integer(0);
-                            Integer readingWrongs = new Integer(0);
-                            Integer writingRights = new Integer(0);
-                            Integer writingWrongs = new Integer(0);
+                    Calendar now = Calendar.getInstance();
+                    String strDateTemp = dateFormatter.format(now.getTime());
 
-                            String strDateKey = null;
-                            for (Iterator<String> keys = result.keys(); keys.hasNext(); ) {
-                                strDateKey = keys.next();
-                                JSONObject dailyResult = (JSONObject)result.get(strDateKey);
-                                if (dailyResult.has("reading")) {
-                                    JSONObject readingData = (JSONObject)dailyResult.get("reading");
-                                    readingRights = (Integer)readingData.get("rights");
-                                    readingWrongs = (Integer)readingData.get("wrongs");
+                    int maxValueCount = -1;
+                    Calendar periodStart = Calendar.getInstance();
+                    if (radioButtonLastWeek.isChecked()) {
+                        periodStart.add(Calendar.DAY_OF_MONTH, -7);
+                        maxValueCount = 7;
+                    }
+                    else if (radioButtonLastMonth.isChecked()) {
+                        periodStart.add(Calendar.MONTH, -1);
+                        maxValueCount = 31;
+                    }
+                    else if (radioButtonLast3Months.isChecked()) {
+                        periodStart.add(Calendar.MONTH, -3);
+                        maxValueCount = 92;
+                    }
+                    String strDateMin = dateFormatter.format(periodStart.getTime());
+
+                    String strDateResult = null;
+                    JSONObject result = null;
+                    Integer readingRights = Integer.valueOf(0);
+                    Integer readingWrongs = Integer.valueOf(0);
+                    Integer writingRights = Integer.valueOf(0);
+                    Integer writingWrongs = Integer.valueOf(0);
+                    int entryIndex = 0;
+                    int resultIndex = 0;
+                    while (strDateTemp.compareTo(strDateMin) > 0) {
+                        if (jsonResults.length() > resultIndex && (result == null || strDateResult == null || strDateResult.compareTo(strDateTemp) > 0)) {
+                            try {
+                                result = (JSONObject)jsonResults.get(resultIndex);
+                                for (Iterator<String> keys = result.keys(); keys.hasNext(); ) {
+                                    strDateResult = keys.next();
+
+                                    JSONObject dailyResult = (JSONObject)result.get(strDateResult);
+                                    if (dailyResult.has("reading")) {
+                                        JSONObject readingData = (JSONObject)dailyResult.get("reading");
+                                        readingRights = (Integer)readingData.get("rights");
+                                        readingWrongs = (Integer)readingData.get("wrongs");
+                                    }
+                                    else {
+                                        readingRights = Integer.valueOf(0);
+                                        readingWrongs = Integer.valueOf(0);
+                                    }
+                                    if (dailyResult.has("writing")) {
+                                        JSONObject writingData = (JSONObject)dailyResult.get("writing");
+                                        writingRights = (Integer)writingData.get("rights");
+                                        writingWrongs = (Integer)writingData.get("wrongs");
+                                    }
+                                    else {
+                                        writingRights = Integer.valueOf(0);
+                                        writingWrongs = Integer.valueOf(0);
+                                    }
+
+                                    // There always is 1 key.
+                                    break;
                                 }
-                                if (dailyResult.has("writing")) {
-                                    JSONObject writingData = (JSONObject)dailyResult.get("writing");
-                                    writingRights = (Integer)writingData.get("rights");
-                                    writingWrongs = (Integer)writingData.get("wrongs");
-                                }
+                                resultIndex++;
                             }
-
-                            System.out.println("i="+i+" strDateKey="+strDateKey+" r="+(readingRights.intValue()+writingRights.intValue())+
-                                " w="+(readingWrongs.intValue()+writingWrongs.intValue()));
-                            if (strDateKey != null) {
-                                //SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                //try {
-                                //    Date date = formatter.parse(strDateKey);
-                                    dateLabels.add(strDateKey);
-                                    rightEntries.add(new BarEntry(i, readingRights.intValue() + writingRights.intValue()));
-                                    wrongEntries.add(new BarEntry(i, readingWrongs.intValue() + writingWrongs.intValue()));
-                                // }
-                                // catch(ParseException e) {
-                                //     e.printStackTrace();
-                                // }
+                            catch(JSONException e) {
+                                e.printStackTrace();
                             }
                         }
-                        catch(JSONException e) {
-                            e.printStackTrace();
+
+                        dateLabels.add(strDateTemp);
+                        if (strDateResult != null && strDateResult.compareTo(strDateTemp) == 0) {
+                            rightEntries.add(new BarEntry(entryIndex, readingRights.intValue() + writingRights.intValue()));
+                            wrongEntries.add(new BarEntry(entryIndex, readingWrongs.intValue() + writingWrongs.intValue()));
                         }
+                        else {
+                            rightEntries.add(new BarEntry(entryIndex, 0));
+                            wrongEntries.add(new BarEntry(entryIndex, 0));
+                        }
+
+                        entryIndex++;
+                        now.add(Calendar.DAY_OF_MONTH, -1);
+                        strDateTemp = dateFormatter.format(now.getTime());
                     }
 
                     ValueFormatter formatter = new ValueFormatter() {
                         @Override
                         public String getAxisLabel(float value, AxisBase axis) {
                             int val = (int)value;
-                            System.out.println("getAxisLabel value="+value+" val="+val+" axis="+axis);
                             return (value < 0 || value >= dateLabels.size()  ? "" : dateLabels.get(val));
                         }
                     };
 
                     BarDataSet rightDataset = new BarDataSet(rightEntries, "Rights");
-                    int rightDatasetColor = ContextCompat.getColor(getContext(), R.color.colorAccent);
-                    rightDataset.setColor(rightDatasetColor);
-                    // //setValueTextColor
+                    rightDataset.setDrawValues(false);
+                    rightDataset.setColor(Color.rgb(50, 255, 50));
 
                     BarDataSet wrongDataset = new BarDataSet(wrongEntries, "Wrongs");
+                    wrongDataset.setDrawValues(false);
+                    wrongDataset.setColor(Color.rgb(255, 50, 50));
 
                     datasets = new ArrayList<IBarDataSet>();
                     datasets.add(rightDataset);
@@ -356,6 +308,7 @@ private List<BarEntry> getIncomeEntries(int size) {
 
                     XAxis xAxis = chart.getXAxis();
                     xAxis.setGranularity(1f);
+                    xAxis.setDrawGridLines(false);
                     xAxis.setCenterAxisLabels(true);
                     xAxis.setValueFormatter(formatter);
                     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -367,20 +320,32 @@ private List<BarEntry> getIncomeEntries(int size) {
 
                     BarData barData = new BarData(datasets);
                     barData.setBarWidth(barWidth);
-                    chart.setDescription(null);
+                    chart.getDescription().setEnabled(false);
+                    chart.setTouchEnabled(false);
+                    YAxis leftAxis = chart.getAxisLeft();
+                    leftAxis.setAxisMinimum(0f);
+                    leftAxis.setGranularity(1f);
+                    leftAxis.setDrawGridLines(false);
+                    chart.getAxisRight().setEnabled(false);
                     chart.setData(barData);
                     chart.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
 
-                    // Legend legend = chart.getLegend();
-
-
+                    Legend legend = chart.getLegend();
+                    legend.setWordWrapEnabled(true);
+                    legend.setTextSize(14);
+                    legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+                    legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+                    legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+                    legend.setDrawInside(false);
+                    legend.setForm(Legend.LegendForm.SQUARE);
 
                     chart.getXAxis().setAxisMinimum(0);
-                    chart.getXAxis().setAxisMaximum(chart.getBarData().getGroupWidth(groupSpace, barSpace) * 10);
 
                     chart.groupBars(0f, groupSpace, barSpace);
-                    //chart.setVisibleXRangeMaximum(5);
                     chart.setFitBars(true);
+                    chart.setVisibleXRangeMaximum(maxValueCount);
+                    chart.setVisibleXRangeMinimum(maxValueCount);
+                    chart.getXAxis().setLabelCount(maxValueCount);
                     chart.invalidate();
 
                 }
@@ -391,33 +356,14 @@ private List<BarEntry> getIncomeEntries(int size) {
 
     }
 
-    private void setBarWidth(BarData barData, int size) {
-        if (datasets.size() > 1) {
-            float barSpace = 0.02f;
-            float groupSpace = 0.3f;
-            defaultBarWidth = (1 - groupSpace) / datasets.size() - barSpace;
-            if (defaultBarWidth >= 0)
-                barData.setBarWidth(defaultBarWidth);
-            else
-                Toast.makeText(getContext(), "Default Barwdith " + defaultBarWidth, Toast.LENGTH_SHORT).show();
-            int groupCount = getExpenseEntries(size).size();
-            System.out.println("groupCount="+groupCount);
-            if (groupCount != -1) {
-                chart.getXAxis().setAxisMinimum(0);
-                chart.getXAxis().setAxisMaximum(0 + chart.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
-                chart.getXAxis().setCenterAxisLabels(true);
-            }
-            else
-                Toast.makeText(getContext(), "no of bar groups is " + groupCount, Toast.LENGTH_SHORT).show();
-
-            chart.groupBars(0, groupSpace, barSpace); // perform the "explicit" grouping
-            chart.invalidate();
-        }
-    }
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     private BarChart chart;
+    private RadioGroup radioGroupPeriod;
+    private RadioButton radioButtonLastWeek;
+    private RadioButton radioButtonLastMonth;
+    private RadioButton radioButtonLast3Months;
     private List<IBarDataSet> datasets;
-    private float defaultBarWidth = -1;
 
     private ProgressDialog progressDialog;
 
