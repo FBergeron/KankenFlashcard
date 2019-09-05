@@ -14,9 +14,11 @@
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:width="0dp"
             android:background="#FFFFFFFF"
             android:padding="10dp"
+            android:paddingStart="24dp"
             android:text="0000-00-00" />
 
         <TextView
@@ -24,54 +26,67 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:background="#FFFFFFFF"
             android:padding="10dp"
-            android:text="0" />
+            android:text="0"
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewReadingWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:background="#FFFFFFFF"
             android:padding="10dp"
-            android:text="0" />
+            android:text="0"
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewWritingRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:background="#FFFFFFFF"
             android:padding="10dp"
-            android:text="0" />
+            android:text="0"
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewWritingWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:background="#FFFFFFFF"
             android:padding="10dp"
-            android:text="0" />
+            android:text="0"
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewTotalRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:background="#FFFFFFFF"
             android:padding="10dp"
-            android:text="0" />
+            android:text="0"
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewTotalWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:background="#FFFFFFFF"
             android:padding="10dp"
-            android:text="0" />
+            android:paddingEnd="24dp"
+            android:text="0"
+            android:textAlignment="textEnd" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

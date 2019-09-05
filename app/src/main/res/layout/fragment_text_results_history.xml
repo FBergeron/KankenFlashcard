@@ -18,70 +18,77 @@
             android:id="@+id/textViewHeaderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="14dp"
+            android:layout_weight="2"
+            android:width="0dp"
+            android:paddingLeft="24dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
             android:text="0000-00-00"
-            android:textAlignment="center" />
+            android:textAlignment="textStart" />
 
         <TextView
             android:id="@+id/textViewHeaderReadingRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:padding="10dp"
             android:text="0"
-            android:textAlignment="center" />
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewHeaderReadingWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:padding="10dp"
             android:text="0"
-            android:textAlignment="center" />
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewHeaderWritingRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:padding="10dp"
             android:text="0"
-            android:textAlignment="center" />
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewHeaderWritingWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:padding="10dp"
             android:text="0"
-            android:textAlignment="center" />
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewHeaderTotalRights"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:padding="10dp"
             android:text="0"
-            android:textAlignment="center" />
+            android:textAlignment="textEnd" />
 
         <TextView
             android:id="@+id/textViewHeaderTotalWrongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:width="0dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:paddingRight="14dp"
+            android:paddingRight="24dp"
             android:paddingBottom="10dp"
             android:text="0"
-            android:textAlignment="center" />
+            android:textAlignment="textEnd" />
     </LinearLayout>
 
     <ListView
