@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -66,6 +67,9 @@ public class ResultsHistoryActivity extends ActionActivity {
 
         fragmentTextView.setVisibility(View.VISIBLE);
         fragmentGraphicView.setVisibility(View.GONE);
+
+        RadioGroup radioGroupHistoryViewType = findViewById(R.id.radioGroupHistoryViewType);
+        radioGroupHistoryViewType.check(R.id.buttonTextView);
 
         // initResultsHistory();
     }
