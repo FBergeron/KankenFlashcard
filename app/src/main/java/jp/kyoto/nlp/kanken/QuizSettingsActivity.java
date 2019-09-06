@@ -69,36 +69,36 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
     }
 
-    public void signOut(android.view.View view) {
+    public void showResultsHistory(android.view.View view) {
         Intent resultsHistoryActivity = new Intent(QuizSettingsActivity.this, ResultsHistoryActivity.class);
         startActivity(resultsHistoryActivity);
+    }
 
-        // Disable signOut implementation temporarily to test results history feature.
-        //
-        //Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-        //        new ResultCallback<Status>() {
-        //            @Override
-        //            public void onResult(@NonNull Status status) {
-        //                URL signOutUrl;
-        //                try {
-        //                    signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
+    public void signOut(android.view.View view) {
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        URL signOutUrl;
+                        try {
+                            signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
 
-        //                    progressDialog = new ProgressDialog(QuizSettingsActivity.this);
-        //                    progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
-        //                    progressDialog.setCancelable(false);
-        //                    progressDialog.show();
+                            progressDialog = new ProgressDialog(QuizSettingsActivity.this);
+                            progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
 
-        //                    new SignOutTask().execute(signOutUrl);
-        //                } catch (MalformedURLException e) {
-        //                    e.printStackTrace();
-        //                } catch (IOException e2) {
-        //                    e2.printStackTrace();
-        //                } catch (JSONException e3) {
-        //                    e3.printStackTrace();
-        //                }
-        //            }
-        //        }
-        //);
+                            new SignOutTask().execute(signOutUrl);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (IOException e2) {
+                            e2.printStackTrace();
+                        } catch (JSONException e3) {
+                            e3.printStackTrace();
+                        }
+                    }
+                }
+        );
     }
 
     public void invokeTopicChooser(android.view.View view) {

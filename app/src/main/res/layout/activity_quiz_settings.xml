@@ -43,11 +43,11 @@
         android:text="UserName"
         android:textAlignment="viewStart"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonSignOut"
-        app:layout_constraintEnd_toStartOf="@+id/buttonSignOut"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonHistory"
+        app:layout_constraintEnd_toStartOf="@+id/buttonHistory"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonSignOut" />
+        app:layout_constraintTop_toTopOf="@+id/buttonHistory" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -161,6 +161,19 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView4"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/nine_patch_flame" />
+
+    <ImageButton
+        android:id="@+id/buttonHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@null"
+        android:onClick="showResultsHistory"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonSignOut"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSignOut"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/btn_results_history" />
 
     <ImageButton
         android:id="@+id/buttonSignOut"
