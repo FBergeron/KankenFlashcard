@@ -294,13 +294,15 @@ public class GraphicResultsHistoryFragment extends Fragment {
                         }
                     };
 
-                    BarDataSet rightDataset = new BarDataSet(rightEntries, "Rights");
+                    String strRightDataSetLabel = getResources().getString(R.string.results_history_graphic_view_legend_rights);
+                    BarDataSet rightDataset = new BarDataSet(rightEntries, strRightDataSetLabel);
                     rightDataset.setDrawValues(false);
-                    rightDataset.setColor(Color.rgb(50, 255, 50));
+                    rightDataset.setColor(Color.rgb(255, 0, 0));
 
-                    BarDataSet wrongDataset = new BarDataSet(wrongEntries, "Wrongs");
+                    String strWrongDataSetLabel = getResources().getString(R.string.results_history_graphic_view_legend_wrongs);
+                    BarDataSet wrongDataset = new BarDataSet(wrongEntries, strWrongDataSetLabel);
                     wrongDataset.setDrawValues(false);
-                    wrongDataset.setColor(Color.rgb(255, 50, 50));
+                    wrongDataset.setColor(Color.rgb(0, 136, 255));
 
                     datasets = new ArrayList<IBarDataSet>();
                     datasets.add(rightDataset);

@@ -20,21 +20,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Last week" />
+            android:text="@string/results_history_period_last_week" />
 
         <RadioButton
             android:id="@+id/radioButtonLastMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
-            android:text="Last month" />
+            android:text="@string/results_history_period_last_month" />
 
         <RadioButton
             android:id="@+id/radioButtonLast3Months"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
-            android:text="Last 3 months" />
+            android:text="@string/results_history_period_last_3_months" />
 
     </RadioGroup>
 

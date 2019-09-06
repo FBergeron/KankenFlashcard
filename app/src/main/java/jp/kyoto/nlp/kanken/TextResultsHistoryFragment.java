@@ -58,19 +58,26 @@ public class TextResultsHistoryFragment extends Fragment {
         listViewResultEntries.setAdapter(listViewAdapter);
 
         TextView textViewHeaderDate = view.findViewById(R.id.textViewHeaderDate);
-        textViewHeaderDate.setText("\nDate      ");
+        String strHeaderDate = getResources().getString(R.string.results_history_header_date);
+        textViewHeaderDate.setText(strHeaderDate);
         TextView textViewHeaderReadingRights = view.findViewById(R.id.textViewHeaderReadingRights);
-        textViewHeaderReadingRights.setText("Reading\nRights");
+        String strHeaderReadingRights = getResources().getString(R.string.results_history_header_reading_rights);
+        textViewHeaderReadingRights.setText(strHeaderReadingRights);
         TextView textViewHeaderReadingWrongs = view.findViewById(R.id.textViewHeaderReadingWrongs);
-        textViewHeaderReadingWrongs.setText("Reading\nWrongs");
+        String strHeaderReadingWrongs = getResources().getString(R.string.results_history_header_reading_wrongs);
+        textViewHeaderReadingWrongs.setText(strHeaderReadingWrongs);
         TextView textViewHeaderWritingRights = view.findViewById(R.id.textViewHeaderWritingRights);
-        textViewHeaderWritingRights.setText("Writing\nRights");
+        String strHeaderWritingRights = getResources().getString(R.string.results_history_header_writing_rights);
+        textViewHeaderWritingRights.setText(strHeaderWritingRights);
         TextView textViewHeaderWritingWrongs = view.findViewById(R.id.textViewHeaderWritingWrongs);
-        textViewHeaderWritingWrongs.setText("Writing\nWrongs");
+        String strHeaderWritingWrongs = getResources().getString(R.string.results_history_header_writing_wrongs);
+        textViewHeaderWritingWrongs.setText(strHeaderWritingWrongs);
         TextView textViewHeaderTotalRights = view.findViewById(R.id.textViewHeaderTotalRights);
-        textViewHeaderTotalRights.setText("Total\nRights");
+        String strHeaderTotalRights = getResources().getString(R.string.results_history_header_total_rights);
+        textViewHeaderTotalRights.setText(strHeaderTotalRights);
         TextView textViewHeaderTotalWrongs = view.findViewById(R.id.textViewHeaderTotalWrongs);
-        textViewHeaderTotalWrongs.setText("Total\nWrongs");
+        String strHeaderTotalWrongs = getResources().getString(R.string.results_history_header_total_wrongs);
+        textViewHeaderTotalWrongs.setText(strHeaderTotalWrongs);
 
         initResultsHistory();
 
