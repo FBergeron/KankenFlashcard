@@ -1,5 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,9 +10,18 @@ import android.webkit.WebView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class QuizSummaryActivity extends ActionActivity {
 
@@ -22,6 +32,11 @@ public class QuizSummaryActivity extends ActionActivity {
 
     public void leaveSummary(android.view.View view) {
         doLeaveSummary();
+    }
+
+    public void playAgain(android.view.View view) {
+        appl.playAgain();
+        fetchProblems(appl.getQuiz().getLevel(), appl.getQuiz().getTopics(), appl.getQuiz().getType());
     }
 
     @Override
@@ -51,7 +66,7 @@ public class QuizSummaryActivity extends ActionActivity {
         StringBuilder strTopics = new StringBuilder();
         String delimiter = "";
         for (int i = 0; i < topicCount; i++) {
-            Log.d(tag, "topic="+Problem.Topic.values()[i]);
+            Log.d(TAG, "topic="+Problem.Topic.values()[i]);
             if (appl.getQuiz().getTopics().contains(Problem.Topic.values()[i])) {
                 strTopics.append(delimiter);
                 strTopics.append(labelTopics[i]);
@@ -113,15 +128,55 @@ public class QuizSummaryActivity extends ActionActivity {
         }
 
         listViewAdapter.setItems(summaryItems);
-
     }
 
     private void doLeaveSummary() {
-        finish();
+        Intent quizSettingsActivity = new Intent(QuizSummaryActivity.this, QuizSettingsActivity.class);
+        startActivity(quizSettingsActivity);
     }
+
+    private void fetchProblems(int level, Set<Problem.Topic> topics, Problem.Type type) {
+        Log.d(TAG, "fetchProblems level=" + level + " topics=" + topics + " type=" + type);
+        URL getNextProblemsUrl;
+        try {
+            String delim = "";
+            StringBuilder topicsParam = new StringBuilder();
+            List<Problem.Topic> sortedTopics = new ArrayList<Problem.Topic>(topics);
+            Collections.sort(sortedTopics);
+            for (Problem.Topic topic : sortedTopics) {
+                topicsParam.append(delim);
+                topicsParam.append(topic.toString().toLowerCase());
+                delim = ",";
+            }
+
+            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + getNextProblemsReqPath +
+                    "?type=" + URLEncoder.encode(type.toString().toLowerCase()) +
+                    "&level=" + URLEncoder.encode(level + "", "UTF-8") +
+                    "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
+
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(getResources().getString(R.string.label_fetching_quiz_data));
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            new FetchProblemsTask(appl, progressDialog, QuizSummaryActivity.this).execute(getNextProblemsUrl);
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (UnsupportedEncodingException e2) {
+            e2.printStackTrace();
+        } catch (IOException e3) {
+            e3.printStackTrace();
+        } catch (JSONException e4) {
+            e4.printStackTrace();
+        }
+    }
+
+    private ProgressDialog progressDialog;
 
     private KankenApplication appl = KankenApplication.getInstance();
 
-    private static final String tag = "QuizSummaryActivity";
+    private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
+
+    private static final String TAG = "QuizSummaryActivity";
 
 }

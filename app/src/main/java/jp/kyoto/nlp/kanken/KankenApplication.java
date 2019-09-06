@@ -28,6 +28,11 @@ public class KankenApplication extends Application {
         quiz = new Quiz(type, topics, level);
     }
 
+    public void playAgain() {
+        if (quiz != null)
+            quiz.clear();
+    }
+
     public Quiz getQuiz() {
         return quiz;
     }
@@ -140,12 +145,12 @@ public class KankenApplication extends Application {
     private String  sessionCookie;
 
     private MediaPlayerHolder mediaPlayerHolder;
-    private PlayerAdapter playerAdapter; 
+    private PlayerAdapter playerAdapter;
     private int backgroundMusicPos = -1;
     private boolean isBackgroundMusicEnabled = true;
 
     private String  serverBaseUrl;
-    
+
     private final static String tag = "KankenApplication";
 
 }
