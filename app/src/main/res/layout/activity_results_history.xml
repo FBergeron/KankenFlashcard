@@ -37,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_history_view_type_text"
-            android:onClick="showTextView"
             android:button="@null"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:onClick="showTextView" />
 
         <RadioButton
             android:id="@+id/buttonGraphicView"
@@ -47,9 +47,20 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_history_view_type_graphic"
-            android:onClick="showGraphicView"
             android:button="@null"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:onClick="showGraphicView" />
+
+        <RadioButton
+            android:id="@+id/buttonErrorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_history_view_type_errors"
+            android:button="@null"
+            android:gravity="center"
+            android:onClick="showErrorView" />
 
     </RadioGroup>
 
@@ -70,6 +81,19 @@
     <fragment
         android:id="@+id/fragmentGraphicResultsHistory"
         android:name="jp.kyoto.nlp.kanken.GraphicResultsHistoryFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/radioGroupHistoryViewType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:layout="@layout/fragment_text_results_history" />
+
+    <fragment
+        android:id="@+id/fragmentErrorResultsHistory"
+        android:name="jp.kyoto.nlp.kanken.ErrorResultsHistoryFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"

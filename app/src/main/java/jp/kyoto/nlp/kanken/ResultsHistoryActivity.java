@@ -46,13 +46,20 @@ public class ResultsHistoryActivity extends ActionActivity {
         doLeaveResultsHistory();
     }
 
+    public void showErrorView(android.view.View view) {
+        fragmentErrorView.setVisibility(View.VISIBLE);
+        fragmentGraphicView.setVisibility(View.GONE);
+        fragmentTextView.setVisibility(View.GONE);
+    }
+
     public void showTextView(android.view.View view) {
+        fragmentErrorView.setVisibility(View.GONE);
         fragmentGraphicView.setVisibility(View.GONE);
         fragmentTextView.setVisibility(View.VISIBLE);
     }
 
     public void showGraphicView(android.view.View view) {
-        System.out.println("showGraphicView");
+        fragmentErrorView.setVisibility(View.GONE);
         fragmentGraphicView.setVisibility(View.VISIBLE);
         fragmentTextView.setVisibility(View.GONE);
     }
@@ -62,11 +69,13 @@ public class ResultsHistoryActivity extends ActionActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_history);
 
-        fragmentTextView = findViewById(R.id.fragmentTextResultsHistory);
+        fragmentErrorView = findViewById(R.id.fragmentErrorResultsHistory);
         fragmentGraphicView = findViewById(R.id.fragmentGraphicResultsHistory);
+        fragmentTextView = findViewById(R.id.fragmentTextResultsHistory);
 
-        fragmentTextView.setVisibility(View.VISIBLE);
+        fragmentErrorView.setVisibility(View.GONE);
         fragmentGraphicView.setVisibility(View.GONE);
+        fragmentTextView.setVisibility(View.VISIBLE);
 
         RadioGroup radioGroupHistoryViewType = findViewById(R.id.radioGroupHistoryViewType);
         radioGroupHistoryViewType.check(R.id.buttonTextView);
@@ -235,8 +244,9 @@ public class ResultsHistoryActivity extends ActionActivity {
 
     private ResultsHistoryListViewAdapter listViewAdapter;
 
-    private View fragmentTextView;
+    private View fragmentErrorView;
     private View fragmentGraphicView;
+    private View fragmentTextView;
 
     private ProgressDialog progressDialog;
 

@@ -132,4 +132,10 @@
     <string name="results_history_period_last_3_months">Last 3 months</string>
     <string name="results_history_graphic_view_legend_rights">Rights</string>
     <string name="results_history_graphic_view_legend_wrongs">Wrongs</string>
+    <string name="results_history_errors_problem_type_reading">Reading Problem</string>
+    <string name="results_history_errors_problem_type_writing">Writing Probleme</string>
+    <string name="results_history_errors_header_date">Date</string>
+    <string name="results_history_errors_header_problem">Problem</string>
+    <string name="results_history_errors_header_user_answer">Your answer</string>
+    <string name="results_history_errors_header_right_answer">Right answer</string>
 </resources>

@@ -103,8 +103,6 @@ public class GraphicResultsHistoryFragment extends Fragment {
 
     }
 
-    List<String> xAxisValues = new ArrayList<>(Arrays.asList("Jan", "Feb", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"));
-
     private void updateHistoryChart() {
         // A parameter should be initialized in function of the selected period (radio button).
         // For now, we fetch all the data.
