@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/textViewHeaderDate"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:width="0dp"
@@ -27,68 +27,133 @@
             android:text="0000-00-00"
             android:textAlignment="textStart" />
 
-        <TextView
-            android:id="@+id/textViewHeaderReadingRights"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:width="0dp"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="textEnd" />
+            android:layout_weight="2"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewHeaderReadingWrongs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:width="0dp"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="textEnd" />
+            <TextView
+                android:id="@+id/textViewHeaderReading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/results_history_header_reading"
+                android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/textViewHeaderWritingRights"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:width="0dp"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="textEnd" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textViewHeaderWritingWrongs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:width="0dp"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="textEnd" />
+                <TextView
+                    android:id="@+id/textViewHeaderReadingRights"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="0dp"
+                    android:padding="10dp"
+                    android:text="0"
+                    android:textAlignment="textEnd" />
 
-        <TextView
-            android:id="@+id/textViewHeaderTotalRights"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:width="0dp"
-            android:padding="10dp"
-            android:text="0"
-            android:textAlignment="textEnd" />
+                <TextView
+                    android:id="@+id/textViewHeaderReadingWrongs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="0dp"
+                    android:padding="10dp"
+                    android:text="0"
+                    android:textAlignment="textEnd" />
 
-        <TextView
-            android:id="@+id/textViewHeaderTotalWrongs"
-            android:layout_width="wrap_content"
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:width="0dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="24dp"
-            android:paddingBottom="10dp"
-            android:text="0"
-            android:textAlignment="textEnd" />
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewHeaderWriting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/results_history_header_writing"
+                android:textAlignment="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewHeaderWritingRights"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="0dp"
+                    android:padding="10dp"
+                    android:text="0"
+                    android:textAlignment="textEnd" />
+
+                <TextView
+                    android:id="@+id/textViewHeaderWritingWrongs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="0dp"
+                    android:padding="10dp"
+                    android:text="0"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewHeaderTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/results_history_header_total"
+                android:textAlignment="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewHeaderTotalRights"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="0dp"
+                    android:padding="10dp"
+                    android:text="0"
+                    android:textAlignment="textEnd" />
+
+                <TextView
+                    android:id="@+id/textViewHeaderTotalWrongs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="0dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="10dp"
+                    android:text="0"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <ListView
@@ -96,6 +161,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_marginBottom="10dp"
         tools:listitem="@layout/view_results_history_item">
 
     </ListView>
