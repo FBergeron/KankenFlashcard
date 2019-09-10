@@ -93,7 +93,7 @@
 
     <fragment
         android:id="@+id/fragmentErrorResultsHistory"
-        android:name="jp.kyoto.nlp.kanken.ErrorResultsHistoryFragment"
+        android:name="jp.kyoto.nlp.kanken.ErrorsHistoryFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ErrorResultsHistoryFragment">
+    tools:context=".ErrorsHistoryFragment">
 
     <RadioGroup
         android:id="@+id/radioGroupProblemType"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            tools:listitem="@layout/view_results_history_error_item">
+            tools:listitem="@layout/view_errors_history_item">
 
         </ListView>
 

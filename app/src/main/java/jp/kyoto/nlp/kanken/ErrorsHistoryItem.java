@@ -2,18 +2,18 @@ package jp.kyoto.nlp.kanken;
 
 import java.util.Date;
 
-public class ResultsHistoryErrorItem {
+public class ErrorsHistoryItem {
 
     private Date date;
     private String problem;
     private String userAnswer;
     private String rightAnswer;
 
-    public ResultsHistoryErrorItem(Date date) {
+    public ErrorsHistoryItem(Date date) {
         this.date = date;
     }
 
-    public ResultsHistoryErrorItem(Date date, String problem, String userAnswer, String rightAnswer) {
+    public ErrorsHistoryItem(Date date, String problem, String userAnswer, String rightAnswer) {
         this.date = date;
         this.problem = problem;
         this.userAnswer = userAnswer;
@@ -38,7 +38,7 @@ public class ResultsHistoryErrorItem {
 
     @Override
     public String toString() {
-        return "ResultsHistoryErrorItem{" +
+        return "ErrorsHistoryItem{" +
                 "date='" + date + '\'' +
                 ", problem='" + problem + '\'' +
                 ", userAnswer=" + userAnswer +

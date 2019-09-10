@@ -17,8 +17,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#FFFFFFFF"
-            android:padding="10dp"
-            android:text="0000-00-00" />
+            android:padding="10dp" />
 
         <TextView
             android:id="@+id/textViewProblem"

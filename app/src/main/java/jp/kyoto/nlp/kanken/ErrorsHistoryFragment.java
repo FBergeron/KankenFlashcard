@@ -1,42 +1,16 @@
 package jp.kyoto.nlp.kanken;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
-
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,19 +26,17 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class ErrorResultsHistoryFragment extends Fragment {
+public class ErrorsHistoryFragment extends Fragment {
 
-    public ErrorResultsHistoryFragment() {
+    public ErrorsHistoryFragment() {
     }
 
-    public static ErrorResultsHistoryFragment newInstance(String param1, String param2) {
-        ErrorResultsHistoryFragment fragment = new ErrorResultsHistoryFragment();
+    public static ErrorsHistoryFragment newInstance(String param1, String param2) {
+        ErrorsHistoryFragment fragment = new ErrorsHistoryFragment();
         return fragment;
     }
 
@@ -76,10 +48,10 @@ public class ErrorResultsHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_error_results_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_error_history, container, false);
 
         ListView listViewResultEntries = view.findViewById(R.id.listViewResultEntries);
-        listViewAdapter = new ResultsHistoryErrorsListViewAdapter(getContext(), inflater);
+        listViewAdapter = new ErrorsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
 
         initErrors();
@@ -178,7 +150,7 @@ public class ErrorResultsHistoryFragment extends Fragment {
 
             Log.d(tag, "errorsHistory=" + obj);
 
-            List<ResultsHistoryErrorItem> errorsHistoryItems = new ArrayList<>();
+            List<ErrorsHistoryItem> errorsHistoryItems = new ArrayList<>();
             JSONObject jsonErrorsHistory = (JSONObject)obj;
             if (jsonErrorsHistory.has("errors_history")) {
                 JSONArray jsonErrors = null;
@@ -209,11 +181,11 @@ public class ErrorResultsHistoryFragment extends Fragment {
                                         String userAnswer = (String)err.get("user_answer");
 
                                         if (!strDateKey.equals(strPrevDate)) {
-                                            ResultsHistoryErrorItem dateItem = new ResultsHistoryErrorItem(date);
+                                            ErrorsHistoryItem dateItem = new ErrorsHistoryItem(date);
                                             errorsHistoryItems.add(dateItem);
                                             strPrevDate = strDateKey;
                                         }
-                                        ResultsHistoryErrorItem errorsHistoryItem = new ResultsHistoryErrorItem(
+                                        ErrorsHistoryItem errorsHistoryItem = new ErrorsHistoryItem(
                                             date,
                                             problemWord,
                                             userAnswer,
@@ -242,7 +214,7 @@ public class ErrorResultsHistoryFragment extends Fragment {
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    private ResultsHistoryErrorsListViewAdapter listViewAdapter;
+    private ErrorsHistoryListViewAdapter listViewAdapter;
 
     private ProgressDialog progressDialog;
 
@@ -250,7 +222,7 @@ public class ErrorResultsHistoryFragment extends Fragment {
 
     private static final String getErrorHistoryReqPath = "/cgi-bin/get_errors_history.cgi";
 
-    private static final String tag = "ErrorResultsHistoryFragment";
+    private static final String tag = "ErrorsHistoryFragment";
 
 }
 
