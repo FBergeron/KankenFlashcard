@@ -81,7 +81,6 @@ public class GraphicResultsHistoryFragment extends Fragment {
 
         radioButtonLastWeek = view.findViewById(R.id.radioButtonLastWeek);
         radioButtonLastMonth = view.findViewById(R.id.radioButtonLastMonth);
-        radioButtonLast3Months = view.findViewById(R.id.radioButtonLast3Months);
 
         radioGroupPeriod = view.findViewById(R.id.radioGroupPeriod);
         radioGroupPeriod.setOnCheckedChangeListener(
@@ -217,10 +216,6 @@ public class GraphicResultsHistoryFragment extends Fragment {
                     else if (radioButtonLastMonth.isChecked()) {
                         periodStart.add(Calendar.MONTH, -1);
                         maxValueCount = 31;
-                    }
-                    else if (radioButtonLast3Months.isChecked()) {
-                        periodStart.add(Calendar.MONTH, -3);
-                        maxValueCount = 92;
                     }
                     String strDateMin = dateFormatter.format(periodStart.getTime());
 
@@ -362,7 +357,6 @@ public class GraphicResultsHistoryFragment extends Fragment {
     private RadioGroup radioGroupPeriod;
     private RadioButton radioButtonLastWeek;
     private RadioButton radioButtonLastMonth;
-    private RadioButton radioButtonLast3Months;
     private List<IBarDataSet> datasets;
 
     private ProgressDialog progressDialog;

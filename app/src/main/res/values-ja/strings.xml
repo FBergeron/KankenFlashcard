@@ -122,7 +122,6 @@
     <string name="results_history_header_total_wrongs">合計\n×</string>
     <string name="results_history_period_last_week">一週間前</string>
     <string name="results_history_period_last_month">一ヶ月前</string>
-    <string name="results_history_period_last_3_months">三ヶ月前</string>
     <string name="results_history_graphic_view_legend_rights">正解</string>
     <string name="results_history_graphic_view_legend_wrongs">不正解</string>
     <string name="results_history_errors_problem_type_reading">読み問題</string>

@@ -129,7 +129,6 @@
     <string name="results_history_header_total_wrongs">Total\nWrongs</string>
     <string name="results_history_period_last_week">Last week</string>
     <string name="results_history_period_last_month">Last month</string>
-    <string name="results_history_period_last_3_months">Last 3 months</string>
     <string name="results_history_graphic_view_legend_rights">Rights</string>
     <string name="results_history_graphic_view_legend_wrongs">Wrongs</string>
     <string name="results_history_errors_problem_type_reading">Reading Problem</string>
