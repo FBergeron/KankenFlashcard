@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +56,19 @@ public class ErrorsHistoryFragment extends Fragment {
         listViewAdapter = new ErrorsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
 
-        initErrors();
+        radioButtonProblemTypeReading = view.findViewById(R.id.radioButtonProblemTypeReading);
+        radioButtonProblemTypeWriting = view.findViewById(R.id.radioButtonProblemTypeWriting);
+        radioGroupProblemType = view.findViewById(R.id.radioGroupProblemType);
+        radioGroupProblemType.setOnCheckedChangeListener(
+            new RadioGroup.OnCheckedChangeListener() {
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    int selectedId = radioGroupProblemType.getCheckedRadioButtonId();
+                    updateErrors();
+                }
+            }
+        );
+
+        updateErrors();
 
         return view;
     }
@@ -65,7 +79,7 @@ public class ErrorsHistoryFragment extends Fragment {
 
     }
 
-    private void initErrors() {
+    private void updateErrors() {
         URL getErrorsHistoryUrl;
         try {
             getErrorsHistoryUrl = new URL(appl.getServerBaseUrl() + getErrorHistoryReqPath);
@@ -175,6 +189,12 @@ public class ErrorsHistoryFragment extends Fragment {
                                         JSONObject err = (JSONObject)dailyErrors.get(j);
 
                                         String problemId = (String)err.get("problem_id");
+
+                                        boolean isReadingProblem = problemId.endsWith("-y");
+                                        if ((isReadingProblem && radioButtonProblemTypeWriting.isChecked()) ||
+                                            (!isReadingProblem && radioButtonProblemTypeReading.isChecked()))
+                                            continue;
+
                                         String problemStmt = err.has("problem_statement") ? (String)err.get("problem_statement") : null;
                                         String problemWord = err.has("problem_word") ? (String)err.get("problem_word") : null;
                                         String problemRightAnswer = err.has("problem_right_answer") ? (String)err.get("problem_right_answer") : null;
@@ -213,6 +233,10 @@ public class ErrorsHistoryFragment extends Fragment {
     }
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    private RadioGroup radioGroupProblemType;
+    private RadioButton radioButtonProblemTypeReading;
+    private RadioButton radioButtonProblemTypeWriting;
 
     private ErrorsHistoryListViewAdapter listViewAdapter;
 

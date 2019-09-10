@@ -28,9 +28,11 @@
             android:textAlignment="textStart" />
 
         <LinearLayout
+            android:id="@+id/linearLayoutReading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:background="#ECC85B"
             android:orientation="vertical">
 
             <TextView
@@ -41,6 +43,7 @@
                 android:textAlignment="center" />
 
             <LinearLayout
+                android:id="@+id/linearLayoutReadingInt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -70,6 +73,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayoutWriting"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -83,6 +87,7 @@
                 android:textAlignment="center" />
 
             <LinearLayout
+                android:id="@+id/linearLayoutWritingInt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -111,9 +116,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayoutTotal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:background="#ECC85B"
             android:orientation="vertical">
 
             <TextView
@@ -124,6 +131,7 @@
                 android:textAlignment="center" />
 
             <LinearLayout
+                android:id="@+id/linearLayoutTotalInt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
