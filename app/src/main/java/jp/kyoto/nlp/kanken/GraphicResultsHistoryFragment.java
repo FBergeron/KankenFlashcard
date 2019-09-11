@@ -313,7 +313,7 @@ public class GraphicResultsHistoryFragment extends Fragment {
 
                 XAxis xAxis = chart.getXAxis();
                 xAxis.setGranularity(1f);
-                xAxis.setDrawGridLines(false);
+                xAxis.setDrawGridLines(true);
                 xAxis.setCenterAxisLabels(true);
                 xAxis.setValueFormatter(formatter);
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -330,7 +330,7 @@ public class GraphicResultsHistoryFragment extends Fragment {
                 YAxis leftAxis = chart.getAxisLeft();
                 leftAxis.setAxisMinimum(0f);
                 leftAxis.setGranularity(1f);
-                leftAxis.setDrawGridLines(false);
+                leftAxis.setDrawGridLines(true);
                 chart.getAxisRight().setEnabled(false);
                 chart.setData(barData);
                 chart.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
