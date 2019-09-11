@@ -29,6 +29,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -186,52 +187,75 @@ public class TextResultsHistoryFragment extends Fragment {
                     e.printStackTrace();
                 }
                 if (jsonResults != null) {
-                    for (int i = 0; i < jsonResults.length(); i++) {
-                        try {
-                            JSONObject result = (JSONObject)jsonResults.get(i);
-                            Integer readingRights = null;
-                            Integer readingWrongs = null;
-                            Integer writingRights = null;
-                            Integer writingWrongs = null;
+                    Calendar now = Calendar.getInstance();
+                    String strDateTemp = dateFormatter.format(now.getTime());
 
-                            String strDateKey = null;
-                            for (Iterator<String> keys = result.keys(); keys.hasNext(); ) {
-                                strDateKey = keys.next();
-                                JSONObject dailyResult = (JSONObject)result.get(strDateKey);
-                                if (dailyResult.has("reading")) {
-                                    JSONObject readingData = (JSONObject)dailyResult.get("reading");
-                                    readingRights = (Integer)readingData.get("rights");
-                                    readingWrongs = (Integer)readingData.get("wrongs");
+                    Calendar periodStart = Calendar.getInstance();
+                    periodStart.add(Calendar.MONTH, -1);
+                    String strDateMin = dateFormatter.format(periodStart.getTime());
+
+                    String strDateResult = null;
+                    JSONObject result = null;
+                    Integer readingRights = Integer.valueOf(0);
+                    Integer readingWrongs = Integer.valueOf(0);
+                    Integer writingRights = Integer.valueOf(0);
+                    Integer writingWrongs = Integer.valueOf(0);
+                    int entryIndex = 0;
+                    int resultIndex = 0;
+                    while (strDateTemp.compareTo(strDateMin) > 0) {
+                        if (jsonResults.length() > resultIndex && (result == null || strDateResult == null || strDateResult.compareTo(strDateTemp) > 0)) {
+                            try {
+                                result = (JSONObject)jsonResults.get(resultIndex);
+                                for (Iterator<String> keys = result.keys(); keys.hasNext(); ) {
+                                    strDateResult = keys.next();
+                                    JSONObject dailyResult = (JSONObject)result.get(strDateResult);
+                                    if (dailyResult.has("reading")) {
+                                        JSONObject readingData = (JSONObject)dailyResult.get("reading");
+                                        readingRights = (Integer)readingData.get("rights");
+                                        readingWrongs = (Integer)readingData.get("wrongs");
+                                    }
+                                    if (dailyResult.has("writing")) {
+                                        JSONObject writingData = (JSONObject)dailyResult.get("writing");
+                                        writingRights = (Integer)writingData.get("rights");
+                                        writingWrongs = (Integer)writingData.get("wrongs");
+                                    }
+
+                                    // There always is 1 key.
+                                    break;
                                 }
-                                if (dailyResult.has("writing")) {
-                                    JSONObject writingData = (JSONObject)dailyResult.get("writing");
-                                    writingRights = (Integer)writingData.get("rights");
-                                    writingWrongs = (Integer)writingData.get("wrongs");
-                                }
+                                resultIndex++;
                             }
-
-                            if (strDateKey != null) {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                try {
-                                    Date date = formatter.parse(strDateKey);
-                                    ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(
-                                        date,
-                                        readingRights.intValue(),
-                                        readingWrongs.intValue(),
-                                        writingRights.intValue(),
-                                        writingWrongs.intValue()
-                                   );
-                                   resultsHistoryItems.add(resultsHistoryItem);
-                                }
-                                catch(ParseException e) {
-                                    e.printStackTrace();
-                                }
+                            catch(JSONException e) {
+                                e.printStackTrace();
                             }
                         }
-                        catch(JSONException e) {
+
+                        try {
+                            Date date = dateFormatter.parse(strDateTemp);
+                            if (strDateResult != null && strDateResult.compareTo(strDateTemp) == 0) {
+                                ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(
+                                    date,
+                                    readingRights.intValue(),
+                                    readingWrongs.intValue(),
+                                    writingRights.intValue(),
+                                    writingWrongs.intValue()
+                                );
+                                resultsHistoryItems.add(resultsHistoryItem);
+                            }
+                            else {
+                                ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(date, 0, 0, 0, 0);
+                                resultsHistoryItems.add(resultsHistoryItem);
+                            }
+                        }
+                        catch(ParseException e) {
                             e.printStackTrace();
                         }
+
+                        entryIndex++;
+                        now.add(Calendar.DAY_OF_MONTH, -1);
+                        strDateTemp = dateFormatter.format(now.getTime());
                     }
+
                     listViewAdapter.setItems(resultsHistoryItems);
                 }
             }
@@ -240,6 +264,8 @@ public class TextResultsHistoryFragment extends Fragment {
         private Exception exception;
 
     }
+
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     private ResultsHistoryListViewAdapter listViewAdapter;
 
