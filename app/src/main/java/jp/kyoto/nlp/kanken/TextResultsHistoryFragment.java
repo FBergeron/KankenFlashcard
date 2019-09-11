@@ -58,28 +58,6 @@ public class TextResultsHistoryFragment extends Fragment {
         listViewAdapter = new ResultsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
 
-        TextView textViewHeaderDate = view.findViewById(R.id.textViewHeaderDate);
-        String strHeaderDate = getResources().getString(R.string.results_history_header_date);
-        textViewHeaderDate.setText(strHeaderDate);
-        TextView textViewHeaderReadingRights = view.findViewById(R.id.textViewHeaderReadingRights);
-        String strHeaderReadingRights = getResources().getString(R.string.results_history_header_reading_rights);
-        textViewHeaderReadingRights.setText(strHeaderReadingRights);
-        TextView textViewHeaderReadingWrongs = view.findViewById(R.id.textViewHeaderReadingWrongs);
-        String strHeaderReadingWrongs = getResources().getString(R.string.results_history_header_reading_wrongs);
-        textViewHeaderReadingWrongs.setText(strHeaderReadingWrongs);
-        TextView textViewHeaderWritingRights = view.findViewById(R.id.textViewHeaderWritingRights);
-        String strHeaderWritingRights = getResources().getString(R.string.results_history_header_writing_rights);
-        textViewHeaderWritingRights.setText(strHeaderWritingRights);
-        TextView textViewHeaderWritingWrongs = view.findViewById(R.id.textViewHeaderWritingWrongs);
-        String strHeaderWritingWrongs = getResources().getString(R.string.results_history_header_writing_wrongs);
-        textViewHeaderWritingWrongs.setText(strHeaderWritingWrongs);
-        TextView textViewHeaderTotalRights = view.findViewById(R.id.textViewHeaderTotalRights);
-        String strHeaderTotalRights = getResources().getString(R.string.results_history_header_total_rights);
-        textViewHeaderTotalRights.setText(strHeaderTotalRights);
-        TextView textViewHeaderTotalWrongs = view.findViewById(R.id.textViewHeaderTotalWrongs);
-        String strHeaderTotalWrongs = getResources().getString(R.string.results_history_header_total_wrongs);
-        textViewHeaderTotalWrongs.setText(strHeaderTotalWrongs);
-
         initResultsHistory();
 
         return view;

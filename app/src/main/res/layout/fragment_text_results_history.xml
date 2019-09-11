@@ -24,7 +24,7 @@
             android:paddingTop="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
-            android:text="0000-00-00"
+            android:text="@string/results_history_errors_header_date"
             android:textAlignment="textStart" />
 
         <LinearLayout
@@ -55,7 +55,7 @@
                     android:layout_weight="1"
                     android:width="0dp"
                     android:padding="10dp"
-                    android:text="0"
+                    android:text="@string/results_history_header_reading_rights"
                     android:textAlignment="textEnd" />
 
                 <TextView
@@ -65,7 +65,7 @@
                     android:layout_weight="1"
                     android:width="0dp"
                     android:padding="10dp"
-                    android:text="0"
+                    android:text="@string/results_history_header_reading_wrongs"
                     android:textAlignment="textEnd" />
 
             </LinearLayout>
@@ -99,7 +99,7 @@
                     android:layout_weight="1"
                     android:width="0dp"
                     android:padding="10dp"
-                    android:text="0"
+                    android:text="@string/results_history_header_writing_rights"
                     android:textAlignment="textEnd" />
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:layout_weight="1"
                     android:width="0dp"
                     android:padding="10dp"
-                    android:text="0"
+                    android:text="@string/results_history_header_writing_wrongs"
                     android:textAlignment="textEnd" />
             </LinearLayout>
 
@@ -143,7 +143,7 @@
                     android:layout_weight="1"
                     android:width="0dp"
                     android:padding="10dp"
-                    android:text="0"
+                    android:text="@string/results_history_header_total_rights"
                     android:textAlignment="textEnd" />
 
                 <TextView
@@ -156,7 +156,7 @@
                     android:paddingTop="10dp"
                     android:paddingRight="24dp"
                     android:paddingBottom="10dp"
-                    android:text="0"
+                    android:text="@string/results_history_header_total_wrongs"
                     android:textAlignment="textEnd" />
             </LinearLayout>
 
