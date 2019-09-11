@@ -80,24 +80,28 @@ public class ErrorsHistoryFragment extends Fragment {
     }
 
     private void updateErrors() {
-        URL getErrorsHistoryUrl;
-        try {
-            getErrorsHistoryUrl = new URL(appl.getServerBaseUrl() + getErrorHistoryReqPath);
+        if (jsonErrorsHistory != null)
+            rebuildErrors();
+        else {
+            URL getErrorsHistoryUrl;
+            try {
+                getErrorsHistoryUrl = new URL(appl.getServerBaseUrl() + getErrorHistoryReqPath);
 
-            progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
 
-            new FetchErrorHistoryTask().execute(getErrorsHistoryUrl);
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (UnsupportedEncodingException e2) {
-            e2.printStackTrace();
-        } catch (IOException e3) {
-            e3.printStackTrace();
-        } catch (JSONException e4) {
-            e4.printStackTrace();
+                new FetchErrorHistoryTask().execute(getErrorsHistoryUrl);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (UnsupportedEncodingException e2) {
+                e2.printStackTrace();
+            } catch (IOException e3) {
+                e3.printStackTrace();
+            } catch (JSONException e4) {
+                e4.printStackTrace();
+            }
         }
     }
 
@@ -165,72 +169,79 @@ public class ErrorsHistoryFragment extends Fragment {
             Log.d(tag, "errorsHistory=" + obj);
 
             List<ErrorsHistoryItem> errorsHistoryItems = new ArrayList<>();
-            JSONObject jsonErrorsHistory = (JSONObject)obj;
-            if (jsonErrorsHistory.has("errors_history")) {
-                JSONArray jsonErrors = null;
-                try {
-                    jsonErrors = (JSONArray)jsonErrorsHistory.get("errors_history");
-                }
-                catch(JSONException e) {
-                    e.printStackTrace();
-                }
-                if (jsonErrors != null) {
-                    String strPrevDate = null;
-                    for (int i = 0; i < jsonErrors.length(); i++) {
-                        try {
-                            JSONObject error = (JSONObject)jsonErrors.get(i);
-                            String strDateKey = null;
-                            for (Iterator<String> keys = error.keys(); keys.hasNext(); ) {
-                                strDateKey = keys.next();
-                                try {
-                                    Date date = formatter.parse(strDateKey);
-                                    JSONArray dailyErrors = (JSONArray)error.get(strDateKey);
-                                    for (int j = 0; j < dailyErrors.length(); j++) {
-                                        JSONObject err = (JSONObject)dailyErrors.get(j);
-
-                                        String problemId = (String)err.get("problem_id");
-
-                                        boolean isReadingProblem = problemId.endsWith("-y");
-                                        if ((isReadingProblem && radioButtonProblemTypeWriting.isChecked()) ||
-                                            (!isReadingProblem && radioButtonProblemTypeReading.isChecked()))
-                                            continue;
-
-                                        String problemStmt = err.has("problem_statement") ? (String)err.get("problem_statement") : null;
-                                        String problemWord = err.has("problem_word") ? (String)err.get("problem_word") : null;
-                                        String problemRightAnswer = err.has("problem_right_answer") ? (String)err.get("problem_right_answer") : null;
-                                        String userAnswer = (String)err.get("user_answer");
-
-                                        if (!strDateKey.equals(strPrevDate)) {
-                                            ErrorsHistoryItem dateItem = new ErrorsHistoryItem(date);
-                                            errorsHistoryItems.add(dateItem);
-                                            strPrevDate = strDateKey;
-                                        }
-                                        ErrorsHistoryItem errorsHistoryItem = new ErrorsHistoryItem(
-                                            date,
-                                            problemWord,
-                                            userAnswer,
-                                            problemRightAnswer
-                                        );
-                                        errorsHistoryItems.add(errorsHistoryItem);
-                                    }
-                                }
-                                catch(ParseException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        catch(JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    listViewAdapter.setItems(errorsHistoryItems);
-                }
-            }
+            jsonErrorsHistory = (JSONObject)obj;
+            rebuildErrors();
         }
 
         private Exception exception;
 
     }
+
+    private void rebuildErrors() {
+        if (jsonErrorsHistory.has("errors_history")) {
+            List<ErrorsHistoryItem> errorsHistoryItems = new ArrayList<>();
+            JSONArray jsonErrors = null;
+            try {
+                jsonErrors = (JSONArray)jsonErrorsHistory.get("errors_history");
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
+            if (jsonErrors != null) {
+                String strPrevDate = null;
+                for (int i = 0; i < jsonErrors.length(); i++) {
+                    try {
+                        JSONObject error = (JSONObject)jsonErrors.get(i);
+                        String strDateKey = null;
+                        for (Iterator<String> keys = error.keys(); keys.hasNext(); ) {
+                            strDateKey = keys.next();
+                            try {
+                                Date date = formatter.parse(strDateKey);
+                                JSONArray dailyErrors = (JSONArray)error.get(strDateKey);
+                                for (int j = 0; j < dailyErrors.length(); j++) {
+                                    JSONObject err = (JSONObject)dailyErrors.get(j);
+
+                                    String problemId = (String)err.get("problem_id");
+
+                                    boolean isReadingProblem = problemId.endsWith("-y");
+                                    if ((isReadingProblem && radioButtonProblemTypeWriting.isChecked()) ||
+                                        (!isReadingProblem && radioButtonProblemTypeReading.isChecked()))
+                                        continue;
+
+                                    String problemStmt = err.has("problem_statement") ? (String)err.get("problem_statement") : null;
+                                    String problemWord = err.has("problem_word") ? (String)err.get("problem_word") : null;
+                                    String problemRightAnswer = err.has("problem_right_answer") ? (String)err.get("problem_right_answer") : null;
+                                    String userAnswer = (String)err.get("user_answer");
+
+                                    if (!strDateKey.equals(strPrevDate)) {
+                                        ErrorsHistoryItem dateItem = new ErrorsHistoryItem(date);
+                                        errorsHistoryItems.add(dateItem);
+                                        strPrevDate = strDateKey;
+                                    }
+                                    ErrorsHistoryItem errorsHistoryItem = new ErrorsHistoryItem(
+                                        date,
+                                        problemWord,
+                                        userAnswer,
+                                        problemRightAnswer
+                                    );
+                                    errorsHistoryItems.add(errorsHistoryItem);
+                                }
+                            }
+                            catch(ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                listViewAdapter.setItems(errorsHistoryItems);
+            }
+        }
+    }
+
+    private JSONObject jsonErrorsHistory = null;
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
