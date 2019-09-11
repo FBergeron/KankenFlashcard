@@ -120,16 +120,10 @@
     <string name="btn_next_items">別の候補を表示▼</string>
     <string name="nothing_familiarity" translatable="false">---</string>
     <string name="loading" translatable="false">Now Loading...</string>
-    <string name="results_history_header_date">\nDate</string>
-    <string name="results_history_header_reading">Reading Problems</string>
-    <string name="results_history_header_reading_rights">Rights</string>
-    <string name="results_history_header_reading_wrongs">Wrongs</string>
-    <string name="results_history_header_writing">Writing Problems</string>
-    <string name="results_history_header_writing_rights">Rights</string>
-    <string name="results_history_header_writing_wrongs">Wrongs</string>
+    <string name="results_history_header_date">Date</string>
+    <string name="results_history_header_reading">Reading</string>
+    <string name="results_history_header_writing">Writing</string>
     <string name="results_history_header_total">Totals</string>
-    <string name="results_history_header_total_rights">Rights</string>
-    <string name="results_history_header_total_wrongs">Wrongs</string>
     <string name="results_history_period_last_week">Last week</string>
     <string name="results_history_period_last_month">Last month</string>
     <string name="results_history_graphic_view_legend_rights">Rights</string>

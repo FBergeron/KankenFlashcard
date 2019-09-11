@@ -17,9 +17,10 @@
         <TextView
             android:id="@+id/textViewHeaderDate"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:width="0dp"
+            android:gravity="center_vertical"
             android:paddingLeft="24dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
@@ -30,7 +31,7 @@
         <LinearLayout
             android:id="@+id/linearLayoutReading"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="#ECC85B"
             android:orientation="vertical">
@@ -45,28 +46,41 @@
             <LinearLayout
                 android:id="@+id/linearLayoutReadingInt"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewHeaderReadingRights"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayoutReadingRightsInt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:width="0dp"
-                    android:padding="10dp"
-                    android:text="@string/results_history_header_reading_rights"
-                    android:textAlignment="textEnd" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewHeaderReadingWrongs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <ImageView
+                        android:id="@+id/imageViewHeaderReadingRights"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_maru" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutReadingWrongsInt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:width="0dp"
-                    android:padding="10dp"
-                    android:text="@string/results_history_header_reading_wrongs"
-                    android:textAlignment="textEnd" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewHeaderReadingWrongs"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_batu" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -75,7 +89,7 @@
         <LinearLayout
             android:id="@+id/linearLayoutWriting"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="vertical">
 
@@ -89,28 +103,41 @@
             <LinearLayout
                 android:id="@+id/linearLayoutWritingInt"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewHeaderWritingRights"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayoutWritingRightsInt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:width="0dp"
-                    android:padding="10dp"
-                    android:text="@string/results_history_header_writing_rights"
-                    android:textAlignment="textEnd" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewHeaderWritingWrongs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <ImageView
+                        android:id="@+id/imageViewHeaderWritingRights"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_maru" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutWritingWrongsInt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:width="0dp"
-                    android:padding="10dp"
-                    android:text="@string/results_history_header_writing_wrongs"
-                    android:textAlignment="textEnd" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewHeaderWritingWrongs"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_batu" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -118,7 +145,7 @@
         <LinearLayout
             android:id="@+id/linearLayoutTotal"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="#ECC85B"
             android:orientation="vertical">
@@ -133,31 +160,41 @@
             <LinearLayout
                 android:id="@+id/linearLayoutTotalInt"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewHeaderTotalRights"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayoutHeaderTotalRightsInt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:width="0dp"
-                    android:padding="10dp"
-                    android:text="@string/results_history_header_total_rights"
-                    android:textAlignment="textEnd" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewHeaderTotalWrongs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <ImageView
+                        android:id="@+id/imageViewHeaderTotalRights"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_maru" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutHeaderTotalWrongsInt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:width="0dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="24dp"
-                    android:paddingBottom="10dp"
-                    android:text="@string/results_history_header_total_wrongs"
-                    android:textAlignment="textEnd" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewHeaderTotalWrongs"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_batu" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
