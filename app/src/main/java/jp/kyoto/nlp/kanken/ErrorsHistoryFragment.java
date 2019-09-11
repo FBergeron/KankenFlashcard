@@ -1,7 +1,9 @@
 package jp.kyoto.nlp.kanken;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,13 +64,29 @@ public class ErrorsHistoryFragment extends Fragment {
         radioGroupProblemType.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    String problemType = null;
                     int selectedId = radioGroupProblemType.getCheckedRadioButtonId();
+                    if (selectedId == R.id.radioButtonProblemTypeReading)
+                        problemType = "Reading";
+                    else
+                        problemType = "Writing";
+
+                    SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(Util.PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE, problemType);
+                    editor.apply();
+
                     updateErrors();
                 }
             }
         );
 
-        updateErrors();
+        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefProblemType = sharedPref.getString(Util.PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE, "Reading");
+        if ("Reading".equals(prefProblemType))
+            radioButtonProblemTypeReading.setChecked(true);
+        else
+            radioButtonProblemTypeWriting.setChecked(true);
 
         return view;
     }

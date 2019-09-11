@@ -3,6 +3,7 @@ package jp.kyoto.nlp.kanken;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -86,13 +87,30 @@ public class GraphicResultsHistoryFragment extends Fragment {
         radioGroupPeriod.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    String period = null;
                     int selectedId = radioGroupPeriod.getCheckedRadioButtonId();
+                    if (selectedId == R.id.radioButtonLastWeek)
+                        period = "LastWeek";
+                    else
+                        period = "LastMonth";
+
+                    SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(Util.PREF_KEY_HISTORY_GRAPH_PERIOD, period);
+                    editor.apply();
+
                     updateHistoryChart();
                 }
             }
         );
 
-        updateHistoryChart();
+        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefPeriod = sharedPref.getString(Util.PREF_KEY_HISTORY_GRAPH_PERIOD, "LastWeek");
+        if ("LastWeek".equals(prefPeriod))
+            radioButtonLastWeek.setChecked(true);
+        else
+            radioButtonLastMonth.setChecked(true);
+
         return view;
     }
 

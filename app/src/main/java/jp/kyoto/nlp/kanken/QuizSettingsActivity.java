@@ -217,7 +217,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
         int level = seekbarQuizLevel.getProgress() + 1;
-        editor.putInt("QuizLevel", level);
+        editor.putInt(Util.PREF_KEY_QUIZ_LEVEL, level);
 
         StringBuilder strPrefTopics = new StringBuilder();
         String delimiter = "";
@@ -226,9 +226,9 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
             strPrefTopics.append(topic.getLabelId());
             delimiter = ",";
         }
-        editor.putString("QuizTopics", strPrefTopics.toString());
+        editor.putString(Util.PREF_KEY_QUIZ_TOPICS, strPrefTopics.toString());
 
-        editor.putString("QuizType", type.getLabelId());
+        editor.putString(Util.PREF_KEY_QUIZ_TYPE, type.getLabelId());
 
         editor.apply();
 
@@ -259,7 +259,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
 
-        int prefLevel = sharedPref.getInt("QuizLevel", 1);
+        int prefLevel = sharedPref.getInt(Util.PREF_KEY_QUIZ_LEVEL, 1);
         SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
         seekbarQuizLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -286,7 +286,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         checkedTopics = new boolean[labelTopics.length];
 
-        String prefTopics = sharedPref.getString("QuizTopics", "");
+        String prefTopics = sharedPref.getString(Util.PREF_KEY_QUIZ_TOPICS, "");
         HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
         for (int i = 0; i < Problem.Topic.values().length; i++) {
             if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
@@ -294,7 +294,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
         showSelectedTopics();
 
-        String prefType = sharedPref.getString("QuizType", "reading");
+        String prefType = sharedPref.getString(Util.PREF_KEY_QUIZ_TYPE, "reading");
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();

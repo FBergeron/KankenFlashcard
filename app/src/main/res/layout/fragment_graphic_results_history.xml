@@ -20,7 +20,7 @@
             android:id="@+id/radioButtonLastWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/results_history_period_last_week" />
 
         <RadioButton

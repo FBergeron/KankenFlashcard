@@ -1,7 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
