@@ -1,5 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.Activity;
 import android.app.Application;
 import android.net.Uri;
 import android.util.Log;
@@ -134,6 +135,15 @@ public class KankenApplication extends Application {
             playerAdapter.release();
     }
 
+    public void setFirstActivity(Activity activity) {
+        if (firstActivity == null)
+            firstActivity = activity;
+    }
+
+    public Activity getFirstActivity() {
+        return firstActivity;
+    }
+
     private static KankenApplication instance;
 
     private Quiz    quiz;
@@ -152,5 +162,7 @@ public class KankenApplication extends Application {
     private String  serverBaseUrl;
 
     private final static String tag = "KankenApplication";
+
+    private Activity firstActivity = null;
 
 }

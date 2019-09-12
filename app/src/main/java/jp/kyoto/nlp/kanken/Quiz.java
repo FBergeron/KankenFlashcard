@@ -31,6 +31,10 @@ class Quiz {
         return length;
     }
 
+    public int getAnswerCount() {
+        return answers.size();
+    }
+
     public void clear() {
         problems.clear();
         answers.clear();
@@ -61,7 +65,7 @@ class Quiz {
             currentProblem++;
         return problems.get(currentProblem);
     }
-    
+
     public Problem nextProblem() {
         if (currentProblem >= this.length - 1)
             return null;

@@ -127,4 +127,5 @@
     <string name="results_history_errors_header_problem">問題</string>
     <string name="results_history_errors_header_user_answer">あなたの答え</string>
     <string name="results_history_errors_header_right_answer">正しい答え</string>
+    <string name="dialog_quit_msg">アプリケーションを閉じる前に...</string>
 </resources>

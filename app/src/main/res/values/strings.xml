@@ -134,4 +134,5 @@
     <string name="results_history_errors_header_problem">Problem</string>
     <string name="results_history_errors_header_user_answer">Your answer</string>
     <string name="results_history_errors_header_right_answer">Right answer</string>
+    <string name="dialog_quit_msg">Before quitting the application...</string>
 </resources>

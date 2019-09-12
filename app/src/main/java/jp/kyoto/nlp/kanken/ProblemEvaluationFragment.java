@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,28 +73,8 @@ public class ProblemEvaluationFragment extends Fragment {
 
     public void goNextProblem() {
         Problem nextProblem = appl.getQuiz().nextProblem();
-        if (nextProblem == null) {
-            URL storeResultsUrl;
-            try {
-                storeResultsUrl = new URL(appl.getServerBaseUrl() + storeResultsReqPath);
-
-                progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setMessage(getResources().getString(R.string.label_sending_results_data));
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-
-                new SendResultsTask().execute(storeResultsUrl);
-            }
-            catch(MalformedURLException e1) {
-                e1.printStackTrace();
-            }
-            catch(IOException e2) {
-                e2.printStackTrace();
-            }
-            catch(JSONException e3) {
-                e3.printStackTrace();
-            }
-        }
+        if (nextProblem == null)
+            storeResults(false);
         else {
             appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_ASK);
             appl.getQuiz().setCurrentAnswer("");
@@ -101,32 +84,6 @@ public class ProblemEvaluationFragment extends Fragment {
         }
     }
 
-    public void setProblemFamiliarity(int familiarity) {
-        appl.getQuiz().addFamiliarity(familiarity);
-
-        goNextProblem();
-    }
-
-    public void setProblemFamiliarity0(android.view.View view) {
-        setProblemFamiliarity(0); 
-    }
-    
-    public void setProblemFamiliarity1(android.view.View view) {
-        setProblemFamiliarity(1); 
-    }
-    
-    public void setProblemFamiliarity2(android.view.View view) {
-        setProblemFamiliarity(2); 
-    }
-    
-    public void setProblemFamiliarity3(android.view.View view) {
-        setProblemFamiliarity(3); 
-    }
-    
-    public void setProblemFamiliarity4(android.view.View view) {
-        setProblemFamiliarity(4); 
-    }
-    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_problem_evaluation, container, false);
@@ -136,7 +93,8 @@ public class ProblemEvaluationFragment extends Fragment {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setProblemFamiliarity(0);
+                    appl.getQuiz().addFamiliarity(0);
+                    goNextProblem();
                 }
             }
         );
@@ -146,7 +104,8 @@ public class ProblemEvaluationFragment extends Fragment {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setProblemFamiliarity(1);
+                    appl.getQuiz().addFamiliarity(1);
+                    goNextProblem();
                 }
             }
         );
@@ -156,7 +115,8 @@ public class ProblemEvaluationFragment extends Fragment {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setProblemFamiliarity(2);
+                    appl.getQuiz().addFamiliarity(2);
+                    goNextProblem();
                 }
             }
         );
@@ -166,7 +126,8 @@ public class ProblemEvaluationFragment extends Fragment {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setProblemFamiliarity(3);
+                    appl.getQuiz().addFamiliarity(3);
+                    goNextProblem();
                 }
             }
         );
@@ -176,7 +137,8 @@ public class ProblemEvaluationFragment extends Fragment {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setProblemFamiliarity(4);
+                    appl.getQuiz().addFamiliarity(4);
+                    goNextProblem();
                 }
             }
         );
@@ -187,6 +149,93 @@ public class ProblemEvaluationFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     reportProblemAsErroneous(v);
+                }
+            }
+        );
+
+        ImageButton buttonQuit = view.findViewById(R.id.buttonQuit);
+        buttonQuit.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
+                    View view = inflater.inflate(R.layout.dialog_quit, null);
+                    builder.setView(view);
+                    builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+
+                    TextView dialogTextViewProblemFamiliarity = view.findViewById(R.id.textViewProblemFamiliarity);
+                    Problem currProb = appl.getQuiz().getCurrentProblem();
+                    String wordInKanjis = getWordInKanjis(currProb.getJumanInfo());
+                    String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
+                    dialogTextViewProblemFamiliarity.setText(text);
+
+                    ImageButton buttonSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
+                    buttonSetProblemFamiliarity0.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                appl.getQuiz().addFamiliarity(0);
+                                // Save data and quit the application.
+                                storeResults(true);
+                            }
+                        }
+                    );
+
+                    ImageButton buttonSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
+                    buttonSetProblemFamiliarity1.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                appl.getQuiz().addFamiliarity(1);
+                                // Save data and quit the application.
+                                storeResults(true);
+                            }
+                        }
+                    );
+
+                    ImageButton buttonSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
+                    buttonSetProblemFamiliarity2.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                appl.getQuiz().addFamiliarity(2);
+                                // Save data and quit the application.
+                                storeResults(true);
+                            }
+                        }
+                    );
+
+                    ImageButton buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
+                    buttonSetProblemFamiliarity3.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                appl.getQuiz().addFamiliarity(3);
+                                // Save data and quit the application.
+                                storeResults(true);
+                            }
+                        }
+                    );
+
+                    ImageButton buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
+                    buttonSetProblemFamiliarity4.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                appl.getQuiz().addFamiliarity(4);
+                                // Save data and quit the application.
+                                storeResults(true);
+                            }
+                        }
+                    );
+
+                    builder.show();
                 }
             }
         );
@@ -228,9 +277,32 @@ public class ProblemEvaluationFragment extends Fragment {
         textViewProblemFamiliarity.setText(text);
     }
 
+    private void storeResults(boolean quitAppl) {
+        URL storeResultsUrl;
+        try {
+            storeResultsUrl = new URL(appl.getServerBaseUrl() + storeResultsReqPath);
+
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage(getResources().getString(R.string.label_sending_results_data));
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            new SendResultsTask(quitAppl).execute(storeResultsUrl);
+        }
+        catch(MalformedURLException e1) {
+            e1.printStackTrace();
+        }
+        catch(IOException e2) {
+            e2.printStackTrace();
+        }
+        catch(JSONException e3) {
+            e3.printStackTrace();
+        }
+    }
+
     private String getWordInKanjis(String jumanInfo) {
         StringBuilder wordInKanjis = new StringBuilder();
-        
+
         // Handle each part separated by a plus mark.
         String[] parts = jumanInfo.split("\\+");
         for (int i = 0; i < parts.length; i++) {
@@ -238,10 +310,10 @@ public class ProblemEvaluationFragment extends Fragment {
             int indexOfQuestionMark = parts[i].indexOf("?");
             if (indexOfQuestionMark != -1)
                 parts[i] = parts[i].substring(0, indexOfQuestionMark);
-       
+
             // Append the string that is left to the slash.
             int indexOfSlash = parts[i].indexOf("/");
-            if (indexOfSlash != -1) 
+            if (indexOfSlash != -1)
                 wordInKanjis.append(parts[i], 0, indexOfSlash);
         }
 
@@ -259,12 +331,17 @@ public class ProblemEvaluationFragment extends Fragment {
 
     private class SendResultsTask extends AsyncTask {
 
+        SendResultsTask(boolean quitAppl) {
+            this.quitAppl = quitAppl;
+        }
+
         protected Object doInBackground(Object... objs) {
             URL storeResultsUrl = (URL)objs[0];
             try {
                 Map<String, String> params = new HashMap<String, String>();
 
-                int length = appl.getQuiz().getLength();
+                //int length = appl.getQuiz().getLength();
+                int length = appl.getQuiz().getAnswerCount();
                 Iterator<Problem> itProblem = appl.getQuiz().getProblems();
                 Iterator<String> itAnswer = appl.getQuiz().getAnswers();
                 Iterator<Boolean> itRightAnswer = appl.getQuiz().getRightAnswers();
@@ -317,7 +394,7 @@ public class ProblemEvaluationFragment extends Fragment {
                     response.append(inputLine);
                 }
                 in.close();
-                
+
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 String status = jsonResponse.getString("status");
                 Log.d(tag, "status=" + status);
@@ -361,12 +438,18 @@ public class ProblemEvaluationFragment extends Fragment {
                 return;
             }
 
-            Intent quizSummaryActivity = new Intent(getActivity(), QuizSummaryActivity.class);
-            startActivity(quizSummaryActivity);
-            getActivity().finish();
+            if (quitAppl)
+                appl.getFirstActivity().finishAndRemoveTask();
+            else {
+                Intent quizSummaryActivity = new Intent(getActivity(), QuizSummaryActivity.class);
+                startActivity(quizSummaryActivity);
+                getActivity().finish();
+            }
         }
 
         private Exception exception;
+
+        private boolean quitAppl;
 
     }
 
