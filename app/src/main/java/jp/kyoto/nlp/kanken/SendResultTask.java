@@ -1,7 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,40 +27,35 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-class SendResultsTask extends AsyncTask {
+class SendResultTask extends AsyncTask {
 
-    public SendResultsTask(KankenApplication appl, ProgressDialog progressDialog, Context context, boolean quitAppl) {
+    public SendResultTask(KankenApplication appl, Context context, boolean quitAppl) {
         this.appl = appl;
-        this.progressDialog = progressDialog;
         this.context = context;
         this.quitAppl = quitAppl;
     }
 
     protected Object doInBackground(Object... objs) {
-        URL storeResultsUrl = (URL)objs[0];
+        URL storeResultUrl = (URL)objs[0];
         try {
             Map<String, String> params = new HashMap<String, String>();
 
-            int length = appl.getQuiz().getAnswerCount();
-            Iterator<Problem> itProblem = appl.getQuiz().getProblems();
-            Iterator<String> itAnswer = appl.getQuiz().getAnswers();
-            Iterator<Boolean> itRightAnswer = appl.getQuiz().getRightAnswers();
-            Iterator<Integer> itFamiliarities = appl.getQuiz().getFamiliarities();
-            Iterator<Boolean> itReported = appl.getQuiz().getReportedAsIncorrects();
-            for (int i = 0; i < length; i++) {
-                Problem problem = itProblem.next();
-                String answer = itAnswer.next();
-                Boolean isRightAnswer = itRightAnswer.next();
-                Integer familiarity = itFamiliarities.next();
-                Boolean isReportedAsIncorrect = itReported.next();
+            int index = appl.getQuiz().getAnswerCount() - 1;
+            if (index < 0)
+                return null;
 
-                params.put("problemId_" + i, problem.getId());
-                params.put("problemJuman_" + i, problem.getJumanInfo());
-                params.put("problemRightAnswer_" + i, (isRightAnswer ? 1 : 0) + "");
-                params.put("problemFamiliarity_" + i, familiarity + "");
-                params.put("problemAnswer_" + i, answer);
-                params.put("problemReportedAsIncorrect_" + i, (isReportedAsIncorrect ? 1 : 0) + "");
-            }
+            Problem problem = appl.getQuiz().getProblem(index);
+            String answer = appl.getQuiz().getAnswer(index);
+            Boolean isRightAnswer = appl.getQuiz().getRightAnswer(index);
+            Integer familiarity = appl.getQuiz().getFamiliarity(index);
+            Boolean isReportedAsIncorrect = appl.getQuiz().getReportedAsIncorrect(index);
+
+            params.put("problemId", problem.getId());
+            params.put("problemJuman", problem.getJumanInfo());
+            params.put("problemRightAnswer", (isRightAnswer ? 1 : 0) + "");
+            params.put("problemFamiliarity", familiarity + "");
+            params.put("problemAnswer", answer);
+            params.put("problemReportedAsIncorrect", (isReportedAsIncorrect ? 1 : 0) + "");
 
             StringBuilder builder = new StringBuilder();
             String delimiter = "";
@@ -71,7 +65,7 @@ class SendResultsTask extends AsyncTask {
             }
             byte[] data = builder.toString().getBytes("UTF-8");
 
-            HttpURLConnection con = (HttpURLConnection) storeResultsUrl.openConnection();
+            HttpURLConnection con = (HttpURLConnection) storeResultUrl.openConnection();
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -117,11 +111,6 @@ class SendResultsTask extends AsyncTask {
     }
 
     protected void onPostExecute(final Object obj) {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
-
         if (exception != null) {
             Log.e(TAG, "An exception has occurred: " + exception);
 
@@ -141,25 +130,19 @@ class SendResultsTask extends AsyncTask {
 
         if (quitAppl)
             appl.getFirstActivity().finishAndRemoveTask();
-        else {
-            Intent quizSummaryActivity = new Intent(context, QuizSummaryActivity.class);
-            context.startActivity(quizSummaryActivity);
-            ((Activity)context).finish();
-        }
     }
 
     private Exception exception;
 
     private KankenApplication appl;
 
-    private ProgressDialog progressDialog;
-
     private Context context;
 
     private boolean quitAppl;
 
-    private static final String TAG = "SendResultsTask";
+    private static final String TAG = "SendResultTask";
 
 }
+
 
 

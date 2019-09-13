@@ -73,8 +73,11 @@ public class ProblemEvaluationFragment extends Fragment {
 
     public void goNextProblem() {
         Problem nextProblem = appl.getQuiz().nextProblem();
-        if (nextProblem == null)
-            storeResults(false);
+        if (nextProblem == null) {
+            Intent quizSummaryActivity = new Intent(getActivity(), QuizSummaryActivity.class);
+            startActivity(quizSummaryActivity);
+            getActivity().finish();
+        }
         else {
             appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_ASK);
             appl.getQuiz().setCurrentAnswer("");
@@ -94,6 +97,7 @@ public class ProblemEvaluationFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     appl.getQuiz().addFamiliarity(0);
+                    storeResult(false);
                     goNextProblem();
                 }
             }
@@ -105,6 +109,7 @@ public class ProblemEvaluationFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     appl.getQuiz().addFamiliarity(1);
+                    storeResult(false);
                     goNextProblem();
                 }
             }
@@ -116,6 +121,7 @@ public class ProblemEvaluationFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     appl.getQuiz().addFamiliarity(2);
+                    storeResult(false);
                     goNextProblem();
                 }
             }
@@ -127,6 +133,7 @@ public class ProblemEvaluationFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     appl.getQuiz().addFamiliarity(3);
+                    storeResult(false);
                     goNextProblem();
                 }
             }
@@ -138,6 +145,7 @@ public class ProblemEvaluationFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     appl.getQuiz().addFamiliarity(4);
+                    storeResult(false);
                     goNextProblem();
                 }
             }
@@ -182,7 +190,7 @@ public class ProblemEvaluationFragment extends Fragment {
                             public void onClick(View v) {
                                 appl.getQuiz().addFamiliarity(0);
                                 // Save data and quit the application.
-                                storeResults(true);
+                                storeResult(true);
                             }
                         }
                     );
@@ -194,7 +202,7 @@ public class ProblemEvaluationFragment extends Fragment {
                             public void onClick(View v) {
                                 appl.getQuiz().addFamiliarity(1);
                                 // Save data and quit the application.
-                                storeResults(true);
+                                storeResult(true);
                             }
                         }
                     );
@@ -206,7 +214,7 @@ public class ProblemEvaluationFragment extends Fragment {
                             public void onClick(View v) {
                                 appl.getQuiz().addFamiliarity(2);
                                 // Save data and quit the application.
-                                storeResults(true);
+                                storeResult(true);
                             }
                         }
                     );
@@ -218,7 +226,7 @@ public class ProblemEvaluationFragment extends Fragment {
                             public void onClick(View v) {
                                 appl.getQuiz().addFamiliarity(3);
                                 // Save data and quit the application.
-                                storeResults(true);
+                                storeResult(true);
                             }
                         }
                     );
@@ -230,7 +238,7 @@ public class ProblemEvaluationFragment extends Fragment {
                             public void onClick(View v) {
                                 appl.getQuiz().addFamiliarity(4);
                                 // Save data and quit the application.
-                                storeResults(true);
+                                storeResult(true);
                             }
                         }
                     );
@@ -275,6 +283,24 @@ public class ProblemEvaluationFragment extends Fragment {
         String wordInKanjis = getWordInKanjis(currProb.getJumanInfo());
         String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
         textViewProblemFamiliarity.setText(text);
+    }
+
+    private void storeResult(boolean quitAppl) {
+        URL storeResultUrl;
+        try {
+            storeResultUrl = new URL(appl.getServerBaseUrl() + KankenApplication.storeResultReqPath);
+
+            new SendResultTask(appl, getContext(), quitAppl).execute(storeResultUrl);
+        }
+        catch(MalformedURLException e1) {
+            e1.printStackTrace();
+        }
+        catch(IOException e2) {
+            e2.printStackTrace();
+        }
+        catch(JSONException e3) {
+            e3.printStackTrace();
+        }
     }
 
     private void storeResults(boolean quitAppl) {

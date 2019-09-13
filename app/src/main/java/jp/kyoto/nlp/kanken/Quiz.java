@@ -78,6 +78,10 @@ class Quiz {
         return problems.iterator();
     }
 
+    public Problem getProblem(int index) {
+        return problems.get(index);
+    }
+
     public void setProblems(ArrayList<Problem> problems) {
         this.problems = problems;
     }
@@ -94,12 +98,24 @@ class Quiz {
         return rightAnswers.iterator();
     }
 
+    public Boolean getRightAnswer(int index) {
+        return rightAnswers.get(index);
+    }
+
     public Iterator<Integer> getFamiliarities() {
         return familiarities.iterator();
     }
 
+    public Integer getFamiliarity(int index) {
+        return familiarities.get(index);
+    }
+
     public Iterator<Boolean> getReportedAsIncorrects() {
         return reportedAsIncorrects.iterator();
+    }
+
+    public Boolean getReportedAsIncorrect(int index) {
+        return reportedAsIncorrects.get(index);
     }
 
     public boolean validateAnswer(String answer) {
