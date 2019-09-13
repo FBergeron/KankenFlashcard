@@ -126,7 +126,7 @@ public class GraphicResultsHistoryFragment extends Fragment {
         else {
             URL getResultHistoryUrl;
             try {
-                getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
+                getResultHistoryUrl = new URL(appl.getServerBaseUrl() + KankenApplication.getResultHistoryReqPath);
 
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
@@ -388,8 +388,6 @@ public class GraphicResultsHistoryFragment extends Fragment {
     private ProgressDialog progressDialog;
 
     private KankenApplication appl = KankenApplication.getInstance();
-
-    private static final String getResultHistoryReqPath = "/cgi-bin/get_results_history.cgi";
 
     private static final String tag = "GraphicResultsHistoryFragment";
 

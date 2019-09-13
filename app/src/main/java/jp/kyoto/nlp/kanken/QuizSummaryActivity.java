@@ -149,7 +149,7 @@ public class QuizSummaryActivity extends ActionActivity {
                 delim = ",";
             }
 
-            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + getNextProblemsReqPath +
+            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + KankenApplication.getNextProblemsReqPath +
                     "?type=" + URLEncoder.encode(type.toString().toLowerCase()) +
                     "&level=" + URLEncoder.encode(level + "", "UTF-8") +
                     "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
@@ -174,8 +174,6 @@ public class QuizSummaryActivity extends ActionActivity {
     private ProgressDialog progressDialog;
 
     private KankenApplication appl = KankenApplication.getInstance();
-
-    private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
 
     private static final String TAG = "QuizSummaryActivity";
 

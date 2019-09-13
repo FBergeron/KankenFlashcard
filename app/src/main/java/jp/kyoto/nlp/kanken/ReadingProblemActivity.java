@@ -60,7 +60,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             }
         }
         if (answer.length() > 0) {
-            subword = answer.substring(answer.length() - 1, answer.length()); 
+            subword = answer.substring(answer.length() - 1, answer.length());
             foundKana = Util.findKana(subword);
             if (foundKana != null) {
                 String newAnswer = answer.substring(0, answer.length() - 1);
@@ -88,7 +88,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             }
         }
     }
-    
+
     public void validateAnswer(android.view.View view) {
         TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         final String answer = textViewProblemUserAnswer.getText().toString();
@@ -98,14 +98,14 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
             .setMessage(getResources().getString(R.string.error_empty_answer_msg))
             .setPositiveButton(R.string.button_next, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) { 
+                public void onClick(DialogInterface dialog, int which) {
                     appl.getQuiz().validateAnswer(answer);
                     appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
                     showProblemEvaluation();
                 }
              })
             .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) { 
+                public void onClick(DialogInterface dialog, int which) {
                 }
              })
             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -118,7 +118,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
         appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
         showProblemEvaluation();
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,7 +147,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
 
         List<String> answerKanas = Util.findKanasFrom(currProb.getRightAnswer(), true);
         buttonKanas.addAll(answerKanas);
-       
+
         while (buttonKanas.size() < 9) {
             String fillerKana = null;
             try {
@@ -159,7 +159,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             if (fillerKana != null && !buttonKanas.contains(fillerKana))
                 buttonKanas.add(fillerKana);
         }
- 
+
         Random r = new Random();
         ArrayList<String> shuffledButtonKanas = new ArrayList<String>();
         while (!buttonKanas.isEmpty())
@@ -185,7 +185,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
     }
 
     private KankenApplication appl = KankenApplication.getInstance();
-    
+
     private List<String> buttonKanas = new ArrayList<String>();
 
 }

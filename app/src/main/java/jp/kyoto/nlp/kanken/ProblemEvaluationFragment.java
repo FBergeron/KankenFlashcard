@@ -280,14 +280,14 @@ public class ProblemEvaluationFragment extends Fragment {
     private void storeResults(boolean quitAppl) {
         URL storeResultsUrl;
         try {
-            storeResultsUrl = new URL(appl.getServerBaseUrl() + storeResultsReqPath);
+            storeResultsUrl = new URL(appl.getServerBaseUrl() + KankenApplication.storeResultsReqPath);
 
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage(getResources().getString(R.string.label_sending_results_data));
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-            new SendResultsTask(quitAppl).execute(storeResultsUrl);
+            new SendResultsTask(appl, progressDialog, getContext(), quitAppl).execute(storeResultsUrl);
         }
         catch(MalformedURLException e1) {
             e1.printStackTrace();
@@ -329,135 +329,9 @@ public class ProblemEvaluationFragment extends Fragment {
         }
     }
 
-    private class SendResultsTask extends AsyncTask {
-
-        SendResultsTask(boolean quitAppl) {
-            this.quitAppl = quitAppl;
-        }
-
-        protected Object doInBackground(Object... objs) {
-            URL storeResultsUrl = (URL)objs[0];
-            try {
-                Map<String, String> params = new HashMap<String, String>();
-
-                //int length = appl.getQuiz().getLength();
-                int length = appl.getQuiz().getAnswerCount();
-                Iterator<Problem> itProblem = appl.getQuiz().getProblems();
-                Iterator<String> itAnswer = appl.getQuiz().getAnswers();
-                Iterator<Boolean> itRightAnswer = appl.getQuiz().getRightAnswers();
-                Iterator<Integer> itFamiliarities = appl.getQuiz().getFamiliarities();
-                Iterator<Boolean> itReported = appl.getQuiz().getReportedAsIncorrects();
-                for (int i = 0; i < length; i++) {
-                    Problem problem = itProblem.next();
-                    String answer = itAnswer.next();
-                    Boolean isRightAnswer = itRightAnswer.next();
-                    Integer familiarity = itFamiliarities.next();
-                    Boolean isReportedAsIncorrect = itReported.next();
-
-                    params.put("problemId_" + i, problem.getId());
-                    params.put("problemJuman_" + i, problem.getJumanInfo());
-                    params.put("problemRightAnswer_" + i, (isRightAnswer ? 1 : 0) + "");
-                    params.put("problemFamiliarity_" + i, familiarity + "");
-                    params.put("problemAnswer_" + i, answer);
-                    params.put("problemReportedAsIncorrect_" + i, (isReportedAsIncorrect ? 1 : 0) + "");
-                }
-
-                StringBuilder builder = new StringBuilder();
-                String delimiter = "";
-                for (Map.Entry<String, String> entry : params.entrySet()) {
-                    builder.append(delimiter).append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-                    delimiter = "&";
-                }
-                byte[] data = builder.toString().getBytes("UTF-8");
-
-                HttpURLConnection con = (HttpURLConnection) storeResultsUrl.openConnection();
-                con.setDoOutput(true);
-                con.setDoInput(true);
-                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                con.setRequestProperty("Accept", "application/json");
-                String cookie = appl.getSessionCookie();
-                if (cookie != null)
-                    con.setRequestProperty("Cookie", cookie);
-                con.setRequestMethod("POST");
-                con.setFixedLengthStreamingMode(data.length);
-                con.connect();
-
-                OutputStream writer = con.getOutputStream();
-                writer.write(data);
-                writer.flush();
-                writer.close();
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                String status = jsonResponse.getString("status");
-                Log.d(tag, "status=" + status);
-                if (!"ok".equals(status))
-                    exception = new Exception("Server responded with status=" + status + ". Something is probably wrong.");
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-
-                exception = e;
-            }
-            catch (JSONException e2) {
-                e2.printStackTrace();
-
-                exception = e2;
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(final Object obj) {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-                progressDialog = null;
-            }
-
-            if (exception != null) {
-                Log.e(tag, "An exception has occurred: " + exception);
-
-                Builder builder = new Builder(getActivity());
-                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
-                .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setCancelable(true)
-                .show();
-
-                return;
-            }
-
-            if (quitAppl)
-                appl.getFirstActivity().finishAndRemoveTask();
-            else {
-                Intent quizSummaryActivity = new Intent(getActivity(), QuizSummaryActivity.class);
-                startActivity(quizSummaryActivity);
-                getActivity().finish();
-            }
-        }
-
-        private Exception exception;
-
-        private boolean quitAppl;
-
-    }
-
     private ProgressDialog progressDialog;
 
     private KankenApplication appl = KankenApplication.getInstance();
-
-    private static final String storeResultsReqPath = "/cgi-bin/store_results.cgi";
 
     private static final String tag = "ProblemEvalFragment";
 

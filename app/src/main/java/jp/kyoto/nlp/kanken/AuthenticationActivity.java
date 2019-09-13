@@ -77,7 +77,7 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
     @Override
     protected void onStart() {
         super.onStart();
-        appl.stopBackgroundMusic(); 
+        appl.stopBackgroundMusic();
     }
 
     private void handleResult(GoogleSignInResult result) {
@@ -92,7 +92,7 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
             Log.d(TAG, "handleResult: " + String.format("%s,%s,%s", name, email, idToken));
 
             Uri pictureUrl = account.getPhotoUrl();
-           
+
             appl.setUserName(name);
             appl.setUserEmail(email);
             appl.setUserPictureUrl(pictureUrl);
@@ -100,8 +100,8 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
 
             URL signInUrl;
             try {
-                signInUrl = new URL(appl.getServerBaseUrl() + signInReqPath);
-                
+                signInUrl = new URL(appl.getServerBaseUrl() + KankenApplication.signInReqPath);
+
                 progressDialog = new ProgressDialog(this);
                 progressDialog.setMessage(getResources().getString(R.string.label_signing_in));
                 progressDialog.setCancelable(false);
@@ -143,7 +143,7 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
         public static final int MAX_ATTEMPTS = 3;
 
         protected Object doInBackground(Object... objs) {
-            int attempt = 0; 
+            int attempt = 0;
             while (attempt < MAX_ATTEMPTS) {
                 URL signInUrl = (URL)objs[0];
                 Log.d(TAG, "doInBackground: " + signInUrl.toString());
@@ -154,7 +154,7 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
                     params.put("idToken", appl.getUserIdToken());
                     params.put("clientVersion", version);
                     Log.d(TAG, "doInBackground: " + params.toString());
-                   
+
                     StringBuilder builder = new StringBuilder();
                     String delimiter = "";
                     for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -186,7 +186,7 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
                     in.close();
 
                     Log.d(TAG, "doInBackground: " + response.toString());
-                    
+
                     JSONObject jsonResponse = new JSONObject(response.toString());
                     String status = jsonResponse.getString("status");
 
@@ -203,17 +203,17 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
                     return null;
                 }
                 catch (IOException e) {
-                    e.printStackTrace(); 
+                    e.printStackTrace();
                     attempt++;
                     if (attempt == MAX_ATTEMPTS) {
                         exception = e;
                         System.err.println("I give up after " + attempt + " attempts.");
                     }
-                    else 
+                    else
                         System.err.println("Let's try again (attempt=" + attempt+")");
                 }
                 catch(JSONException e2) {
-                    e2.printStackTrace(); 
+                    e2.printStackTrace();
                     exception = e2;
                 }
             }
@@ -270,8 +270,6 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
     private ProgressDialog progressDialog;
 
     private static final int REQ_CODE = 9001;
-   
-    private static final String signInReqPath = "/cgi-bin/sign_in.cgi";
 
     private static final String tag = "AuthenticationActivity";
 

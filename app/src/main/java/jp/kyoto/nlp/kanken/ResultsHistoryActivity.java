@@ -288,8 +288,6 @@ public class ResultsHistoryActivity extends ActionActivity {
 
     private KankenApplication appl = KankenApplication.getInstance();
 
-    //private static final String getResultHistoryReqPath = "/cgi-bin/get_results_history.cgi";
-
     private static final String tag = "ResultsHistoryActivity";
 
 }

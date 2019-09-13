@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Set;
 
 public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+
     public class CustomAdapter extends ArrayAdapter<String> {
         private LayoutInflater inflater;
 
@@ -81,7 +82,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                     public void onResult(@NonNull Status status) {
                         URL signOutUrl;
                         try {
-                            signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
+                            signOutUrl = new URL(appl.getServerBaseUrl() + KankenApplication.signOutReqPath);
 
                             progressDialog = new ProgressDialog(QuizSettingsActivity.this);
                             progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
@@ -343,7 +344,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                 delim = ",";
             }
 
-            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + getNextProblemsReqPath +
+            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + KankenApplication.getNextProblemsReqPath +
                     "?type=" + URLEncoder.encode(type.toString().toLowerCase()) +
                     "&level=" + URLEncoder.encode(level + "", "UTF-8") +
                     "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
@@ -460,9 +461,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     private GoogleApiClient googleApiClient;
 
     private View seekBarE;
-
-    private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
-    private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
 
     private static final String TAG = "QuizSettingsActivity";
 

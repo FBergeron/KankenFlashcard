@@ -103,7 +103,7 @@ public class ErrorsHistoryFragment extends Fragment {
         else {
             URL getErrorsHistoryUrl;
             try {
-                getErrorsHistoryUrl = new URL(appl.getServerBaseUrl() + getErrorHistoryReqPath);
+                getErrorsHistoryUrl = new URL(appl.getServerBaseUrl() + KankenApplication.getErrorHistoryReqPath);
 
                 progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
@@ -272,8 +272,6 @@ public class ErrorsHistoryFragment extends Fragment {
     private ProgressDialog progressDialog;
 
     private KankenApplication appl = KankenApplication.getInstance();
-
-    private static final String getErrorHistoryReqPath = "/cgi-bin/get_errors_history.cgi";
 
     private static final String tag = "ErrorsHistoryFragment";
 
