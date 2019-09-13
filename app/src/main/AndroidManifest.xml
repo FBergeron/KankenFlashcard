@@ -27,7 +27,8 @@
         <activity android:name=".ResultsHistoryActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".QuizSummaryActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
         <activity android:name=".AuthenticationActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AgreementActivity"
