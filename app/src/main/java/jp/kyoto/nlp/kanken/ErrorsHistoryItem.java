@@ -8,16 +8,14 @@ public class ErrorsHistoryItem {
     private String problem;
     private String userAnswer;
     private String rightAnswer;
+    private boolean showDate;
 
-    public ErrorsHistoryItem(Date date) {
-        this.date = date;
-    }
-
-    public ErrorsHistoryItem(Date date, String problem, String userAnswer, String rightAnswer) {
+    public ErrorsHistoryItem(Date date, String problem, String userAnswer, String rightAnswer, boolean showDate) {
         this.date = date;
         this.problem = problem;
         this.userAnswer = userAnswer;
         this.rightAnswer = rightAnswer;
+        this.showDate = showDate;
     }
 
     public Date getDate() {
@@ -34,6 +32,10 @@ public class ErrorsHistoryItem {
 
     public String getRightAnswer() {
         return rightAnswer;
+    }
+
+    public boolean isShowDate() {
+        return showDate;
     }
 
     @Override

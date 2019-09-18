@@ -231,18 +231,16 @@ public class ErrorsHistoryFragment extends Fragment {
                                     String problemRightAnswer = err.has("problem_right_answer") ? (String)err.get("problem_right_answer") : null;
                                     String userAnswer = (String)err.get("user_answer");
 
-                                    if (!strDateKey.equals(strPrevDate)) {
-                                        ErrorsHistoryItem dateItem = new ErrorsHistoryItem(date);
-                                        errorsHistoryItems.add(dateItem);
-                                        strPrevDate = strDateKey;
-                                    }
                                     ErrorsHistoryItem errorsHistoryItem = new ErrorsHistoryItem(
                                         date,
                                         problemWord,
                                         userAnswer,
-                                        problemRightAnswer
+                                        problemRightAnswer,
+                                        !strDateKey.equals(strPrevDate)
                                     );
                                     errorsHistoryItems.add(errorsHistoryItem);
+                                    if (!strDateKey.equals(strPrevDate))
+                                        strPrevDate = strDateKey;
                                 }
                             }
                             catch(ParseException e) {

@@ -27,19 +27,15 @@ public class ErrorsHistoryListViewAdapter extends BaseAdapter {
         }
 
         public void bind(ErrorsHistoryItem item) {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            if (item.getUserAnswer() == null) {
+            if (item.isShowDate()) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 textViewDate.setText(formatter.format(item.getDate()));
-                textViewProblem.setText(null);
-                textViewUserAnswer.setText(null);
-                textViewRightAnswer.setText(null);
             }
-            else {
+            else
                 textViewDate.setText(null);
-                textViewProblem.setText(item.getProblem());
-                textViewUserAnswer.setText(item.getUserAnswer());
-                textViewRightAnswer.setText(item.getRightAnswer());
-            }
+            textViewProblem.setText(item.getProblem());
+            textViewUserAnswer.setText(item.getUserAnswer());
+            textViewRightAnswer.setText(item.getRightAnswer());
         }
 
     }
