@@ -298,6 +298,24 @@ class Util {
         return chars;
     }
 
+    public static void quitBeforeAnswering(final Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getResources().getString(R.string.warning_quit_before_answering_title))
+        .setMessage(context.getResources().getString(R.string.warning_quit_before_answering_msg))
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                KankenApplication.getInstance().getFirstActivity().finishAndRemoveTask();
+            }
+         })
+        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+         })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setCancelable(true)
+        .show();
+    }
+
     public static void goBackToSettings(final Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(R.string.warning_cancel_quiz_title))

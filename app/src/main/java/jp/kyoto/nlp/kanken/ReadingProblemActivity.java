@@ -38,6 +38,10 @@ public class ReadingProblemActivity extends QuizProblemActivity {
         }
     }
 
+    public void quitBeforeAnswering(android.view.View view) {
+        Util.quitBeforeAnswering(ReadingProblemActivity.this);
+    }
+
     @Override
     public void onBackPressed() {
         Util.goBackToSettings(ReadingProblemActivity.this);

@@ -128,6 +128,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statementContainer">
 
+        <ImageButton
+            android:id="@+id/buttonValidateWritingProblemAnswer"
+            android:layout_width="@dimen/btn_main_width"
+            android:layout_height="@dimen/btn_main_height"
+            android:background="@drawable/btn_kadomaru"
+            android:onClick="validateAnswer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonQuitBeforeAnswering"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/text_btn00" />
+
+        <ImageButton
+            android:id="@+id/buttonQuitBeforeAnswering"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_kadomaru"
+            android:onClick="quitBeforeAnswering"
+            android:src="@drawable/quit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/buttonValidateWritingProblemAnswer" />
+
         <LinearLayout
             android:id="@+id/kanjiContainer"
             android:layout_width="0dp"
@@ -146,18 +170,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
-
-                <com.leafdigital.kanji.android.KanjiDrawing
-                    android:id="@+id/kanjiDrawing"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/line_dashed"
-                    app:layout_constraintBottom_toTopOf="@id/writeButtonsContainer"
-                    app:layout_constraintDimensionRatio="h,1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/writeButtonsContainer"
@@ -200,6 +212,18 @@
 
                 </android.support.constraint.ConstraintLayout>
 
+                <com.leafdigital.kanji.android.KanjiDrawing
+                    android:id="@+id/kanjiDrawing"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/line_dashed"
+                    app:layout_constraintBottom_toTopOf="@id/writeButtonsContainer"
+                    app:layout_constraintDimensionRatio="h,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </android.support.constraint.ConstraintLayout>
 
 
@@ -211,18 +235,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <jp.kyoto.nlp.kanken.SpecifyFontButton
-                    android:id="@+id/kanji1"
-                    android:layout_width="@dimen/kanji_btn_large"
-                    android:layout_height="@dimen/kanji_btn_large"
+                <ImageButton
+                    android:id="@+id/btnNextItems"
+                    android:layout_width="@dimen/kanji_btn_next_width"
+                    android:layout_height="@dimen/kanji_btn_next_height"
+                    android:layout_weight="1"
                     android:background="@drawable/btn_kado"
-                    android:onClick="onClickKanji"
-                    android:text="魚"
-                    android:textAlignment="center"
-                    android:textColor="@color/buttonText"
-                    android:textSize="@dimen/button_kanji_large"
-                    app:layout_constraintStart_toStartOf="@id/btnNextItems"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:onClick="onClickNextItems"
+                    android:src="@drawable/text_btn10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <jp.kyoto.nlp.kanken.SpecifyFontButton
                     android:id="@+id/kanji2"
@@ -301,17 +324,18 @@
                     app:layout_constraintEnd_toEndOf="@id/kanji6"
                     app:layout_constraintTop_toBottomOf="@id/kanji6" />
 
-                <ImageButton
-                    android:id="@+id/btnNextItems"
-                    android:layout_width="@dimen/kanji_btn_next_width"
-                    android:layout_height="@dimen/kanji_btn_next_height"
-                    android:layout_weight="1"
+                <jp.kyoto.nlp.kanken.SpecifyFontButton
+                    android:id="@+id/kanji1"
+                    android:layout_width="@dimen/kanji_btn_large"
+                    android:layout_height="@dimen/kanji_btn_large"
                     android:background="@drawable/btn_kado"
-                    android:onClick="onClickNextItems"
-                    android:src="@drawable/text_btn10"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:onClick="onClickKanji"
+                    android:text="魚"
+                    android:textAlignment="center"
+                    android:textColor="@color/buttonText"
+                    android:textSize="@dimen/button_kanji_large"
+                    app:layout_constraintStart_toStartOf="@id/btnNextItems"
+                    app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>
@@ -324,10 +348,21 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/nine_patch_text_window00"
             app:layout_constraintDimensionRatio="h,174:31"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="413dp">
+
+            <ImageButton
+                android:id="@+id/buttonDeleteKanji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:onClick="deleteKanji"
+                android:src="@drawable/btn_delete_one"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -352,29 +387,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/buttonDeleteKanji"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:onClick="deleteKanji"
-                android:src="@drawable/btn_delete_one"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
-
-        <ImageButton
-            android:id="@+id/buttonValidateWritingProblemAnswer"
-            android:layout_width="@dimen/btn_main_width"
-            android:layout_height="@dimen/btn_main_height"
-            android:background="@drawable/btn_kadomaru"
-            android:onClick="validateAnswer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/text_btn00" />
 
     </android.support.constraint.ConstraintLayout>
 

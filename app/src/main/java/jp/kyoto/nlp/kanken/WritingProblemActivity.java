@@ -58,6 +58,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
         }
     }
 
+    public void quitBeforeAnswering(android.view.View view) {
+        Util.quitBeforeAnswering(WritingProblemActivity.this);
+    }
+
     @Override
     public void onBackPressed() {
         Util.goBackToSettings(WritingProblemActivity.this);
