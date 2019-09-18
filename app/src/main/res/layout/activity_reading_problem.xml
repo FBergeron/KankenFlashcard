@@ -133,7 +133,7 @@
             android:layout_width="@dimen/btn_main_width"
             android:layout_height="@dimen/btn_main_height"
             android:background="@drawable/btn_kadomaru"
-            android:onClick="quitBeforeAnswering"
+            android:onClick="validateAnswer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonQuitBeforeAnswering"
             app:layout_constraintHorizontal_bias="0.5"
