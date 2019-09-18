@@ -117,8 +117,8 @@
     <string name="results_history_header_reading">読み問題</string>
     <string name="results_history_header_writing">書き問題</string>
     <string name="results_history_header_total">合計</string>
-    <string name="results_history_period_last_week">一週間前</string>
-    <string name="results_history_period_last_month">一ヶ月前</string>
+    <string name="results_history_period_last_week">一週間</string>
+    <string name="results_history_period_last_month">一ヶ月</string>
     <string name="results_history_graphic_view_legend_rights">正解</string>
     <string name="results_history_graphic_view_legend_wrongs">不正解</string>
     <string name="results_history_errors_problem_type_reading">読み問題</string>
