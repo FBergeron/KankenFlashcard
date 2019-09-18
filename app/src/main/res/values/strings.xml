@@ -73,17 +73,17 @@
     <string name="label_detailed_answer_right">%1$s = %2$s</string>
     <string name="label_detailed_answer_wrong">%1$s ≠ %2$s\n\n%1$s = %3$s</string>
     <string name="button_report_error">Report the problem as incorrect</string>
-    <string name="label_enter_problem_familiarity">Please, indicate the period from which you think that you have understood and started to use the word \"%1$s\".</string>
-    <string name="label_familiarity_0">I do not know the meaning of the word</string>
-    <string name="label_familiarity_1">Before elem. school</string>
-    <string name="label_familiarity_2">Elem. school (low)</string>
-    <string name="label_familiarity_3">Elem. school (high)</string>
-    <string name="label_familiarity_4">Junior high school</string>
-    <string name="label_familiarity_long_0">I do not know the meaning of the word</string>
+    <string name="label_enter_problem_familiarity">Please indicate when you have understood and started to use a word in your native language corresponding to \"%1$s\". (ES stands for Elementary School; HS stands for High School)</string>
+    <string name="label_familiarity_0">I don\'t know this Japanese word</string>
+    <string name="label_familiarity_1">Before ES</string>
+    <string name="label_familiarity_2">ES (lower)</string>
+    <string name="label_familiarity_3">ES (higher)</string>
+    <string name="label_familiarity_4">Jr. HS or later</string>
+    <string name="label_familiarity_long_0">I don\'t know this Japanese word</string>
     <string name="label_familiarity_long_1">Before elementary school</string>
-    <string name="label_familiarity_long_2">Elementary school (lower grades)</string>
-    <string name="label_familiarity_long_3">Elementary school (higher grades)</string>
-    <string name="label_familiarity_long_4">Junior high school or later</string>
+    <string name="label_familiarity_long_2">Elementary School (lower grades)</string>
+    <string name="label_familiarity_long_3">Elementary School (higher grades)</string>
+    <string name="label_familiarity_long_4">Junior High School or later</string>
     <string name="button_next">Next</string>
     <string name="info_confirm_report_title">Reporting incorrect problem...</string>
     <string name="info_confirm_report_msg">If you believe that there is something wrong with the problem, whether the statement looks funny or the right answer seems incorrect or for any other reasons, you can report the problem as faulty.</string>
@@ -129,7 +129,7 @@
     <string name="results_history_graphic_view_legend_rights">Rights</string>
     <string name="results_history_graphic_view_legend_wrongs">Wrongs</string>
     <string name="results_history_errors_problem_type_reading">Reading Problem</string>
-    <string name="results_history_errors_problem_type_writing">Writing Probleme</string>
+    <string name="results_history_errors_problem_type_writing">Writing Problem</string>
     <string name="results_history_errors_header_date">Date</string>
     <string name="results_history_errors_header_problem">Problem</string>
     <string name="results_history_errors_header_user_answer">Your answer</string>
