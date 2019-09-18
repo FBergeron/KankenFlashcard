@@ -128,7 +128,7 @@
     <string name="results_history_errors_header_user_answer">あなたの答え</string>
     <string name="results_history_errors_header_right_answer">正しい答え</string>
     <string name="dialog_quit_msg">アプリケーションを閉じる前に...</string>
-    <string name="warning_quit_before_answering_title">アプリを閉じる</string>
-    <string name="warning_quit_before_answering_msg">直ぐにアプリを閉じたいですか？</string>
+    <string name="warning_quit_before_answering_title">アプリケーションを閉じる</string>
+    <string name="warning_quit_before_answering_msg">直ぐにアプリケーションを閉じたいですか？</string>
     <string name="button_quit">閉じる</string>
 </resources>
