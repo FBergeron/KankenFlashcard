@@ -292,7 +292,10 @@ public class GraphicResultsHistoryFragment extends Fragment {
                         }
                     }
 
-                    dateLabels.add(strDateTemp);
+                    if (radioButtonLastWeek.isChecked() || radioButtonLastMonth.isChecked() && entryIndex % 5 == 0)
+                        dateLabels.add(strDateTemp);
+                    else
+                        dateLabels.add("");
                     if (strDateResult != null && strDateResult.compareTo(strDateTemp) == 0) {
                         rightEntries.add(new BarEntry(entryIndex, readingRights.intValue() + writingRights.intValue()));
                         wrongEntries.add(new BarEntry(entryIndex, readingWrongs.intValue() + writingWrongs.intValue()));
