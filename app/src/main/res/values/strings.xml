@@ -135,7 +135,7 @@
     <string name="results_history_errors_header_user_answer">Your answer</string>
     <string name="results_history_errors_header_right_answer">Right answer</string>
     <string name="dialog_quit_msg">Before quitting the application...</string>
-    <string name="warning_quit_before_answering_title">Quit the application?</string>
+    <string name="warning_quit_before_answering_title">Do you want to quit the application right away?</string>
     <string name="warning_quit_before_answering_msg">Do you want to quit the application right away?</string>
     <string name="button_quit">Quit</string>
 </resources>

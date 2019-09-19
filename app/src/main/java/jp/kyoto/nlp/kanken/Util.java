@@ -301,7 +301,7 @@ class Util {
     public static void quitBeforeAnswering(final Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(R.string.warning_quit_before_answering_title))
-        .setMessage(context.getResources().getString(R.string.warning_quit_before_answering_msg))
+        //.setMessage(context.getResources().getString(R.string.warning_quit_before_answering_msg))
         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 KankenApplication.getInstance().getFirstActivity().finishAndRemoveTask();

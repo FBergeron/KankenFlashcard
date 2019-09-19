@@ -127,8 +127,8 @@
     <string name="results_history_errors_header_problem">問題</string>
     <string name="results_history_errors_header_user_answer">あなたの答え</string>
     <string name="results_history_errors_header_right_answer">正しい答え</string>
-    <string name="dialog_quit_msg">アプリケーションを閉じる前に...</string>
-    <string name="warning_quit_before_answering_title">アプリケーションを閉じる</string>
-    <string name="warning_quit_before_answering_msg">直ぐにアプリケーションを閉じたいですか？</string>
+    <string name="dialog_quit_msg">「漢検とニュース」を閉じる前に...</string>
+    <string name="warning_quit_before_answering_title">すぐに「漢検とニュース」を閉じますか？</string>
+    <string name="warning_quit_before_answering_msg">すぐに「漢検とニュース」を閉じますか？</string>
     <string name="button_quit">閉じる</string>
 </resources>
