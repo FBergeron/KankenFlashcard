@@ -13,7 +13,7 @@
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
             android:width="0dp"
             android:background="#FFFFFFFF"
@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/textViewReadingRights"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
             android:background="#EEEEEEEE"
@@ -35,7 +35,7 @@
         <TextView
             android:id="@+id/textViewReadingWrongs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
             android:background="#FFFFFFFF"
@@ -46,7 +46,7 @@
         <TextView
             android:id="@+id/textViewWritingRights"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
             android:background="#EEEEEEEE"
@@ -57,7 +57,7 @@
         <TextView
             android:id="@+id/textViewWritingWrongs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
             android:background="#FFFFFFFF"
@@ -68,7 +68,7 @@
         <TextView
             android:id="@+id/textViewTotalRights"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
             android:background="#EEEEEEEE"
@@ -79,7 +79,7 @@
         <TextView
             android:id="@+id/textViewTotalWrongs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
             android:background="#FFFFFFFF"

@@ -48,7 +48,7 @@
             <TextView
                 android:id="@+id/textViewHeaderDate"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:text="@string/results_history_errors_header_date" />
@@ -56,7 +56,7 @@
             <TextView
                 android:id="@+id/textViewHeaderProblem"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#ECC85B"
                 android:padding="10dp"
@@ -65,7 +65,7 @@
             <TextView
                 android:id="@+id/textViewHeaderUserAnswer"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:text="@string/results_history_errors_header_user_answer" />
