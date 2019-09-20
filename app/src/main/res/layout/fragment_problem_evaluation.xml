@@ -202,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_kadomaru"
-            android:src="@drawable/quit" />
+            android:src="@drawable/text_btn_quit" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
