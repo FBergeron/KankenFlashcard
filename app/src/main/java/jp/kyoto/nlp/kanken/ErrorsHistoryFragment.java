@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -57,6 +58,17 @@ public class ErrorsHistoryFragment extends Fragment {
         ListView listViewResultEntries = view.findViewById(R.id.listViewResultEntries);
         listViewAdapter = new ErrorsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
+
+        listViewResultEntries.setOnItemClickListener(
+            new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    // i contains the selected line (starting from 0).
+
+
+                }
+            }
+        );
 
         radioButtonProblemTypeReading = view.findViewById(R.id.radioButtonProblemTypeReading);
         radioButtonProblemTypeWriting = view.findViewById(R.id.radioButtonProblemTypeWriting);
