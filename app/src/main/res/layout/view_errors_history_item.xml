@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
-            android:background="#FFFFFFFF"
+            android:background="#AAFFFFFF"
             android:padding="10dp" />
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
-            android:background="#EEEEEEEE"
+            android:background="#AAEEEEEE"
             android:padding="10dp" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
-            android:background="#FFFFFFFF"
+            android:background="#AAFFFFFF"
             android:padding="10dp" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:width="0dp"
-            android:background="#EEEEEEEE"
+            android:background="#AAEEEEEE"
             android:padding="10dp" />
 
     </LinearLayout>
