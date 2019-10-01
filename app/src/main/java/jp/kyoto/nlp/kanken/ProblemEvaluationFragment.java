@@ -303,29 +303,6 @@ public class ProblemEvaluationFragment extends Fragment {
         }
     }
 
-    private void storeResults(boolean quitAppl) {
-        URL storeResultsUrl;
-        try {
-            storeResultsUrl = new URL(appl.getServerBaseUrl() + KankenApplication.storeResultsReqPath);
-
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage(getResources().getString(R.string.label_sending_results_data));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-
-            new SendResultsTask(appl, progressDialog, getContext(), quitAppl).execute(storeResultsUrl);
-        }
-        catch(MalformedURLException e1) {
-            e1.printStackTrace();
-        }
-        catch(IOException e2) {
-            e2.printStackTrace();
-        }
-        catch(JSONException e3) {
-            e3.printStackTrace();
-        }
-    }
-
     private String getWordInKanjis(String jumanInfo) {
         StringBuilder wordInKanjis = new StringBuilder();
 
