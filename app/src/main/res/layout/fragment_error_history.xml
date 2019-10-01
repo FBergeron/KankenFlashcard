@@ -86,6 +86,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/colorAccent"
             tools:listitem="@layout/view_errors_history_item">
 
         </ListView>
