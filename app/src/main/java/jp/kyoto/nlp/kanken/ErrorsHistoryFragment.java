@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +57,25 @@ public class ErrorsHistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_error_history, container, false);
 
+        panelErrorDetails = view.findViewById(R.id.linearLayoutErrorDetailsPanel);
+        panelErrorDetails.setVisibility(View.GONE);
+
+        buttonClosePanelErrorDetails = view.findViewById(R.id.buttonCloseErrorDetailsPanel);
+        buttonClosePanelErrorDetails.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    panelErrorDetails.setVisibility(View.GONE);
+                }
+            }
+        );
+
+        textViewProblemLevel = view.findViewById(R.id.textViewProblemLevel);
+        textViewProblemTopic = view.findViewById(R.id.textViewProblemTopic);
+        problemStatement = view.findViewById(R.id.problemStatement);
+        textViewUserAnswer = view.findViewById(R.id.textViewUserAnswer);
+        textViewProblemAnswer = view.findViewById(R.id.textViewProblemAnswer);
+
         ListView listViewResultEntries = view.findViewById(R.id.listViewResultEntries);
         listViewAdapter = new ErrorsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
@@ -63,9 +84,21 @@ public class ErrorsHistoryFragment extends Fragment {
             new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    // i contains the selected line (starting from 0).
+                    System.out.println("adapterView="+adapterView+" class="+adapterView.getClass());
+                    System.out.println("view="+view+" class="+view.getClass());
 
+                    ErrorsHistoryListViewAdapter listAdapter = (ErrorsHistoryListViewAdapter)adapterView.getAdapter();
+                    ErrorsHistoryItem item = listAdapter.getItem(i);
+                    System.out.println("item="+item);
 
+                    textViewProblemLevel.setText("???");
+                    textViewProblemTopic.setText("???");
+                    problemStatement.setText("???");
+                    textViewUserAnswer.setText(item.getUserAnswer());
+                    textViewProblemAnswer.setText(item.getRightAnswer());
+                    // Set the url too.
+
+                    panelErrorDetails.setVisibility(View.VISIBLE);
                 }
             }
         );
@@ -76,6 +109,8 @@ public class ErrorsHistoryFragment extends Fragment {
         radioGroupProblemType.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    panelErrorDetails.setVisibility(View.GONE);
+
                     String problemType = null;
                     int selectedId = radioGroupProblemType.getCheckedRadioButtonId();
                     if (selectedId == R.id.radioButtonProblemTypeReading)
@@ -276,6 +311,15 @@ public class ErrorsHistoryFragment extends Fragment {
     private RadioGroup radioGroupProblemType;
     private RadioButton radioButtonProblemTypeReading;
     private RadioButton radioButtonProblemTypeWriting;
+
+    private View panelErrorDetails;
+    private Button buttonClosePanelErrorDetails;
+
+    private TextView textViewProblemLevel;
+    private TextView textViewProblemTopic;
+    private TextView problemStatement;
+    private TextView textViewUserAnswer;
+    private TextView textViewProblemAnswer;
 
     private ErrorsHistoryListViewAdapter listViewAdapter;
 
