@@ -91,9 +91,23 @@ public class ErrorsHistoryFragment extends Fragment {
                     ErrorsHistoryItem item = listAdapter.getItem(i);
                     System.out.println("item="+item);
 
-                    textViewProblemLevel.setText("???");
-                    textViewProblemTopic.setText("???");
-                    problemStatement.setText("???");
+                    textViewProblemLevel.setText(item.getLevel() + "");
+
+                    Problem.Topic[] topics = item.getTopics();
+                    StringBuilder strTopics = new StringBuilder();
+                    if (topics != null) {
+                        String delim = "";
+                        for (int t = 0; t < topics.length; t++) {
+                            strTopics.append(delim);
+                            String strResName = "label_topic_" + topics[t].getLabelId();
+                            int labelId = getResources().getIdentifier(strResName, "string", getContext().getPackageName());
+                            strTopics.append(getResources().getString(labelId));
+                            delim = ", ";
+                        }
+                    }
+
+                    textViewProblemTopic.setText(strTopics.toString());
+                    problemStatement.setText(item.getStatement());
                     textViewUserAnswer.setText(item.getUserAnswer());
                     textViewProblemAnswer.setText(item.getRightAnswer());
                     // Set the url too.
@@ -277,10 +291,27 @@ public class ErrorsHistoryFragment extends Fragment {
                                     String problemWord = err.has("problem_word") ? (String)err.get("problem_word") : null;
                                     String problemRightAnswer = err.has("problem_right_answer") ? (String)err.get("problem_right_answer") : null;
                                     String userAnswer = (String)err.get("user_answer");
+                                    int problemLevel = -1;
+                                    try {
+                                        problemLevel = Integer.parseInt((String)err.get("problem_level"));
+                                    }
+                                    catch(NumberFormatException shoudNeverHappen) {
+                                        shoudNeverHappen.printStackTrace();
+                                    }
+                                    Problem.Topic[] topics = null;
+                                    if (err.has("problem_topics")) {
+                                        JSONArray jsonTopics = (JSONArray)err.get("problem_topics");
+                                        topics = new Problem.Topic[jsonTopics.length()];
+                                        for (int t = 0; t < jsonTopics.length(); t++)
+                                            topics[t] = Problem.Topic.valueOf((jsonTopics.get(t) + "").toUpperCase());
+                                    }
 
                                     ErrorsHistoryItem errorsHistoryItem = new ErrorsHistoryItem(
                                         date,
+                                        problemStmt,
                                         problemWord,
+                                        problemLevel,
+                                        topics,
                                         userAnswer,
                                         problemRightAnswer,
                                         !strDateKey.equals(strPrevDate)
