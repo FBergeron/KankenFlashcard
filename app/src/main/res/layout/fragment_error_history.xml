@@ -89,36 +89,22 @@
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
         android:layout_marginBottom="20dp"
-        android:background="#FFFFFFFF"
+
+        android:background="@drawable/error_details_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/buttonCloseErrorDetailsPanel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="167dp"
-            android:background="#FFF4A328"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="X"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/buttonCloseErrorDetailsPanel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="X" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -126,12 +112,12 @@
             android:layout_width="72dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/nine_patch_text_window01"
             android:text="Level"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonCloseErrorDetailsPanel" />
 
 
         <TextView
@@ -178,7 +164,6 @@
             android:layout_height="0dp"
             android:layout_marginStart="80dp"
             android:layout_marginTop="2dp"
-            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewUserAnswer"
             app:layout_constraintEnd_toEndOf="@+id/imageViewUserAnswer"
             app:layout_constraintStart_toStartOf="@+id/imageViewUserAnswer"
@@ -188,10 +173,14 @@
             android:id="@+id/imageViewProblemAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/imageViewUserAnswer"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/imageViewUserAnswer"
             app:layout_constraintTop_toBottomOf="@+id/imageViewUserAnswer"
+            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/window_summary01" />
 
         <TextView
@@ -200,7 +189,6 @@
             android:layout_height="0dp"
             android:layout_marginStart="80dp"
             android:layout_marginTop="2dp"
-            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewProblemAnswer"
             app:layout_constraintEnd_toEndOf="@+id/imageViewProblemAnswer"
             app:layout_constraintStart_toStartOf="@+id/imageViewProblemAnswer"
