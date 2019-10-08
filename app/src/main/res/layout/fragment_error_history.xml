@@ -49,7 +49,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="10dp"
-                android:text="@string/results_history_errors_header_user_answer" />
+                android:text="@string/results_history_errors_header_user_answer"
+               />
 
             <TextView
                 android:id="@+id/textViewHeaderRightAnswer"
@@ -81,23 +82,30 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/linearLayoutErrorDetailsPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="9dp"
         android:layout_marginEnd="9dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="20dp"
+        android:background="#FFFFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayout3"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="167dp"
             android:background="#FFF4A328"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <Space
                 android:layout_width="wrap_content"
@@ -112,67 +120,93 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/textViewProblemLevel"
+            android:layout_width="72dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/nine_patch_text_window01"
+            android:text="Level"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-            <TextView
-                android:id="@+id/textViewProblemLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
 
-            <TextView
-                android:id="@+id/textViewProblemTopic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textViewProblemTopic"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textViewUserAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textViewProblemAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-        </LinearLayout>
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/nine_patch_text_window01"
+            android:text="Topics"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewProblemLevel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewProblemLevel" />
 
         <jp.kyoto.nlp.kanken.SpecifyFontTextView
             android:id="@+id/problemStatement"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
             android:text="ここにたくさんてきすとが表示されるとテキストサイズが自動的に小さくなるしくみですよ"
             android:textSize="@dimen/summary_statement_text"
             app:autoSizeMaxTextSize="@dimen/summary_statement_text_max"
             app:autoSizeMinTextSize="@dimen/summary_statement_text_min"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewProblemTopic" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/imageViewUserAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/problemStatement"
+            app:layout_constraintStart_toStartOf="@+id/problemStatement"
+            app:layout_constraintTop_toBottomOf="@+id/problemStatement"
+            app:srcCompat="@drawable/window_summary00" />
+
+        <TextView
+            android:id="@+id/textViewUserAnswer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="2dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewUserAnswer"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewUserAnswer"
+            app:layout_constraintStart_toStartOf="@+id/imageViewUserAnswer"
+            app:layout_constraintTop_toTopOf="@+id/imageViewUserAnswer" />
+
+        <ImageView
+            android:id="@+id/imageViewProblemAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewUserAnswer"
+            app:layout_constraintStart_toStartOf="@+id/imageViewUserAnswer"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewUserAnswer"
+            app:srcCompat="@drawable/window_summary01" />
+
+        <TextView
+            android:id="@+id/textViewProblemAnswer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="2dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewProblemAnswer"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewProblemAnswer"
+            app:layout_constraintStart_toStartOf="@+id/imageViewProblemAnswer"
+            app:layout_constraintTop_toTopOf="@+id/imageViewProblemAnswer" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <RadioGroup
         android:id="@+id/radioGroupProblemType"

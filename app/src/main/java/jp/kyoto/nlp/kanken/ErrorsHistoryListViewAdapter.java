@@ -16,13 +16,13 @@ public class ErrorsHistoryListViewAdapter extends BaseAdapter {
     private class ViewHolder {
         private TextView textViewDate;
         private TextView textViewProblem;
-        private TextView textViewUserAnswer;
+        private TextView imageViewUserAnswer;
         private TextView textViewRightAnswer;
 
         public ViewHolder(View view) {
             textViewDate = view.findViewById(R.id.textViewDate);
             textViewProblem = view.findViewById(R.id.textViewProblem);
-            textViewUserAnswer = view.findViewById(R.id.textViewUserAnswer);
+            imageViewUserAnswer = view.findViewById(R.id.imageViewUserAnswer);
             textViewRightAnswer = view.findViewById(R.id.textViewRightAnswer);
         }
 
@@ -34,7 +34,7 @@ public class ErrorsHistoryListViewAdapter extends BaseAdapter {
             else
                 textViewDate.setText(null);
             textViewProblem.setText(item.getProblem());
-            textViewUserAnswer.setText(item.getUserAnswer());
+            imageViewUserAnswer.setText(item.getUserAnswer());
             textViewRightAnswer.setText(item.getRightAnswer());
         }
 
