@@ -93,12 +93,14 @@ public class ErrorsHistoryFragment extends Fragment {
                     ErrorsHistoryItem item = listAdapter.getItem(i);
                     System.out.println("item="+item);
 
-                    String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), item.getLevel());
+                    String strLevel = item.getLevel() == -1 ? getResources().getString(R.string.label_no_data) : String.format(getResources().getString(R.string.label_problem_info_level), item.getLevel());
                     textViewProblemLevel.setText(strLevel);
 
                     Problem.Topic[] topics = item.getTopics();
                     StringBuilder strTopics = new StringBuilder();
-                    if (topics != null) {
+                    if (topics == null)
+                        strTopics.append(getResources().getString(R.string.label_no_data));
+                    else {
                         String delim = "";
                         for (int t = 0; t < topics.length; t++) {
                             strTopics.append(delim);
@@ -111,11 +113,11 @@ public class ErrorsHistoryFragment extends Fragment {
 
                     textViewProblemTopic.setText(strTopics.toString());
                     if (item.getStatement() == null)
-                        problemStatement.setText("");
+                        problemStatement.setText(getResources().getString(R.string.label_no_data));
                     else
                         problemStatement.setText(Html.fromHtml(item.getStatement().replace("[", "<u><font color=\"red\">").replace("]", "</font></u>")));
                     textViewUserAnswer.setText(item.getUserAnswer());
-                    textViewProblemAnswer.setText(item.getRightAnswer());
+                    textViewProblemAnswer.setText(item.getRightAnswer() == null ? getResources().getString(R.string.label_no_data) : item.getRightAnswer());
 
                     panelErrorDetails.setVisibility(View.VISIBLE);
                     ((ListView)adapterView).post(

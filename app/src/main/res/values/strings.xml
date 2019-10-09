@@ -138,4 +138,5 @@
     <string name="warning_quit_before_answering_title">Do you want to quit the application right away?</string>
     <string name="warning_quit_before_answering_msg">Do you want to quit the application right away?</string>
     <string name="button_quit">Quit</string>
+    <string name="label_no_data">No data</string>
 </resources>

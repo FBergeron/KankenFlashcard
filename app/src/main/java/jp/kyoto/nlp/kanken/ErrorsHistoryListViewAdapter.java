@@ -33,9 +33,9 @@ public class ErrorsHistoryListViewAdapter extends BaseAdapter {
             }
             else
                 textViewDate.setText(null);
-            textViewProblem.setText(item.getProblem());
+            textViewProblem.setText(item.getProblem() == null ? context.getResources().getString(R.string.label_no_data) : item.getProblem());
             imageViewUserAnswer.setText(item.getUserAnswer());
-            textViewRightAnswer.setText(item.getRightAnswer());
+            textViewRightAnswer.setText(item.getRightAnswer() == null ? context.getResources().getString(R.string.label_no_data) : item.getRightAnswer());
         }
 
     }

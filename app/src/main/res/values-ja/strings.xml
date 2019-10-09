@@ -131,4 +131,5 @@
     <string name="warning_quit_before_answering_title">すぐに「漢検とニュース」を閉じますか？</string>
     <string name="warning_quit_before_answering_msg">すぐに「漢検とニュース」を閉じますか？</string>
     <string name="button_quit">閉じる</string>
+    <string name="label_no_data">データなし</string>
 </resources>
