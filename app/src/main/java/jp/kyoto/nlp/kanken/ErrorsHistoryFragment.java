@@ -85,12 +85,8 @@ public class ErrorsHistoryFragment extends Fragment {
             new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    System.out.println("adapterView="+adapterView+" class="+adapterView.getClass());
-                    System.out.println("view="+view+" class="+view.getClass());
-
                     ErrorsHistoryListViewAdapter listAdapter = (ErrorsHistoryListViewAdapter)adapterView.getAdapter();
                     ErrorsHistoryItem item = listAdapter.getItem(i);
-                    System.out.println("item="+item);
 
                     String strLevel = item.getLevel() == -1 ? getResources().getString(R.string.label_no_data) : String.format(getResources().getString(R.string.label_problem_info_level), item.getLevel());
                     textViewProblemLevel.setText(strLevel);
@@ -308,7 +304,7 @@ public class ErrorsHistoryFragment extends Fragment {
                                     String problemWord = err.has("problem_word") ? (String)err.get("problem_word") : null;
                                     String problemRightAnswer = err.has("problem_right_answer") ? (String)err.get("problem_right_answer") : null;
                                     String userAnswer = (String)err.get("user_answer");
-System.out.println( "err="+err );
+
                                     int problemLevel = -1;
                                     if (err.has("problem_level")) {
                                         try {
