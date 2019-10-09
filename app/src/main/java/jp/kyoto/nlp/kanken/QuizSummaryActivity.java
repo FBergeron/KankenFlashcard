@@ -2,13 +2,9 @@ package jp.kyoto.nlp.kanken;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.webkit.WebView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.json.JSONException;
 

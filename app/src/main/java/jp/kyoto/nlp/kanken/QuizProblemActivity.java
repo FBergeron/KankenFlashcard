@@ -1,8 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
