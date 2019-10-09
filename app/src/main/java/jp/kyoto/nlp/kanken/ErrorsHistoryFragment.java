@@ -135,6 +135,10 @@ public class ErrorsHistoryFragment extends Fragment {
         radioGroupProblemType.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    // Hack to remove the Listview selection.
+                    // https://stackoverflow.com/questions/9754170/listview-selection-remains-persistent-after-exiting-choice-mode
+                    listViewResultEntries.setAdapter(listViewResultEntries.getAdapter());
+
                     panelErrorDetails.setVisibility(View.GONE);
 
                     String problemType = null;
