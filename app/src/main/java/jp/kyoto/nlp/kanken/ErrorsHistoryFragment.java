@@ -110,11 +110,21 @@ public class ErrorsHistoryFragment extends Fragment {
                     }
 
                     textViewProblemTopic.setText(strTopics.toString());
-                    problemStatement.setText(Html.fromHtml(item.getStatement().replace("[", "<u><font color=\"red\">").replace("]", "</font></u>")));
+                    if (item.getStatement() == null)
+                        problemStatement.setText("");
+                    else
+                        problemStatement.setText(Html.fromHtml(item.getStatement().replace("[", "<u><font color=\"red\">").replace("]", "</font></u>")));
                     textViewUserAnswer.setText(item.getUserAnswer());
                     textViewProblemAnswer.setText(item.getRightAnswer());
 
                     panelErrorDetails.setVisibility(View.VISIBLE);
+                    ((ListView)adapterView).post(
+                        new Runnable() {
+                            public void run() {
+                                ((ListView)adapterView).smoothScrollToPosition(i);
+                            }
+                        }
+                    );
                 }
             }
         );
@@ -293,12 +303,15 @@ public class ErrorsHistoryFragment extends Fragment {
                                     String problemWord = err.has("problem_word") ? (String)err.get("problem_word") : null;
                                     String problemRightAnswer = err.has("problem_right_answer") ? (String)err.get("problem_right_answer") : null;
                                     String userAnswer = (String)err.get("user_answer");
+System.out.println( "err="+err );
                                     int problemLevel = -1;
-                                    try {
-                                        problemLevel = Integer.parseInt((String)err.get("problem_level"));
-                                    }
-                                    catch(NumberFormatException shoudNeverHappen) {
-                                        shoudNeverHappen.printStackTrace();
+                                    if (err.has("problem_level")) {
+                                        try {
+                                            problemLevel = Integer.parseInt((String)err.get("problem_level"));
+                                        }
+                                        catch(NumberFormatException shoudNeverHappen) {
+                                            shoudNeverHappen.printStackTrace();
+                                        }
                                     }
                                     Problem.Topic[] topics = null;
                                     if (err.has("problem_topics")) {
