@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,7 +93,8 @@ public class ErrorsHistoryFragment extends Fragment {
                     ErrorsHistoryItem item = listAdapter.getItem(i);
                     System.out.println("item="+item);
 
-                    textViewProblemLevel.setText(item.getLevel() + "");
+                    String strLevel = String.format(getResources().getString(R.string.label_problem_info_level), item.getLevel());
+                    textViewProblemLevel.setText(strLevel);
 
                     Problem.Topic[] topics = item.getTopics();
                     StringBuilder strTopics = new StringBuilder();
@@ -108,10 +110,9 @@ public class ErrorsHistoryFragment extends Fragment {
                     }
 
                     textViewProblemTopic.setText(strTopics.toString());
-                    problemStatement.setText(item.getStatement());
+                    problemStatement.setText(Html.fromHtml(item.getStatement().replace("[", "<u><font color=\"red\">").replace("]", "</font></u>")));
                     textViewUserAnswer.setText(item.getUserAnswer());
                     textViewProblemAnswer.setText(item.getRightAnswer());
-                    // Set the url too.
 
                     panelErrorDetails.setVisibility(View.VISIBLE);
                 }
