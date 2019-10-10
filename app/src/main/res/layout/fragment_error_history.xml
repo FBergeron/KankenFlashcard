@@ -5,14 +5,13 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="8dp"
     tools:context=".ErrorsHistoryFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginEnd="9dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutErrorDetailsPanel"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +48,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="10dp"
-                android:text="@string/results_history_errors_header_user_answer"
-               />
+                android:text="@string/results_history_errors_header_user_answer" />
 
             <TextView
                 android:id="@+id/textViewHeaderRightAnswer"
@@ -74,11 +72,6 @@
 
         </ListView>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
 
     </LinearLayout>
 
@@ -86,11 +79,10 @@
         android:id="@+id/linearLayoutErrorDetailsPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="9dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
 
-        android:layout_marginBottom="20dp"
         android:background="@drawable/error_details_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

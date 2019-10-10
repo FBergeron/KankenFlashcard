@@ -102,7 +102,7 @@ public class ErrorsHistoryFragment extends Fragment {
                             String strResName = "label_topic_" + topics[t].getLabelId();
                             int labelId = getResources().getIdentifier(strResName, "string", getContext().getPackageName());
                             strTopics.append(getResources().getString(labelId));
-                            delim = ", ";
+                            delim = "\n";
                         }
                     }
 
