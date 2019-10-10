@@ -17,6 +17,7 @@
         android:id="@+id/textViewProblemFamiliarity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:gravity="bottom"
         android:text="「返し」という単語をあなたが理解し、使い始めたと思われる時期を教えてください。"
         android:textSize="@dimen/evaluation_problem_familiarity_text_size"

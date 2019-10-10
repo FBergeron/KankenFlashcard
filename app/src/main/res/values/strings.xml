@@ -73,7 +73,7 @@
     <string name="label_detailed_answer_right">%1$s = %2$s</string>
     <string name="label_detailed_answer_wrong">%1$s ≠ %2$s\n\n%1$s = %3$s</string>
     <string name="button_report_error">Report the problem as incorrect</string>
-    <string name="label_enter_problem_familiarity">Please indicate when you have understood and started to use a word in your native language corresponding to \"%1$s\". (ES stands for Elementary School; HS stands for High School)</string>
+    <string name="label_enter_problem_familiarity">Please indicate when you have understood and started to use a word in your native language corresponding to \"%1$s\". (ES: Elem. School; HS: High School)</string>
     <string name="label_familiarity_0">I don\'t know this Japanese word</string>
     <string name="label_familiarity_1">Before ES</string>
     <string name="label_familiarity_2">ES (lower)</string>
