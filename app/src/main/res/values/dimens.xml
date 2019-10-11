@@ -22,7 +22,7 @@
     <dimen name="intersection_gap_height">0dp</dimen>
     <dimen name="evaluation_answer_text_size">16sp</dimen>
     <dimen name="evaluation_outcome_text_size">32sp</dimen>
-    <dimen name="evaluation_problem_familiarity_text_size">16sp</dimen>
+    <dimen name="evaluation_problem_familiarity_text_size">12sp</dimen>
     <dimen name="layout_problem_statement_weight">18</dimen>
     <dimen name="button_familiarity_text_size">10sp</dimen>
     <dimen name="kanji_list_item_size">60dp</dimen>
