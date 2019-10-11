@@ -146,7 +146,7 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
                 URL signInUrl = (URL)objs[0];
                 Log.d(TAG, "doInBackground: " + signInUrl.toString());
                 try {
-                    String version = "1.0";
+                    String version = "2.0";
 
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("idToken", appl.getUserIdToken());
