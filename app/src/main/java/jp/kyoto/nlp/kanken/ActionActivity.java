@@ -2,12 +2,8 @@ package jp.kyoto.nlp.kanken;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,7 +28,7 @@ public abstract class ActionActivity extends BaseActionActivity {
         menuInflater.inflate(R.menu.action_bar_writing_problem_menu, menu);
 
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
-        boolean isMusicEnabled = sharedPref.getBoolean("MusicEnabled", true);
+        boolean isMusicEnabled = sharedPref.getBoolean(Util.PREF_KEY_MUSIC_ENABLED, true);
         appl.setBackgroundMusicEnabled(isMusicEnabled);
         actionBarMenu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), (isMusicEnabled ? R.drawable.music_on : R.drawable.music_off), null));
 
@@ -47,14 +43,14 @@ public abstract class ActionActivity extends BaseActionActivity {
             SharedPreferences.Editor editor = sharedPref.edit();
             if (appl.isBackgroundMusicEnabled()) {
                 actionBarMenu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.music_off, null));
-                editor.putBoolean("MusicEnabled", false);
+                editor.putBoolean(Util.PREF_KEY_MUSIC_ENABLED, false);
                 // Use a separate thread to prevent slowing the GUI.
                 actionBarMenu.getItem(0).setEnabled(false);
                 new ToggleMusicTask().execute(Boolean.FALSE);
             }
             else {
                 actionBarMenu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.music_on, null));
-                editor.putBoolean("MusicEnabled", true);
+                editor.putBoolean(Util.PREF_KEY_MUSIC_ENABLED, true);
                 // Use a separate thread to prevent slowing the GUI.
                 new ToggleMusicTask().execute(Boolean.TRUE);
             }

@@ -43,11 +43,11 @@
         android:text="UserName"
         android:textAlignment="viewStart"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/buttonSignOut"
-        app:layout_constraintEnd_toStartOf="@+id/buttonSignOut"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonHistory"
+        app:layout_constraintEnd_toStartOf="@+id/buttonHistory"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonSignOut" />
+        app:layout_constraintTop_toTopOf="@+id/buttonHistory" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -118,7 +118,7 @@
         android:layout_marginBottom="8dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,968:268"
+        app:layout_constraintDimensionRatio="2.8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +163,19 @@
         app:srcCompat="@drawable/nine_patch_flame" />
 
     <ImageButton
+        android:id="@+id/buttonHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@null"
+        android:onClick="showResultsHistory"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonSignOut"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSignOut"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:srcCompat="@drawable/btn_results_history" />
+
+    <ImageButton
         android:id="@+id/buttonSignOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -174,18 +187,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:srcCompat="@drawable/btn_sign_out" />
-
-    <ImageButton
-        android:id="@+id/buttonStartQuiz"
-        android:layout_width="@dimen/btn_main_width"
-        android:layout_height="@dimen/btn_main_height"
-        android:background="@drawable/btn_kadomaru"
-        android:layout_marginBottom="8dp"
-        android:onClick="startQuiz"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/text_btn03" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -217,14 +218,12 @@
         app:layout_constraintTop_toTopOf="@+id/imageView5"
         app:srcCompat="@drawable/text_main02" />
 
-    <RadioGroup
-        android:id="@+id/radioGroupQuizType"
+    <LinearLayout
+        android:id="@+id/layoutStartQuizButtons"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
@@ -233,28 +232,28 @@
         app:layout_constraintStart_toStartOf="@+id/imageView5"
         app:layout_constraintTop_toBottomOf="@+id/imageView9">
 
-        <RadioButton
-            android:id="@+id/radioButtonQuizTypeReading"
+        <Button
+            android:id="@+id/buttonStartReadingQuiz"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@drawable/btn_reading"
-            android:button="@null"
-            android:gravity="center" />
+            android:gravity="center"
+            android:onClick="startReadingQuiz" />
 
-        <RadioButton
-            android:id="@+id/radioButtonQuizTypeWriting"
+        <Button
+            android:id="@+id/buttonStartWritingQuiz"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@drawable/btn_writing"
-            android:button="@null"
-            android:gravity="center" />
-    </RadioGroup>
+            android:gravity="center"
+            android:onClick="startWritingQuiz" />
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/buttonQuizTopicsSelector"

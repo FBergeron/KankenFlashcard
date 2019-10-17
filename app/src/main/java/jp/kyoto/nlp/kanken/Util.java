@@ -128,8 +128,8 @@ class Util {
     public static ArrayList<String> longKanas = new ArrayList<String>();
 
     static {
-        longKanas.add("\u304d\u3083"); // きゃ 
-        longKanas.add("\u304d\u3085"); // きゅ 
+        longKanas.add("\u304d\u3083"); // きゃ
+        longKanas.add("\u304d\u3085"); // きゅ
         longKanas.add("\u304d\u3087"); // きょ
 
         longKanas.add("\u3057\u3083"); // しゃ
@@ -190,7 +190,7 @@ class Util {
                 // Ignore empty lines and comments.
                 if (line.length() == 0 || line.startsWith("#"))
                     continue;
-                
+
                 int indexOfDelim = line.indexOf('|');
                 if (indexOfDelim != -1) {
                     String kana = line.substring(0, indexOfDelim);
@@ -199,7 +199,7 @@ class Util {
                     kanaFreq.put(kana, Float.valueOf(strFreq));
                 }
             }
-        } 
+        }
         finally {
             is.close();
         }
@@ -211,7 +211,7 @@ class Util {
             String jsonText = readAll(rd);
             JSONObject json = new JSONObject(jsonText);
             return json;
-        } 
+        }
         finally {
             is.close();
         }
@@ -298,17 +298,35 @@ class Util {
         return chars;
     }
 
+    public static void quitBeforeAnswering(final Activity context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getResources().getString(R.string.warning_quit_before_answering_title))
+        //.setMessage(context.getResources().getString(R.string.warning_quit_before_answering_msg))
+        .setPositiveButton(R.string.button_quit, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                KankenApplication.getInstance().getFirstActivity().finishAndRemoveTask();
+            }
+         })
+        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+         })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setCancelable(true)
+        .show();
+    }
+
     public static void goBackToSettings(final Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getResources().getString(R.string.warning_cancel_quiz_title))
         .setMessage(context.getResources().getString(R.string.warning_cancel_quiz_msg))
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        .setPositiveButton(R.string.button_terminate, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 context.finish();
             }
          })
         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) { 
+            public void onClick(DialogInterface dialog, int which) {
             }
          })
         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -318,7 +336,17 @@ class Util {
 
     public static final String PREFS_GENERAL = "KankenAppPrefsGeneral";
 
-    private static final String PREF_KEY_AGREEMENT = "agreement";
+    static final String PREF_KEY_AGREEMENT = "agreement";
+
+    static final String PREF_KEY_QUIZ_LEVEL = "QuizLevel";
+    static final String PREF_KEY_QUIZ_TOPICS = "QuizTopics";
+    static final String PREF_KEY_QUIZ_TYPE = "QuizType";
+
+    static final String PREF_KEY_MUSIC_ENABLED = "MusicEnabled";
+
+    static final String PREF_KEY_HISTORY_VIEW = "HistoryView";
+    static final String PREF_KEY_HISTORY_GRAPH_PERIOD = "HistoryGraphPeriod";
+    static final String PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE = "HistoryErrorsProblemType";
 
     private static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);

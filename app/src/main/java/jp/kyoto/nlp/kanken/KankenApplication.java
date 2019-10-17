@@ -1,5 +1,6 @@
 package jp.kyoto.nlp.kanken;
 
+import android.app.Activity;
 import android.app.Application;
 import android.net.Uri;
 import android.util.Log;
@@ -15,6 +16,14 @@ import java.util.Set;
 
 public class KankenApplication extends Application {
 
+    public static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
+    public static final String getErrorHistoryReqPath = "/cgi-bin/get_errors_history.cgi";
+    public static final String getResultHistoryReqPath = "/cgi-bin/get_results_history.cgi";
+    public static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
+    public static final String signInReqPath = "/cgi-bin/sign_in.cgi";
+    public static final String storeResultReqPath = "/cgi-bin/store_result.cgi";
+    public static final String storeResultsReqPath = "/cgi-bin/store_results.cgi";
+
     public static KankenApplication getInstance() {
         return KankenApplication.instance;
     }
@@ -26,6 +35,11 @@ public class KankenApplication extends Application {
 
     public void startQuiz(Problem.Type type, Set<Problem.Topic> topics, int level) {
         quiz = new Quiz(type, topics, level);
+    }
+
+    public void playAgain() {
+        if (quiz != null)
+            quiz.clear();
     }
 
     public Quiz getQuiz() {
@@ -129,6 +143,15 @@ public class KankenApplication extends Application {
             playerAdapter.release();
     }
 
+    public void setFirstActivity(Activity activity) {
+        if (firstActivity == null)
+            firstActivity = activity;
+    }
+
+    public Activity getFirstActivity() {
+        return firstActivity;
+    }
+
     private static KankenApplication instance;
 
     private Quiz    quiz;
@@ -140,12 +163,14 @@ public class KankenApplication extends Application {
     private String  sessionCookie;
 
     private MediaPlayerHolder mediaPlayerHolder;
-    private PlayerAdapter playerAdapter; 
+    private PlayerAdapter playerAdapter;
     private int backgroundMusicPos = -1;
     private boolean isBackgroundMusicEnabled = true;
 
     private String  serverBaseUrl;
-    
+
     private final static String tag = "KankenApplication";
+
+    private Activity firstActivity = null;
 
 }

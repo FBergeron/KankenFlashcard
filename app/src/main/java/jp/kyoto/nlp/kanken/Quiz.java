@@ -31,6 +31,10 @@ class Quiz {
         return length;
     }
 
+    public int getAnswerCount() {
+        return answers.size();
+    }
+
     public void clear() {
         problems.clear();
         answers.clear();
@@ -61,7 +65,7 @@ class Quiz {
             currentProblem++;
         return problems.get(currentProblem);
     }
-    
+
     public Problem nextProblem() {
         if (currentProblem >= this.length - 1)
             return null;
@@ -72,6 +76,10 @@ class Quiz {
 
     public Iterator<Problem> getProblems() {
         return problems.iterator();
+    }
+
+    public Problem getProblem(int index) {
+        return problems.get(index);
     }
 
     public void setProblems(ArrayList<Problem> problems) {
@@ -90,12 +98,24 @@ class Quiz {
         return rightAnswers.iterator();
     }
 
+    public Boolean getRightAnswer(int index) {
+        return rightAnswers.get(index);
+    }
+
     public Iterator<Integer> getFamiliarities() {
         return familiarities.iterator();
     }
 
+    public Integer getFamiliarity(int index) {
+        return familiarities.get(index);
+    }
+
     public Iterator<Boolean> getReportedAsIncorrects() {
         return reportedAsIncorrects.iterator();
+    }
+
+    public Boolean getReportedAsIncorrect(int index) {
+        return reportedAsIncorrects.get(index);
     }
 
     public boolean validateAnswer(String answer) {

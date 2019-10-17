@@ -1,5 +1,20 @@
 CHANGES
 
+
+2.0-alpha
+---------
+- Added Stats button with 3 views: text, graphical, and errors.
+- Localized to English.
+- Added Quit button to stop a quiz at any time.
+- Put back smarter kanji recognition algorithm for writing problems.
+- Removed Start Quiz button from Settings page.
+- Added Play Again button on Summary page.
+- Removed problems with hiraganas.
+
+1.0
+---
+- Minot fixes
+
 0.6-beta
 --------
 - Validate client version with the server.

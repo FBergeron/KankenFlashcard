@@ -1,12 +1,11 @@
 package jp.kyoto.nlp.kanken;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 
 public class AgreementActivity extends AppCompatActivity {

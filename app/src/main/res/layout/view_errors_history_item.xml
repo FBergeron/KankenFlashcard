@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:width="0dp"
+            android:background="#AAFFFFFF"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/textViewProblem"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:width="0dp"
+            android:background="#AAEEEEEE"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/imageViewUserAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:width="0dp"
+            android:background="#AAFFFFFF"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/textViewRightAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:width="0dp"
+            android:background="#AAEEEEEE"
+            android:padding="10dp" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
+

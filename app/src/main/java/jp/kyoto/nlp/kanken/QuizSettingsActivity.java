@@ -12,17 +12,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.LayoutInflater;
-import android.widget.RadioGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.ListView;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -31,7 +29,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,6 +48,7 @@ import java.util.List;
 import java.util.Set;
 
 public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+
     public class CustomAdapter extends ArrayAdapter<String> {
         private LayoutInflater inflater;
 
@@ -71,6 +69,11 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
     }
 
+    public void showResultsHistory(android.view.View view) {
+        Intent resultsHistoryActivity = new Intent(QuizSettingsActivity.this, ResultsHistoryActivity.class);
+        startActivity(resultsHistoryActivity);
+    }
+
     public void signOut(android.view.View view) {
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
@@ -78,7 +81,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                     public void onResult(@NonNull Status status) {
                         URL signOutUrl;
                         try {
-                            signOutUrl = new URL(appl.getServerBaseUrl() + signOutReqPath);
+                            signOutUrl = new URL(appl.getServerBaseUrl() + KankenApplication.signOutReqPath);
 
                             progressDialog = new ProgressDialog(QuizSettingsActivity.this);
                             progressDialog.setMessage(getResources().getString(R.string.label_signing_out));
@@ -182,7 +185,15 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         startActivity(httpIntent);
     }
 
-    public void startQuiz(android.view.View view) {
+    public void startReadingQuiz(android.view.View view) {
+        startQuiz(Problem.Type.READING);
+    }
+
+    public void startWritingQuiz(android.view.View view) {
+        startQuiz(Problem.Type.WRITING);
+    }
+
+    public void startQuiz(Problem.Type type) {
         Set<Problem.Topic> quizTopics = new HashSet<Problem.Topic>();
         for (Integer selectedTopic : selectedTopics)
             quizTopics.add(Problem.Topic.values()[selectedTopic]);
@@ -206,7 +217,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
         int level = seekbarQuizLevel.getProgress() + 1;
-        editor.putInt("QuizLevel", level);
+        editor.putInt(Util.PREF_KEY_QUIZ_LEVEL, level);
 
         StringBuilder strPrefTopics = new StringBuilder();
         String delimiter = "";
@@ -215,13 +226,9 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
             strPrefTopics.append(topic.getLabelId());
             delimiter = ",";
         }
-        editor.putString("QuizTopics", strPrefTopics.toString());
+        editor.putString(Util.PREF_KEY_QUIZ_TOPICS, strPrefTopics.toString());
 
-        RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
-        int selectedRadioButtonId = radioGroupQuizType.getCheckedRadioButtonId();
-        Problem.Type type = (selectedRadioButtonId == R.id.radioButtonQuizTypeReading ?
-                Problem.Type.READING : Problem.Type.WRITING);
-        editor.putString("QuizType", type.getLabelId());
+        editor.putString(Util.PREF_KEY_QUIZ_TYPE, type.getLabelId());
 
         editor.apply();
 
@@ -236,6 +243,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         setContentView(R.layout.activity_quiz_settings);
 
         appl = KankenApplication.getInstance();
+        appl.setFirstActivity(QuizSettingsActivity.this);
 
         TextView userName = findViewById(R.id.userName);
         userName.setText(appl.getUserName());
@@ -252,7 +260,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
 
-        int prefLevel = sharedPref.getInt("QuizLevel", 1);
+        int prefLevel = sharedPref.getInt(Util.PREF_KEY_QUIZ_LEVEL, 1);
         SeekBar seekbarQuizLevel = findViewById(R.id.seekBarQuizLevel);
         seekbarQuizLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -279,7 +287,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         checkedTopics = new boolean[labelTopics.length];
 
-        String prefTopics = sharedPref.getString("QuizTopics", "");
+        String prefTopics = sharedPref.getString(Util.PREF_KEY_QUIZ_TOPICS, "");
         HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
         for (int i = 0; i < Problem.Topic.values().length; i++) {
             if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
@@ -287,12 +295,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
         showSelectedTopics();
 
-        String prefType = sharedPref.getString("QuizType", "reading");
-        RadioGroup radioGroupQuizType = findViewById(R.id.radioGroupQuizType);
-        if (Problem.Type.READING.getLabelId().equals(prefType))
-            radioGroupQuizType.check(R.id.radioButtonQuizTypeReading);
-        else
-            radioGroupQuizType.check(R.id.radioButtonQuizTypeWriting);
+        String prefType = sharedPref.getString(Util.PREF_KEY_QUIZ_TYPE, "reading");
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
@@ -340,7 +343,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
                 delim = ",";
             }
 
-            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + getNextProblemsReqPath +
+            getNextProblemsUrl = new URL(appl.getServerBaseUrl() + KankenApplication.getNextProblemsReqPath +
                     "?type=" + URLEncoder.encode(type.toString().toLowerCase()) +
                     "&level=" + URLEncoder.encode(level + "", "UTF-8") +
                     "&topics=" + URLEncoder.encode(topicsParam.toString(), "UTF-8"));
@@ -350,7 +353,7 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-            new FetchProblemsTask().execute(getNextProblemsUrl);
+            new FetchProblemsTask(appl, progressDialog, QuizSettingsActivity.this).execute(getNextProblemsUrl);
         } catch (MalformedURLException e1) {
             e1.printStackTrace();
         } catch (UnsupportedEncodingException e2) {
@@ -369,166 +372,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-    }
-
-    private class FetchProblemsTask extends AsyncTask {
-
-        protected Object doInBackground(Object... objs) {
-            JSONArray jsonProblems = null;
-            URL getNextProblemsUrl = (URL) objs[0];
-            try {
-                HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
-                con.setRequestProperty("Accept", "application/json");
-                String cookie = appl.getSessionCookie();
-                if (cookie != null)
-                    con.setRequestProperty("Cookie", cookie);
-                con.setRequestMethod("GET");
-                con.connect();
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                jsonProblems = jsonResponse.getJSONArray("problems");
-            } catch (IOException e) {
-                e.printStackTrace();
-                this.exception = e;
-            } catch (JSONException e2) {
-                e2.printStackTrace();
-                this.exception = e2;
-            }
-
-            return jsonProblems;
-        }
-
-        protected void onPostExecute(final Object obj) {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-                progressDialog = null;
-            }
-
-            if (exception != null || obj == null) {
-                if (exception != null)
-                    Log.e(TAG, "An exception has occurred: " + exception);
-                if (obj == null)
-                    Log.e(TAG, "Cannot retrieve problems.");
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
-                builder.setTitle(getResources().getString(R.string.error_server_unreachable_title))
-                        .setMessage(getResources().getString(R.string.error_server_unreachable_msg))
-                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setCancelable(true)
-                        .show();
-
-                return;
-            }
-
-            ArrayList<Problem> problems = new ArrayList<Problem>();
-            Quiz quiz = appl.getQuiz();
-
-            JSONArray jsonProblems = (JSONArray) obj;
-
-            if (jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(QuizSettingsActivity.this);
-                builder.setTitle(getResources().getString(R.string.error_not_enough_problems_found_title))
-                        .setMessage(getResources().getString(R.string.error_not_enough_problems_found_msg))
-                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setCancelable(true)
-                        .show();
-                return;
-            }
-
-            for (int i = 0; i < jsonProblems.length(); i++) {
-                try {
-                    JSONArray jsonProblemData = jsonProblems.getJSONArray(i);
-
-                    JSONArray jsonProblem = jsonProblemData.getJSONArray(0);
-                    JSONArray jsonProblemTopics = jsonProblemData.getJSONArray(1);
-
-                    String id = jsonProblem.getString(0);
-                    String jumanInfo = jsonProblem.getString(1);
-                    String statement = jsonProblem.getString(2);
-                    String rightAnswer = jsonProblem.getString(3);
-                    String articleUrl = jsonProblem.getString(4);
-                    Object objIsLinkAlive = jsonProblem.get(5);
-
-                    boolean isLinkAlive = objIsLinkAlive != null && objIsLinkAlive instanceof Integer && (Integer) objIsLinkAlive == 1;
-
-                    String altArticleUrl = null;
-                    try {
-                        if (!isLinkAlive && objIsLinkAlive != null && objIsLinkAlive instanceof JSONArray) {
-                            StringBuilder strParams = new StringBuilder();
-                            String paramDelim = "";
-                            JSONArray searchTerms = (JSONArray) objIsLinkAlive;
-                            for (int t = 0; t < searchTerms.length(); t++) {
-                                strParams.append(paramDelim);
-                                strParams.append(URLEncoder.encode(searchTerms.getString(t), "UTF-8"));
-                                paramDelim = "+";
-                            }
-                            if (strParams.length() > 0)
-                                altArticleUrl = String.format(getResources().getString(R.string.search_engine_url), strParams);
-                        }
-                    } catch (UnsupportedEncodingException ignore) {
-                        ignore.printStackTrace();
-                    }
-
-                    // Log.d(TAG, "id="+id);
-                    // Log.d(TAG, "jumanInfo="+jumanInfo);
-                    // Log.d(TAG, "statement="+statement);
-                    // Log.d(TAG, "rightAnswer="+rightAnswer);
-                    // Log.d(TAG, "articleUrl="+articleUrl);
-                    // Log.d(TAG, "objIsLinkAlive="+objIsLinkAlive);
-                    // Log.d(TAG, "isLinkAlive="+isLinkAlive);
-                    // Log.d(TAG, "altArticleUrl="+altArticleUrl);
-
-                    Set<Problem.Topic> topics = new HashSet<Problem.Topic>();
-                    for (int j = 0; j < jsonProblemTopics.length(); j++) {
-                        String topic = jsonProblemTopics.getString(j);
-                        topics.add(Problem.Topic.valueOf(topic.toUpperCase()));
-                    }
-
-                    Problem problem = null;
-                    try {
-                        if (Problem.Type.READING == quiz.getType())
-                            problem = new ReadingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
-                        else
-                            problem = new WritingProblem(id, quiz.getLevel(), topics, statement, jumanInfo, rightAnswer, articleUrl, isLinkAlive, altArticleUrl);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                    if (problem != null)
-                        problems.add(problem);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            quiz.setProblems(problems);
-            quiz.setCurrentAnswer("");
-            quiz.setCurrentMode(Quiz.Mode.MODE_ASK);
-            Problem currProb = quiz.getCurrentProblem();
-
-            Intent problemActivity = (Problem.Type.READING.equals(currProb.getType()) ?
-                    new Intent(QuizSettingsActivity.this, ReadingProblemActivity.class) :
-                    new Intent(QuizSettingsActivity.this, WritingProblemActivity.class));
-            startActivity(problemActivity);
-        }
-
-        private Exception exception;
-
     }
 
     private class SignOutTask extends AsyncTask {
@@ -617,9 +460,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     private GoogleApiClient googleApiClient;
 
     private View seekBarE;
-
-    private static final String getNextProblemsReqPath = "/cgi-bin/get_next_problems.cgi";
-    private static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
 
     private static final String TAG = "QuizSettingsActivity";
 

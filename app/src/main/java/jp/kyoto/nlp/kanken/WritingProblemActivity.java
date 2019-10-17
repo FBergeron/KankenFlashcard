@@ -6,12 +6,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +53,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
             httpIntent.setData(Uri.parse(altArticleUrl));
             startActivity(httpIntent);
         }
+    }
+
+    public void quitBeforeAnswering(android.view.View view) {
+        Util.quitBeforeAnswering(WritingProblemActivity.this);
     }
 
     @Override
@@ -126,11 +127,11 @@ public class WritingProblemActivity extends QuizProblemActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     appl.getQuiz().validateAnswer(answer);
                     appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
-                    showProblemEvaluation();    
+                    showProblemEvaluation();
                 }
              })
             .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) { 
+                public void onClick(DialogInterface dialog, int which) {
                 }
              })
             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -385,7 +386,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             String answer = textViewProblemUserAnswer.getText().toString();
             final String rightChar = (answer.length() < rightAnswer.length() ? rightAnswer.charAt(answer.length()) + "" : null);
 
-            if (true) {
+            if (strokes.length < 8 || strokes.length >= 20) {
                 if (!isRunning) {
                     Log.d(TAG,  "out0!" );
                     return;
@@ -414,7 +415,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     Log.d(TAG,  "out1!" );
                     return;
                 }
-                fuzzyMatches = new KanjiMatch[0];
+                fuzzyMatches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzy.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY, null, this));
                 long stopTimeFuzzy = System.currentTimeMillis();
                 if (rightChar != null) {
                     Log.d(TAG, "Looking in fuzzyMatches fuzzy.l="+fuzzyMatches.length);
@@ -432,7 +433,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     return;
                 }
                 long startTimeFuzzier1 = System.currentTimeMillis();
-                fuzzier1Matches = new KanjiMatch[0];
+                fuzzier1Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier1.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null, this));
                 long stopTimeFuzzier1 = System.currentTimeMillis();
                 if (rightChar != null) {
                     Log.d(TAG, "Looking in fuzzier1Matches fuzzy.l="+fuzzier1Matches.length);
@@ -450,7 +451,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     return;
                 }
                 long startTimeFuzzier2 = System.currentTimeMillis();
-                fuzzier2Matches = new KanjiMatch[0];
+                fuzzier2Matches = (!isRunning || isRightKanjiFound ? new KanjiMatch[0] : listFuzzier2.getTopMatches(info, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null, this));
                 long stopTimeFuzzier2 = System.currentTimeMillis();
                 Log.d(TAG, "fuzzier2Matches fuzzy.l="+fuzzier2Matches.length);
 
@@ -463,6 +464,84 @@ public class WritingProblemActivity extends QuizProblemActivity {
                     Log.d(TAG,  "out4!" );
                     return;
                 }
+            }
+            else {
+                final MatchThread parent = this;
+                Thread workerExact = new Thread(
+                    new Runnable() {
+                        public void run() {
+                            long startTimeExact = System.currentTimeMillis();
+                            exactMatches = listExact.getTopMatches(infoExact, KanjiInfo.MatchAlgorithm.STRICT, null, parent);
+                            long stopTimeExact = System.currentTimeMillis();
+                            Log.d(TAG, "Exact time="+(stopTimeExact-startTimeExact)+" ms");
+                        }
+                    }
+                );
+                Thread workerFuzzy = new Thread(
+                    new Runnable() {
+                        public void run() {
+                            long startTimeFuzzy = System.currentTimeMillis();
+                            fuzzyMatches = listFuzzy.getTopMatches(infoFuzzy, KanjiInfo.MatchAlgorithm.FUZZY, null, parent);
+                            long stopTimeFuzzy = System.currentTimeMillis();
+                            Log.d(TAG, "Fuzzy time="+(stopTimeFuzzy-startTimeFuzzy)+" ms");
+                        }
+                    }
+                );
+                Thread workerFuzzier1 = new Thread(
+                    new Runnable() {
+                        public void run() {
+                            long startTimeFuzzier1 = System.currentTimeMillis();
+                            fuzzier1Matches = listFuzzier1.getTopMatches(infoFuzzier1, KanjiInfo.MatchAlgorithm.FUZZY_1OUT, null, parent);
+                            long stopTimeFuzzier1 = System.currentTimeMillis();
+                            Log.d(TAG, "Fuzzier1 time="+(stopTimeFuzzier1-startTimeFuzzier1)+" ms");
+                        }
+                    }
+                );
+                Thread workerFuzzier2 = new Thread(
+                    new Runnable() {
+                        public void run() {
+                            long startTimeFuzzier2 = System.currentTimeMillis();
+                            fuzzier2Matches = listFuzzier2.getTopMatches(infoFuzzier2, KanjiInfo.MatchAlgorithm.FUZZY_2OUT, null, parent);
+                            long stopTimeFuzzier2 = System.currentTimeMillis();
+                            Log.d(TAG, "Fuzzier2 time="+(stopTimeFuzzier2-startTimeFuzzier2)+" ms");
+                        }
+                    }
+                );
+                long startTime = System.currentTimeMillis();
+                if (!isRunning)
+                    return;
+
+                workerExact.start();
+                workerFuzzy.start();
+                workerFuzzier1.start();
+                workerFuzzier2.start();
+
+                try {
+                    workerExact.join();
+                }
+                catch(InterruptedException ignore) {
+                    ignore.printStackTrace();
+                }
+                try {
+                    workerFuzzy.join();
+                }
+                catch(InterruptedException ignore) {
+                    ignore.printStackTrace();
+                }
+                try {
+                    workerFuzzier1.join();
+                }
+                catch(InterruptedException ignore) {
+                    ignore.printStackTrace();
+                }
+                try {
+                    workerFuzzier2.join();
+                }
+                catch(InterruptedException ignore) {
+                    ignore.printStackTrace();
+                }
+                long stopTime = System.currentTimeMillis();
+                Log.d(TAG, "Search time="+(stopTime-startTime)+" ms");
             }
 
             if (isRunning) {
@@ -512,19 +591,19 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         // int c = 0;
                         // while (c < exactChars.size() || c < fuzzyChars.size() || c < fuzzier1Chars.size() || c < fuzzier2Chars.size()) {
                         //     StringBuilder line = new StringBuilder();
-                        //     if (c < exactChars.size()) 
+                        //     if (c < exactChars.size())
                         //         line.append("c="+c+" EXACT="+exactChars.get(c)+" ("+exactScores.get(c)+")   ");
                         //     else
                         //         line.append("                          ");
-                        //     if (c < fuzzyChars.size()) 
+                        //     if (c < fuzzyChars.size())
                         //         line.append("c="+c+" fuzzy="+fuzzyChars.get(c)+" ("+fuzzyScores.get(c)+")   ");
                         //     else
                         //         line.append("                          ");
-                        //     if (c < fuzzier1Chars.size()) 
+                        //     if (c < fuzzier1Chars.size())
                         //         line.append("c="+c+" fuzzier="+fuzzier1Chars.get(c)+" ("+fuzzierScores.get(c)+")   ");
                         //     else
                         //         line.append("                          ");
-                        //     if (c < fuzzier2Chars.size()) 
+                        //     if (c < fuzzier2Chars.size())
                         //         line.append("c="+c+" fuzzier="+fuzzier2Chars.get(c)+" ("+fuzzierScores.get(c)+")   ");
                         //     else
                         //         line.append("                          ");
@@ -540,7 +619,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                                 if (!mixedChars.contains(exactKanji))
                                     mixedChars.add(exactKanji);
                             }
-                            
+
                             if (i < fuzzyChars.size()) {
                                 String fuzzyKanji = fuzzyChars.get(i);
                                 if (!mixedChars.contains(fuzzyKanji))
@@ -561,7 +640,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
                             i++;
                         }
-               
+                        Log.e(TAG, " exactChars.sz="+exactChars.size()+" fuzzy.sz="+fuzzyChars.size() +" fz1="+fuzzier1Chars.size()+" fz2="+fuzzier2Chars.size()+ " mixedChars.size="+mixedChars.size());
+
                         // For user's convenience, if the right kanji is in the list, bring it to the first pages.
                         if (rightChar != null) {
                             int indexOfRightChar = mixedChars.indexOf(rightChar);
@@ -582,7 +662,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         // out.println("index exact="+exactChars.indexOf(rightChar) + " fuzzy="+fuzzyChars.indexOf(rightChar)+" fuzzier1="+fuzzier1Chars.indexOf(rightChar)+" fuzzier2="+fuzzier2Chars.indexOf(rightChar));
 
                         ((WritingProblemActivity)activity).initializeKanjiButtons();
-                        
+
                         long stopTime = System.currentTimeMillis();
                         Log.d(TAG, "Update time="+(stopTime-startTime)+" ms");
 
@@ -600,7 +680,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
         private Activity activity;
         private DrawnStroke[] strokes;
 
-        private boolean isRunning; 
+        private boolean isRunning;
 
         private Thread worker;
 
