@@ -162,7 +162,7 @@ public class ProblemEvaluationFragment extends Fragment {
                             dialog.cancel();
                         }
                     });
-                    AlertDialog dialog = builder.create();
+                    quitDialog = builder.create();
 
                     TextView dialogTextViewProblemFamiliarity = view.findViewById(R.id.textViewProblemFamiliarity);
                     Problem currProb = appl.getQuiz().getCurrentProblem();
@@ -175,9 +175,13 @@ public class ProblemEvaluationFragment extends Fragment {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                appl.getQuiz().addFamiliarity(0);
-                                // Save data and quit the application.
-                                storeResult(true);
+                                if (quitDialog != null) {
+                                    appl.getQuiz().addFamiliarity(0);
+                                    quitDialog.dismiss();
+                                    quitDialog = null;
+                                    // Save data and quit the application.
+                                    storeResult(true);
+                                }
                             }
                         }
                     );
@@ -187,9 +191,13 @@ public class ProblemEvaluationFragment extends Fragment {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                appl.getQuiz().addFamiliarity(1);
-                                // Save data and quit the application.
-                                storeResult(true);
+                                if (quitDialog != null) {
+                                    appl.getQuiz().addFamiliarity(1);
+                                    quitDialog.dismiss();
+                                    quitDialog = null;
+                                    // Save data and quit the application.
+                                    storeResult(true);
+                                }
                             }
                         }
                     );
@@ -199,9 +207,13 @@ public class ProblemEvaluationFragment extends Fragment {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                appl.getQuiz().addFamiliarity(2);
-                                // Save data and quit the application.
-                                storeResult(true);
+                                if (quitDialog != null) {
+                                    appl.getQuiz().addFamiliarity(2);
+                                    quitDialog.dismiss();
+                                    quitDialog = null;
+                                    // Save data and quit the application.
+                                    storeResult(true);
+                                }
                             }
                         }
                     );
@@ -211,9 +223,13 @@ public class ProblemEvaluationFragment extends Fragment {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                appl.getQuiz().addFamiliarity(3);
-                                // Save data and quit the application.
-                                storeResult(true);
+                                if (quitDialog != null) {
+                                    appl.getQuiz().addFamiliarity(3);
+                                    quitDialog.dismiss();
+                                    quitDialog = null;
+                                    // Save data and quit the application.
+                                    storeResult(true);
+                                }
                             }
                         }
                     );
@@ -223,9 +239,13 @@ public class ProblemEvaluationFragment extends Fragment {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                appl.getQuiz().addFamiliarity(4);
-                                // Save data and quit the application.
-                                storeResult(true);
+                                if (quitDialog != null) {
+                                    appl.getQuiz().addFamiliarity(4);
+                                    quitDialog.dismiss();
+                                    quitDialog = null;
+                                    // Save data and quit the application.
+                                    storeResult(true);
+                                }
                             }
                         }
                     );
@@ -320,6 +340,8 @@ public class ProblemEvaluationFragment extends Fragment {
     }
 
     private ProgressDialog progressDialog;
+
+    private AlertDialog quitDialog;
 
     private KankenApplication appl = KankenApplication.getInstance();
 
