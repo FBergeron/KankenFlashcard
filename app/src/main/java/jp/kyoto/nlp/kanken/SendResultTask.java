@@ -103,6 +103,7 @@ class SendResultTask extends AsyncTask {
     }
 
     protected void onPostExecute(final Object obj) {
+        Log.e(TAG, "onPostExecute obj="+obj+" exception="+exception+ " quitAppl="+quitAppl+" appl="+appl);
         if (exception != null) {
             Log.e(TAG, "An exception has occurred: " + exception);
 
@@ -121,7 +122,7 @@ class SendResultTask extends AsyncTask {
         }
 
         if (quitAppl)
-            appl.getFirstActivity().finishAndRemoveTask();
+            appl.quit();
     }
 
     private Exception exception;

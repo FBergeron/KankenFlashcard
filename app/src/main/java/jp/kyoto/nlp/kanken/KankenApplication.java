@@ -152,6 +152,11 @@ public class KankenApplication extends Application {
         return firstActivity;
     }
 
+    public void quit() {
+        firstActivity.finishAndRemoveTask();
+        firstActivity = null;
+    }
+
     private static KankenApplication instance;
 
     private Quiz    quiz;
