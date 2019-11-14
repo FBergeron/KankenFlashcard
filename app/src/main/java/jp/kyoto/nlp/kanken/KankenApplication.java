@@ -153,8 +153,10 @@ public class KankenApplication extends Application {
     }
 
     public void quit() {
-        firstActivity.finishAndRemoveTask();
-        firstActivity = null;
+        if (firstActivity != null) {
+            firstActivity.finishAndRemoveTask();
+            firstActivity = null;
+        }
     }
 
     private static KankenApplication instance;
