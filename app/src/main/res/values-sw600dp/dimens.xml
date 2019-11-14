@@ -6,4 +6,7 @@
     <dimen name="kanji_btn_small">67dp</dimen>
     <dimen name="kanji_btn_next_width">249dp</dimen>
     <dimen name="kanji_btn_next_height">60dp</dimen>
+    <dimen name="button_kanji_large">96sp</dimen>
+    <dimen name="button_kanji_medium">32sp</dimen>
+    <dimen name="button_kanji_small">32sp</dimen>
 </resources>

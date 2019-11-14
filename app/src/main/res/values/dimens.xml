@@ -27,7 +27,7 @@
     <dimen name="button_familiarity_text_size">10sp</dimen>
     <dimen name="kanji_list_item_size">60dp</dimen>
     <dimen name="button_kanji_large">64sp</dimen>
-    <dimen name="button_kanji_medium">32sp</dimen>
+    <dimen name="button_kanji_medium">24sp</dimen>
     <dimen name="button_kanji_small">24sp</dimen>
     <dimen name="button_kanji_size_large">140dp</dimen>
     <dimen name="button_kanji_size_medium">71dp</dimen>
