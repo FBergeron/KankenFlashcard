@@ -304,7 +304,7 @@ class Util {
         //.setMessage(context.getResources().getString(R.string.warning_quit_before_answering_msg))
         .setPositiveButton(R.string.button_quit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                KankenApplication.getInstance().quit()
+                KankenApplication.getInstance().quit();
             }
          })
         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
