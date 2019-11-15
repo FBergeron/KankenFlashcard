@@ -340,7 +340,6 @@ class Util {
 
     static final String PREF_KEY_QUIZ_LEVEL = "QuizLevel";
     static final String PREF_KEY_QUIZ_TOPICS = "QuizTopics";
-    static final String PREF_KEY_QUIZ_TYPE = "QuizType";
 
     static final String PREF_KEY_MUSIC_ENABLED = "MusicEnabled";
 

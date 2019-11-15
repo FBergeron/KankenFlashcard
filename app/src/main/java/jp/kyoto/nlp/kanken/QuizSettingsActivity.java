@@ -226,8 +226,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
         editor.putString(Util.PREF_KEY_QUIZ_TOPICS, strPrefTopics.toString());
 
-        editor.putString(Util.PREF_KEY_QUIZ_TYPE, type.getLabelId());
-
         editor.apply();
 
         appl.startQuiz(type, quizTopics, level);
@@ -300,8 +298,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
             }
         }
         showSelectedTopics();
-
-        String prefType = sharedPref.getString(Util.PREF_KEY_QUIZ_TYPE, "reading");
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
