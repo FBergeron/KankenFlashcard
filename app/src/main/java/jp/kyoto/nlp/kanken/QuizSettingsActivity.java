@@ -105,7 +105,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         for (int i = 0; i < checkedTopics.length; i++)
             checkedTopics[i] = selectedTopics.contains(i);
 
-
         CustomAdapter adapter = new CustomAdapter(getApplicationContext(), 0, Arrays.asList(labelTopics));
         ListView listView = new ListView(this);
         listView.setAdapter(adapter);
@@ -168,7 +167,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         });
         AlertDialog dialogTopicChooser = builderTopicChooser.create();
         dialogTopicChooser.show();
-
     }
 
     public void showTermsOfUsage(android.view.View view) {
@@ -286,12 +284,20 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
 
         checkedTopics = new boolean[labelTopics.length];
-
-        String prefTopics = sharedPref.getString(Util.PREF_KEY_QUIZ_TOPICS, "");
-        HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
-        for (int i = 0; i < Problem.Topic.values().length; i++) {
-            if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
+        if (sharedPref.contains(Util.PREF_KEY_QUIZ_TOPICS)) {
+            String prefTopics = sharedPref.getString(Util.PREF_KEY_QUIZ_TOPICS, "");
+            HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
+            for (int i = 0; i < Problem.Topic.values().length; i++) {
+                if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
+                    selectedTopics.add(Integer.valueOf(i));
+            }
+        }
+        else {
+            for (int i = 0; i < labelTopics.length; i++)
+                checkedTopics[i] = true;
+            for (int i = 0; i < Problem.Topic.values().length; i++) {
                 selectedTopics.add(Integer.valueOf(i));
+            }
         }
         showSelectedTopics();
 
