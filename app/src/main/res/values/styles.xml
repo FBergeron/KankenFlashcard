@@ -9,6 +9,8 @@
         <item name="android:textColor">@color/text</item>
         <item name="actionBarSize">@dimen/actionBarSize</item>
         <item name="android:actionBarSize">@dimen/actionBarSize</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
