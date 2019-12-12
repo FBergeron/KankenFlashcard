@@ -47,8 +47,8 @@
     <string name="error_server_unreachable_msg">The application cannot contact the server.\n\nMake sure that your network connection is running properly.\n\nIf the problem persists, try later.\n\nSorry for the inconvenience.</string>
     <string name="error_client_too_old_title">The client is obsolete.</string>
     <string name="error_client_too_old_msg">The version of the application is too old.\n\nPlease install latest version to connect to the server.</string>
-    <string name="label_problem_info_level">Lvl: %1$d</string>
-    <string name="label_problem_info_topic">Topic: %1$s</string>
+    <string name="label_problem_info_level">Lvl %1$d</string>
+    <string name="label_problem_info_topic">%1$s</string>
     <string name="label_problem_info_type">%1$s</string>
     <string name="label_problem_number">%1$d/%2$d</string>
     <string name="label_answer">Your answer</string>
