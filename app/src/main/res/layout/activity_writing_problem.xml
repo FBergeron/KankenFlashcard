@@ -182,6 +182,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
+                    <ImageView
+                        android:id="@+id/imageViewSearchingAnimation"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/buttonUndoWritingProblemCanvas"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageButton
                         android:id="@+id/buttonUndoWritingProblemCanvas"
                         android:layout_width="0dp"
@@ -192,7 +203,7 @@
                         android:src="@drawable/btn_back_one"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/buttonClearWritingProblemCanvas"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageViewSearchingAnimation"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
@@ -208,6 +219,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/buttonUndoWritingProblemCanvas"
                         app:layout_constraintTop_toTopOf="parent" />
+
 
                 </android.support.constraint.ConstraintLayout>
 
