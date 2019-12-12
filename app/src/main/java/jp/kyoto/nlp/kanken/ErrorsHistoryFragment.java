@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -67,6 +68,7 @@ public class ErrorsHistoryFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     panelErrorDetails.setVisibility(View.GONE);
+                    hideSelector();
                 }
             }
         );
@@ -77,7 +79,7 @@ public class ErrorsHistoryFragment extends Fragment {
         textViewUserAnswer = view.findViewById(R.id.textViewUserAnswer);
         textViewProblemAnswer = view.findViewById(R.id.textViewProblemAnswer);
 
-        ListView listViewResultEntries = view.findViewById(R.id.listViewResultEntries);
+        listViewResultEntries = view.findViewById(R.id.listViewResultEntries);
         listViewAdapter = new ErrorsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
 
@@ -85,6 +87,7 @@ public class ErrorsHistoryFragment extends Fragment {
             new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    showSelector();
                     ErrorsHistoryListViewAdapter listAdapter = (ErrorsHistoryListViewAdapter)adapterView.getAdapter();
                     ErrorsHistoryItem item = listAdapter.getItem(i);
 
@@ -168,7 +171,6 @@ public class ErrorsHistoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     private void updateErrors() {
@@ -195,6 +197,16 @@ public class ErrorsHistoryFragment extends Fragment {
                 e4.printStackTrace();
             }
         }
+    }
+
+    private void hideSelector() {
+        listViewResultEntries.getSelector().setAlpha(0);
+    }
+
+    private void showSelector() {
+        Drawable selector = listViewResultEntries.getSelector();
+        if (selector.getAlpha() == 0)
+            selector.setAlpha(255);
     }
 
     private class FetchErrorHistoryTask extends AsyncTask {
@@ -367,6 +379,8 @@ public class ErrorsHistoryFragment extends Fragment {
     private TextView problemStatement;
     private TextView textViewUserAnswer;
     private TextView textViewProblemAnswer;
+
+    private ListView listViewResultEntries;
 
     private ErrorsHistoryListViewAdapter listViewAdapter;
 
