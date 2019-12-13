@@ -101,7 +101,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(ReadingProblemActivity.this);
             builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
             .setMessage(getResources().getString(R.string.error_empty_answer_msg))
-            .setPositiveButton(R.string.button_next, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     appl.getQuiz().validateAnswer(answer);
                     appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
