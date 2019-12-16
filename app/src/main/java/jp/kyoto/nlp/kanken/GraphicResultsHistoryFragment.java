@@ -70,6 +70,13 @@ public class GraphicResultsHistoryFragment extends Fragment {
         radioButtonLastWeek = view.findViewById(R.id.radioButtonLastWeek);
         radioButtonLastMonth = view.findViewById(R.id.radioButtonLastMonth);
 
+        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefPeriod = sharedPref.getString(Util.PREF_KEY_HISTORY_GRAPH_PERIOD, "LastWeek");
+        if ("LastWeek".equals(prefPeriod))
+            radioButtonLastWeek.setChecked(true);
+        else
+            radioButtonLastMonth.setChecked(true);
+
         radioGroupPeriod = view.findViewById(R.id.radioGroupPeriod);
         radioGroupPeriod.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
@@ -91,23 +98,15 @@ public class GraphicResultsHistoryFragment extends Fragment {
             }
         );
 
-        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
-        String prefPeriod = sharedPref.getString(Util.PREF_KEY_HISTORY_GRAPH_PERIOD, "LastWeek");
-        if ("LastWeek".equals(prefPeriod))
-            radioButtonLastWeek.setChecked(true);
-        else
-            radioButtonLastMonth.setChecked(true);
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
-    private void updateHistoryChart() {
+    public void updateHistoryChart() {
         if (jsonResultsHistory != null)
             rebuildHistoryChart();
         else {
@@ -360,7 +359,6 @@ public class GraphicResultsHistoryFragment extends Fragment {
                 chart.setVisibleXRangeMinimum(maxValueCount);
                 chart.getXAxis().setLabelCount(maxValueCount);
                 chart.invalidate();
-
             }
         }
     }

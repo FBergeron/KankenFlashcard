@@ -131,6 +131,13 @@ public class ErrorsHistoryFragment extends Fragment {
 
         radioButtonProblemTypeReading = view.findViewById(R.id.radioButtonProblemTypeReading);
         radioButtonProblemTypeWriting = view.findViewById(R.id.radioButtonProblemTypeWriting);
+        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefProblemType = sharedPref.getString(Util.PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE, "Reading");
+        if ("Reading".equals(prefProblemType))
+            radioButtonProblemTypeReading.setChecked(true);
+        else
+            radioButtonProblemTypeWriting.setChecked(true);
+
         radioGroupProblemType = view.findViewById(R.id.radioGroupProblemType);
         radioGroupProblemType.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
@@ -158,13 +165,6 @@ public class ErrorsHistoryFragment extends Fragment {
             }
         );
 
-        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
-        String prefProblemType = sharedPref.getString(Util.PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE, "Reading");
-        if ("Reading".equals(prefProblemType))
-            radioButtonProblemTypeReading.setChecked(true);
-        else
-            radioButtonProblemTypeWriting.setChecked(true);
-
         return view;
     }
 
@@ -173,7 +173,7 @@ public class ErrorsHistoryFragment extends Fragment {
         super.onResume();
     }
 
-    private void updateErrors() {
+    public void updateErrors() {
         if (jsonErrorsHistory != null)
             rebuildErrors();
         else {

@@ -1,9 +1,11 @@
 package jp.kyoto.nlp.kanken;
 
+import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -27,6 +29,8 @@ public class ResultsHistoryActivity extends ActionActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(Util.PREF_KEY_HISTORY_VIEW, "Errors");
         editor.apply();
+
+        fragmentError.updateErrors();
     }
 
     public void showTextView(android.view.View view) {
@@ -38,6 +42,8 @@ public class ResultsHistoryActivity extends ActionActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(Util.PREF_KEY_HISTORY_VIEW, "Text");
         editor.apply();
+
+        fragmentText.initResultsHistory();
     }
 
     public void showGraphicView(android.view.View view) {
@@ -49,6 +55,8 @@ public class ResultsHistoryActivity extends ActionActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(Util.PREF_KEY_HISTORY_VIEW, "Graphic");
         editor.apply();
+
+        fragmentGraphic.updateHistoryChart();
     }
 
     @Override
@@ -60,6 +68,11 @@ public class ResultsHistoryActivity extends ActionActivity {
         fragmentGraphicView = findViewById(R.id.fragmentGraphicResultsHistory);
         fragmentTextView = findViewById(R.id.fragmentTextResultsHistory);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentText = (TextResultsHistoryFragment)fragmentManager.findFragmentById(R.id.fragmentTextResultsHistory);
+        fragmentGraphic = (GraphicResultsHistoryFragment)fragmentManager.findFragmentById(R.id.fragmentGraphicResultsHistory);
+        fragmentError = (ErrorsHistoryFragment)fragmentManager.findFragmentById(R.id.fragmentErrorResultsHistory);
+
         SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
         String prefView = sharedPref.getString(Util.PREF_KEY_HISTORY_VIEW, "Text");
 
@@ -70,6 +83,8 @@ public class ResultsHistoryActivity extends ActionActivity {
 
             RadioGroup radioGroupHistoryViewType = findViewById(R.id.radioGroupHistoryViewType);
             radioGroupHistoryViewType.check(R.id.buttonTextView);
+
+            fragmentText.initResultsHistory();
         }
         else if ("Graphic".equals(prefView)) {
             fragmentErrorView.setVisibility(View.GONE);
@@ -78,6 +93,8 @@ public class ResultsHistoryActivity extends ActionActivity {
 
             RadioGroup radioGroupHistoryViewType = findViewById(R.id.radioGroupHistoryViewType);
             radioGroupHistoryViewType.check(R.id.buttonGraphicView);
+
+            fragmentGraphic.updateHistoryChart();
         }
         else if ("Errors".equals(prefView)) {
             fragmentErrorView.setVisibility(View.VISIBLE);
@@ -86,6 +103,8 @@ public class ResultsHistoryActivity extends ActionActivity {
 
             RadioGroup radioGroupHistoryViewType = findViewById(R.id.radioGroupHistoryViewType);
             radioGroupHistoryViewType.check(R.id.buttonErrorView);
+
+            fragmentError.updateErrors();
         }
     }
 
@@ -98,6 +117,10 @@ public class ResultsHistoryActivity extends ActionActivity {
     private View fragmentErrorView;
     private View fragmentGraphicView;
     private View fragmentTextView;
+
+    private TextResultsHistoryFragment fragmentText;
+    private GraphicResultsHistoryFragment fragmentGraphic;
+    private ErrorsHistoryFragment fragmentError;
 
     private ProgressDialog progressDialog;
 
