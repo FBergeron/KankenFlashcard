@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import org.json.JSONException;
@@ -323,6 +324,9 @@ class Util {
         .setPositiveButton(R.string.button_terminate, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 context.finish();
+                Intent quizSettingsActivity = new Intent(context, QuizSettingsActivity.class);
+                quizSettingsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(quizSettingsActivity);
             }
          })
         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
