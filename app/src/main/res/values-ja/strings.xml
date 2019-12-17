@@ -44,6 +44,8 @@
     <string name="error_empty_answer_msg">回答が入力されていません。\n次へ進みますか？</string>
     <string name="error_server_unreachable_title">サーバーにアクセスできません。</string>
     <string name="error_server_unreachable_msg">アプリケーションはサーバーに接続できません。\n\nネットワーク接続が適切に動作していることを確認してください。\n\n問題が解決しない場合は、後で試してください。</string>
+    <string name="error_server_unreachable_try_again_msg">アプリケーションはサーバーに接続できません。\n\nネットワーク接続が適切に動作していることを確認してください。\n\n</string>
+    <string name="try_again">もう一回</string>
     <string name="error_client_too_old_title">アプリの更新が必要です</string>
     <string name="error_client_too_old_msg">アプリを最新版に更新してください。</string>
     <string name="label_problem_info_level">難易度 %1$d</string>

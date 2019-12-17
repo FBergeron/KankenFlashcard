@@ -76,67 +76,19 @@ public class ProblemEvaluationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_problem_evaluation, container, false);
+        view = inflater.inflate(R.layout.fragment_problem_evaluation, container, false);
 
-        ImageButton buttonSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
-        buttonSetProblemFamiliarity0.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    appl.getQuiz().addFamiliarity(0);
-                    storeResult(false);
-                    goNextProblem();
-                }
-            }
-        );
+        buttonSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
+        buttonSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
+        buttonSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
+        buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
+        buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
 
-        ImageButton buttonSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
-        buttonSetProblemFamiliarity1.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    appl.getQuiz().addFamiliarity(1);
-                    storeResult(false);
-                    goNextProblem();
-                }
-            }
-        );
-
-        ImageButton buttonSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
-        buttonSetProblemFamiliarity2.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    appl.getQuiz().addFamiliarity(2);
-                    storeResult(false);
-                    goNextProblem();
-                }
-            }
-        );
-
-        ImageButton buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
-        buttonSetProblemFamiliarity3.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    appl.getQuiz().addFamiliarity(3);
-                    storeResult(false);
-                    goNextProblem();
-                }
-            }
-        );
-
-        ImageButton buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
-        buttonSetProblemFamiliarity4.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    appl.getQuiz().addFamiliarity(4);
-                    storeResult(false);
-                    goNextProblem();
-                }
-            }
-        );
+        buttonSetProblemFamiliarity0.setOnClickListener(new FamiliarityButtonAdapter(0, false));
+        buttonSetProblemFamiliarity1.setOnClickListener(new FamiliarityButtonAdapter(1, false));
+        buttonSetProblemFamiliarity2.setOnClickListener(new FamiliarityButtonAdapter(2, false));
+        buttonSetProblemFamiliarity3.setOnClickListener(new FamiliarityButtonAdapter(3, false));
+        buttonSetProblemFamiliarity4.setOnClickListener(new FamiliarityButtonAdapter(4, false));
 
         ImageButton buttonReportErroneousProblem = view.findViewById(R.id.buttonReportErroneousProblem);
         buttonReportErroneousProblem.setOnClickListener(
@@ -170,85 +122,17 @@ public class ProblemEvaluationFragment extends Fragment {
                     String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
                     dialogTextViewProblemFamiliarity.setText(text);
 
-                    ImageButton buttonSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
-                    buttonSetProblemFamiliarity0.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (quitDialog != null) {
-                                    appl.getQuiz().addFamiliarity(0);
-                                    quitDialog.dismiss();
-                                    quitDialog = null;
-                                    // Save data and quit the application.
-                                    storeResult(true);
-                                }
-                            }
-                        }
-                    );
+                    buttonDialogSetProblemFamiliarity0 = view.findViewById(R.id.buttonFamiliarity0);
+                    buttonDialogSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
+                    buttonDialogSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
+                    buttonDialogSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
+                    buttonDialogSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
 
-                    ImageButton buttonSetProblemFamiliarity1 = view.findViewById(R.id.buttonFamiliarity1);
-                    buttonSetProblemFamiliarity1.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (quitDialog != null) {
-                                    appl.getQuiz().addFamiliarity(1);
-                                    quitDialog.dismiss();
-                                    quitDialog = null;
-                                    // Save data and quit the application.
-                                    storeResult(true);
-                                }
-                            }
-                        }
-                    );
-
-                    ImageButton buttonSetProblemFamiliarity2 = view.findViewById(R.id.buttonFamiliarity2);
-                    buttonSetProblemFamiliarity2.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (quitDialog != null) {
-                                    appl.getQuiz().addFamiliarity(2);
-                                    quitDialog.dismiss();
-                                    quitDialog = null;
-                                    // Save data and quit the application.
-                                    storeResult(true);
-                                }
-                            }
-                        }
-                    );
-
-                    ImageButton buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
-                    buttonSetProblemFamiliarity3.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (quitDialog != null) {
-                                    appl.getQuiz().addFamiliarity(3);
-                                    quitDialog.dismiss();
-                                    quitDialog = null;
-                                    // Save data and quit the application.
-                                    storeResult(true);
-                                }
-                            }
-                        }
-                    );
-
-                    ImageButton buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
-                    buttonSetProblemFamiliarity4.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (quitDialog != null) {
-                                    appl.getQuiz().addFamiliarity(4);
-                                    quitDialog.dismiss();
-                                    quitDialog = null;
-                                    // Save data and quit the application.
-                                    storeResult(true);
-                                }
-                            }
-                        }
-                    );
+                    buttonDialogSetProblemFamiliarity0.setOnClickListener(new FamiliarityButtonDialogAdapter(0));
+                    buttonDialogSetProblemFamiliarity1.setOnClickListener(new FamiliarityButtonDialogAdapter(1));
+                    buttonDialogSetProblemFamiliarity2.setOnClickListener(new FamiliarityButtonDialogAdapter(2));
+                    buttonDialogSetProblemFamiliarity3.setOnClickListener(new FamiliarityButtonDialogAdapter(3));
+                    buttonDialogSetProblemFamiliarity4.setOnClickListener(new FamiliarityButtonDialogAdapter(4));
 
                     builder.show();
                 }
@@ -290,14 +174,30 @@ public class ProblemEvaluationFragment extends Fragment {
         String wordInKanjis = getWordInKanjis(currProb.getJumanInfo());
         String text = String.format(getResources().getString(R.string.label_enter_problem_familiarity), wordInKanjis);
         textViewProblemFamiliarity.setText(text);
+
+        buttonSetProblemFamiliarity0.setEnabled(true);
+        buttonSetProblemFamiliarity1.setEnabled(true);
+        buttonSetProblemFamiliarity2.setEnabled(true);
+        buttonSetProblemFamiliarity3.setEnabled(true);
+        buttonSetProblemFamiliarity4.setEnabled(true);
+        if (buttonDialogSetProblemFamiliarity0 != null)
+            buttonDialogSetProblemFamiliarity0.setEnabled(true);
+        if (buttonDialogSetProblemFamiliarity1 != null)
+            buttonDialogSetProblemFamiliarity1.setEnabled(true);
+        if (buttonDialogSetProblemFamiliarity2 != null)
+            buttonDialogSetProblemFamiliarity2.setEnabled(true);
+        if (buttonDialogSetProblemFamiliarity3 != null)
+            buttonDialogSetProblemFamiliarity3.setEnabled(true);
+        if (buttonDialogSetProblemFamiliarity4 != null)
+            buttonDialogSetProblemFamiliarity4.setEnabled(true);
     }
 
-    private void storeResult(boolean quitAppl) {
+    void storeResult(boolean quitAppl) {
         URL storeResultUrl;
         try {
             storeResultUrl = new URL(appl.getServerBaseUrl() + KankenApplication.storeResultReqPath);
 
-            new SendResultTask(appl, getContext(), quitAppl).execute(storeResultUrl);
+            new SendResultTask(appl, getContext(), this, quitAppl).execute(storeResultUrl);
         }
         catch(MalformedURLException e1) {
             e1.printStackTrace();
@@ -339,6 +239,57 @@ public class ProblemEvaluationFragment extends Fragment {
         }
     }
 
+    class FamiliarityButtonAdapter implements View.OnClickListener {
+
+        FamiliarityButtonAdapter(int familiarity, boolean quitAppl) {
+            this.familiarity = familiarity;
+            this.quitAppl = quitAppl;
+        }
+
+        @Override
+        public void onClick(View v) {
+            buttonSetProblemFamiliarity0.setEnabled(false);
+            buttonSetProblemFamiliarity1.setEnabled(false);
+            buttonSetProblemFamiliarity2.setEnabled(false);
+            buttonSetProblemFamiliarity3.setEnabled(false);
+            buttonSetProblemFamiliarity4.setEnabled(false);
+
+            appl.getQuiz().addFamiliarity(familiarity);
+            storeResult(quitAppl);
+        }
+
+        private int familiarity;
+        private boolean quitAppl;
+
+    }
+
+    class FamiliarityButtonDialogAdapter implements View.OnClickListener {
+
+        FamiliarityButtonDialogAdapter(int familiarity) {
+            this.familiarity = familiarity;
+        }
+
+        @Override
+        public void onClick(View v) {
+            buttonDialogSetProblemFamiliarity0.setEnabled(false);
+            buttonDialogSetProblemFamiliarity1.setEnabled(false);
+            buttonDialogSetProblemFamiliarity2.setEnabled(false);
+            buttonDialogSetProblemFamiliarity3.setEnabled(false);
+            buttonDialogSetProblemFamiliarity4.setEnabled(false);
+
+            if (quitDialog != null) {
+                appl.getQuiz().addFamiliarity(familiarity);
+                quitDialog.dismiss();
+                quitDialog = null;
+                // Save data and quit the application.
+                storeResult(true);
+            }
+        }
+
+        private int familiarity;
+
+    }
+
     private ProgressDialog progressDialog;
 
     private AlertDialog quitDialog;
@@ -351,6 +302,20 @@ public class ProblemEvaluationFragment extends Fragment {
     private TextView textViewAnswer;
     private TextView textViewDetailedAnswer;
     private TextView textViewProblemFamiliarity;
+
+    private ImageButton buttonSetProblemFamiliarity0;
+    private ImageButton buttonSetProblemFamiliarity1;
+    private ImageButton buttonSetProblemFamiliarity2;
+    private ImageButton buttonSetProblemFamiliarity3;
+    private ImageButton buttonSetProblemFamiliarity4;
+
+    private ImageButton buttonDialogSetProblemFamiliarity0;
+    private ImageButton buttonDialogSetProblemFamiliarity1;
+    private ImageButton buttonDialogSetProblemFamiliarity2;
+    private ImageButton buttonDialogSetProblemFamiliarity3;
+    private ImageButton buttonDialogSetProblemFamiliarity4;
+
+    private View view;
 
 }
 
