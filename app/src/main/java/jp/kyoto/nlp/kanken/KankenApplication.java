@@ -143,12 +143,7 @@ public class KankenApplication extends Application {
     }
 
     public void setFirstActivity(Activity activity) {
-        if (firstActivity == null)
-            firstActivity = activity;
-    }
-
-    public Activity getFirstActivity() {
-        return firstActivity;
+        firstActivity = activity;
     }
 
     public void quit() {
