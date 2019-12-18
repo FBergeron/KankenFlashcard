@@ -234,6 +234,12 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     }
 
     @Override
+    public void onBackPressed() {
+       if (appl != null)
+           appl.quit();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_settings);

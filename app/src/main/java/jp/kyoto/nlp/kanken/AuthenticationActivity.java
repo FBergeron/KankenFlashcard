@@ -46,6 +46,11 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
     }
 
     @Override
+    public void onBackPressed() {
+        // Stay there.
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // ここで1秒間スリープし、スプラッシュを表示させたままにする。
