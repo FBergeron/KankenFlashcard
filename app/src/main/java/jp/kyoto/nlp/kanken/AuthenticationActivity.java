@@ -40,6 +40,7 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
 
     public void play(android.view.View view) {
         Intent quizSettingsActivity = new Intent(AuthenticationActivity.this, QuizSettingsActivity.class);
+        quizSettingsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(quizSettingsActivity);
         finish();
     }
