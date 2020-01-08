@@ -216,10 +216,6 @@ public class TextResultsHistoryFragment extends Fragment {
                                 );
                                 resultsHistoryItems.add(resultsHistoryItem);
                             }
-                            else {
-                                ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(date, 0, 0, 0, 0);
-                                resultsHistoryItems.add(resultsHistoryItem);
-                            }
                         }
                         catch(ParseException e) {
                             e.printStackTrace();
