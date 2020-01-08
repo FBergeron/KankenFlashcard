@@ -42,6 +42,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -295,6 +296,10 @@ public class GraphicResultsHistoryFragment extends Fragment {
                     now.add(Calendar.DAY_OF_MONTH, -1);
                     strDateTemp = dateFormatter.format(now.getTime());
                 }
+
+                Collections.reverse(dateLabels);
+                Collections.reverse(rightEntries);
+                Collections.reverse(wrongEntries);
 
                 ValueFormatter formatter = new ValueFormatter() {
                     @Override
