@@ -48,5 +48,7 @@
     <dimen name="text_summary_familiarity_max">14sp</dimen>
     <dimen name="seek_bar_width">330dp</dimen>
     <dimen name="seek_bar_image_width">301dp</dimen>
+    <dimen name="topic_list_font_size">10px</dimen>
+    <dimen name="topics_header_list_gap">0dp</dimen>
 </resources>
 

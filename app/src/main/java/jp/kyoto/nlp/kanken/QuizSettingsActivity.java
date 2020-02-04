@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -323,18 +325,34 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     }
 
     private void showSelectedTopics() {
-        StringBuilder str = new StringBuilder();
-        String delimiter = "";
-        int topicCount = Problem.Topic.values().length;
-        for (int i = 0; i < topicCount - 1; i++) {
-            if (selectedTopics.contains(i)) {
-                str.append(delimiter);
-                str.append(labelTopics[i]);
-                delimiter = ", ";
+        int topicCount = Problem.Topic.values().length - 1;
+        StringBuilder str = new StringBuilder("");
+        boolean use2Cols = (selectedTopics.size() > (topicCount / 2)) ;
+        int colCount = (use2Cols ? 2 : 1);
+        System.out.println("topicCount="+topicCount+" colCount="+colCount+" selectedTopics="+selectedTopics);
+        String fontSize = getResources().getString(R.dimen.topic_list_font_size);
+        str.append("<table style=\"font-size: ").append(fontSize).append("; width: 100%;\"><tr style=\"vertical-align: top;\">");
+        for (int c = 0, i = 0; c < colCount; c++) {
+            System.out.println("c="+c);
+            str.append("<td>");
+            for (int r = 0; r < (topicCount / 2); r++) {
+                System.out.println("r="+r);
+                for (; i < topicCount; i++) {
+                    System.out.println("i="+i+ " contains?="+(selectedTopics.contains(i)) + " label="+labelTopics[i]);
+                    if (selectedTopics.contains(i)) {
+                        str.append("&#8226; ").append(labelTopics[i]).append("<br/>");
+                        i++;
+                        break;
+                    }
+                }
             }
+            str.append("</td>");
         }
-        TextView textViewSelectedTopics = findViewById(R.id.textViewSelectedTopics);
-        textViewSelectedTopics.setText(str.toString());
+        str.append("</tr></table>");
+        System.out.println("str="+str);
+        WebView textViewSelectedTopics = findViewById(R.id.textViewSelectedTopics);
+        textViewSelectedTopics.setBackgroundColor(Color.TRANSPARENT);
+        textViewSelectedTopics.loadDataWithBaseURL("", str.toString(), "text/html", "UTF-8", "");
     }
 
     private void fetchProblems(int level, Set<Problem.Topic> topics, Problem.Type type) {
