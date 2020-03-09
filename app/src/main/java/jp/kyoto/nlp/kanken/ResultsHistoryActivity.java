@@ -1,11 +1,10 @@
 package jp.kyoto.nlp.kanken;
 
-import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.view.View;
 import android.widget.RadioGroup;
 

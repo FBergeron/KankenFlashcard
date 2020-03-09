@@ -3,7 +3,7 @@ package jp.kyoto.nlp.kanken;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 
 import org.json.JSONException;
