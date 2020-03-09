@@ -10,7 +10,7 @@
     <dimen name="button_delete_char_text_size">20sp</dimen>
     <dimen name="button_validate_answer_text_size">20sp</dimen>
     <dimen name="button_view_article">32dp</dimen>
-    <dimen name="textfield_answer_text_size">28sp</dimen>
+    <dimen name="textfield_answer_text_size">32sp</dimen>
     <dimen name="button_undo_canvas_width">20dp</dimen>
     <dimen name="button_undo_canvas_height">10dp</dimen>
     <dimen name="button_clear_canvas_width">20dp</dimen>
