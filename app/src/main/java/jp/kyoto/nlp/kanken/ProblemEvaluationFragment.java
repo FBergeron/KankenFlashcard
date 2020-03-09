@@ -84,11 +84,11 @@ public class ProblemEvaluationFragment extends Fragment {
         buttonSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
         buttonSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
 
-        buttonSetProblemFamiliarity0.setOnClickListener(new FamiliarityButtonAdapter(0, false));
-        buttonSetProblemFamiliarity1.setOnClickListener(new FamiliarityButtonAdapter(1, false));
-        buttonSetProblemFamiliarity2.setOnClickListener(new FamiliarityButtonAdapter(2, false));
-        buttonSetProblemFamiliarity3.setOnClickListener(new FamiliarityButtonAdapter(3, false));
-        buttonSetProblemFamiliarity4.setOnClickListener(new FamiliarityButtonAdapter(4, false));
+        buttonSetProblemFamiliarity0.setOnClickListener(new FamiliarityButtonAdapter(1, false));
+        buttonSetProblemFamiliarity1.setOnClickListener(new FamiliarityButtonAdapter(2, false));
+        buttonSetProblemFamiliarity2.setOnClickListener(new FamiliarityButtonAdapter(3, false));
+        buttonSetProblemFamiliarity3.setOnClickListener(new FamiliarityButtonAdapter(4, false));
+        buttonSetProblemFamiliarity4.setOnClickListener(new FamiliarityButtonAdapter(5, false));
 
         ImageButton buttonReportErroneousProblem = view.findViewById(R.id.buttonReportErroneousProblem);
         buttonReportErroneousProblem.setOnClickListener(
@@ -128,11 +128,11 @@ public class ProblemEvaluationFragment extends Fragment {
                     buttonDialogSetProblemFamiliarity3 = view.findViewById(R.id.buttonFamiliarity3);
                     buttonDialogSetProblemFamiliarity4 = view.findViewById(R.id.buttonFamiliarity4);
 
-                    buttonDialogSetProblemFamiliarity0.setOnClickListener(new FamiliarityButtonDialogAdapter(0));
-                    buttonDialogSetProblemFamiliarity1.setOnClickListener(new FamiliarityButtonDialogAdapter(1));
-                    buttonDialogSetProblemFamiliarity2.setOnClickListener(new FamiliarityButtonDialogAdapter(2));
-                    buttonDialogSetProblemFamiliarity3.setOnClickListener(new FamiliarityButtonDialogAdapter(3));
-                    buttonDialogSetProblemFamiliarity4.setOnClickListener(new FamiliarityButtonDialogAdapter(4));
+                    buttonDialogSetProblemFamiliarity0.setOnClickListener(new FamiliarityButtonDialogAdapter(1));
+                    buttonDialogSetProblemFamiliarity1.setOnClickListener(new FamiliarityButtonDialogAdapter(2));
+                    buttonDialogSetProblemFamiliarity2.setOnClickListener(new FamiliarityButtonDialogAdapter(3));
+                    buttonDialogSetProblemFamiliarity3.setOnClickListener(new FamiliarityButtonDialogAdapter(4));
+                    buttonDialogSetProblemFamiliarity4.setOnClickListener(new FamiliarityButtonDialogAdapter(5));
 
                     builder.show();
                 }
