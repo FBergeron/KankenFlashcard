@@ -21,6 +21,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 class FetchProblemsTask extends AsyncTask {
@@ -32,7 +33,7 @@ class FetchProblemsTask extends AsyncTask {
     }
 
     protected Object doInBackground(Object... objs) {
-        JSONArray jsonProblems = null;
+        JSONObject jsonProblems = null;
         URL getNextProblemsUrl = (URL) objs[0];
         try {
             HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
@@ -51,8 +52,7 @@ class FetchProblemsTask extends AsyncTask {
             }
             in.close();
 
-            JSONObject jsonResponse = new JSONObject(response.toString());
-            jsonProblems = jsonResponse.getJSONArray("problems");
+            jsonProblems = new JSONObject(response.toString());
         } catch (IOException e) {
             e.printStackTrace();
             this.exception = e;
@@ -93,9 +93,32 @@ class FetchProblemsTask extends AsyncTask {
         ArrayList<Problem> problems = new ArrayList<Problem>();
         Quiz quiz = appl.getQuiz();
 
-        JSONArray jsonProblems = (JSONArray) obj;
+        JSONObject jsonData = (JSONObject) obj;
 
-        if (jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
+        appl.clearAnnouncement();
+        if (jsonData.has("announcement")) {
+            try {
+                JSONObject jsonAnnouncement = (JSONObject)jsonData.getJSONObject("announcement");
+                for (Iterator<String> it = jsonAnnouncement.keys(); it.hasNext(); ) {
+                    String lang = it.next();
+                    appl.addAnnouncement(lang, jsonAnnouncement.getString(lang));
+                }
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        JSONArray jsonProblems = null;
+        try {
+            if (jsonData.has("problems"))
+                jsonProblems = jsonData.getJSONArray("problems");
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonProblems == null || jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getResources().getString(R.string.error_not_enough_problems_found_title))
                     .setMessage(context.getResources().getString(R.string.error_not_enough_problems_found_msg))
