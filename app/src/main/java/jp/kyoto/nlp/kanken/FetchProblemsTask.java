@@ -99,15 +99,18 @@ class FetchProblemsTask extends AsyncTask {
         SharedPreferences sharedPref = context.getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         for (int i = 0; i < Util.supportedLanguages.length; i++) {
-            editor.remove(Util.PREF_KEY_ANNOUNCEMENT_PREFIX + Util.supportedLanguages[i]);
+            String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + Util.supportedLanguages[i];
+            editor.remove(prefKey);
         }
         if (jsonData.has("announcement")) {
             try {
                 JSONObject jsonAnnouncement = (JSONObject)jsonData.getJSONObject("announcement");
                 for (int i = 0; i < Util.supportedLanguages.length; i++) {
                     String lang = Util.supportedLanguages[i];
-                    if (jsonAnnouncement.has(lang))
-                        editor.putString(Util.PREF_KEY_ANNOUNCEMENT_PREFIX + lang, jsonAnnouncement.getString(lang));
+                    if (jsonAnnouncement.has(lang)) {
+                        String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + Util.supportedLanguages[i];
+                        editor.putString(prefKey, jsonAnnouncement.getString(lang));
+                    }
                 }
             }
             catch(JSONException e) {

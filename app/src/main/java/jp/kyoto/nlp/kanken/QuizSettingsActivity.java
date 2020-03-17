@@ -52,6 +52,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -246,6 +247,12 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateAnnouncement();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_settings);
@@ -312,7 +319,9 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
+    }
 
+    private void updateAnnouncement() {
         String currLang = Locale.getDefault().getLanguage();
         String lang = null;
         for (int i = 0; i < Util.supportedLanguages.length; i++) {
@@ -324,12 +333,17 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         if (lang == null)
             lang = "en";
 
+        SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
         String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + lang;
+        TextView announcement = findViewById(R.id.textViewAnnouncement);
+        ImageView logo = findViewById(R.id.imageViewLogo);
         if (sharedPref.contains(prefKey)) {
-            TextView announcement = findViewById(R.id.textViewAnnouncement);
             announcement.setText(sharedPref.getString(prefKey, ""));
-            ImageView logo = findViewById(R.id.imageViewLogo);
             logo.setVisibility(GONE);
+        }
+        else {
+            announcement.setText("");
+            logo.setVisibility(VISIBLE);
         }
     }
 
