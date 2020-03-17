@@ -27,6 +27,8 @@ class Util {
 
     public static final String googleClientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
 
+    public static final String[] supportedLanguages = { "en", "ja" };
+
     public static ArrayList<String> kanas = new ArrayList<String>();
 
     static {
@@ -350,6 +352,9 @@ class Util {
     static final String PREF_KEY_HISTORY_VIEW = "HistoryView";
     static final String PREF_KEY_HISTORY_GRAPH_PERIOD = "HistoryGraphPeriod";
     static final String PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE = "HistoryErrorsProblemType";
+
+    static final String PREF_KEY_ANNOUNCEMENT_PREFIX = "Announcement_";
+
 
     private static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);

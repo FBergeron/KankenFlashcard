@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
@@ -95,19 +96,25 @@ class FetchProblemsTask extends AsyncTask {
 
         JSONObject jsonData = (JSONObject) obj;
 
-        appl.clearAnnouncement();
+        SharedPreferences sharedPref = context.getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        for (int i = 0; i < Util.supportedLanguages.length; i++) {
+            editor.remove(Util.PREF_KEY_ANNOUNCEMENT_PREFIX + Util.supportedLanguages[i]);
+        }
         if (jsonData.has("announcement")) {
             try {
                 JSONObject jsonAnnouncement = (JSONObject)jsonData.getJSONObject("announcement");
-                for (Iterator<String> it = jsonAnnouncement.keys(); it.hasNext(); ) {
-                    String lang = it.next();
-                    appl.addAnnouncement(lang, jsonAnnouncement.getString(lang));
+                for (int i = 0; i < Util.supportedLanguages.length; i++) {
+                    String lang = Util.supportedLanguages[i];
+                    if (jsonAnnouncement.has(lang))
+                        editor.putString(Util.PREF_KEY_ANNOUNCEMENT_PREFIX + lang, jsonAnnouncement.getString(lang));
                 }
             }
             catch(JSONException e) {
                 e.printStackTrace();
             }
         }
+        editor.apply();
 
         JSONArray jsonProblems = null;
         try {

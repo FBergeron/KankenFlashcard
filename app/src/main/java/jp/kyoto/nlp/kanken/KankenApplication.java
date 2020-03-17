@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Set;
 
 public class KankenApplication extends Application {
@@ -155,19 +154,6 @@ public class KankenApplication extends Application {
         }
     }
 
-    public void addAnnouncement(String lang, String text) {
-        announcement.put(lang, text);
-    }
-
-    public String getAnnouncement(String lang) {
-        String text = announcement.get(lang);
-        return text;
-    }
-
-    public void clearAnnouncement() {
-        announcement.clear();
-    }
-
     private static KankenApplication instance;
 
     private Quiz    quiz;
@@ -182,8 +168,6 @@ public class KankenApplication extends Application {
     private PlayerAdapter playerAdapter;
     private int backgroundMusicPos = -1;
     private boolean isBackgroundMusicEnabled = true;
-
-    private HashMap<String, String> announcement = new HashMap<String, String>();
 
     private String  serverBaseUrl;
 
