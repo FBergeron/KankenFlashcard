@@ -1,5 +1,9 @@
 CHANGES
 
+2.0
+---
+- Show short announcement when available.
+
 2.0-beta2
 ---------
 - Made sure that the kanji canvas is square.
