@@ -20,6 +20,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -47,7 +48,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+
+import static android.view.View.GONE;
 
 public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -288,7 +292,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-
         checkedTopics = new boolean[labelTopics.length];
         if (sharedPref.contains(Util.PREF_KEY_QUIZ_TOPICS)) {
             String prefTopics = sharedPref.getString(Util.PREF_KEY_QUIZ_TOPICS, "");
@@ -309,6 +312,25 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
+
+        String currLang = Locale.getDefault().getLanguage();
+        String lang = null;
+        for (int i = 0; i < Util.supportedLanguages.length; i++) {
+            if (currLang == Util.supportedLanguages[i]) {
+                lang = currLang;
+                break;
+            }
+        }
+        if (lang == null)
+            lang = "en";
+
+        String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + lang;
+        if (sharedPref.contains(prefKey)) {
+            TextView announcement = findViewById(R.id.textViewAnnouncement);
+            announcement.setText(sharedPref.getString(prefKey, ""));
+            ImageView logo = findViewById(R.id.imageViewLogo);
+            logo.setVisibility(GONE);
+        }
     }
 
     private void setSeekBarImageWidth(int progress, SeekBar seekBar) {
