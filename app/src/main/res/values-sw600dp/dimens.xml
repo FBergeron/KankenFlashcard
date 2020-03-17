@@ -11,4 +11,6 @@
     <dimen name="button_kanji_small">32sp</dimen>
     <dimen name="topic_list_font_size">18px</dimen>
     <dimen name="topics_header_list_gap">8dp</dimen>
+    <dimen name="announcement_text_size">20sp</dimen>
+    <dimen name="announcement_gap_size">150dp</dimen>
 </resources>

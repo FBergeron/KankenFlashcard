@@ -50,5 +50,7 @@
     <dimen name="seek_bar_image_width">301dp</dimen>
     <dimen name="topic_list_font_size">10px</dimen>
     <dimen name="topics_header_list_gap">0dp</dimen>
+    <dimen name="announcement_text_size">12sp</dimen>
+    <dimen name="announcement_gap_size">80dp</dimen>
 </resources>
 
