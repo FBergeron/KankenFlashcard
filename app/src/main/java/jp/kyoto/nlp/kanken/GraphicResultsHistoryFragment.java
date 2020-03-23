@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +42,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,6 +71,13 @@ public class GraphicResultsHistoryFragment extends Fragment {
         radioButtonLastWeek = view.findViewById(R.id.radioButtonLastWeek);
         radioButtonLastMonth = view.findViewById(R.id.radioButtonLastMonth);
 
+        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefPeriod = sharedPref.getString(Util.PREF_KEY_HISTORY_GRAPH_PERIOD, "LastWeek");
+        if ("LastWeek".equals(prefPeriod))
+            radioButtonLastWeek.setChecked(true);
+        else
+            radioButtonLastMonth.setChecked(true);
+
         radioGroupPeriod = view.findViewById(R.id.radioGroupPeriod);
         radioGroupPeriod.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
@@ -91,23 +99,15 @@ public class GraphicResultsHistoryFragment extends Fragment {
             }
         );
 
-        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
-        String prefPeriod = sharedPref.getString(Util.PREF_KEY_HISTORY_GRAPH_PERIOD, "LastWeek");
-        if ("LastWeek".equals(prefPeriod))
-            radioButtonLastWeek.setChecked(true);
-        else
-            radioButtonLastMonth.setChecked(true);
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
-    private void updateHistoryChart() {
+    public void updateHistoryChart() {
         if (jsonResultsHistory != null)
             rebuildHistoryChart();
         else {
@@ -297,6 +297,10 @@ public class GraphicResultsHistoryFragment extends Fragment {
                     strDateTemp = dateFormatter.format(now.getTime());
                 }
 
+                Collections.reverse(dateLabels);
+                Collections.reverse(rightEntries);
+                Collections.reverse(wrongEntries);
+
                 ValueFormatter formatter = new ValueFormatter() {
                     @Override
                     public String getAxisLabel(float value, AxisBase axis) {
@@ -360,7 +364,6 @@ public class GraphicResultsHistoryFragment extends Fragment {
                 chart.setVisibleXRangeMinimum(maxValueCount);
                 chart.getXAxis().setLabelCount(maxValueCount);
                 chart.invalidate();
-
             }
         }
     }

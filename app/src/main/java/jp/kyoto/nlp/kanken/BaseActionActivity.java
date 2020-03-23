@@ -1,8 +1,8 @@
 package jp.kyoto.nlp.kanken;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BaseActionActivity extends AppCompatActivity {
 

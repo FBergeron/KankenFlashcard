@@ -1,5 +1,24 @@
 CHANGES
 
+2.0
+---
+- Show short announcement when available.
+
+2.0-beta2
+---------
+- Made sure that the kanji canvas is square.
+- Improved display of topics.
+- Added logo at the bottom of Settings page.
+
+2.0-beta
+--------
+- Put back Searching animation in Writing Problems.
+- Fixed selection issue in History Error page.
+- Fixed Back button issues.
+- Select all topics by default.
+- Prevented simultaneous button clicks.
+- Fixed Cannot Quit issue.
+- Fixed other small miscellaneous issues.
 
 2.0-alpha
 ---------
@@ -13,7 +32,7 @@ CHANGES
 
 1.0
 ---
-- Minot fixes
+- Minor fixes.
 
 0.6-beta
 --------

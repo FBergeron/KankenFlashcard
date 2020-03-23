@@ -4,8 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 class FetchProblemsTask extends AsyncTask {
@@ -32,7 +34,7 @@ class FetchProblemsTask extends AsyncTask {
     }
 
     protected Object doInBackground(Object... objs) {
-        JSONArray jsonProblems = null;
+        JSONObject jsonProblems = null;
         URL getNextProblemsUrl = (URL) objs[0];
         try {
             HttpURLConnection con = (HttpURLConnection) getNextProblemsUrl.openConnection();
@@ -51,8 +53,7 @@ class FetchProblemsTask extends AsyncTask {
             }
             in.close();
 
-            JSONObject jsonResponse = new JSONObject(response.toString());
-            jsonProblems = jsonResponse.getJSONArray("problems");
+            jsonProblems = new JSONObject(response.toString());
         } catch (IOException e) {
             e.printStackTrace();
             this.exception = e;
@@ -93,9 +94,41 @@ class FetchProblemsTask extends AsyncTask {
         ArrayList<Problem> problems = new ArrayList<Problem>();
         Quiz quiz = appl.getQuiz();
 
-        JSONArray jsonProblems = (JSONArray) obj;
+        JSONObject jsonData = (JSONObject) obj;
 
-        if (jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
+        SharedPreferences sharedPref = context.getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        for (int i = 0; i < Util.supportedLanguages.length; i++) {
+            String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + Util.supportedLanguages[i];
+            editor.remove(prefKey);
+        }
+        if (jsonData.has("announcement")) {
+            try {
+                JSONObject jsonAnnouncement = (JSONObject)jsonData.getJSONObject("announcement");
+                for (int i = 0; i < Util.supportedLanguages.length; i++) {
+                    String lang = Util.supportedLanguages[i];
+                    if (jsonAnnouncement.has(lang)) {
+                        String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + Util.supportedLanguages[i];
+                        editor.putString(prefKey, jsonAnnouncement.getString(lang));
+                    }
+                }
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        editor.apply();
+
+        JSONArray jsonProblems = null;
+        try {
+            if (jsonData.has("problems"))
+                jsonProblems = jsonData.getJSONArray("problems");
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonProblems == null || jsonProblems.length() < Quiz.DEFAULT_LENGTH) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getResources().getString(R.string.error_not_enough_problems_found_title))
                     .setMessage(context.getResources().getString(R.string.error_not_enough_problems_found_msg))

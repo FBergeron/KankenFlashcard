@@ -4,7 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -101,7 +101,7 @@ public class ReadingProblemActivity extends QuizProblemActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(ReadingProblemActivity.this);
             builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
             .setMessage(getResources().getString(R.string.error_empty_answer_msg))
-            .setPositiveButton(R.string.button_next, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     appl.getQuiz().validateAnswer(answer);
                     appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);

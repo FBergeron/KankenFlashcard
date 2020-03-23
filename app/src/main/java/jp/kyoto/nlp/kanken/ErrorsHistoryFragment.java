@@ -4,10 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,6 +68,7 @@ public class ErrorsHistoryFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     panelErrorDetails.setVisibility(View.GONE);
+                    hideSelector();
                 }
             }
         );
@@ -77,7 +79,7 @@ public class ErrorsHistoryFragment extends Fragment {
         textViewUserAnswer = view.findViewById(R.id.textViewUserAnswer);
         textViewProblemAnswer = view.findViewById(R.id.textViewProblemAnswer);
 
-        ListView listViewResultEntries = view.findViewById(R.id.listViewResultEntries);
+        listViewResultEntries = view.findViewById(R.id.listViewResultEntries);
         listViewAdapter = new ErrorsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
 
@@ -85,6 +87,7 @@ public class ErrorsHistoryFragment extends Fragment {
             new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    showSelector();
                     ErrorsHistoryListViewAdapter listAdapter = (ErrorsHistoryListViewAdapter)adapterView.getAdapter();
                     ErrorsHistoryItem item = listAdapter.getItem(i);
 
@@ -128,6 +131,13 @@ public class ErrorsHistoryFragment extends Fragment {
 
         radioButtonProblemTypeReading = view.findViewById(R.id.radioButtonProblemTypeReading);
         radioButtonProblemTypeWriting = view.findViewById(R.id.radioButtonProblemTypeWriting);
+        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefProblemType = sharedPref.getString(Util.PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE, "Reading");
+        if ("Reading".equals(prefProblemType))
+            radioButtonProblemTypeReading.setChecked(true);
+        else
+            radioButtonProblemTypeWriting.setChecked(true);
+
         radioGroupProblemType = view.findViewById(R.id.radioGroupProblemType);
         radioGroupProblemType.setOnCheckedChangeListener(
             new RadioGroup.OnCheckedChangeListener() {
@@ -155,23 +165,15 @@ public class ErrorsHistoryFragment extends Fragment {
             }
         );
 
-        SharedPreferences sharedPref = getContext().getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
-        String prefProblemType = sharedPref.getString(Util.PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE, "Reading");
-        if ("Reading".equals(prefProblemType))
-            radioButtonProblemTypeReading.setChecked(true);
-        else
-            radioButtonProblemTypeWriting.setChecked(true);
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
-    private void updateErrors() {
+    public void updateErrors() {
         if (jsonErrorsHistory != null)
             rebuildErrors();
         else {
@@ -195,6 +197,16 @@ public class ErrorsHistoryFragment extends Fragment {
                 e4.printStackTrace();
             }
         }
+    }
+
+    private void hideSelector() {
+        listViewResultEntries.getSelector().setAlpha(0);
+    }
+
+    private void showSelector() {
+        Drawable selector = listViewResultEntries.getSelector();
+        if (selector.getAlpha() == 0)
+            selector.setAlpha(255);
     }
 
     private class FetchErrorHistoryTask extends AsyncTask {
@@ -367,6 +379,8 @@ public class ErrorsHistoryFragment extends Fragment {
     private TextView problemStatement;
     private TextView textViewUserAnswer;
     private TextView textViewProblemAnswer;
+
+    private ListView listViewResultEntries;
 
     private ErrorsHistoryListViewAdapter listViewAdapter;
 

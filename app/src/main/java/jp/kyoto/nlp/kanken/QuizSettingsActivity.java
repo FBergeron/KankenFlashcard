@@ -5,19 +5,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -45,7 +48,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class QuizSettingsActivity extends ActionActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -104,7 +111,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     public void invokeTopicChooser(android.view.View view) {
         for (int i = 0; i < checkedTopics.length; i++)
             checkedTopics[i] = selectedTopics.contains(i);
-
 
         CustomAdapter adapter = new CustomAdapter(getApplicationContext(), 0, Arrays.asList(labelTopics));
         ListView listView = new ListView(this);
@@ -168,7 +174,6 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         });
         AlertDialog dialogTopicChooser = builderTopicChooser.create();
         dialogTopicChooser.show();
-
     }
 
     public void showTermsOfUsage(android.view.View view) {
@@ -228,13 +233,23 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         }
         editor.putString(Util.PREF_KEY_QUIZ_TOPICS, strPrefTopics.toString());
 
-        editor.putString(Util.PREF_KEY_QUIZ_TYPE, type.getLabelId());
-
         editor.apply();
 
         appl.startQuiz(type, quizTopics, level);
 
         fetchProblems(level, quizTopics, type);
+    }
+
+    @Override
+    public void onBackPressed() {
+       if (appl != null)
+           appl.quit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAnnouncement();
     }
 
     @Override
@@ -284,21 +299,52 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-
         checkedTopics = new boolean[labelTopics.length];
-
-        String prefTopics = sharedPref.getString(Util.PREF_KEY_QUIZ_TOPICS, "");
-        HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
-        for (int i = 0; i < Problem.Topic.values().length; i++) {
-            if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
+        if (sharedPref.contains(Util.PREF_KEY_QUIZ_TOPICS)) {
+            String prefTopics = sharedPref.getString(Util.PREF_KEY_QUIZ_TOPICS, "");
+            HashSet<String> prefTopicLabels = new HashSet<String>(Arrays.asList(prefTopics.split(",")));
+            for (int i = 0; i < Problem.Topic.values().length; i++) {
+                if (prefTopicLabels.contains(Problem.Topic.values()[i].getLabelId()))
+                    selectedTopics.add(Integer.valueOf(i));
+            }
+        }
+        else {
+            for (int i = 0; i < labelTopics.length; i++)
+                checkedTopics[i] = true;
+            for (int i = 0; i < Problem.Topic.values().length; i++) {
                 selectedTopics.add(Integer.valueOf(i));
+            }
         }
         showSelectedTopics();
 
-        String prefType = sharedPref.getString(Util.PREF_KEY_QUIZ_TYPE, "reading");
-
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Util.googleClientId).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
+    }
+
+    private void updateAnnouncement() {
+        String currLang = Locale.getDefault().getLanguage();
+        String lang = null;
+        for (int i = 0; i < Util.supportedLanguages.length; i++) {
+            if (currLang == Util.supportedLanguages[i]) {
+                lang = currLang;
+                break;
+            }
+        }
+        if (lang == null)
+            lang = "en";
+
+        SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + lang;
+        TextView announcement = findViewById(R.id.textViewAnnouncement);
+        ImageView logo = findViewById(R.id.imageViewLogo);
+        if (sharedPref.contains(prefKey)) {
+            announcement.setText(sharedPref.getString(prefKey, ""));
+            logo.setVisibility(GONE);
+        }
+        else {
+            announcement.setText("");
+            logo.setVisibility(VISIBLE);
+        }
     }
 
     private void setSeekBarImageWidth(int progress, SeekBar seekBar) {
@@ -315,18 +361,29 @@ public class QuizSettingsActivity extends ActionActivity implements View.OnClick
     }
 
     private void showSelectedTopics() {
-        StringBuilder str = new StringBuilder();
-        String delimiter = "";
-        int topicCount = Problem.Topic.values().length;
-        for (int i = 0; i < topicCount - 1; i++) {
-            if (selectedTopics.contains(i)) {
-                str.append(delimiter);
-                str.append(labelTopics[i]);
-                delimiter = ", ";
+        int topicCount = Problem.Topic.values().length - 1;
+        StringBuilder str = new StringBuilder("");
+        boolean use2Cols = (selectedTopics.size() > (topicCount / 2)) ;
+        int colCount = (use2Cols ? 2 : 1);
+        String fontSize = getResources().getString(R.dimen.topic_list_font_size);
+        str.append("<table style=\"font-size: ").append(fontSize).append("; width: 100%;\"><tr style=\"vertical-align: top;\">");
+        for (int c = 0, i = 0; c < colCount; c++) {
+            str.append("<td>");
+            for (int r = 0; r < (topicCount / 2); r++) {
+                for (; i < topicCount; i++) {
+                    if (selectedTopics.contains(i)) {
+                        str.append("&#8226; ").append(labelTopics[i]).append("<br/>");
+                        i++;
+                        break;
+                    }
+                }
             }
+            str.append("</td>");
         }
-        TextView textViewSelectedTopics = findViewById(R.id.textViewSelectedTopics);
-        textViewSelectedTopics.setText(str.toString());
+        str.append("</tr></table>");
+        WebView textViewSelectedTopics = findViewById(R.id.textViewSelectedTopics);
+        textViewSelectedTopics.setBackgroundColor(Color.TRANSPARENT);
+        textViewSelectedTopics.loadDataWithBaseURL("", str.toString(), "text/html", "UTF-8", "");
     }
 
     private void fetchProblems(int level, Set<Problem.Topic> topics, Problem.Type type) {

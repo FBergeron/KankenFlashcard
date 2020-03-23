@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QuizSettingsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".QuizSettingsActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".ReadingProblemActivity"
             android:screenOrientation="portrait"
             android:noHistory="false"/>
@@ -27,8 +27,7 @@
         <activity android:name=".ResultsHistoryActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".QuizSummaryActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"/>
+            android:screenOrientation="portrait"/>
         <activity android:name=".AuthenticationActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".AgreementActivity"

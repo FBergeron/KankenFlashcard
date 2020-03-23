@@ -3,7 +3,7 @@ package jp.kyoto.nlp.kanken;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -21,9 +21,10 @@ import java.util.Map;
 
 class SendResultTask extends AsyncTask {
 
-    public SendResultTask(KankenApplication appl, Context context, boolean quitAppl) {
+    public SendResultTask(KankenApplication appl, Context context, ProblemEvaluationFragment evalFragment, boolean quitAppl) {
         this.appl = appl;
         this.context = context;
+        this.evalFragment = evalFragment;
         this.quitAppl = quitAppl;
     }
 
@@ -108,20 +109,35 @@ class SendResultTask extends AsyncTask {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getResources().getString(R.string.error_server_unreachable_title))
-            .setMessage(context.getResources().getString(R.string.error_server_unreachable_msg))
-            .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+            .setMessage(context.getResources().getString(R.string.error_server_unreachable_try_again_msg))
+            .setPositiveButton(context.getResources().getString(R.string.try_again), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
+                    if (evalFragment != null)
+                        evalFragment.storeResult(quitAppl);
+                }
+             })
+            .setNegativeButton(context.getResources().getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    if (quitAppl)
+                        appl.quit();
+                    else {
+                        if (evalFragment != null)
+                            evalFragment.goNextProblem();
+                    }
                 }
              })
             .setIcon(android.R.drawable.ic_dialog_alert)
-            .setCancelable(true)
+            .setCancelable(false)
             .show();
-
             return;
         }
 
         if (quitAppl)
-            appl.getFirstActivity().finishAndRemoveTask();
+            appl.quit();
+        else {
+            if (evalFragment != null)
+                evalFragment.goNextProblem();
+        }
     }
 
     private Exception exception;
@@ -129,6 +145,8 @@ class SendResultTask extends AsyncTask {
     private KankenApplication appl;
 
     private Context context;
+
+    private ProblemEvaluationFragment evalFragment;
 
     private boolean quitAppl;
 

@@ -128,6 +128,7 @@ public class QuizSummaryActivity extends ActionActivity {
 
     private void doLeaveSummary() {
         Intent quizSettingsActivity = new Intent(QuizSummaryActivity.this, QuizSettingsActivity.class);
+        quizSettingsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(quizSettingsActivity);
     }
 

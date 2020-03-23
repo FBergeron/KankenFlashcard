@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,43 +55,42 @@ public class TextResultsHistoryFragment extends Fragment {
         listViewAdapter = new ResultsHistoryListViewAdapter(getContext(), inflater);
         listViewResultEntries.setAdapter(listViewAdapter);
 
-        initResultsHistory();
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
-    private void initResultsHistory() {
-        URL getResultHistoryUrl;
-        try {
-            getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
+    public void initResultsHistory() {
+        if (jsonResultHistory == null) {
+            URL getResultHistoryUrl;
+            try {
+                getResultHistoryUrl = new URL(appl.getServerBaseUrl() + getResultHistoryReqPath);
 
-            progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage(getResources().getString(R.string.label_fetching_data));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
 
-            new FetchResultHistoryTask().execute(getResultHistoryUrl);
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (UnsupportedEncodingException e2) {
-            e2.printStackTrace();
-        } catch (IOException e3) {
-            e3.printStackTrace();
-        } catch (JSONException e4) {
-            e4.printStackTrace();
+                new FetchResultHistoryTask().execute(getResultHistoryUrl);
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (UnsupportedEncodingException e2) {
+                e2.printStackTrace();
+            } catch (IOException e3) {
+                e3.printStackTrace();
+            } catch (JSONException e4) {
+                e4.printStackTrace();
+            }
         }
     }
 
     private class FetchResultHistoryTask extends AsyncTask {
 
         protected Object doInBackground(Object... objs) {
-            JSONObject jsonResultHistory = null;
+            jsonResultHistory = null;
             URL getResultHistoryUrl = (URL) objs[0];
             try {
                 HttpURLConnection con = (HttpURLConnection) getResultHistoryUrl.openConnection();
@@ -217,10 +216,6 @@ public class TextResultsHistoryFragment extends Fragment {
                                 );
                                 resultsHistoryItems.add(resultsHistoryItem);
                             }
-                            else {
-                                ResultsHistoryItem resultsHistoryItem = new ResultsHistoryItem(date, 0, 0, 0, 0);
-                                resultsHistoryItems.add(resultsHistoryItem);
-                            }
                         }
                         catch(ParseException e) {
                             e.printStackTrace();
@@ -244,6 +239,7 @@ public class TextResultsHistoryFragment extends Fragment {
 
     private ResultsHistoryListViewAdapter listViewAdapter;
 
+    private JSONObject jsonResultHistory = null;
     private ProgressDialog progressDialog;
 
     private KankenApplication appl = KankenApplication.getInstance();

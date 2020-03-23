@@ -2,15 +2,18 @@ package jp.kyoto.nlp.kanken;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -33,6 +36,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AuthenticationActivity extends BaseActionActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -40,8 +44,14 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
 
     public void play(android.view.View view) {
         Intent quizSettingsActivity = new Intent(AuthenticationActivity.this, QuizSettingsActivity.class);
+        quizSettingsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(quizSettingsActivity);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Stay there.
     }
 
     @Override
@@ -70,6 +80,24 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
                 }
             }
         );
+
+        String currLang = Locale.getDefault().getLanguage();
+        String lang = null;
+        for (int i = 0; i < Util.supportedLanguages.length; i++) {
+            if (currLang == Util.supportedLanguages[i]) {
+                lang = currLang;
+                break;
+            }
+        }
+        if (lang == null)
+            lang = "en";
+
+        SharedPreferences sharedPref = getSharedPreferences(Util.PREFS_GENERAL, Context.MODE_PRIVATE);
+        String prefKey = Util.PREF_KEY_ANNOUNCEMENT_PREFIX + lang;
+        if (sharedPref.contains(prefKey)) {
+            TextView announcement = findViewById(R.id.textViewAnnouncement);
+            announcement.setText(sharedPref.getString(prefKey, ""));
+        }
     }
 
     @Override

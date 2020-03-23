@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAFFFFFF"
-            android:padding="10dp" />
+            android:padding="6dp" />
 
         <TextView
             android:id="@+id/textViewProblem"
@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAEEEEEE"
-            android:padding="10dp" />
+            android:padding="6dp" />
 
         <TextView
             android:id="@+id/imageViewUserAnswer"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAFFFFFF"
-            android:padding="10dp" />
+            android:padding="6dp" />
 
         <TextView
             android:id="@+id/textViewRightAnswer"
@@ -44,8 +44,8 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAEEEEEE"
-            android:padding="10dp" />
+            android:padding="6dp" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

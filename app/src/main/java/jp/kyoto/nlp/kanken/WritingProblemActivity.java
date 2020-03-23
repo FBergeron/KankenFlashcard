@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,8 +14,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.leafdigital.kanji.InputStroke;
 import com.leafdigital.kanji.KanjiInfo;
 import com.leafdigital.kanji.KanjiList;
@@ -31,6 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 //import android.support.v7.app.ActionBar;
@@ -84,6 +88,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             matchThread.stop();
             matchThread = null;
         }
+        imageViewSearchingAnimation.setVisibility(VISIBLE);
         matchThread = new MatchThread(this, kanjiCanvas.getStrokes(), R.string.label_finding_characters, true);
     }
 
@@ -113,6 +118,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             matchThread.stop();
             matchThread = null;
         }
+        imageViewSearchingAnimation.setVisibility(INVISIBLE);
     }
 
     public void validateAnswer(android.view.View view) {
@@ -123,7 +129,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(WritingProblemActivity.this);
             builder.setTitle(getResources().getString(R.string.error_empty_answer_title))
             .setMessage(getResources().getString(R.string.error_empty_answer_msg))
-            .setPositiveButton(R.string.button_next, new DialogInterface.OnClickListener() {
+            .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     appl.getQuiz().validateAnswer(answer);
                     appl.getQuiz().setCurrentMode(Quiz.Mode.MODE_EVALUATION);
@@ -157,6 +163,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
         textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
 
+        imageViewSearchingAnimation = findViewById(R.id.imageViewSearchingAnimation);
+
         showProblemStatement();
 
         int[] kanjiButtonIds = {
@@ -182,6 +190,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
         else
             showProblemEvaluation();
 
+        Glide.with(this).load("file:///android_asset/searching.gif").into(imageViewSearchingAnimation);
     }
 
     protected void askProblem() {
@@ -666,6 +675,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
                         long stopTime = System.currentTimeMillis();
                         Log.d(TAG, "Update time="+(stopTime-startTime)+" ms");
 
+                        imageViewSearchingAnimation.setVisibility(INVISIBLE);
                     }
                 });
             }
@@ -705,7 +715,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
             int kanjiIndex = i + kanjiPage;
             if (kanjiIndex >= kanjis.length) {
                 button.setEnabled(false);
-                button.setVisibility(View.INVISIBLE);
+                button.setVisibility(INVISIBLE);
             } else {
                 button.setEnabled(true);
                 button.setVisibility(View.VISIBLE);
@@ -747,6 +757,7 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
     private KankenApplication appl = KankenApplication.getInstance();
 
+    private ImageView imageViewSearchingAnimation;
     private TextView textViewProblemUserAnswer;
 
     private int kanjiPage = 0;

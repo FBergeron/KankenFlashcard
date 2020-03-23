@@ -3,7 +3,7 @@ package jp.kyoto.nlp.kanken;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.core.content.res.ResourcesCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;

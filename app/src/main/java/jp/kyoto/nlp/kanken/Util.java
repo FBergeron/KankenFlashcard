@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import org.json.JSONException;
@@ -25,6 +26,8 @@ import java.util.Random;
 class Util {
 
     public static final String googleClientId = "20392918182-4qlj5ff67m0hbm3raiq92cn9lokag1a6.apps.googleusercontent.com";
+
+    public static final String[] supportedLanguages = { "en", "ja" };
 
     public static ArrayList<String> kanas = new ArrayList<String>();
 
@@ -304,7 +307,7 @@ class Util {
         //.setMessage(context.getResources().getString(R.string.warning_quit_before_answering_msg))
         .setPositiveButton(R.string.button_quit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                KankenApplication.getInstance().getFirstActivity().finishAndRemoveTask();
+                KankenApplication.getInstance().quit();
             }
          })
         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -323,6 +326,9 @@ class Util {
         .setPositiveButton(R.string.button_terminate, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 context.finish();
+                Intent quizSettingsActivity = new Intent(context, QuizSettingsActivity.class);
+                quizSettingsActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(quizSettingsActivity);
             }
          })
         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -340,13 +346,15 @@ class Util {
 
     static final String PREF_KEY_QUIZ_LEVEL = "QuizLevel";
     static final String PREF_KEY_QUIZ_TOPICS = "QuizTopics";
-    static final String PREF_KEY_QUIZ_TYPE = "QuizType";
 
     static final String PREF_KEY_MUSIC_ENABLED = "MusicEnabled";
 
     static final String PREF_KEY_HISTORY_VIEW = "HistoryView";
     static final String PREF_KEY_HISTORY_GRAPH_PERIOD = "HistoryGraphPeriod";
     static final String PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE = "HistoryErrorsProblemType";
+
+    static final String PREF_KEY_ANNOUNCEMENT_PREFIX = "Announcement_";
+
 
     private static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);

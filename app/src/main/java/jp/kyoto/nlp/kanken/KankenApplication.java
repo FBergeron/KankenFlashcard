@@ -22,7 +22,6 @@ public class KankenApplication extends Application {
     public static final String signOutReqPath = "/cgi-bin/sign_out.cgi";
     public static final String signInReqPath = "/cgi-bin/sign_in.cgi";
     public static final String storeResultReqPath = "/cgi-bin/store_result.cgi";
-    public static final String storeResultsReqPath = "/cgi-bin/store_results.cgi";
 
     public static KankenApplication getInstance() {
         return KankenApplication.instance;
@@ -148,8 +147,11 @@ public class KankenApplication extends Application {
             firstActivity = activity;
     }
 
-    public Activity getFirstActivity() {
-        return firstActivity;
+    public void quit() {
+        if (firstActivity != null) {
+            firstActivity.finishAndRemoveTask();
+            firstActivity = null;
+        }
     }
 
     private static KankenApplication instance;

@@ -2,8 +2,8 @@ package jp.kyoto.nlp.kanken;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 public class SpecifyFontTextView extends AppCompatTextView {

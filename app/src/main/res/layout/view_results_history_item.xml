@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,8 +17,8 @@
             android:layout_weight="2"
             android:width="0dp"
             android:background="#AAFFFFFF"
-            android:padding="10dp"
-            android:paddingStart="24dp"
+            android:padding="6dp"
+            android:paddingStart="6dp"
             android:text="0000-00-00" />
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAEEEEEE"
-            android:padding="10dp"
+            android:padding="6dp"
             android:text="0"
             android:textAlignment="textEnd" />
 
@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAFFFFFF"
-            android:padding="10dp"
+            android:padding="6dp"
             android:text="0"
             android:textAlignment="textEnd" />
 
@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAEEEEEE"
-            android:padding="10dp"
+            android:padding="6dp"
             android:text="0"
             android:textAlignment="textEnd" />
 
@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAFFFFFF"
-            android:padding="10dp"
+            android:padding="6dp"
             android:text="0"
             android:textAlignment="textEnd" />
 
@@ -72,7 +72,7 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAEEEEEE"
-            android:padding="10dp"
+            android:padding="6dp"
             android:text="0"
             android:textAlignment="textEnd" />
 
@@ -83,10 +83,10 @@
             android:layout_weight="1"
             android:width="0dp"
             android:background="#AAFFFFFF"
-            android:padding="10dp"
-            android:paddingEnd="24dp"
+            android:padding="6dp"
+            android:paddingEnd="6dp"
             android:text="0"
             android:textAlignment="textEnd" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

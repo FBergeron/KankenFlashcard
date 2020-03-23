@@ -10,7 +10,7 @@
     <dimen name="button_delete_char_text_size">20sp</dimen>
     <dimen name="button_validate_answer_text_size">20sp</dimen>
     <dimen name="button_view_article">32dp</dimen>
-    <dimen name="textfield_answer_text_size">28sp</dimen>
+    <dimen name="textfield_answer_text_size">32sp</dimen>
     <dimen name="button_undo_canvas_width">20dp</dimen>
     <dimen name="button_undo_canvas_height">10dp</dimen>
     <dimen name="button_clear_canvas_width">20dp</dimen>
@@ -27,7 +27,7 @@
     <dimen name="button_familiarity_text_size">10sp</dimen>
     <dimen name="kanji_list_item_size">60dp</dimen>
     <dimen name="button_kanji_large">64sp</dimen>
-    <dimen name="button_kanji_medium">32sp</dimen>
+    <dimen name="button_kanji_medium">24sp</dimen>
     <dimen name="button_kanji_small">24sp</dimen>
     <dimen name="button_kanji_size_large">140dp</dimen>
     <dimen name="button_kanji_size_medium">71dp</dimen>
@@ -48,5 +48,9 @@
     <dimen name="text_summary_familiarity_max">14sp</dimen>
     <dimen name="seek_bar_width">330dp</dimen>
     <dimen name="seek_bar_image_width">301dp</dimen>
+    <dimen name="topic_list_font_size">10px</dimen>
+    <dimen name="topics_header_list_gap">0dp</dimen>
+    <dimen name="announcement_text_size">12sp</dimen>
+    <dimen name="announcement_gap_size">80dp</dimen>
 </resources>
 
