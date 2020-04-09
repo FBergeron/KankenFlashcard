@@ -114,8 +114,8 @@
     <string name="warning_cancel_quiz_msg">Do you want to terminate the current quiz and go back to the main settings page?</string>
     <string name="button_terminate">Terminate</string>
     <string name="search_engine_url" translatable="false">https://www.google.com/search?q=%1$s</string>
-    <string name="link_directions" translatable="false">http://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/howto.html</string>
-    <string name="link_terms_of_usage" translatable="false">http://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/terms.html</string>
+    <string name="link_directions" translatable="false">https://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/howto.html</string>
+    <string name="link_terms_of_usage" translatable="false">https://lotus.kuee.kyoto-u.ac.jp/kanken_to_news/terms.html</string>
     <string name="link_kanken" translatable="false">https://www.kanken.or.jp/</string>
     <string name="link_kyoto_university">https://www.kyoto-u.ac.jp/en/</string>
     <string name="link_yomiuri" translatable="false">https://www.yomiuri.co.jp/</string>
