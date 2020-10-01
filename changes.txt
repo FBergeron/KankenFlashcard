@@ -1,5 +1,14 @@
 CHANGES
 
+2.2
+---
+- Increased API level to 29.
+- Fixed familiarity issue in Summary page.
+
+2.1
+---
+- Used https for external web pages.
+
 2.0
 ---
 - Show short announcement when available.
