@@ -19,11 +19,11 @@ android {
             storePassword props.storePassword
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "jp.kyoto.nlp.kanken"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 9
         versionName '2.2'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
