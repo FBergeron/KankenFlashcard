@@ -161,7 +161,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="3dp"
-        android:text="@string/label_familiarity_0"
+        android:text="@string/label_familiarity_1"
         app:autoSizeMaxTextSize="@dimen/text_summary_familiarity_max"
         app:autoSizeMinTextSize="@dimen/text_summary_familiarity_min"
         app:autoSizeTextType="uniform"

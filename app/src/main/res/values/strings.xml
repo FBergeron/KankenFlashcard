@@ -76,16 +76,16 @@
     <string name="label_detailed_answer_wrong">%1$s ≠ %2$s\n\n%1$s = %3$s</string>
     <string name="button_report_error">Report the problem as incorrect</string>
     <string name="label_enter_problem_familiarity">Please indicate when you have understood and started to use a word in your native language corresponding to \"%1$s\". (ES: Elem. School; HS: High School)</string>
-    <string name="label_familiarity_0">I don\'t know this Japanese word</string>
-    <string name="label_familiarity_1">Before ES</string>
-    <string name="label_familiarity_2">ES (lower)</string>
-    <string name="label_familiarity_3">ES (higher)</string>
-    <string name="label_familiarity_4">Jr. HS or later</string>
-    <string name="label_familiarity_long_0">I don\'t know this Japanese word</string>
-    <string name="label_familiarity_long_1">Before elementary school</string>
-    <string name="label_familiarity_long_2">Elementary School (lower grades)</string>
-    <string name="label_familiarity_long_3">Elementary School (higher grades)</string>
-    <string name="label_familiarity_long_4">Junior High School or later</string>
+    <string name="label_familiarity_1">I don\'t know this Japanese word</string>
+    <string name="label_familiarity_2">Before ES</string>
+    <string name="label_familiarity_3">ES (lower)</string>
+    <string name="label_familiarity_4">ES (higher)</string>
+    <string name="label_familiarity_5">Jr. HS or later</string>
+    <string name="label_familiarity_long_1">I don\'t know this Japanese word</string>
+    <string name="label_familiarity_long_2">Before elementary school</string>
+    <string name="label_familiarity_long_3">Elementary School (lower grades)</string>
+    <string name="label_familiarity_long_4">Elementary School (higher grades)</string>
+    <string name="label_familiarity_long_5">Junior High School or later</string>
     <string name="button_next">Next</string>
     <string name="info_confirm_report_title">Reporting incorrect problem...</string>
     <string name="info_confirm_report_msg">If you believe that there is something wrong with the problem, whether the statement looks funny or the right answer seems incorrect or for any other reasons, you can report the problem as faulty.</string>
