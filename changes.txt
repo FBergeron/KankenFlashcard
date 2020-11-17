@@ -1,5 +1,9 @@
 CHANGES
 
+2.3
+---
+- Fixed mail notification issue for reported problems.
+
 2.2
 ---
 - Increased API level to 29.

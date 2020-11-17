@@ -103,7 +103,6 @@ public class AuthenticationActivity extends BaseActionActivity implements Google
     @Override
     protected void onStart() {
         super.onStart();
-        appl.stopBackgroundMusic();
     }
 
     private void handleResult(GoogleSignInResult result) {

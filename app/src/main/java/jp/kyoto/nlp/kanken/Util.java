@@ -347,8 +347,6 @@ class Util {
     static final String PREF_KEY_QUIZ_LEVEL = "QuizLevel";
     static final String PREF_KEY_QUIZ_TOPICS = "QuizTopics";
 
-    static final String PREF_KEY_MUSIC_ENABLED = "MusicEnabled";
-
     static final String PREF_KEY_HISTORY_VIEW = "HistoryView";
     static final String PREF_KEY_HISTORY_GRAPH_PERIOD = "HistoryGraphPeriod";
     static final String PREF_KEY_HISTORY_ERRORS_PROBLEM_TYPE = "HistoryErrorsProblemType";

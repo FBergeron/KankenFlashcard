@@ -40,12 +40,11 @@ public class ProblemEvaluationFragment extends Fragment {
                 .setPositiveButton(R.string.button_continue, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         appl.getQuiz().reportAsIncorrect();
-
-                        goNextProblem();
+                        storeResult(false);
                     }
                  })
                 .setIcon(android.R.drawable.ic_dialog_info)
-                .setCancelable(true)
+                .setCancelable(false)
                 .show();
             }
          })

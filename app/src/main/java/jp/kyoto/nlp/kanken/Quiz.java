@@ -132,6 +132,8 @@ class Quiz {
 
     public void reportAsIncorrect() {
         reportedAsIncorrects.add(Boolean.TRUE);
+        // On iOS version, a familiarity of 1 is set when a problem is reported.
+        // The server ignores the familiarity value for a reported problem.
         familiarities.add(null);
     }
 
