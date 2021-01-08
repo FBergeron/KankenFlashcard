@@ -106,7 +106,7 @@ public class QuizSummaryActivity extends ActionActivity {
 
             String problemLabel = String.format(getResources().getString(R.string.label_problem_number), (i+1), length);
             String link = (problem.isArticleLinkAlive() ? problem.getArticleUrl() : problem.getAltArticleUrl());
-            String statement =  problem.getStatement();
+            String statement =  problem.getStatement() + " <small>(" + problem.getDateStr() + ")</small>";
             String rightAnswer = problem.getRightAnswer();
 
             SummaryItem summaryItem = new SummaryItem(

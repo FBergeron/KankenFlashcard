@@ -75,6 +75,14 @@ abstract class Problem {
         return id;
     }
 
+    public String getDateStr() {
+        String dateStr = id.substring(0, id.indexOf("-"));
+        String yearStr = dateStr.substring(0, 4);
+        String monthStr = dateStr.substring(4, 6);
+        String dayStr = dateStr.substring(6);
+        return yearStr + "/" + monthStr + "/" + dayStr;
+    }
+
     public int getLevel() {
         return level;
     }

@@ -54,6 +54,10 @@ public abstract class QuizProblemActivity extends ActionActivity {
 
         ProblemEvaluationFragment problemEvaluationFragment = (ProblemEvaluationFragment)getFragmentManager().findFragmentById(R.id.fragmentProblemEvaluation);
         problemEvaluationFragment.showProblemEvaluation();
+
+        TextView statement = findViewById(R.id.statement);
+        statement.setText(Html.fromHtml(currProb.getStatement().replace("[", "<u><font color=\"red\">").replace("]", "</font></u>") +
+            " <small>(" + currProb.getDateStr() + ")</small>"));
     }
 
     private KankenApplication appl = KankenApplication.getInstance();
