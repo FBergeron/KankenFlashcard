@@ -1,5 +1,9 @@
 CHANGES
 
+2.4
+---
+- Appended date of article to the end of problem statement.
+
 2.3
 ---
 - Fixed mail notification issue for reported problems.
