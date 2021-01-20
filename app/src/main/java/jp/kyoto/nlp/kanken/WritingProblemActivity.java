@@ -37,8 +37,6 @@ import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
-//import android.support.v7.app.ActionBar;
-
 public class WritingProblemActivity extends QuizProblemActivity {
 
     public void showArticle(android.view.View view) {
@@ -68,6 +66,26 @@ public class WritingProblemActivity extends QuizProblemActivity {
         Util.goBackToSettings(WritingProblemActivity.this);
     }
 
+    public void showKanji(android.view.View view) {
+        findViewById(R.id.imageButtonShowKanji).setVisibility(GONE);
+        findViewById(R.id.btnNextItems).setVisibility(VISIBLE);
+        for (Button button : kanjiButtons)
+            button.setVisibility(VISIBLE);
+    }
+
+    public void hideKanji(android.view.View view) {
+        KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
+        DrawnStroke[] strokes = kanjiCanvas.getStrokes();
+
+        ImageButton imageButtonShowKanji = findViewById(R.id.imageButtonShowKanji);
+        imageButtonShowKanji.setVisibility(VISIBLE);
+        imageButtonShowKanji.setEnabled(strokes.length > 0);
+
+        findViewById(R.id.btnNextItems).setVisibility(GONE);
+        for (Button button : kanjiButtons)
+            button.setVisibility(GONE);
+    }
+
     public void deleteKanji(android.view.View view) {
         TextView textViewProblemUserAnswer = findViewById(R.id.textViewProblemUserAnswer);
         String origText = textViewProblemUserAnswer.getText().toString();
@@ -80,6 +98,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
     }
 
     public void enterCharacter(android.view.View view) {
+        hideKanji(null);
+
         if (kanjiTimer != null)
             kanjiTimer.cancel();
 
@@ -97,6 +117,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.undo();
+
+        hideKanji(null);
     }
 
     public void clearCanvas(android.view.View view) {
@@ -104,6 +126,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
         KanjiDrawing kanjiCanvas = findViewById(R.id.kanjiDrawing);
         kanjiCanvas.clear();
+
+        hideKanji(null);
 
         for (Button button : kanjiButtons) {
             button.setEnabled(false);
@@ -196,6 +220,8 @@ public class WritingProblemActivity extends QuizProblemActivity {
     protected void askProblem() {
         super.askProblem();
 
+        hideKanji(null);
+
         findViewById(R.id.contentBody).setVisibility(VISIBLE);
         findViewById(R.id.fragmentProblemEvaluation).setVisibility(GONE);
 
@@ -258,6 +284,10 @@ public class WritingProblemActivity extends QuizProblemActivity {
 
     private void initializeKanjiButtons() {
         setKanjiButton();
+
+        ImageButton imageButtonShowKanji = findViewById(R.id.imageButtonShowKanji);
+        if (imageButtonShowKanji.getVisibility() == VISIBLE)
+            hideKanji(null);
     }
 
     /**

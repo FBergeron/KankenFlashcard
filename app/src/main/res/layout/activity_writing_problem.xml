@@ -248,6 +248,16 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageButton
+                    android:id="@+id/imageButtonShowKanji"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_kado"
+                    android:onClick="showKanji"
+                    android:scaleType="center"
+                    android:src="@drawable/text_btn_show_kanji"
+                    android:translationZ="100dp" />
+
+                <ImageButton
                     android:id="@+id/btnNextItems"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/kanji_btn_next_height"
