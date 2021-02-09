@@ -1,5 +1,9 @@
 CHANGES
 
+2.5
+---
+- Added Show Kanji button.
+
 2.4
 ---
 - Appended date of article to the end of problem statement.
