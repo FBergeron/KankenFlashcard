@@ -24,8 +24,8 @@ android {
         applicationId "jp.kyoto.nlp.kanken"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 13
-        versionName '2.5'
+        versionCode 14
+        versionName '2.6'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.kanken
     }

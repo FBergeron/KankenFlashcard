@@ -1,5 +1,9 @@
 CHANGES
 
+2.6
+---
+- Decreased marginѕ so that statement fits in parent box.
+
 2.5
 ---
 - Added Show Kanji button.
