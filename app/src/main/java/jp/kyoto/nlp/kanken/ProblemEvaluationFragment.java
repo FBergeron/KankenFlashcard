@@ -196,7 +196,7 @@ public class ProblemEvaluationFragment extends Fragment {
         try {
             storeResultUrl = new URL(appl.getServerBaseUrl() + KankenApplication.storeResultReqPath);
 
-            new SendResultTask(appl, getContext(), this, quitAppl).execute(storeResultUrl);
+            new SendResultTask(appl, getActivity(), this, quitAppl).execute(storeResultUrl);
         }
         catch(MalformedURLException e1) {
             e1.printStackTrace();

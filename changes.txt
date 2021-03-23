@@ -3,6 +3,7 @@ CHANGES
 2.6
 ---
 - Decreased marginѕ so that statement fits in parent box.
+- Bugfix NoSuchMethod on getContext() for models using old API.
 
 2.5
 ---
