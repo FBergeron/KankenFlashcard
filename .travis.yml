@@ -1,6 +1,6 @@
 language: android
 
-cache: false
+cache: true
 
 sudo: true
 
