@@ -1,5 +1,7 @@
 language: android
 
+cache: false
+
 sudo: true
 
 env:
@@ -22,4 +24,4 @@ before_install:
 
 script:
     - mkdir ../keystore && cp keystore.properties.sample ../keystore/kanken.properties
-    - ./gradlew clean build --info --stacktrace --warning-mode all
+    - ./gradlew clean build --stacktrace
