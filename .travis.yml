@@ -1,7 +1,5 @@
 language: android
 
-cache: true
-
 sudo: true
 
 env:
