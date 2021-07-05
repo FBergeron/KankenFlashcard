@@ -24,4 +24,4 @@ before_install:
 
 script:
     - mkdir ../keystore && cp keystore.properties.sample ../keystore/kanken.properties
-    - ./gradlew clean build --stacktrace
+    - ./gradlew clean build --stacktrace --warning-mode all
