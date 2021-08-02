@@ -6,8 +6,6 @@ language: android
 
 cache: false
 
-sudo: true
-
 env:
     global:
         - ANDROID_API_LEVEL=30
