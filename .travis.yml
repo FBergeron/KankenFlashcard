@@ -1,8 +1,10 @@
+dist: xenial
+
+os: linux
+
 language: android
 
 cache: false
-
-sudo: true
 
 env:
     global:
