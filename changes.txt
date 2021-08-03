@@ -1,5 +1,9 @@
 CHANGES
 
+2.7
+---
+- Increased API level to 30.
+
 2.6
 ---
 - Decreased marginѕ so that statement fits in parent box.
